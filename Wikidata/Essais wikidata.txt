@@ -1,0 +1,149 @@
+SELECT DISTINCT ?horse ?horseLabel ?mere ?father (YEAR(?birthdate) AS ?birthyear) (YEAR(?deathdate) AS ?deathyear) ?genderLabel 
+  WHERE { ?horse (wdt:P31/(wdt:P279*)) wd:Q726.
+    OPTIONAL { ?horse wdt:P25 ?mere. }
+    OPTIONAL { ?horse wdt:P22 ?father. }
+    OPTIONAL { ?horse wdt:P569 ?birthdate. }
+    OPTIONAL { ?horse wdt:P570 ?deathdate. }
+    OPTIONAL { ?horse wdt:P21 ?gender. }
+    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,ar,be,bg,bn,ca,cs,da,de,el,en,es,et,fa,fi,he,hi,hu,hy,id,it,ja,jv,ko,nb,nl,eo,pa,pl,pt,ro,ru,sh,sk,sr,sv,sw,te,th,tr,uk,yue,vec,vi,zh". }
+}
+ORDER BY (?horse)
+
+
+SELECT ?country ?countryLabel ?capitalLabel ?capitalDescription ?capitalAltLabel
+   WHERE { wd:Q458 wdt:P150 ?country.   # European Union  contains administrative territorial entity
+     OPTIONAL{ ?country wdt:P36 ?capital. }
+     SERVICE wikibase:label { bd:serviceParam wikibase:language "fr". }
+}
+
+
+SELECT *
+  WHERE {
+     SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,de,en".
+          wd:Q123 rdfs:label         ?q123Label.
+          wd:Q123 skos:altLabel      ?q123Alt.
+          wd:Q123 schema:description ?q123Desc.
+      }
+}
+
+__________________________________________________________________________________________
+
+SELECT ?commune ?communeLabel ?pop ?code_postal 
+  WHERE { ?commune wdt:P31 wd:Q484170;
+    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
+    OPTIONAL { ?commune wdt:P1082 ?pop. }
+    OPTIONAL { ?commune wdt:P281 ?code_postal. }
+}
+
+ou 
+
+SELECT ?commune ?communeLabel ?pop ?code_postal 
+  WHERE {
+    ?commune wdt:P31 wd:Q484170 .
+    ?commune wdt:P1082 ?pop .
+    ?commune wdt:P281 ?code_postal
+    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
+}
+
+ou encore
+
+SELECT ?commune ?communeLabel ?pop ?code_postal 
+  WHERE {
+    ?commune wdt:P31 wd:Q484170;
+    	wdt:P1082 ?pop;
+    	wdt:P281 ?code_postal.
+    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
+}
+
+_______________________________________
+
+
+SELECT ?commune ?communeLabel ?pop   #même chose mais on limite la sortie à 25 entrées + tri pop par ordre décroissant
+  WHERE {
+    ?commune wdt:P31 wd:Q484170 .
+    ?commune wdt:P1082 ?pop
+    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
+}
+ORDER BY DESC(?pop)
+LIMIT 25
+
+
+	# BIND créé de nouvelles variables à partir d'existantes (ex : calcul de densité)
+
+SELECT ?commune ?communeLabel ?pop ?area ?density
+WHERE 
+{
+  ?commune wdt:P31 wd:Q484170 .
+  ?commune wdt:P1082 ?pop .
+  ?commune wdt:P2046 ?area 
+  FILTER (?pop > 100000)
+  BIND( (?pop / ?area) as ?density )
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
+}
+ORDER BY DESC(?density)
+
+
+
+
+
+_____________________________________________________________________________
+
+# Requete wikidata pour avoir infos supplémentaires des communes
+
+SELECT ?commune ?communeLabel ?idDataGouv ?pop ?area
+WHERE 
+{
+  ?commune wdt:P31 wd:Q484170 .
+  ?commune wdt:P3206 ?idDataGouv .
+  ?commune wdt:P1082 ?pop .
+  ?commune wdt:P2046 ?area
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
+}
+
+
+# Idée taux de population masculine
+SELECT ?communeLabel ?idDataGouv ?pop ?area ?geoloc ?chef_executifLabel ?taux_popmasc
+WHERE 
+{
+  ?commune wdt:P31 wd:Q484170 .
+  ?commune wdt:P3206 ?idDataGouv .
+  ?commune wdt:P1082 ?pop .
+  ?commune wdt:P2046 ?area .
+  ?commune wdt:P625 ?geoloc .
+  ?commune wdt:P6 ?chef_executif .
+  ?commune wdt:P1540 ?popmasc
+  BIND( (?popmasc / ?pop) as ?taux_popmasc )
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
+}
+
+
+# Infos interesantes récupérées
+SELECT ?communeLabel ?siren ?idDataGouv ?pop ?area ?nb_mariages ?nb_abo_social_media
+WHERE 
+{
+  ?commune wdt:P31 wd:Q484170 .
+  ?commune wdt:P3206 ?idDataGouv .  #307 obs
+  ?commune wdt:P1616 ?siren .  #36509 obs
+  ?commune wdt:P1082 ?pop .
+  ?commune wdt:P2046 ?area .
+  ?commune wdt:P5982 ?nb_mariages .
+  ?commune wdt:P8687 ?nb_abo_social_media .
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
+}
+
+
+# Avec la date de naissance du dirigeant de la commune
+
+SELECT ?communeLabel ?idDataGouv ?pop ?area ?geoloc ?chef_executifLabel ?datebirth
+WHERE 
+{
+  ?commune wdt:P31 wd:Q484170 .
+  ?commune wdt:P3206 ?idDataGouv .
+  ?commune wdt:P1082 ?pop .
+  ?commune wdt:P2046 ?area .
+  ?commune wdt:P625 ?geoloc .
+  ?commune wdt:P6 ?chef_executif .
+  ?person wdt:P31 wd:Q5 .
+  ?person wdt:P569 ?datebirth
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
+}
