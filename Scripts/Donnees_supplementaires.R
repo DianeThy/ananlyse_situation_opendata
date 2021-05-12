@@ -1,6 +1,7 @@
 #-------------------------------  AJOUT DONNEES SOCIO ECO  -------------------------------#
 
 library(tidyverse)
+library(readxl)
 
 
     # PACKAGE INSEE
@@ -181,6 +182,26 @@ CC <- left_join(CC, stats_locales_interco[,-1], by="nom_upper", copy=FALSE)
 # Puis quelques manips pour finaliser (suppression des variables intermediaires)
 CC <- CC[,-c(18:19)]
 CC <- CC %>% rename(nom = `nom.x`)
+
+
+            ### C. CA
+
+# Import jeux recensement 
+CA <- read_excel("Data/raw/CA.xlsx")
+
+# Noms en majuscules et sans aCAent
+    # majuscules
+CA$nom_upper <- toupper(CA$nom)
+    # pas d'aCAents
+CA <- data.table::data.table(CA)
+CA[, nom_upper := stringi::stri_trans_general (str = nom_upper, id = "Latin-ASCII")]
+
+# Match : pour certaines organisations, les noms sont légèrement différents dans les 2 bases donc on harmonise pour qu'ils matchent
+CA <- left_join(CA, stats_locales_interco[,-1], by="nom_upper", copy=FALSE)
+
+# Puis quelques manips pour finaliser (suppression des variables intermediaires)
+CA <- CA[,-c(18:19)]
+CA <- CA %>% rename(nom = `nom.x`)
 
 
             ### D. Communes
