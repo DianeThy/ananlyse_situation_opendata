@@ -11,3 +11,9 @@ Les types de collectivités sur lesquelles porteront l'analyse sont les suivante
 - EPCI (CA, CC, CU et métropoles)
 
 L'analyse part des [données de recensement des jeux ouverts](https://www.observatoire-opendata.fr/les-donnees/) de l'*observatoire open-data des territoires*, auxquelles ont été ajoutés un certains nombre d'indicateurs visant à expliquer le nombre de jeux ouverts par la collectivité.
+
+Le rapport qui décrira l'analyse sera composé de la manière suivante :
+- **introduction**
+- **contextualisation** de l'étude
+- **analyse technique** du sujet avec dans un premier temps des statistiques descriptives et dans un deuxième temps la construction de modèles pour répondre à la problématiques
+- **conclusion**
