@@ -2,6 +2,8 @@
 
 library(tidyverse)
 library(readxl)
+library(stringdist)
+library(fuzzyjoin)
 
 
     # PACKAGE INSEE
@@ -97,9 +99,8 @@ stats_locales_departement$nom_upper <- toupper(stats_locales_departement$nom)
 departement$nom_upper <- toupper(departement$nom)
 
 # Match
-departement <- left_join(departement, stats_locales_departement[,-1], by="nom_upper", copy=FALSE)
-departement <- departement[,-c(18:19)]
-departement <- departement %>% rename(nom = `nom.x`)
+departement <- left_join(departement, stats_locales_departement[,-c(1:2)], by="nom_upper", copy=FALSE)
+departement <- departement[,-18]   # on retire la variable des noms en majuscule
 
 
             ### B. Régions
@@ -112,9 +113,8 @@ stats_locales_region$nom_upper <- toupper(stats_locales_region$nom)
 region$nom_upper <- toupper(region$nom)
 
 # Match
-region <- left_join(region, stats_locales_region[,-1], by="nom_upper", copy=FALSE)
-region <- region[,-c(18:19)]
-region <- region %>% rename(nom = `nom.x`)
+region <- left_join(region, stats_locales_region[,-c(1:2)], by="nom_upper", copy=FALSE)
+region <- region[,-18]
 
 
             ### C. CU
@@ -122,69 +122,50 @@ region <- region %>% rename(nom = `nom.x`)
 # Import jeux recensement 
 CU <- read_excel("Data/interim/Step3_recherche_manuelle/communaute_urbaine.xlsx")
 
-# Noms en majuscules et sans accent
-    # majuscules
-stats_locales_interco$nom_upper <- toupper(stats_locales_interco$nom)
+# Noms en majuscules
 CU$nom_upper <- toupper(CU$nom)
-    # pas d'accents
-stats_locales_interco <- data.table::data.table(stats_locales_interco)
-stats_locales_interco[, nom_upper := stringi::stri_trans_general (str = nom_upper, id = "Latin-ASCII")]
-CU <- data.table::data.table(CU)
-CU[, nom_upper := stringi::stri_trans_general (str = nom_upper, id = "Latin-ASCII")]
+stats_locales_interco$nom_upper <- toupper(stats_locales_interco$nom)
 
-# Match : pour certaines organisations, les noms sont légèrement différents dans les 2 bases donc on harmonise pour qu'ils matchent
-stats_locales_interco$nom_upper <- str_replace_all(stats_locales_interco$nom_upper, 
-                                                     c("CU ANGERS LOIRE METROPOLE" = "ANGERS LOIRE METROPOLE", 
-                                                       "CU DU GRAND REIMS" = "CU GRAND REIMS",
-                                                       "GRENOBLE-ALPES-METROPOLE" = "GRENOBLE-ALPES METROPOLE"))
-CU <- left_join(CU, stats_locales_interco[,-1], by="nom_upper", copy=FALSE)
-
-# Puis quelques manips pour finaliser (suppression des variables intermediaires)
-CU <- CU[,-c(18:19)]
-CU <- CU %>% rename(nom = `nom.x`)
+# Match inexact quand les noms d'organisation ne correspondent pas tout à fait dans les 2 bases
+CU <- stringdist_left_join(CU, stats_locales_interco[,-c(1:2)], by="nom_upper", max_dist = 5, distance_col="distance")
+CU <- CU[,-c(18,24,25)]  # on retire les colonnes "nom_upper" qui servaient juste en étape intermédiaire et la distance des mots pour le match
 
 
-            ### C. Métropoles
+            ### D. Métropoles
 
 # Import jeux recensement 
 metropole <- read_excel("Data/interim/Step3_recherche_manuelle/metropole_pol.xlsx")
 
-# Noms en majuscules et sans accent
-    # majuscules
+# Noms en majuscules
 metropole$nom_upper <- toupper(metropole$nom)
-    # pas d'accents
-metropole <- data.table::data.table(metropole)
-metropole[, nom_upper := stringi::stri_trans_general (str = nom_upper, id = "Latin-ASCII")]
 
-# Match : pour certaines organisations, les noms sont légèrement différents dans les 2 bases donc on harmonise pour qu'ils matchent
-metropole <- left_join(metropole, stats_locales_interco[,-1], by="nom_upper", copy=FALSE)
-
-# Puis quelques manips pour finaliser (suppression des variables intermediaires)
-metropole <- metropole[,-c(18:19)]
-metropole <- metropole %>% rename(nom = `nom.x`)
+# Match inexact
+metropole <- stringdist_left_join(metropole, stats_locales_interco[,-c(1:2)], by="nom_upper", max_dist = 7, distance_col="distance")  %>% 
+                    group_by(nom) %>% slice_min(distance)
+metropole <- metropole[,-c(18,24,25)]
 
 
-            ### C. CC
+            ### E. CC  (2 col en moins : parti_politique et chef_executif)
 
 # Import jeux recensement 
 CC <- read_excel("Data/raw/CC.xlsx")
 
-# Noms en majuscules et sans accent
-    # majuscules
+# Noms en majuscules
 CC$nom_upper <- toupper(CC$nom)
-    # pas d'accents
-CC <- data.table::data.table(CC)
-CC[, nom_upper := stringi::stri_trans_general (str = nom_upper, id = "Latin-ASCII")]
 
-# Match : pour certaines organisations, les noms sont légèrement différents dans les 2 bases donc on harmonise pour qu'ils matchent
-CC <- left_join(CC, stats_locales_interco[,-1], by="nom_upper", copy=FALSE)
+# Match inexact
+CC <- stringdist_left_join(CC, stats_locales_interco[,-c(1:2)], by="nom_upper", max_dist = 7, distance_col="distance") 
+    # qd pas de match on remplace la distance 'NA' par '0' pour ensuite garder 1 obs par CC et qu'il garde aussi les non matchs
+CC$distance[is.na(CC$distance)] = 0
+    # ensuite on ne garde qu'une obs par coll
+CC <- CC %>% group_by(nom) %>% slice_min(distance)  
+CC <- CC %>% group_by(nom) %>% distinct(distance, .keep_all = TRUE)
 
-# Puis quelques manips pour finaliser (suppression des variables intermediaires)
-CC <- CC[,-c(18:19)]
-CC <- CC %>% rename(nom = `nom.x`)
+CCred <- CC[,-c(16,22,23)]
+CC <- CC %>% rename(nom = nom.x)
 
 
-            ### C. CA
+            ### F. CA
 
 # Import jeux recensement 
 CA <- read_excel("Data/raw/CA.xlsx")
@@ -197,14 +178,13 @@ CA <- data.table::data.table(CA)
 CA[, nom_upper := stringi::stri_trans_general (str = nom_upper, id = "Latin-ASCII")]
 
 # Match : pour certaines organisations, les noms sont légèrement différents dans les 2 bases donc on harmonise pour qu'ils matchent
-CA <- left_join(CA, stats_locales_interco[,-1], by="nom_upper", copy=FALSE)
+CA <- left_join(CA, stats_locales_interco[,-c(1:2)], by="nom_upper", copy=FALSE)
 
 # Puis quelques manips pour finaliser (suppression des variables intermediaires)
-CA <- CA[,-c(18:19)]
-CA <- CA %>% rename(nom = `nom.x`)
+CA <- CA[,-18]
 
 
-            ### D. Communes
+            ### G. Communes
 
 # Import jeu recensement 
 commune <- read_excel("Data/interim/Step3_recherche_manuelle/commune_pol_ajout_listesPo_datagouv.xlsx")
@@ -222,8 +202,8 @@ commune[, nom_upper := stringi::stri_trans_general (str = nom_upper, id = "Latin
 stats_locales_commune <- stats_locales_commune %>% distinct(nom , .keep_all=TRUE)
 
 # Match
-commune <- left_join(commune, stats_locales_commune[,-1], by="nom_upper", copy=FALSE)
-commune <- commune[,-c(18:19)]
+commune <- left_join(commune, stats_locales_commune[,-c(1:2)], by="nom_upper", copy=FALSE)
+commune <- commune[,-18]
 commune <- commune %>% rename(nom = `nom.x`)
 
 
