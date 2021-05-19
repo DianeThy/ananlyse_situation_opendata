@@ -4,6 +4,7 @@ library(tidyverse)
 library(readxl)
 library(stringdist)
 library(fuzzyjoin)
+library(tm)
 
 
     # PACKAGE INSEE
@@ -150,38 +151,57 @@ metropole <- metropole[,-c(18,24,25)]
 # Import jeux recensement 
 CC <- read_excel("Data/raw/CC.xlsx")
 
-# Noms en majuscules
+# On fait en sorte deminimiser les écarts entre les nos des coll pour optimiser les chances de match 
+    # noms en majuscules
 CC$nom_upper <- toupper(CC$nom)
+    # sans accents
+CC <- data.table::data.table(CC)
+CC[, nom_upper := stringi::stri_trans_general (str = nom_upper, id = "Latin-ASCII")]
+stats_locales_interco <- data.table::data.table(stats_locales_interco)      # de même pour le jeu à matcher
+stats_locales_interco[, nom_upper := stringi::stri_trans_general (str = nom_upper, id = "Latin-ASCII")]
+    # on retire les mots communs pour limiter écarts de match
+stopwords = c("CC ", "CC DU ", "CC DE ", "CC DE LA ", "PAYS DE ", "PAYS DU ", "PAYS DES ", " COMMUNAUTE")
+CC$nom_upper  =  removeWords(CC$nom_upper, stopwords)
+stats_locales_interco$nom_upper <- removeWords(stats_locales_interco$nom_upper, stopwords)  
 
 # Match inexact
-CC <- stringdist_left_join(CC, stats_locales_interco[,-c(1:2)], by="nom_upper", max_dist = 7, distance_col="distance") 
+CC <- stringdist_left_join(CC, stats_locales_interco[,-c(1:2)], by="nom_upper", max_dist = 4, distance_col="distance") 
     # qd pas de match on remplace la distance 'NA' par '0' pour ensuite garder 1 obs par CC et qu'il garde aussi les non matchs
 CC$distance[is.na(CC$distance)] = 0
     # ensuite on ne garde qu'une obs par coll
 CC <- CC %>% group_by(nom) %>% slice_min(distance)  
 CC <- CC %>% group_by(nom) %>% distinct(distance, .keep_all = TRUE)
+    # on clean
+CC[c(5,19,42),17:23] = NA   #certaines obs ont matché mais en réalité ne sont pas (ex: PAYS MORNANTAIS vs. PAYS MORCENAIS) dc on remet NA.
+CC <- CC[,-c(16,22,23)]     # on enlève les colonnes en trop (qui servaient en étape intermediaire)
 
-CCred <- CC[,-c(16,22,23)]
-CC <- CC %>% rename(nom = nom.x)
 
-
-            ### F. CA
+            ### F. CA (idem)
 
 # Import jeux recensement 
 CA <- read_excel("Data/raw/CA.xlsx")
 
-# Noms en majuscules et sans aCAent
+# On limite la casse
     # majuscules
 CA$nom_upper <- toupper(CA$nom)
-    # pas d'aCAents
+    # accents
 CA <- data.table::data.table(CA)
 CA[, nom_upper := stringi::stri_trans_general (str = nom_upper, id = "Latin-ASCII")]
+    # stopwords
+stopwords = c("CA ", "CA DE ", "CA DU ", " AGGLOMERATION", "CA DE LA ", "CA PAYS DE ")
+CA$nom_upper  =  removeWords(CA$nom_upper, stopwords)
+stats_locales_interco$nom_upper <- removeWords(stats_locales_interco$nom_upper, stopwords)  
 
-# Match : pour certaines organisations, les noms sont légèrement différents dans les 2 bases donc on harmonise pour qu'ils matchent
-CA <- left_join(CA, stats_locales_interco[,-c(1:2)], by="nom_upper", copy=FALSE)
-
-# Puis quelques manips pour finaliser (suppression des variables intermediaires)
-CA <- CA[,-18]
+# Match inexact
+CA <- stringdist_left_join(CA, stats_locales_interco[,-c(1:2)], by="nom_upper", max_dist = 4, distance_col="distance") 
+    # qd pas de match on remplace la distance 'NA' par '0' pour ensuite garder 1 obs par CA et qu'il garde aussi les non matchs
+CA$distance[is.na(CA$distance)] = 0
+    # ensuite on ne garde qu'une obs par coll
+CA <- CA %>% group_by(nom) %>% slice_min(distance)  
+CA <- CA %>% group_by(nom) %>% distinct(distance, .keep_all = TRUE)
+    # on clean
+CA[c(33,54),17:23] = NA 
+CA <- CA[,-c(16,22,23)]
 
 
             ### G. Communes
@@ -204,7 +224,7 @@ stats_locales_commune <- stats_locales_commune %>% distinct(nom , .keep_all=TRUE
 # Match
 commune <- left_join(commune, stats_locales_commune[,-c(1:2)], by="nom_upper", copy=FALSE)
 commune <- commune[,-18]
-commune <- commune %>% rename(nom = `nom.x`)
+
 
 
 
@@ -217,6 +237,8 @@ region <- region %>% rename(chef_executif = `chef de l'exécutif`, parti_politiq
 commune <- commune %>% rename(chef_executif = `chef de l'exécutif`, parti_politique = `parti politique`, url_ptf = `url-ptf`, nb_ptf = `nb-ptf`, url_datagouv = `url-datagouv`, nb_datagouv = `nb-datagouv`, id_datagouv = `id-datagouv`, id_ods = `id-ods`, pop_insee = `pop-insee`)
 metropole <- metropole %>% rename(chef_executif = `chef de l'exécutif`, parti_politique = `parti politique`, url_ptf = `url-ptf`, nb_ptf = `nb-ptf`, url_datagouv = `url-datagouv`, nb_datagouv = `nb-datagouv`, id_datagouv = `id-datagouv`, id_ods = `id-ods`, pop_insee = `pop-insee`)
 CU <- CU %>% rename(chef_executif = `chef de l'exécutif`, parti_politique = `parti politique`, url_ptf = `url-ptf`, nb_ptf = `nb-ptf`, url_datagouv = `url-datagouv`, nb_datagouv = `nb-datagouv`, id_datagouv = `id-datagouv`, id_ods = `id-ods`, pop_insee = `pop-insee`)
+CA <- CA %>% rename(url_ptf = `url-ptf`, nb_ptf = `nb-ptf`, url_datagouv = `url-datagouv`, nb_datagouv = `nb-datagouv`, id_datagouv = `id-datagouv`, id_ods = `id-ods`, pop_insee = `pop-insee`)
+CC <- CC %>% rename(url_ptf = `url-ptf`, nb_ptf = `nb-ptf`, url_datagouv = `url-datagouv`, nb_datagouv = `nb-datagouv`, id_datagouv = `id-datagouv`, id_ods = `id-ods`, pop_insee = `pop-insee`)
 
 
 # On supprime les chefs de l'exécutif qui ne servaient qu'en étape intermédiaire pour récuperer le parti politique
@@ -227,22 +249,25 @@ metropole <- metropole[,-3]
 CU <- CU[,-3]
 
 
-# On rassemble les interco ensemble car trop peu d'observations sinon
-interco <- merge(metropole, CU, all=TRUE)   # full outer join
+# On regroupe les interco 2 à 2 (avec et sans parti politique)
+CU_metropole <- merge(metropole, CU, all=TRUE)   # full outer join
+CA_CC <- merge(CA, CC, all=TRUE)   
 
 
 # On remplace les valeurs notées "null" dans les données socio éco (stats_locales) par de vrais NAs.
 departement[departement == "null"] <- NA
 region[region == "null"] <- NA
 commune[commune == "null"] <- NA
-interco[interco == "null"] <- NA
+CU_metropole[CU_metropole == "null"] <- NA
+CA_CC[CA_CC == "null"] <- NA
 
 
 # On met au bon format les variables
-metropole[,c(1,7,9,12,16:20)] <- lapply(metropole[,c(1,7,9,12,16:20)], as.numeric) 
-region[,c(1,7,9,12,16:20)] <- lapply(region[,c(1,7,9,12,16:20)], as.numeric) 
-interco[,c(1,7,9,12,16:20)] <- lapply(interco[,c(1,7,9,12,16:20)], as.numeric) 
+metropole[,c(1,7,9,12,16:21)] <- lapply(metropole[,c(1,7,9,12,16:21)], as.numeric) 
+region[,c(1,7,9,12,16:25)] <- lapply(region[,c(1,7,9,12,16:25)], as.numeric) 
 commune[,c(1,7,9,12,16:20)] <- lapply(commune[,c(1,7,9,12,16:20)], as.numeric) 
+CU_metropole[,c(1,7,9,12,16:21)] <- lapply(CU_metropole[,c(1,7,9,12,16:21)], as.numeric) 
+CA_CC[,c(1,7,8,11,15:20)] <- lapply(CA_CC[,c(1,7,8,11,15:20)], as.numeric) 
 
 
 
@@ -253,18 +278,29 @@ rio::export(metropole, "./Data/process/metropole.csv")
 rio::export(region, "./Data/process/region.csv")
 rio::export(commune, "./Data/process/commune.csv")
 rio::export(interco, "./Data/process/interco.csv")
-
-
-
-#-------------------------------  AJOUT BUDGET DEPENSES TOTALES  -------------------------------#
-
+rio::export(departement, "./Data/process/departement.csv")
 
 
 
 
+#-------------------------------  AJOUT BUDGET : DEPENSES TOTALES 2019  -------------------------------#
 
 
 
+# Import des bases
+comptes_departement <- read_delim("Data/external/comptes_departements.csv", ";", escape_double = FALSE, trim_ws = TRUE)
+comptes_region <- read_delim("Data/external/comptes_regions.csv", ";", escape_double = FALSE, trim_ws = TRUE)
+comptes_commune <- read_delim("Data/external/comptes_communes.csv", ";", escape_double = FALSE, trim_ws = TRUE)
+comptes_interco <- read_delim("Data/external/comptes_EPCI.csv", ";", escape_double = FALSE, trim_ws = TRUE)
+
+
+# La colonne qui nous intérèsse est celle du budget "montant en euros par habitant"
+comptes_departement <- comptes_departement[,c(10,16)] # on garde SIREN et budget
+comptes_commune <- comptes_commune[,c(10,16)]
+
+
+# Match départements
+departement <- left_join(departement, comptes_departement, by="nom_upper", copy=FALSE)
 
 
 
