@@ -18,7 +18,7 @@
 - communes : on récupère 219 chefs et 25 partis de plus
 - communautés urbaines : pas fait
 
-	• 3e STEP RECHERCHE MANUELLE (voir Drive 'Bases')
+	• 3e STEP RECHERCHE MANUELLE (voir Drive 'Bases' pour les 4 sauf communes)
 
 - départements : on récupère tous les chefs et partis
 - régions : on récupère tous les chefs et partis
@@ -26,3 +26,6 @@
 - communes : on recoupe les infos avec données datagouv "élections municipales", on récupère 164 partis (manque 103)
 - communautés urbaines : on récupère tous les chefs et partis
 
+	• 4e STEP HARMONISATION COULEUR POLITIQUE
+
+- harmoniser noms des partis politiques

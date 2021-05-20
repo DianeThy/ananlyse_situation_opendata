@@ -14,13 +14,13 @@ CC <- opendata %>% filter(type == "CC") #43
 CA <- opendata %>% filter(type == "CA") #99
 
 # On exporte
-#rio::export(commune, "commune.xlsx")
-#rio::export(communaute_urbaine, "communaute_urbaine.xlsx")
-#rio::export(departement, "departement.xlsx")
-#rio::export(metropole, "metropole.xlsx")
-#rio::export(region, "region.xlsx")
-#rio::export(CA, "CA.xlsx")
-#rio::export(CC, "CC.xlsx")
+#rio::export(commune, "./Data/raw/commune.xlsx")
+#rio::export(communaute_urbaine, "./Data/raw/communaute_urbaine.xlsx")
+#rio::export(departement, "./Data/raw/departement.xlsx")
+#rio::export(metropole, "./Data/raw/metropole.xlsx")
+#rio::export(region, "./Data/raw/region.xlsx")
+#rio::export(CA, "./Data/raw/CA.xlsx")
+#rio::export(CC, "./Data/raw/CC.xlsx")
 
 
 #------------------------------- DECOMPTES AVANT AJOUT RNE
@@ -96,9 +96,9 @@ municipales_datagouv <- municipales_datagouv[,-c(2:3)]
 municipales_datagouv <- data.table::data.table(municipales_datagouv)
 municipales_datagouv[, chef_executif := stringi::stri_trans_general (str = chef_executif, id = "Latin-ASCII")]
 
-# On enlève les doublons (maires qui se présentent dans 2 communes différentes par ex)
-#municipales_datagouv <- municipales_datagouv %>% group_by(chef_executif) %>% distinct(chef_executif, .keep_all=TRUE) %>% ungroup()
-    # plutot on retire ceux qui se présentent sans liste (NA) mais on garde ceux qui se présentent avec des listes différentes pour cluster
+# On enlève les doublons (maires qui se présentent dans 2 communes différentes par ex) mais on garde s'ils ont plusieurs listes
+municipales_datagouv <- municipales_datagouv %>% group_by(chef_executif) %>% distinct(, .keep_all=TRUE) %>% ungroup()
+    # on retire ceux qui se présentent sans liste (NA)
 municipales_datagouv <- na.omit(municipales_datagouv, cols="Nuance Liste")
 
 
@@ -131,8 +131,6 @@ manque_chef <- manque_chef %>% rename (parti_politique = `Nuance Liste`)
 commune_pol2 <- na.omit(commune_pol2, cols="parti_politique")
     # on assemble avec chefs datagouv desquels on a la liste
 commune_pol2 <- rbind(commune_pol2, manque_chef)
-    # on trie le nom de la commune par ordre alphabétique croissant
-#commune_pol2 <- commune_pol2 %>% arrange(nom)  # en fait non parce que qd plusieurs partis pour 1 chef alors les infos ne seront plus au bon endroit
 
 
 # Compte nombre d'infos manquantes après ces manipulations
@@ -142,10 +140,12 @@ commune_pol2 %>% count(is.na(parti_politique)) #103
 table(commune_pol2$parti_politique)
 
 # Export base complétée
-#rio::export(commune_pol2,"commune_pol_ajout_listesPo_datagouv.xlsx")
+#rio::export(commune_pol2,"./Data/interim/Step3_recherche_manuelle/commune_pol_ajout_listesPo_datagouv.xlsx")
 
 
 
+
+# ------------------------------- HARMONISATION DES PARTIS POLITIQUES
 
 
 
@@ -154,7 +154,9 @@ table(commune_pol2$parti_politique)
             # - ensuite on affecte aux NA la valeur de l'obs précédente
             # - on remet les jeux ensemble
 
-    # + on met le numéro SIREN au format numérique car caractère actuellement
+    ### on met le numéro SIREN au format numérique car caractère actuellement
+
+    ### et on harmonise les noms des partis politiques (DVD / Divers droite / Divers Droite etC.)
 
 
 # COMMUNES
@@ -165,7 +167,7 @@ commune_pol2$siren <- as.numeric(commune_pol2$siren)
 
 # REGIONS
     # import
-region_pol <- read_csv("C:/Users/diane/Desktop/Analyse Diane/Data/interim/Step3_recherche_manuelle/region_pol.csv")
+region_pol <- read_excel("C:/Users/diane/Desktop/Analyse Diane/Data/interim/Step3_recherche_manuelle/region_pol.xlsx")
     # remplace NA des variables où NA lié seulement à parti po nombreux
 region_pol <- region_pol %>% mutate_at(vars(siren, nom, `chef de l'exécutif`, `parti politique`, type, regcode), zoo::na.locf)
 region_pol <- region_pol  %>% group_by(nom) %>% mutate_all(funs(zoo::na.locf(., na.rm = FALSE))) 
@@ -186,7 +188,7 @@ metropole_pol$siren <- as.numeric(metropole_pol$siren)
 
 # DEPARTEMENTS
     # import
-departement_pol2 <- read_csv("C:/Users/diane/Desktop/Analyse Diane/Data/interim/Step3_recherche_manuelle/departement_pol2.csv")
+departement_pol2 <- read_excel("C:/Users/diane/Desktop/Analyse Diane/Data/interim/Step3_recherche_manuelle/departement_pol2.xlsx")
     # remplace NA des variables où NA lié seulement à parti po nombreux
 departement_pol2 <- departement_pol2 %>% mutate_at(vars(siren, nom, `chef de l'exécutif`, `parti politique`, type, regcode), zoo::na.locf)
 departement_pol2 <- departement_pol2  %>% group_by(nom) %>% mutate_all(funs(zoo::na.locf(., na.rm = FALSE))) 
@@ -196,42 +198,14 @@ departement_pol2$siren <- as.numeric(departement_pol2$siren)
 
 # CU : pas utile car pas de passage sur wikidata et pas pluralité de partis po trouvés à la main
     # en revanche on importe quand même pour l'exporter en xlsx et mettre au bon format les variables
-communaute_urbaine <- read_csv("C:/Users/diane/Desktop/Analyse Diane/Data/interim/Step3_recherche_manuelle/communaute_urbaine.csv")
+communaute_urbaine <- read_excel("C:/Users/diane/Desktop/Analyse Diane/Data/interim/Step3_recherche_manuelle/communaute_urbaine.xlsx")
     # on met au bon format le num SIREN
 communaute_urbaine$siren <- as.numeric(communaute_urbaine$siren)
 
 
 
-# On remplace les bases exportées dans les dossiers
-#rio::export(commune_pol2,"commune_pol_ajout_listesPo_datagouv.xlsx")
-#rio::export(region_pol,"region_pol.xlsx")
-#rio::export(metropole_pol,"metropole_pol.xlsx")
-#rio::export(departement_pol2,"departement_pol2.xlsx")
-#rio::export(communaute_urbaine,"communaute_urbaine.xlsx")
+# ------------------------------- 
 
-
-
-# ------------------------------- HARMONISATION DES PARTIS POLITIQUES
-
-
-
-library(tidywikidatar)  #https://medium.com/european-data-journalism-network/a-new-r-package-for-exploring-the-wealth-of-information-stored-by-wikidata-fe85e82b6440 
-tw_set_cache_folder(path = fs::path(fs::path_home_r(),
-                                    "R",
-                                    "tw_data"))
-# chef executif pas dispo pour CC et CA donc on regroupe CA+CC et CU+metropoles séparemment
-
-
-
-# ------------------------------- HARMONISATION DES PARTIS POLITIQUES
-
-
-# Import des bases avec couleur politique
-commune_pol2 <- read_excel("Data/interim/Step3_recherche_manuelle/commune_pol_ajout_listesPo_datagouv.xlsx")
-departement_pol2 <- read_excel("Data/interim/Step3_recherche_manuelle/departement_pol2.xlsx")
-metropole_pol <- read_excel("Data/interim/Step3_recherche_manuelle/metropole_pol.xlsx")
-region_pol <- read_excel("Data/interim/Step3_recherche_manuelle/region_pol.xlsx")
-communaute_urbaine <- read_excel("Data/interim/Step3_recherche_manuelle/communaute_urbaine.xlsx")
 
 # Nombre de partis différents et liste
 dep_po <- as.data.frame(table(departement_pol2[,4])) %>% arrange(desc(Freq))
@@ -239,13 +213,27 @@ reg_po <- as.data.frame(table(region_pol[,4])) %>% arrange(desc(Freq))
 com_po <- as.data.frame(table(commune_pol2[,4])) %>% arrange(desc(Freq))
 met_po <- as.data.frame(table(metropole_pol[,4])) %>% arrange(desc(Freq))
 cu_po <- as.data.frame(table(communaute_urbaine[,4])) %>% arrange(desc(Freq))
-nb_partis_renseignes <- tally(dep_po) + tally(reg_po) + tally(com_po) + tally(met_po) + tally(cu_po)  # 91
+tally(dep_po) + tally(reg_po) + tally(com_po) + tally(met_po) + tally(cu_po)  # 91
 
-# Pour un même parti on trouve plusieurs appellations (ex: UMP = Union pour un mouvement populaire, LDVG = Divers Gauche etc.). Donc on remplace les noms pour harmoniser ce champ.
-    # on rassemble temporairement les df
+# Pour un même parti on trouve plusieurs appellations (ex: UMP = Union pour un mouvement populaire, LDVG = Divers Gauche etc.). 
+    # Donc on remplace les noms pour harmoniser ce champ.
+
+# On rassemble temporairement les df
 commune_pol2 <- commune_pol2 %>% rename(`parti politique` = parti_politique, `chef de l'exécutif` = chef_executif)
+    # on met les mêmes format aux variable spour pouvoir assembler les observations
+departement_pol2[,c(1,8,10,13:15,17)] <- lapply(departement_pol2[,c(1,8,10,13:15,17)], as.numeric) 
+region_pol[,c(1,8,10,13:15,17)] <- lapply(region_pol[,c(1,8,10,13:15,17)], as.numeric)            # runer 2x si fonctionne pas
+commune_pol2[,c(1,8,10,13:15,17)] <- lapply(commune_pol2[,c(1,8,10,13:15,17)], as.numeric) 
+metropole_pol[,c(1,8,10,13:15,17)] <- lapply(metropole_pol[,c(1,8,10,13:15,17)], as.numeric) 
+communaute_urbaine[,c(1,8,10,13:15,17)] <- lapply(communaute_urbaine[,c(1,8,10,13:15,17)], as.numeric)
+    # rbind
 toutes_orgas <- rbind(region_pol, commune_pol2, departement_pol2, metropole_pol, communaute_urbaine)
-    # on remplace les partis
+    
+# On remplace les partis en 2 temps pour éviter que "Europe Écologie Les Verts" devienne "Europe Écologie Europe Écologie Les Verts" par ex
+toutes_orgas$`parti politique` <- str_replace_all(toutes_orgas$`parti politique`, 
+                                                     c("Europe Écologie Les Verts" = "passage_intermediaire",
+                                                       "LSOC" = "Parti socialiste"))
+
 toutes_orgas$`parti politique` <- str_replace_all(toutes_orgas$`parti politique`, 
                                                      c("UMP" = "Union pour un mouvement populaire", 
                                                        "Parti républicain" = "Les Républicains",
@@ -263,6 +251,10 @@ toutes_orgas$`parti politique` <- str_replace_all(toutes_orgas$`parti politique`
                                                        "LREM" = "La République en marche",
                                                        "La République En Marche" = "La République en marche",
                                                        "LUDI" = "Union des démocrates et indépendants"))
+
+toutes_orgas$`parti politique` <- str_replace_all(toutes_orgas$`parti politique`, 
+                                                     c("passage_intermediaire" = "Europe Écologie Les Verts"))
+
 orga_po <- as.data.frame(table(toutes_orgas[,4])) %>% arrange(desc(Freq))  # 49 soit 42 de moins
 
 
@@ -274,16 +266,25 @@ metropole_pol <- toutes_orgas %>% filter(type == "MET")
 region_pol <- toutes_orgas %>% filter(type == "REG")
 
 
-# On réexporte
-rio::export(commune_pol2,"commune_pol_ajout_listesPo_datagouv.xlsx")
-rio::export(region_pol,"region_pol.xlsx")
-rio::export(metropole_pol,"metropole_pol.xlsx")
-rio::export(departement_pol2,"departement_pol2.xlsx")
-rio::export(communaute_urbaine,"communaute_urbaine.xlsx")
+# On exporte les bases harmonisées du parti politique
+rio::export(commune_pol2,"./Data/interim/Harmonisation_politique/commune.xlsx")
+rio::export(region_pol,"./Data/interim/Harmonisation_politique/region.xlsx")
+rio::export(metropole_pol,"./Data/interim/Harmonisation_politique/metropole.xlsx")
+rio::export(departement_pol2,"./Data/interim/Harmonisation_politique/departement.xlsx")
+rio::export(communaute_urbaine,"./Data/interim/Harmonisation_politique/communaute_urbaine.xlsx")
 
 
 
 
 
+#################################### POUBELLE
+
+
+## package pour récupérer données wikidata
+library(tidywikidatar)  #https://medium.com/european-data-journalism-network/a-new-r-package-for-exploring-the-wealth-of-information-stored-by-wikidata-fe85e82b6440 
+tw_set_cache_folder(path = fs::path(fs::path_home_r(),
+                                    "R",
+                                    "tw_data"))
+# chef executif pas dispo pour CC et CA donc on regroupe CA+CC et CU+metropoles séparemment
 
 

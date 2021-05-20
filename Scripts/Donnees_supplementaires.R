@@ -93,7 +93,7 @@ stats_locales_commune <- stats_locales_commune %>%
             ### A. Départements
 
 # Import jeu recensement 
-departement <- read_excel("Data/interim/Step3_recherche_manuelle/departement_pol2.xlsx")
+departement <- read_excel("Data/interim/Harmonisation_politique/departement.xlsx")
 
 # On met les noms des organisations en majuscules pour le match
 stats_locales_departement$nom_upper <- toupper(stats_locales_departement$nom)
@@ -101,13 +101,12 @@ departement$nom_upper <- toupper(departement$nom)
 
 # Match
 departement <- left_join(departement, stats_locales_departement[,-c(1:2)], by="nom_upper", copy=FALSE)
-departement <- departement[,-18]   # on retire la variable des noms en majuscule
 
 
             ### B. Régions
 
 # Import jeu recensement 
-region <- read_excel("Data/interim/Step3_recherche_manuelle/region_pol.xlsx")
+region <- read_excel("Data/interim/Harmonisation_politique/region.xlsx")
 
 # Noms en majuscules
 stats_locales_region$nom_upper <- toupper(stats_locales_region$nom)
@@ -115,13 +114,12 @@ region$nom_upper <- toupper(region$nom)
 
 # Match
 region <- left_join(region, stats_locales_region[,-c(1:2)], by="nom_upper", copy=FALSE)
-region <- region[,-18]
 
 
             ### C. CU
 
 # Import jeux recensement 
-CU <- read_excel("Data/interim/Step3_recherche_manuelle/communaute_urbaine.xlsx")
+CU <- read_excel("Data/interim/Harmonisation_politique/communaute_urbaine.xlsx")
 
 # Noms en majuscules
 CU$nom_upper <- toupper(CU$nom)
@@ -129,13 +127,14 @@ stats_locales_interco$nom_upper <- toupper(stats_locales_interco$nom)
 
 # Match inexact quand les noms d'organisation ne correspondent pas tout à fait dans les 2 bases
 CU <- stringdist_left_join(CU, stats_locales_interco[,-c(1:2)], by="nom_upper", max_dist = 5, distance_col="distance")
-CU <- CU[,-c(18,24,25)]  # on retire les colonnes "nom_upper" qui servaient juste en étape intermédiaire et la distance des mots pour le match
+CU <- CU[,-c(24,25)]  # on retire une des 2 colonnes "nom_upper" qui servait d'étape intermédiaire et la distance des mots pour le match
+CU <- CU %>% rename(nom_upper = nom_upper.x)
 
 
             ### D. Métropoles
 
 # Import jeux recensement 
-metropole <- read_excel("Data/interim/Step3_recherche_manuelle/metropole_pol.xlsx")
+metropole <- read_excel("Data/interim/Harmonisation_politique/metropole.xlsx")
 
 # Noms en majuscules
 metropole$nom_upper <- toupper(metropole$nom)
@@ -143,7 +142,8 @@ metropole$nom_upper <- toupper(metropole$nom)
 # Match inexact
 metropole <- stringdist_left_join(metropole, stats_locales_interco[,-c(1:2)], by="nom_upper", max_dist = 7, distance_col="distance")  %>% 
                     group_by(nom) %>% slice_min(distance)
-metropole <- metropole[,-c(18,24,25)]
+metropole <- metropole[,-c(24,25)]
+metropole <- metropole %>% rename(nom_upper = nom_upper.x)
 
 
             ### E. CC  (2 col en moins : parti_politique et chef_executif)
@@ -173,7 +173,8 @@ CC <- CC %>% group_by(nom) %>% slice_min(distance)
 CC <- CC %>% group_by(nom) %>% distinct(distance, .keep_all = TRUE)
     # on clean
 CC[c(5,19,42),17:23] = NA   #certaines obs ont matché mais en réalité ne sont pas (ex: PAYS MORNANTAIS vs. PAYS MORCENAIS) dc on remet NA.
-CC <- CC[,-c(16,22,23)]     # on enlève les colonnes en trop (qui servaient en étape intermediaire)
+CC <- CC[,-c(22,23)]     # on enlève les colonnes en trop (qui servaient en étape intermediaire)
+CC <- CC %>% rename(nom_upper = nom_upper.x)
 
 
             ### F. CA (idem)
@@ -201,13 +202,14 @@ CA <- CA %>% group_by(nom) %>% slice_min(distance)
 CA <- CA %>% group_by(nom) %>% distinct(distance, .keep_all = TRUE)
     # on clean
 CA[c(33,54),17:23] = NA 
-CA <- CA[,-c(16,22,23)]
+CA <- CA[,-c(22,23)]
+CA <- CA %>% rename(nom_upper = nom_upper.x)
 
 
             ### G. Communes
 
 # Import jeu recensement 
-commune <- read_excel("Data/interim/Step3_recherche_manuelle/commune_pol_ajout_listesPo_datagouv.xlsx")
+commune <- read_excel("Data/interim/Harmonisation_politique/commune.xlsx")
 
 # Noms en majuscules et sans accents + on enlève les doublons
     # majuscules
@@ -223,7 +225,6 @@ stats_locales_commune <- stats_locales_commune %>% distinct(nom , .keep_all=TRUE
 
 # Match
 commune <- left_join(commune, stats_locales_commune[,-c(1:2)], by="nom_upper", copy=FALSE)
-commune <- commune[,-18]
 
 
 
@@ -263,22 +264,24 @@ CA_CC[CA_CC == "null"] <- NA
 
 
 # On met au bon format les variables
-metropole[,c(1,7,9,12,16:21)] <- lapply(metropole[,c(1,7,9,12,16:21)], as.numeric) 
-region[,c(1,7,9,12,16:25)] <- lapply(region[,c(1,7,9,12,16:25)], as.numeric) 
-commune[,c(1,7,9,12,16:20)] <- lapply(commune[,c(1,7,9,12,16:20)], as.numeric) 
-CU_metropole[,c(1,7,9,12,16:21)] <- lapply(CU_metropole[,c(1,7,9,12,16:21)], as.numeric) 
-CA_CC[,c(1,7,8,11,15:20)] <- lapply(CA_CC[,c(1,7,8,11,15:20)], as.numeric) 
+metropole[,c(1,7,9,12,16,18:21)] <- lapply(metropole[,c(1,7,9,12,16,18:21)], as.numeric) 
+region[,c(1,7,9,12,16,18:25)] <- lapply(region[,c(1,7,9,12,16,18:25)], as.numeric) 
+commune[,c(1,7,9,12,16,18:20)] <- lapply(commune[,c(1,7,9,12,16,18:20)], as.numeric) 
+CU_metropole[,c(1,7,9,12,16,18:21)] <- lapply(CU_metropole[,c(1,7,9,12,16,18:21)], as.numeric) 
+CA_CC[,c(1,6,8,11,15,17:21)] <- lapply(CA_CC[,c(1,6,8,11,15,17:21)], as.numeric) 
 
 
 
 
 # ------------------------------- Export des jeux complets
 
-rio::export(metropole, "./Data/process/metropole.csv")
-rio::export(region, "./Data/process/region.csv")
-rio::export(commune, "./Data/process/commune.csv")
-rio::export(interco, "./Data/process/interco.csv")
-rio::export(departement, "./Data/process/departement.csv")
+
+
+#rio::export(region, "./Data/interim/Ajout_stats_locales_insee/region.xlsx")
+#rio::export(departement, "./Data/interim/Ajout_stats_locales_insee/departement.xlsx")
+#rio::export(commune, "./Data/interim/Ajout_stats_locales_insee/commune.xlsx")
+#rio::export(CU_metropole, "./Data/interim/Ajout_stats_locales_insee/CU_metropole.xlsx")
+#rio::export(CA_CC, "./Data/interim/Ajout_stats_locales_insee/CA_CC.xlsx")
 
 
 
@@ -293,25 +296,80 @@ comptes_region <- read_delim("Data/external/comptes_regions.csv", ";", escape_do
 comptes_commune <- read_delim("Data/external/comptes_communes.csv", ";", escape_double = FALSE, trim_ws = TRUE)
 comptes_interco <- read_delim("Data/external/comptes_EPCI.csv", ";", escape_double = FALSE, trim_ws = TRUE)
 
+# On renomme la colonne du SIREN dans le jeu du budget (colonne pivot)
+comptes_departement <- comptes_departement %>% rename(siren = `Code Siren Collectivité`)
+comptes_region <- comptes_region %>% rename(siren = `Code Siren Collectivité`)
+comptes_commune <- comptes_commune %>% rename(siren = `Code Siren Collectivité`)
+comptes_interco <- comptes_interco %>% rename(siren = `Code Siren Collectivité`)
 
-# La colonne qui nous intérèsse est celle du budget "montant en euros par habitant"
-comptes_departement <- comptes_departement[,c(10,16)] # on garde SIREN et budget
-comptes_commune <- comptes_commune[,c(10,16)]
+# Matchs
+departement <- left_join(departement, comptes_departement[,c(10,16)], by="siren", copy=FALSE)  #du jeu comptes on ne prend que le siren et le budget
+region <- left_join(region, comptes_region[,c(7,13)], by="siren", copy=FALSE)
+commune <- left_join(commune, comptes_commune[,c(18,25)], by="siren", copy=FALSE)
+CA_CC <- left_join(CA_CC, comptes_interco[,c(15,21)], by="siren", copy=FALSE)
+CU_metropole <- left_join(CU_metropole, comptes_interco[,c(15,21)], by="siren", copy=FALSE)
+
+# On renomme la colonne du budget par un nom exploitable
+region <- region %>% rename(depenses_hab = `Montant en € par habitant`)
+departement <- departement %>% rename(depenses_hab = `Montant en € par habitant`)
+commune <- commune %>% rename(depenses_hab = `Montant en € par habitant`)
+CA_CC <- CA_CC %>% rename(depenses_hab = `Montant en € par habitant`)
+CU_metropole <- CU_metropole %>% rename(depenses_hab = `Montant en € par habitant`)
 
 
-# Match départements
-departement <- left_join(departement, comptes_departement, by="nom_upper", copy=FALSE)
+
+
+
+#-------------------------------  AJOUT NB ETUDIANTS DANS LA POP  -------------------------------#
+
+
+# Import de la base des dépenses globales
+Nb_etudiants_pop <- read_delim("Data/external/Nb_etudiants_pop.csv", ";", escape_double = FALSE, trim_ws = TRUE)
+    # on garde nom coll et variable nb d'étudiants
+Nb_etudiants_pop <- Nb_etudiants_pop[, c(4,11)]
+    # on renomme les colonnes
+Nb_etudiants_pop <- Nb_etudiants_pop %>% rename(nom = `Unité géographique`,
+                                                nb_etudiants = `Nombre total d’étudiants inscrits`)
+
+# Préparation des jeux au match 
+    # noms en majuscules et sans accents
+Nb_etudiants_pop$nom_upper <- toupper(Nb_etudiants_pop$nom)  # maj
+Nb_etudiants_pop <- data.table::data.table(Nb_etudiants_pop)   # accents
+Nb_etudiants_pop[, nom_upper := stringi::stri_trans_general (str = nom_upper, id = "Latin-ASCII")]
+        # régions
+region <- data.table::data.table(region)   # accents pour le jeu initial des régions
+region[, nom_upper := stringi::stri_trans_general (str = nom_upper, id = "Latin-ASCII")]
+        # départements
+departement <- data.table::data.table(departement)   # accents pour le jeu initial des départements
+departement[, nom_upper := stringi::stri_trans_general (str = nom_upper, id = "Latin-ASCII")]
+    # pour l'instant pour 1 coll il ya plusieurs obs : nb etudiants par sexe / par nature d'établissement 
+    # donc on additionne les chiffres par coll
+Nb_etudiants_pop <- Nb_etudiants_pop %>% group_by(nom_upper) %>% summarise_at(vars(nb_etudiants), list(nb_etudiants = sum))
+
+# Matchs pour les niveaux géographiques dispo (regions, dep et communes)
+region <- left_join(region, Nb_etudiants_pop, by="nom_upper", copy=FALSE)
+departement <- left_join(departement, Nb_etudiants_pop, by="nom_upper", copy=FALSE)
+commune <- left_join(commune, Nb_etudiants_pop, by="nom_upper", copy=FALSE)
+
+
+# On transforme le nombre d'étudiants en taux pour que ça soit plus parlant
+region <- region %>% mutate(part_etudiants = nb_etudiants/pop_insee*100)
+region$part_etudiants <- round(region$part_etudiants,1)
+departement <- region %>% mutate(part_etudiants = nb_etudiants/pop_insee*100)
+departement$part_etudiants <- round(departement$part_etudiants,1)
+commune <- region %>% mutate(part_etudiants = nb_etudiants/pop_insee*100)
+commune$part_etudiants <- round(commune$part_etudiants,1)
+
+# On supprime la colonne 'nb_etudiants' maintenant qu'on a le pourcentage
+region <- region[,-28]
+departement <- departement[,-28]
+commune <- commune[,-28]
 
 
 
 
 
-
-
-
-
-
-
+#-------------------------------  AJOUT URBANISATION  -------------------------------#
 
 
 
