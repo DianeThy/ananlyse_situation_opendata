@@ -323,7 +323,7 @@ CU_metropole <- CU_metropole %>% rename(depenses_hab = `Montant en € par habit
 #-------------------------------  AJOUT NB ETUDIANTS DANS LA POP  -------------------------------#
 
 
-# Import de la base des dépenses globales
+# Import de la base du nombre d'étudiants
 Nb_etudiants_pop <- read_delim("Data/external/Nb_etudiants_pop.csv", ";", escape_double = FALSE, trim_ws = TRUE)
     # on garde nom coll et variable nb d'étudiants
 Nb_etudiants_pop <- Nb_etudiants_pop[, c(4,11)]
@@ -355,15 +355,15 @@ commune <- left_join(commune, Nb_etudiants_pop, by="nom_upper", copy=FALSE)
 # On transforme le nombre d'étudiants en taux pour que ça soit plus parlant
 region <- region %>% mutate(part_etudiants = nb_etudiants/pop_insee*100)
 region$part_etudiants <- round(region$part_etudiants,1)
-departement <- region %>% mutate(part_etudiants = nb_etudiants/pop_insee*100)
+departement <- departement %>% mutate(part_etudiants = nb_etudiants/pop_insee*100)
 departement$part_etudiants <- round(departement$part_etudiants,1)
-commune <- region %>% mutate(part_etudiants = nb_etudiants/pop_insee*100)
+commune <- commune %>% mutate(part_etudiants = nb_etudiants/pop_insee*100)
 commune$part_etudiants <- round(commune$part_etudiants,1)
 
 # On supprime la colonne 'nb_etudiants' maintenant qu'on a le pourcentage
 region <- region[,-28]
-departement <- departement[,-28]
-commune <- commune[,-28]
+departement <- departement[,-26]
+commune <- commune[,-23]
 
 
 
@@ -373,8 +373,36 @@ commune <- commune[,-28]
 
 
 
+# Import de la base à matcher (urbain / rural en 5 modalités)
+urbanisation_commune <- read_csv("Data/external/urbanisation_commune.csv")
+    # on renomme les colonnes
+urbanisation_commune <- urbanisation_commune %>% rename(COG = `Code géographique communal`,
+                                                        niveau_rural = `Typologie urbain/rural`)
+
+# Import des infos sur communes pour récuperer SIREN et matcher avec jeux initiaux
+infos_commune <- read_csv("Data/external/infos_communes.csv")
+    # on renomme SIREN en siren en vu du match
+infos_commune <- infos_commune %>% rename(siren = SIREN)
+
+# On ajoute la colonne du numéro SIREN pour matcher avec le jeu de l'analyse
+urbanisation_commune <- left_join(urbanisation_commune, infos_commune[,3:4], by="COG", copy=FALSE)
+    
+# Match avec le jeu de l'analyse
+commune <- left_join(commune, urbanisation_commune[,2:3], by="siren", copy=FALSE)
 
 
+
+        ### On élève au niveau région et département
+
+
+# On récupère les colonnes du COG département et niveau rural / urbain
+urbanisation_departement <- commune[,c(16,25)] %>% arrange(depcode)
+
+# On remplace 
+library(DescTools)
+test <- urbanisation_departement %>% group_by(depcode) %>% tail(names(sort(table(urbanisation_departement$niveau_rural))), 1)
+
+table(urbanisation_departement$niveau_rural)
 
 
 
