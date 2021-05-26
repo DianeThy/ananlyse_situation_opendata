@@ -273,7 +273,7 @@ CA_CC[,c(1,6,8,11,15,17:21)] <- lapply(CA_CC[,c(1,6,8,11,15,17:21)], as.numeric)
 
 
 
-# ------------------------------- Export des jeux complets
+# ------------------------------- Export des jeux
 
 
 
@@ -399,10 +399,54 @@ commune <- left_join(commune, urbanisation_commune[,2:3], by="siren", copy=FALSE
 urbanisation_departement <- commune[,c(16,25)] %>% arrange(depcode)
 
 # On remplace 
-library(DescTools)
-test <- urbanisation_departement %>% group_by(depcode) %>% tail(names(sort(table(urbanisation_departement$niveau_rural))), 1)
+Mode <- function(x) {
+  ux <- unique(x)
+  if(!anyDuplicated(x)){
+      NA_character_ } else { 
+     tbl <-   tabulate(match(x, ux))
+     toString(ux[tbl==max(tbl)])
+ }
+}
 
-table(urbanisation_departement$niveau_rural)
+urbanisation_departement <- urbanisation_departement %>% group_by(depcode) %>% mutate(Mode = Mode(niveau_rural))  #qd 1 obs / dep, renvoit NA et qd 2 possibilités (pas possible de trancher) renvoit NA aussi
+urbanisation_departement$Mode[is.na(urbanisation_departement$Mode)] <- as.character(urbanisation_departement$niveau_rural[is.na(urbanisation_departement$Mode)])  # on affecte aux NA les valeurs du niveau_rural
+urbanisation_departement <- unique(urbanisation_departement[,c(1,3)])
+table(urbanisation_departement$depcode)   # 2 valeurs pour les départements n°4 et 49
+urbanisation_departement <- urbanisation_departement %>% distinct(depcode, .keep_all=T)
+
+# On affecte ces données au jeu des départements par un match via 'depcode'
+departement <- left_join(departement, urbanisation_departement, by="depcode", copy=F)
+
+
+
+            ### Même chose au niveau région
+
+
+# On récupère les colonnes du COG département et niveau rural / urbain
+urbanisation_region <- departement[,c(5,27)] %>% arrange(regcode)
+
+# On remplace 
+urbanisation_region <- urbanisation_region %>% group_by(regcode) %>% mutate(Mode2 = Mode(Mode))
+urbanisation_region$Mode2[is.na(urbanisation_region$Mode2)] <- as.character(urbanisation_region$Mode[is.na(urbanisation_region$Mode2)])
+urbanisation_region <- unique(urbanisation_region[,c(1,3)])
+
+# On affecte ces données au jeu des départements par un match via 'regcode'
+region <- left_join(region, urbanisation_region, by="regcode", copy=F)
+
+
+
+
+# On exporte les bases complètes, avec toutes les informations nécessaires à l'analyse !
+rio::export(region, "./Data/process/region.csv")
+rio::export(departement, "./Data/process/departement.csv")
+rio::export(commune, "./Data/process/commune.csv")
+rio::export(CU_metropole, "./Data/process/CU_metropole.csv")
+rio::export(CA_CC, "./Data/process/CA_CC.csv")
+
+
+
+
+
 
 
 
