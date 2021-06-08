@@ -21,10 +21,10 @@ library(tidyverse)
 reg_wiki <- query_wikidata('SELECT DISTINCT ?regionLabel ?siren ?COG ?chef_execLabel ?parti_politiqueLabel
 WHERE {
   ?region wdt:P31 wd:Q36784 .
-  OPTIONAL { ?region wdt:P1616 ?siren }
-  OPTIONAL { ?region wdt:P2585 ?COG } 
-  OPTIONAL { ?region wdt:P6 ?chef_exec. }
-  OPTIONAL { ?region wdt:P102 ?parti_politique. } 
+  ?region wdt:P1616 ?siren .
+  ?region wdt:P2585 ?COG .
+  ?region wdt:P6 ?chef_exec. 
+  OPTIONAL { ?chef_exec wdt:P102 ?parti_politique. } 
   SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
 }
 ORDER BY ?regionLabel')
@@ -43,18 +43,16 @@ WHERE {
 
 
 
-query_wikidata('SELECT DISTINCT ?regionLabel ?siren ?COG ?chef_execLabel ?parti_politiqueLabel
-WHERE {
-  ?region wdt:P31 wd:Q36784 .
-  ?person wdt:P31 wd: Q5
-  OPTIONAL { ?region wdt:P1616 ?siren }
-  OPTIONAL { ?region wdt:P2585 ?COG } 
-  OPTIONAL { ?region wdt:P6 ?chef_exec. }
-  OPTIONAL { ?chef_exec wdt:P102 ?parti_politique. } 
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
-}
-ORDER BY ?regionLabel')
-
+# Ajout infos wikidata
+write_wikidata(items      = c("Q3113706","Q1120190"),
+               properties = "P6",
+               values     = c("Q65586080","Q544725"),
+               qual.properties = "qal580", #ne fonctionne pas
+               qual.values = "+2020-05-18T00:00:00Z/11",
+               format     = "api",
+               api.username = ,  # Enter your Wikimedia username here
+               api.token  =  #REDACTED# Find yours from https://tools.wmflabs.org/quickstatements/#/user
+               )
 
 
 

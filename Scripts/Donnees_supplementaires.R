@@ -24,9 +24,45 @@ repo_content
 username <- "DiaThy"
 password <- "MaiJuin2018I"
 base <- "https://api.insee.fr/donnees-locales/V0.1"
+usethis::edit_r_environ("user")
 
 insee_query = file.path(insee_link)
 data = get_insee(insee_query)
+
+
+
+
+    # TEST PACKAGE INSEELOCALDATA
+
+library(inseeLocalData)     # remotes::install_github("inseefrlab/inseeLocalData")
+
+croisement <- "NA5_B-ENTR_INDIVIDUELLE"
+jeu_donnees <- "GEO2017REE2017"
+nivgeo <- "COM"
+codgeo <- "51108"
+modalite <- "all.all"
+
+donneesAPI <- get_dataset(jeton = "DiaThy", jeu_donnees, croisement, modalite, nivgeo, codgeo)
+
+donnees <- donneesAPI$donnees # pour accéder aux données
+liste_code <- donneesAPI$liste_code # pour accéder aux nomenclatures
+info_zone <- donneesAPI$info_zone # pour accéder aux données géographiques
+source <- donneesAPI$source # pour accéder à la source
+
+
+
+
+
+    # TEST AUTRE API COMPTES CONSOLIDES
+
+api = GET("https://api/records/1.0/search/?dataset=ofgl-base-communes-consolidee&q=&sort=exer&facet=exer&facet=reg_name&facet=dep_name&facet=epci_name&facet=qpv&facet=com_name&facet=agregat")
+
+
+
+    # URL DOSSIER COMPLET STATISTIQUES LOCALES COMMUNES
+
+stats_locales_com <- read_delim("https://www.insee.fr/fr/statistiques/fichier/5359146/dossier_complet.zip", ";", escape_double = FALSE, trim_ws = TRUE)
+
 
 
 
