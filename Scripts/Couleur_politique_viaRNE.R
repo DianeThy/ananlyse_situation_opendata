@@ -36,7 +36,7 @@ departements <- left_join(departements, observatoire_dep[,-c(2:3)], by="SIREN", 
 communes <- left_join(communes, observatoire_com[,-c(2:3)], by="SIREN", copy=FALSE)
 
 # Pour les EPCI on se rend compte qu'il y a des doublons donc on les supprime avant de matcher
-doublons <- as.data.frame(table(epci$SIREN))
+doublons <- as.data.frame(table(epci$SIREN)) %>% arrange(desc(Freq))
 epci <- epci %>% distinct(SIREN, .keep_all=TRUE)
     # match
 epci <- left_join(epci, observatoire_epci[,-c(2:3)], by="SIREN", copy=FALSE)
@@ -44,7 +44,7 @@ epci <- left_join(epci, observatoire_epci[,-c(2:3)], by="SIREN", copy=FALSE)
 
 
 
-#------------------------------- AJOUT CHEFS EXECUTIF RNE
+#------------------------------- AJOUT INFORMATIONS CHEFS EXECUTIF RNE
 
 
 
@@ -150,54 +150,54 @@ epci <- epci %>% rename(CSP_chef = `Libellé de la catégorie socio-professionne
 # Requête wikidata pour récupérer les partis politiques associés aux chefs
 library(WikidataQueryServiceR)
 
-# Régions
-wiki_reg <- query_wikidata('SELECT DISTINCT ?regionLabel ?siren ?COG ?chef_execLabel ?parti_politiqueLabel
+# Puisque tous ne sont pas à jour on récupère une liste de tous les politicens français qui sont membres d'un ou + partis
+wikidata_partis_po <- query_wikidata('SELECT DISTINCT ?chefLabel ?partiLabel
 WHERE {
-  ?region wdt:P31 wd:Q36784 .
-  ?region wdt:P1616 ?siren .
-  ?region wdt:P2585 ?COG .
-  ?region wdt:P6 ?chef_exec. 
-  OPTIONAL { ?chef_exec wdt:P102 ?parti_politique. } 
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
+  ?chef wdt:P31 wd:Q5 .    #tous les êtres humains
+  ?chef wdt:P106 wd:Q82955 .    #on limite à ceux qui sont politiciens 
+  ?chef wdt:P27 wd:Q142  .    #on limite aux pers françaises
+  ?chef wdt:P102 ?parti .     #on recup le parti
+  ?chef wdt:P569 ?date .   #on recup la date de naissance
+  FILTER(YEAR(?date) > 1920).    #on trie pour ne garder que les personnes "actuelles" (moins de 100 ans)
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr". }
 }
-ORDER BY ?regionLabel')
+ORDER BY ?chefLabel ')
 
 
-# Départements
-wiki_dep <- query_wikidata('SELECT DISTINCT ?depLabel ?siren ?chef_execLabel ?parti_politiqueLabel
-WHERE {
-  ?dep wdt:P31 wd:Q6465 .
-  ?dep wdt:P1616 ?siren .
-  ?dep wdt:P6 ?chef_exec. 
-  OPTIONAL { ?chef_exec wdt:P102 ?parti_politique. } 
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
-}
-ORDER BY ?depLabel')
+# Maintenant on a qu'à matcher par le nom de l'élu avec le RNE (pour ça on met en majuscules et sans accent pour optimiser le match)
+    # majuscules
+wikidata_partis_po$chef_upper <- toupper(wikidata_partis_po$chefLabel)
+    # pas d'accents
+wikidata_partis_po <- data.table::data.table(wikidata_partis_po)
+wikidata_partis_po[, chef_upper := stringi::stri_trans_general (str = chef_upper, id = "Latin-ASCII")]
 
 
-# Communes 
-wiki_com <- query_wikidata('SELECT DISTINCT ?comLabel ?siren ?chef_execLabel ?parti_politiqueLabel
-WHERE {
-  ?com wdt:P31 wd:Q484170 .
-  ?com wdt:P1616 ?siren .
-  ?com wdt:P6 ?chef_exec. 
-  OPTIONAL { ?chef_exec wdt:P102 ?parti_politique. } 
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
-}
-ORDER BY ?comLabel')
+# Même chose pour les noms d'élus des jeux des différentes orgas
+    ## REGIONS
+regions$chef_upper <- toupper(regions$chef_executif)
+regions <- data.table::data.table(regions)
+regions[, chef_upper := stringi::stri_trans_general (str = chef_upper, id = "Latin-ASCII")]
+    ## DEPARTEMENTS
+departements$chef_upper <- toupper(departements$chef_executif)
+departements <- data.table::data.table(departements)
+departements[, chef_upper := stringi::stri_trans_general (str = chef_upper, id = "Latin-ASCII")]
+    ## COMMUNES
+communes$chef_upper <- toupper(communes$chef_executif)
+communes <- data.table::data.table(communes)
+communes[, chef_upper := stringi::stri_trans_general (str = chef_upper, id = "Latin-ASCII")]
+    ## EPCI
+epci$chef_upper <- toupper(epci$chef_executif)
+epci <- data.table::data.table(epci)
+epci[, chef_upper := stringi::stri_trans_general (str = chef_upper, id = "Latin-ASCII")]
 
 
-# EPCI
-wiki_epci <- query_wikidata('SELECT DISTINCT ?epciLabel ?siren ?chef_execLabel ?parti_politiqueLabel
-WHERE {
-  ?epci wdt:P31 wd:Q18706073 .
-  ?epci wdt:P1616 ?siren .
-  ?epci wdt:P6 ?chef_exec. 
-  OPTIONAL { ?chef_exec wdt:P102 ?parti_politique. } 
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
-}
-ORDER BY ?epciLabel')
+# On procède au match maintenant
+    ## REGIONS
+regions <- left_join(regions, wikidata_partis_po[,2:3], by="chef_upper", copy=FALSE) 
+regions <- regions[,-20]
+    ## DEPARTEMENTS
 
+    ## COMMUNES
 
 
 #------------------------------- AJOUT STATISTIQUES LOCALES INSEE
