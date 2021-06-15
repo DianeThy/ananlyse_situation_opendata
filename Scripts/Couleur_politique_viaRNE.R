@@ -1,5 +1,4 @@
-#### NOUVEAU SCRIPT POUR OBTENIR COULEUR POLITIQUE EN PASSANT PAR WIKIDATA SEULEMENT POUR PARTIS PO
-#### ON OBTIENT LES CHEFS DE L'EXEC DIRECTEMENT VIA LE RNE
+#### NOUVEAU SCRIPT POUR CONSTRUIRE LA BASE EN NE PASSANT QUE PAR DES LIENS POUR SIMPLIFIER LA MISE EN OEUVRE
 
 
 
@@ -14,15 +13,10 @@ communes <- read_csv("Data/external/infos_communes.csv")
 epci <- read_csv("Data/external/infos_interco.csv")
 
 
-
 # On ajoute les données de l'observatoire des territoires (nombre de jeux ouverts)
 
 # Import de la base complète
-#library(RCurl)
-#x <- getURL("https://git.opendatafrance.net/observatoire/observatoire-data/-/blob/master/organizations.csv")
-#y <- read.csv(text = x)
-library(readxl)
-observatoire_opendata_territoire <- read_excel("C:/Users/diane/Desktop/Analyse Diane/Data/raw/Indicateurs ODATER v2 (up-to-date).xlsx")
+observatoire_opendata_territoire <- read_csv("https://git.opendatafrance.net/observatoire/observatoire-data/-/raw/master/organizations.csv?inline=false")
   # on renomme la colonne de jointure et on la passe au format numérique
 observatoire_opendata_territoire <- observatoire_opendata_territoire %>% rename(SIREN = siren)
 observatoire_opendata_territoire$SIREN <- as.numeric(observatoire_opendata_territoire$SIREN)
@@ -43,6 +37,44 @@ doublons <- as.data.frame(table(epci$SIREN)) %>% arrange(desc(Freq))
 epci <- epci %>% distinct(SIREN, .keep_all=TRUE)
     # match
 epci <- left_join(epci, observatoire_epci[,-c(2:3)], by="SIREN", copy=FALSE)
+
+
+
+
+#------------------------------- AJOUT POPULATION INSEE
+
+
+
+# Manque la population des communes et interco non présentes dans le jeu opendata des territoires
+    # on récupère les données d'OFGL dans lesquelles il y a la population
+comptes_com <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-communes-consolidee/download/?format=csv&disjunctive.reg_name=true&disjunctive.dep_name=true&disjunctive.epci_name=true&disjunctive.tranche_population=true&disjunctive.tranche_revenu_imposable_par_habitant=true&disjunctive.com_name=true&disjunctive.agregat=true&refine.exer=2019&refine.agregat=D%C3%A9penses+totales&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
+comptes_epci <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-gfp-consolidee/download/?format=csv&disjunctive.dep_name=true&disjunctive.gfp_tranche_population=true&disjunctive.nat_juridique=true&disjunctive.mode_financement=true&disjunctive.gfp_tranche_revenu_imposable_par_habitant=true&disjunctive.epci_name=true&disjunctive.agregat=true&refine.exer=2019&refine.agregat=D%C3%A9penses+totales&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
+
+
+# On sélectionne les variables de la population et du SIREN
+comptes_com <- comptes_com[,c(18,24)]
+comptes_epci <- comptes_epci[,c(12,20)]
+
+# On renomme les colonnes
+comptes_com <- comptes_com %>% rename(SIREN = `Code Siren Collectivité`,
+                                      `pop-insee` = `Population totale`)
+comptes_epci <- comptes_epci %>% rename(SIREN = `Code Siren 2020 EPCI`,
+                                      `pop-insee` = `Population totale`)
+
+# On supprime les doublons pour les EPCI
+comptes_epci <- comptes_epci %>% group_by(SIREN) %>% distinct(SIREN, .keep_all=TRUE)
+
+# On ajoute la population à nos bases
+communes <- left_join(communes, comptes_com, by = "SIREN", copy = FALSE)
+epci <- left_join(epci, comptes_epci, by = "SIREN", copy = FALSE)
+
+# On supprime l'ancienne colonne de la pop incomplète et on renomme
+communes <- communes[,-14] %>% rename(`pop-insee` = `pop-insee.y`)
+epci <- epci[,-13] %>% rename(`pop-insee` = `pop-insee.y`)
+
+# On réordonne
+communes <- communes[,c(1:13,18,14:17)]
+epci <- epci[,c(1:12,17,13:16)]
 
 
 
@@ -147,7 +179,9 @@ epci <- epci %>% rename(CSP_chef = `Libellé de la catégorie socio-professionne
 
 
 
+
 #------------------------------- AJOUT PARTIS POLITIQUES WIKIDATA
+
 
 
 # Requête wikidata pour récupérer les partis politiques associés aux chefs
@@ -347,6 +381,7 @@ epci <- epci %>% rename(depenses_hab = `Montant en € par habitant`)
 
 # Import de la base du nombre d'étudiants
 Nb_etudiants_pop <- read_delim("https://data.enseignementsup-recherche.gouv.fr/explore/dataset/fr-esr-atlas_regional-effectifs-d-etudiants-inscrits/download/?format=csv&disjunctive.rgp_formations_ou_etablissements=true&refine.rgp_formations_ou_etablissements=Total+des+formations+d%27enseignement+sup%C3%A9rieur&refine.rentree_universitaire=2018-19&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";", escape_double = FALSE, trim_ws = TRUE)
+
     # on garde le COG, le type de niveau géo et le nb d'étudiants
 Nb_etudiants_pop <- Nb_etudiants_pop[, c(3,22,11)]
     # on renomme les colonnes
@@ -354,32 +389,39 @@ Nb_etudiants_pop <- Nb_etudiants_pop %>% rename(COG = `Identifiant de l’unité
                                                 nb_etudiants = `Nombre total d’étudiants inscrits`,
                                                 niveau_geo = `Niveau géographique`)
 
-
 # On sépare les données selon le niveau géographique car mêmes COG pour régions et départements
 Nb_etudiants_reg <- Nb_etudiants_pop %>% filter(niveau_geo == "Région")
 Nb_etudiants_dep <- Nb_etudiants_pop %>% filter(niveau_geo == "Département")
 Nb_etudiants_com <- Nb_etudiants_pop %>% filter(niveau_geo == "Commune")
 
+# 4 valeurs par collectivités (public/privé, filles/garçons) donc on somme les effectifs par COG
+Nb_etudiants_reg <- Nb_etudiants_reg %>% group_by(COG) %>% summarise(nb_etudiants = sum(nb_etudiants)) %>% ungroup()
+Nb_etudiants_dep <- Nb_etudiants_dep %>% group_by(COG) %>% summarise(nb_etudiants = sum(nb_etudiants)) %>% ungroup()
+Nb_etudiants_com <- Nb_etudiants_com %>% group_by(COG) %>% summarise(nb_etudiants = sum(nb_etudiants)) %>% ungroup()
+
+# Les COG des régions et départements contiennent la lettre (R ou D) donc match impossible : on extrait les 2 derniers chiffres
+Nb_etudiants_reg$COG <- str_sub(Nb_etudiants_reg$COG,-2)  #on garde 2 chiffres
+Nb_etudiants_dep$COG <- str_sub(Nb_etudiants_dep$COG,-3)  #on garde 3 chiffres pour gérer les DROM COM
+Nb_etudiants_dep$COG <- gsub("^0", "", Nb_etudiants_dep$COG)  #puis on retire le 1er chiffre si c'est un 0
 
 # Matchs pour les niveaux géographiques dispo (càd regions, dep et communes)
-regions <- left_join(regions, Nb_etudiants_reg[,], by="COG", copy=FALSE)
+regions <- left_join(regions, Nb_etudiants_reg, by="COG", copy=FALSE)
 departements <- left_join(departements, Nb_etudiants_dep, by="COG", copy=FALSE)
 communes <- left_join(communes, Nb_etudiants_com, by="COG", copy=FALSE)
 
-
 # On transforme le nombre d'étudiants en taux pour que ça soit plus parlant
-region <- region %>% mutate(part_etudiants = nb_etudiants/pop_insee*100)
-region$part_etudiants <- round(region$part_etudiants,1)
-departement <- departement %>% mutate(part_etudiants = nb_etudiants/pop_insee*100)
-departement$part_etudiants <- round(departement$part_etudiants,1)
-commune <- commune %>% mutate(part_etudiants = nb_etudiants/pop_insee*100)
-commune$part_etudiants <- round(commune$part_etudiants,1)
+regions <- regions %>% mutate(part_etudiants = nb_etudiants/`pop-insee`*100)
+regions$part_etudiants <- round(regions$part_etudiants,1)
+departements <- departements %>% mutate(part_etudiants = nb_etudiants/`pop-insee`*100)
+departements$part_etudiants <- round(departements$part_etudiants,1)
+communes <- communes %>% mutate(part_etudiants = nb_etudiants/`pop-insee`*100)
+communes$part_etudiants <- round(communes$part_etudiants,1)
 
 
 # On supprime la colonne 'nb_etudiants' maintenant qu'on a le pourcentage
-region <- region[,-28]
-departement <- departement[,-26]
-commune <- commune[,-23]
+regions <- regions[,-31]
+departements <- departements[,-30]
+communes <- communes[,-28]
 
 
 
@@ -390,21 +432,16 @@ commune <- commune[,-23]
 
 
 # Import de la base à matcher (urbain / rural en 5 modalités)
-urbanisation_commune <- read_csv("Data/external/urbanisation_commune.csv")
-    # on renomme les colonnes
-urbanisation_commune <- urbanisation_commune %>% rename(COG = `Code géographique communal`,
+library(curl)
+curl_download("https://www.insee.fr/fr/statistiques/fichier/5039991/FET2021-D4.xlsx", "FET2021_D4.xlsx")
+urbanisation_com <- read_excel("FET2021_D4.xlsx", col_names = TRUE, skip = 2, sheet='Figure 5')
+
+# On renomme les colonnes
+urbanisation_com <- urbanisation_com %>% rename(COG = `Code géographique communal`,
                                                         niveau_rural = `Typologie urbain/rural`)
 
-# Import des infos sur communes pour récuperer SIREN et matcher avec jeux initiaux
-infos_commune <- read_csv("Data/external/infos_communes.csv")
-    # on renomme SIREN en siren en vu du match
-infos_commune <- infos_commune %>% rename(siren = SIREN)
-
-# On ajoute la colonne du numéro SIREN pour matcher avec le jeu de l'analyse
-urbanisation_commune <- left_join(urbanisation_commune, infos_commune[,3:4], by="COG", copy=FALSE)
-    
 # Match avec le jeu de l'analyse
-commune <- left_join(commune, urbanisation_commune[,2:3], by="siren", copy=FALSE)
+communes <- left_join(communes, urbanisation_com, by="COG", copy=FALSE)
 
 
 
@@ -412,26 +449,49 @@ commune <- left_join(commune, urbanisation_commune[,2:3], by="siren", copy=FALSE
 
 
 # On récupère les colonnes du COG département et niveau rural / urbain
-urbanisation_departement <- commune[,c(16,25)] %>% arrange(depcode)
+urbanisation_dep <- communes[,c(6,29)] %>% arrange(code_departement)
 
-# On remplace 
+# Fonction qui trouve le mode 
 Mode <- function(x) {
   ux <- unique(x)
   if(!anyDuplicated(x)){
-      NA_character_ } else { 
-     tbl <-   tabulate(match(x, ux))
+      x } else { 
+     tbl <-   table(match(x, ux))
      toString(ux[tbl==max(tbl)])
  }
 }
 
-urbanisation_departement <- urbanisation_departement %>% group_by(depcode) %>% mutate(Mode = Mode(niveau_rural))  #qd 1 obs / dep, renvoit NA et qd 2 possibilités (pas possible de trancher) renvoit NA aussi
-urbanisation_departement$Mode[is.na(urbanisation_departement$Mode)] <- as.character(urbanisation_departement$niveau_rural[is.na(urbanisation_departement$Mode)])  # on affecte aux NA les valeurs du niveau_rural
-urbanisation_departement <- unique(urbanisation_departement[,c(1,3)])
-table(urbanisation_departement$depcode)   # 2 valeurs pour les départements n°4 et 49
-urbanisation_departement <- urbanisation_departement %>% distinct(depcode, .keep_all=T)
+mode <- function(codes){
+  which.max(tabulate(codes))
+}
 
-# On affecte ces données au jeu des départements par un match via 'depcode'
-departement <- left_join(departement, urbanisation_departement, by="depcode", copy=F)
+
+library(DescTools)
+test <- urbanisation_dep %>% group_by(code_departement) %>% mutate(Mode = DescTools::Mode(niveau_rural))
+
+test <- urbanisation_dep %>% group_by(code_departement) %>% summarise(Mode = DescTools::Mode(niveau_rural))
+
+test <- with(urbanisation_dep, ave(seq_along(code_departement), index, FUN = seq_along))
+
+test <- urbanisation_dep %>%
+  group_by(code_departement) %>%
+  summarise(Mode = mode(niveau_rural))
+
+
+
+
+# On l'applique pour chaque département (on passe du niveau communal à départemental)
+test <- urbanisation_dep %>% group_by(code_departement) %>% mutate(Mode = Mode(niveau_rural))  
+        #PROBLEME : qd il y avait initialement (niveau communal) 1 obs par département alors le mode renvoie un NA, et qd 2 possibilités (pas possible de trancher) renvoie NA aussi
+
+# Donc on affecte aux NA les valeurs de la colonne 'niveau_rural' càd au niveau des communes
+urbanisation_dep$Mode[is.na(urbanisation_dep$Mode)] <- as.character(urbanisation_dep$niveau_rural[is.na(urbanisation_dep$Mode)])  
+urbanisation_dep <- unique(urbanisation_dep[,c(1,3)])
+table(urbanisation_dep$code_departement)   # 2 valeurs pour les départements n°4 et 49
+urbanisation_dep <- urbanisation_dep %>% distinct(code_departement, .keep_all=T)
+
+# On affecte ces données au jeu des départements par un match via 'code_departement'
+departement <- left_join(departement, urbanisation_dep, by="code_departement", copy=F)
 
 
 
