@@ -123,11 +123,11 @@ OFGL_interco <- OFGL_interco %>% arrange(nom)
 
 
 # On exporte toutes ces bases qui aideront pour croiser des variables de différents jeux quand les variables pivot ne sont pas les mêmes
-#rio::export(OFGL_commune,"./Data/external/infos_communes.csv")
 #rio::export(OFGL_region,"./Data/external/infos_regions.csv")
 #rio::export(OFGL_departement,"./Data/external/infos_departements.csv")
-#rio::export(OFGL_interco,"./Data/external/infos_interco.csv")
+#rio::export(OFGL_commune,"./Data/external/infos_communes.csv")
 #rio::export(infos_coll,"./Data/external/infos_collectivites.csv")
+#rio::export(OFGL_interco,"./Data/external/infos_interco.csv")
 
 
 
