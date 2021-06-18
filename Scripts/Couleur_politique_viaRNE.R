@@ -15,10 +15,10 @@
 
 # Fichier initial : toutes les orgas de France (collectivités + EPCI)
 library(tidyverse)
-regions <- read_csv("Data/external/infos_regions.csv")
-departements <- read_csv("Data/external/infos_departements.csv")
-communes <- read_csv("Data/external/infos_communes.csv")
-epci <- read_csv("Data/external/infos_interco.csv")
+regions <- read_csv("Data/raw/infos_regions.csv")
+departements <- read_csv("Data/raw/infos_departements.csv")
+communes <- read_csv("Data/raw/infos_communes.csv")
+epci <- read_csv("Data/raw/infos_interco.csv")
 
 
 # On ajoute les données de l'observatoire des territoires (nombre de jeux ouverts)
@@ -314,7 +314,10 @@ stats_locales_reg <- stats_locales_reg %>%
            nb_nuitees_hotels = `Nb de nuitées dans les hôtels de tourisme 2019`,
            flux_migration_res = `Flux principal de migration résidentielle 2017`,
            PIB_habitant = `Produit intérieur brut par habitant 2018`,
-           tertiaire_VA = `Part du tertiaire marchand dans la VA 2018`)
+           primaire_VA = `Part de l'agriculture dans la VA 2018`,
+           secondaire_VA = `Part de l'industrie dans la VA 2018`,
+           tertiaire_marchand_VA = `Part du tertiaire marchand dans la VA 2018`,
+           tertiaire_non_mar_VA = `Part du tertiaire non marchand dans la VA 2018`)
     ## DEPARTEMENTS
 names(stats_locales_dep)
 stats_locales_dep <- stats_locales_dep %>% 
@@ -510,6 +513,7 @@ urbanisation_reg$COG <- sprintf("%02d", urbanisation_reg$COG)
 
 # On met au même format les numéros COG des 2 dfs
 regions$COG <- as.numeric(regions$COG)
+urbanisation_reg$COG <- as.numeric(urbanisation_reg$COG)
 
 # On affecte ces données au jeu des départements par un match via le COG
 regions <- left_join(regions, urbanisation_reg, by="COG", copy=F)
@@ -519,59 +523,117 @@ regions <- left_join(regions, urbanisation_reg, by="COG", copy=F)
 
 
 
+#-------------------------------- AJOUT GOOGLE TRENDS  -------------------------------#
+
+
+library(gtrendsR)
+geo.codes = sort(unique(countries[substr(countries$sub_code, 1, 2) == "FR", ]$sub_code))
+geo.codes <- as.data.frame(geo.codes)
+google_trends = gtrends(c("open data", "opendata"), geo = reg[,2:5], gprop = "web", time = "now 1-H")[[1]]
+test <- google_trends$geo
+
+data("countries")
+reg <- unique(countries$sub_code[substr(countries$sub_code, 1,2) == "FR"])
+reg
+countries[countries$sub_code %in% codes[2:length(codes)],]
+
+
+
+
+
 # ------------------------------- MANIPULATIONS DES BASES
 
 
+# On retire toutes les variables qui ne sont pas utiles à l'analyse
+          # chef de l'exécutif qui servait en étape intermédiaire pour récuperer le parti politique
+          # les variables du jeu de l'observatoire des territoires avec les liens vers les portails open data etc.
+regions <- regions[,-c(2:6,8,10,11,13:16,18)]
+departements <- departements[,-c(2:4,6,7,9,11,12,14:17,19)]
+communes <- communes[,-c(2:4,7,8,10,12,13,15:18,20)]
+epci <- epci[,-c(2,3,6,7,9,11,12,14:17,19)]
+
+
 # On renomme les variables de nos bases de données finales
-regions <- regions %>% rename(url_ptf = `url-ptf`, 
-                              nb_ptf = `nb-ptf`, 
-                              url_datagouv = `url-datagouv`, 
+regions <- regions %>% rename(nb_ptf = `nb-ptf`, 
                               nb_datagouv = `nb-datagouv`, 
-                              id_datagouv = `id-datagouv`, 
-                              id_ods = `id-ods`, 
                               pop_insee = `pop-insee`)
-departements <- departements %>% rename(url_ptf = `url-ptf`, 
-                                        nb_ptf = `nb-ptf`, 
-                                        url_datagouv = `url-datagouv`, 
+departements <- departements %>% rename(nb_ptf = `nb-ptf`, 
                                         nb_datagouv = `nb-datagouv`, 
-                                        id_datagouv = `id-datagouv`, 
-                                        id_ods = `id-ods`, 
                                         pop_insee = `pop-insee`)
-communes <- communes %>% rename(url_ptf = `url-ptf`, 
-                                nb_ptf = `nb-ptf`, 
-                                url_datagouv = `url-datagouv`, 
+communes <- communes %>% rename(nb_ptf = `nb-ptf`, 
                                 nb_datagouv = `nb-datagouv`, 
-                                id_datagouv = `id-datagouv`,
-                                id_ods = `id-ods`, 
                                 pop_insee = `pop-insee`)
-epci <- epci %>% rename(url_ptf = `url-ptf`, 
-                                nb_ptf = `nb-ptf`, 
-                                url_datagouv = `url-datagouv`, 
-                                nb_datagouv = `nb-datagouv`, 
-                                id_datagouv = `id-datagouv`,
-                                id_ods = `id-ods`, 
-                                pop_insee = `pop-insee`)
+epci <- epci %>% rename(nb_ptf = `nb-ptf`, 
+                        nb_datagouv = `nb-datagouv`, 
+                        pop_insee = `pop-insee`)
 
 
-# On supprime les chefs de l'exécutif qui ne servaient qu'en étape intermédiaire pour récuperer le parti politique
-regions <- regions[,-18]
-departements <- departements[,-19]
-communes <- communes[,-20]
-epci <- epci[,-19]
-
-
-# On remplace les NA mal notées (NULL, null, N/A etc.) par de vrais NAs.
+# On remplace les NA mal notés (NULL, null, N/A etc.) par de vrais NAs.
 regions[regions == "null" | regions == "N/A" | regions == "NULL" | regions == "NA"] <- NA
 departements[departements == "null" | departements == "N/A" | departements == "NULL" | departements == "NA"] <- NA
 communes[communes == "null" | communes == "N/A" | communes == "NULL" | communes == "NA"] <- NA
 epci[epci == "null" | epci == "N/A" | epci == "NULL" | epci == "NA"] <- NA
 
 
+
+# On créé 2 variables : une pour savoir si l'orga est concernée par la loi Lemaire, une autre pour savoir si elle ouvre des données 
+    # obligation d'ouvrir ? Oui=1, Non=0  : communes et départements forcément concernés donc on la créé pour EPCI et communes
+    # empiriquement ouvre ? Oui=1, Non=0  : on la créé pour tous les types d'orgas car en pratique ce n'est pas tjs le cas
+
+    ## Régions
+regions$ouvre_data <- case_when(is.na(regions$nb_ptf) & is.na(regions$nb_datagouv) ~ 0,
+                                !is.na(regions$nb_ptf) ~ 1,
+                                !is.na(regions$nb_datagouv) ~ 1)
+    ## Départements
+departements$ouvre_data <- case_when(is.na(departements$nb_ptf) & is.na(departements$nb_datagouv) ~ 0,
+                                     !is.na(departements$nb_ptf) ~ 1,
+                                     !is.na(departements$nb_datagouv) ~ 1)
+    ## Communes
+communes$obligation_ouvrir <- case_when(communes$pop_insee < 3500 ~ 0,
+                                        communes$pop_insee >= 3500 ~ 1)
+communes$ouvre_data <- case_when(is.na(communes$nb_ptf) & is.na(communes$nb_datagouv) ~ 0,
+                                 !is.na(communes$nb_ptf) ~ 1,
+                                 !is.na(communes$nb_datagouv) ~ 1)
+    ## EPCI
+epci$obligation_ouvrir <- case_when(epci$pop_insee < 3500 ~ 0,
+                                    epci$pop_insee >= 3500 ~ 1)
+epci$ouvre_data <- case_when(is.na(epci$nb_ptf) & is.na(epci$nb_datagouv) ~ 0,
+                             !is.na(epci$nb_ptf) ~ 1,
+                             !is.na(epci$nb_datagouv) ~ 1)
+
+
+
+# Pour les orgas qui n'ouvrent pas de données on remplace les NA par 0 car pas valeur manquante mais plutôt : 0 données ouvertes
+regions <- regions %>% mutate(nb_ptf = replace_na(nb_ptf, 0),
+                           nb_datagouv = replace_na(nb_datagouv, 0))
+departements <- departements %>% mutate(nb_ptf = replace_na(nb_ptf, 0),
+                           nb_datagouv = replace_na(nb_datagouv, 0))
+communes <- communes %>% mutate(nb_ptf = replace_na(nb_ptf, 0),
+                           nb_datagouv = replace_na(nb_datagouv, 0))
+epci <- epci %>% mutate(nb_ptf = replace_na(nb_ptf, 0),
+                           nb_datagouv = replace_na(nb_datagouv, 0))
+
+
+# Et enfin on réordonne pour avoir les variables à expliquer au début de la base 
+    #(nb de jeux ouverts et aussi la vble binaire : ouverture de données ou pas?)
+regions <- regions[,c(1,20,2:19)]
+departements <- departements[,c(1,2,19,3:18)]
+communes <- communes[,c(1:3,18,4:17)]
+epci <- epci[,c(1:3,17,4:16)]
+
+
 # On met au bon format les variables
-regions[,c(1,7,9,12,16,18:25)] <- lapply(regions[,c(1,7,9,12,16,18:25)], as.numeric) 
-departements[,c(1,7,9,12,16,18:21)] <- lapply(departements[,c(1,7,9,12,16,18:21)], as.numeric) 
-communes[,c(1,7,9,12,16,18:20)] <- lapply(communes[,c(1,7,9,12,16,18:20)], as.numeric) 
-epci[,c(1,7,9,12,16,18:21)] <- lapply(epci[,c(1,7,9,12,16,18:21)], as.numeric) 
+regions[,c(2:5,7,9:19)] <- lapply(regions[,c(2:5,7,9:19)], as.numeric) 
+departements[,c(2:6,8,10:18)] <- lapply(departements[,c(2:6,8,10:18)], as.numeric) 
+communes[,c(2:7,9,11:16,18)] <- lapply(communes[,c(2:7,9,11:16,18)], as.numeric) #runer 2 fois ?
+epci[,c(2:7,9,11:17)] <- lapply(epci[,c(2:7,9,11:17)], as.numeric) #idem 
+
+
+# On exporte les bases pour l'analyse
+write.csv(regions,"./Data/process/regions.csv", row.names = FALSE, fileEncoding = "UTF-8")
+write.csv(departements,"./Data/process/departements.csv", row.names = FALSE, fileEncoding = "UTF-8")
+write.csv(communes,"./Data/process/communes.csv", row.names = FALSE, fileEncoding = "UTF-8")
+write.csv(epci,"./Data/process/epci.csv", row.names = FALSE, fileEncoding = "UTF-8")
 
 
 

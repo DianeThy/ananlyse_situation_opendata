@@ -1,21 +1,21 @@
-﻿Insee - Statistiques locales; ; ; ; ; ; ; ; ; ; 
-Référentiel géographique : France par région; ; ; ; ; ; ; ; ; ; 
-Code;Libellé;Part des pers. âgées de 65 ans ou + 2017;Nb créations d'entreprises 2020;Nb de nuitées dans les hôtels de tourisme 2019;Flux principal de migration résidentielle 2017;Médiane du niveau de vie 2018;Part des diplômés d'un BAC+5 ou plus dans la pop. non scolarisée de 15 ans ou + 2017;Taux de chômage annuel moyen 2019;Produit intérieur brut par habitant 2018;Part du tertiaire marchand dans la VA 2018
-01;Guadeloupe;17.9;5336;1216;11;N/A;5.4;20.5;22427;45.4
-02;Martinique;19.8;3786;1318;11;17880;6.5;14.9;24110;47.9
-03;Guyane;5.3;1856;453;11;N/A;5.7;19.9;14879;44.4
-04;La Réunion;11.1;8278;1532;76;15440;5.4;21.3;22359;50.3
-06;Mayotte;N/A;1352;100;null;N/A;N/A;N/A;9251;32.3
-11;Île-de-France;14.7;251781;70736;75;23860;19.9;7.4;59387;71.9
-24;Centre-Val de Loire;21.8;22158;6090;11;21560;6.7;8;28927;47.8
-27;Bourgogne-Franche-Comté;22.3;24208;7154;84;21480;6.3;7.4;28009;46.2
-28;Normandie;20.6;28531;8279;11;21200;6.3;8.3;28651;44.7
-32;Hauts-de-France;17.3;51438;9164;11;20110;6.7;10.4;27823;47.7
-44;Grand Est;19.4;47594;14439;11;21610;7.1;8.1;29091;46
-52;Pays de la Loire;20;34826;7391;53;21620;7.5;7.1;31106;51.1
-53;Bretagne;21.6;28214;8043;52;21750;8;7;29694;50.7
-75;Nouvelle-Aquitaine;23.2;69268;16175;76;21290;7.6;7.8;29569;49.5
-76;Occitanie;22;78045;16390;75;20740;9.6;10;29487;51.3
-84;Auvergne-Rhône-Alpes;19.4;103528;24149;11;22480;10;7.3;34117;52.7
-93;Provence-Alpes-Côte d'Azur;22.5;83274;23425;76;21350;10.1;9.7;32997;56.1
-94;Corse;23;4691;3203;93;20670;7.5;8.5;27780;50.8
+﻿Insee - Statistiques locales; ; ; ; ; ; ; ; ; ; ; 
+Référentiel géographique : France par région; ; ; ; ; ; ; ; ; ; ; 
+Code;Libellé;Flux principal de migration résidentielle 2017;Part du tertiaire marchand dans la VA 2018;Part de l'industrie dans la VA 2018;Part du tertiaire non marchand dans la VA 2018;Part de l'agriculture dans la VA 2018;Produit intérieur brut par habitant 2018;Part des pers. âgées de 65 ans ou + 2017;Taux de chômage annuel moyen 2020;Nb créations d'entreprises 2020;Nb de nuitées dans les hôtels de tourisme 2019
+01;Guadeloupe;11;45.4;9.3;39.4;1.5;22427;17.9;17.4;5336;1216
+02;Martinique;11;47.9;7.6;38.4;2.1;24110;19.8;12.4;3786;1318
+03;Guyane;11;44.4;9.8;35.8;4.6;14879;5.3;16.1;1856;453
+04;La Réunion;76;50.3;6.2;35.7;1.9;22359;11.1;17.3;8278;1532
+06;Mayotte;null;32.3;6.4;53.3;3.5;9251;N/A;N/A;1352;100
+11;Île-de-France;75;71.9;8.4;15.4;0.1;59387;14.7;7.3;251781;70736
+24;Centre-Val de Loire;11;47.8;18.2;24.1;3.7;28927;21.8;7.4;22158;6090
+27;Bourgogne-Franche-Comté;84;46.2;17.7;25.9;4.5;28009;22.3;6.9;24208;7154
+28;Normandie;11;44.7;20.4;25.8;2.8;28651;20.6;7.9;28531;8279
+32;Hauts-de-France;11;47.7;16.4;27.8;2.4;27823;17.3;9.6;51438;9164
+44;Grand Est;11;46;18.9;25.2;3.8;29091;19.4;7.7;47594;14439
+52;Pays de la Loire;53;51.1;17.7;21.8;2.6;31106;20;7;34826;7391
+53;Bretagne;52;50.7;14.8;24.5;3.5;29694;21.6;6.7;28214;8043
+75;Nouvelle-Aquitaine;76;49.5;13.8;26.3;4.2;29569;23.2;7.4;69268;16175
+76;Occitanie;75;51.3;14;26.4;2.2;29487;22;9.3;78045;16390
+84;Auvergne-Rhône-Alpes;11;52.7;18.2;21.5;1;34117;19.4;7;103528;24149
+93;Provence-Alpes-Côte d'Azur;76;56.1;11;25.3;1.7;32997;22.5;9.1;83274;23425
+94;Corse;93;50.8;6.5;31.9;1.2;27780;23;8;4691;3203
