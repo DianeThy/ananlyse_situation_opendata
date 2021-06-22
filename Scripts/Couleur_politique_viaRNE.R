@@ -51,7 +51,7 @@ epci <- left_join(epci, observatoire_epci[,-c(2:3)], by="SIREN", copy=FALSE)
 
 
 
-#------------------------------- AJOUT POPULATION INSEE
+#------------------------------- AJOUT POPULATION 
 
 
 
@@ -287,13 +287,6 @@ epci %>% count(is.na(partis_po_chef))  # 1106/1272
 
 
 
-# Import du dossier complet (en fait ne contient pas toutes les variables et en plus que pour les communes :/)
-#download.file("https://www.insee.fr/fr/statistiques/fichier/5359146/dossier_complet.zip", "dossier_complet.zip")
-#unzip("dossier_complet.zip")
-#stats_locales_INSEE <- read_delim("dossier_complet.csv", ";", trim_ws = TRUE)
-#dictionnaire_stats_INSEE <- read_delim("meta_dossier_complet.csv", ";", trim_ws = TRUE)
-
-
 # Import des bases depuis les fichiers téléchargés d'internet
 stats_locales_reg <- read_delim("Data/external/stats_locales_region.csv", ";", escape_double = FALSE, trim_ws = TRUE, skip = 2)
 stats_locales_dep <- read_delim("Data/external/stats_locales_departement.csv", ";", escape_double = FALSE, trim_ws = TRUE, skip = 2)
@@ -309,7 +302,7 @@ stats_locales_reg <- stats_locales_reg %>%
            part_plus65 = `Part des pers. âgées de 65 ans ou + 2017`,
            niveau_vie = `Médiane du niveau de vie 2018`,
            part_diplomes = `Part des diplômés d'un BAC+5 ou plus dans la pop. non scolarisée de 15 ans ou + 2017`,
-           taux_chomage = `Taux de chômage annuel moyen 2019`,
+           taux_chomage = `Taux de chômage annuel moyen 2020`,
            nb_crea_entps = `Nb créations d'entreprises 2020`,
            nb_nuitees_hotels = `Nb de nuitées dans les hôtels de tourisme 2019`,
            flux_migration_res = `Flux principal de migration résidentielle 2017`,
@@ -438,17 +431,12 @@ communes <- left_join(communes, Nb_etudiants_com, by="COG", copy=FALSE)
 
 # On transforme le nombre d'étudiants en taux pour que ça soit plus parlant
 regions <- regions %>% mutate(part_etudiants = nb_etudiants/`pop-insee`*100)
-regions$part_etudiants <- round(regions$part_etudiants,1)     # on arrondit
+regions$part_etudiants <- round(regions$part_etudiants,1)     # on arrondi
 departements <- departements %>% mutate(part_etudiants = nb_etudiants/`pop-insee`*100)
 departements$part_etudiants <- round(departements$part_etudiants,1)
 communes <- communes %>% mutate(part_etudiants = nb_etudiants/`pop-insee`*100)
 communes$part_etudiants <- round(communes$part_etudiants,1)
 
-
-# On supprime la colonne 'nb_etudiants' maintenant qu'on a le pourcentage
-regions <- regions[,-31]
-departements <- departements[,-30]
-communes <- communes[,-28]
 
 
 
@@ -473,11 +461,19 @@ communes <- left_join(communes, urbanisation_com, by="COG", copy=FALSE)
 
 
 
-        ### On élève au niveau région et département
+        ### On élève au niveau région et département avec 3 méthodes :
+                # - en calculant le mode par région et dép
+                # - en utilisant la méthode de l'INSEE basée sur la densité
+                # - en utilisant la méthode de Olivier Bouba Olga (http://geoconfluences.ens-lyon.fr/actualites/eclairage/grille-densite-zonage-aires-urbaines-definition-rural)
 
+
+
+# A) Calcul du mode
+
+    ### niveau départemental
 
 # On récupère les colonnes du COG département et niveau rural / urbain
-urbanisation_dep <- communes[,c(6,29)] %>% arrange(code_departement)
+urbanisation_dep <- communes[,c(6,30)] %>% arrange(code_departement)
 
 # On récupère le mode pour chaque département grâce au group_by()
 library(DescTools)
@@ -486,18 +482,16 @@ urbanisation_dep <- urbanisation_dep %>% summarise(Mode = Mode(niveau_rural))
 
 # On renomme la colonne de jointure en vu du match (COG)
 urbanisation_dep <- urbanisation_dep %>% rename(COG = code_departement,
-                                                niveau_rural = Mode)   #et le niveau d'urbanisation que l'on ajoute
+                                                niveau_rural_mode = Mode)   #et le niveau d'urbanisation que l'on ajoute
 
 # On affecte ces données au jeu des départements par un match via le COG
 departements <- left_join(departements, urbanisation_dep, by="COG", copy=F)
 
 
-
-            ### Même chose au niveau région
-
+    ### niveau régionnal
 
 # On récupère les colonnes du COG région et niveau rural / urbain
-urbanisation_reg <- communes[,c(5,29)] %>% arrange(code_region)
+urbanisation_reg <- communes[,c(5,30)] %>% arrange(code_region)
 
 # On trouve le mode de chaque région 
 urbanisation_reg <- urbanisation_reg %>% group_by(code_region) 
@@ -505,7 +499,7 @@ urbanisation_reg <- urbanisation_reg %>% summarise(Mode = Mode(niveau_rural))
 
 # On renomme les colonnes
 urbanisation_reg <- urbanisation_reg %>% rename(COG = code_region,
-                                                niveau_rural = Mode)
+                                                niveau_rural_mode = Mode)
 
 # On ajoute un "0" avant les COG à un seul chiffre pour correspondre aux GOC du jeu 'regions'
 library(stringr)
@@ -517,6 +511,67 @@ urbanisation_reg$COG <- as.numeric(urbanisation_reg$COG)
 
 # On affecte ces données au jeu des départements par un match via le COG
 regions <- left_join(regions, urbanisation_reg, by="COG", copy=F)
+
+
+
+
+# B) Méthode de zonage de l'INSEE (pondéré par la population, pas 1 commune = 1 voix)
+
+
+# On récupère l'agrégation de la densité des communes par l'INSEE (on part de ce jeu pour "élever" aux niveaux supérieurs)
+download.file("https://www.insee.fr/fr/statistiques/fichier/2114627/grille_densite_2020.zip", "grille_densite.zip")
+unzip("grille_densite.zip")
+urbanisation_INSEE <- read_excel("grille_densite_2020_agrege.xlsx")
+
+# On a :
+  #- 1 : très dense
+  #- 2 : dense
+  #- 3 : peu dense
+  #- 4 : très peu dense
+
+# On renomme et garde les colonnes intéressantes
+urbanisation_INSEE <- urbanisation_INSEE[,-2] %>% rename(COG = `\nCode \nCommune\n`,
+                                                densite = `Degré de \nDensité de la commune\n`, 
+                                                code_region = `Région\n`,
+                                                pop = `Population \nmunicipale \n2017`)
+
+# On récupère le numéro de région en matchant aux données communales où l'on a cette info
+urbanisation_INSEE <- left_join(urbanisation_INSEE, communes[,c(3,6)], by = "COG", copy = FALSE)
+
+# Comme il s'agit d'un autre indicateur de densité (nombre de classes différent) on l'ajoute aux données des communes puis les statistiques descriptives nous diront quelle agrégation choisir
+communes <- left_join(communes, urbanisation_INSEE[,c(1,2)], by = "COG", copy = FALSE)
+
+
+    ### niveau départemental
+
+# On somme la population par départements et par type de densité (entre 1 et 4)
+urbanisation_dep <- urbanisation_INSEE %>% group_by(code_departement,densite) %>% summarise(somme_pop = sum(pop))
+
+# On calcule le pourcentage
+urbanisation_dep <- urbanisation_dep %>% group_by(code_departement) %>% mutate(percent_pop = (somme_pop/sum(somme_pop) * 100))
+
+# Création vble booléenne
+urbanisation_dep <- urbanisation_dep %>% ungroup() %>% mutate(dens_is_1_2 = case_when((densite == 1 | densite == 2) ~ TRUE,
+                                                                              TRUE ~ FALSE))
+
+# Calcul somme et percent pour 1|2
+df_is_1_2 <- urbanisation_dep[,-c(2,4)]
+df_is_1_2 <- df_is_1_2 %>% group_by(code_departement, dens_is_1_2) %>% mutate(somme_pop_is_1_2 = sum(somme_pop))
+df_is_1_2 <- df_is_1_2[,-2] %>% distinct()
+df_is_1_2 <- df_is_1_2 %>% group_by(code_departement) %>% mutate(percent_pop_is_1_2 = (somme_pop_is_1_2/sum(somme_pop_is_1_2) * 100))
+test <- left_join(urbanisation_dep, df_is_1_2[,-2], by = c("code_departement" = "code_departement", "dens_is_1_2" = "dens_is_1_2"), copy = FALSE)
+
+# On applique la règle de décision de l'INSEE en matière de densité
+urbanisation_dep <- urbanisation_dep %>% group_by(code_departement) %>% case_when(densite == 1 & percent_pop > 50 ~ 1,
+                                                                                  (densite == 1 | densite == 2) & percent_pop > 50 ~ 2,
+                                                                                  densite == 4 & percent_pop > 50 ~ 4,
+                                                                                  TRUE ~ 3)
+
+
+
+
+# C) Méthode d'Olivier Bouba Olga
+
 
 
 
