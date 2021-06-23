@@ -559,14 +559,53 @@ df_is_1_2 <- urbanisation_dep[,-c(2,4)]
 df_is_1_2 <- df_is_1_2 %>% group_by(code_departement, dens_is_1_2) %>% mutate(somme_pop_is_1_2 = sum(somme_pop))
 df_is_1_2 <- df_is_1_2[,-2] %>% distinct()
 df_is_1_2 <- df_is_1_2 %>% group_by(code_departement) %>% mutate(percent_pop_is_1_2 = (somme_pop_is_1_2/sum(somme_pop_is_1_2) * 100))
-test <- left_join(urbanisation_dep, df_is_1_2[,-2], by = c("code_departement" = "code_departement", "dens_is_1_2" = "dens_is_1_2"), copy = FALSE)
+urbanisation_dep <- left_join(urbanisation_dep, df_is_1_2, by = c("code_departement", "dens_is_1_2"), copy = FALSE)
 
 # On applique la règle de décision de l'INSEE en matière de densité
-urbanisation_dep <- urbanisation_dep %>% group_by(code_departement) %>% case_when(densite == 1 & percent_pop > 50 ~ 1,
-                                                                                  (densite == 1 | densite == 2) & percent_pop > 50 ~ 2,
-                                                                                  densite == 4 & percent_pop > 50 ~ 4,
-                                                                                  TRUE ~ 3)
+urbanisation_dep <- urbanisation_dep %>% group_by(code_departement) %>% mutate(niveau_rural_insee = case_when(densite == 1 & percent_pop > 50 ~ 1,
+                                                                                                 dens_is_1_2 == TRUE & percent_pop_is_1_2 > 50 ~ 2,
+                                                                                                 densite == 4 & percent_pop > 50 ~ 4,
+                                                                                                 TRUE ~ 3))   #la première valeur par departement est la bonne
 
+# On garde la bonne valeur càd la première par département
+urbanisation_dep <- urbanisation_dep %>%  group_by(code_departement) %>% slice(1)
+
+# On match au jeu des départements
+departements <- left_join(departements, urbanisation_dep[,c(1,8)], by = c("COG" = "code_departement"), copy = FALSE)
+
+
+
+    ### niveau régionnal
+
+# On somme la population par départements et par type de densité (entre 1 et 4)
+urbanisation_reg <- urbanisation_INSEE %>% group_by(code_region,densite) %>% summarise(somme_pop = sum(pop))
+
+# On calcule le pourcentage
+urbanisation_reg <- urbanisation_reg %>% group_by(code_region) %>% mutate(percent_pop = (somme_pop/sum(somme_pop) * 100))
+
+# Création vble booléenne
+urbanisation_reg <- urbanisation_reg %>% ungroup() %>% mutate(dens_is_1_2 = case_when((densite == 1 | densite == 2) ~ TRUE,
+                                                                              TRUE ~ FALSE))
+
+# Calcul somme et percent pour 1|2
+df_is_1_2 <- urbanisation_reg[,-c(2,4)]
+df_is_1_2 <- df_is_1_2 %>% group_by(code_region, dens_is_1_2) %>% mutate(somme_pop_is_1_2 = sum(somme_pop))
+df_is_1_2 <- df_is_1_2[,-2] %>% distinct()
+df_is_1_2 <- df_is_1_2 %>% group_by(code_region) %>% mutate(percent_pop_is_1_2 = (somme_pop_is_1_2/sum(somme_pop_is_1_2) * 100))
+urbanisation_reg <- left_join(urbanisation_reg, df_is_1_2, by = c("code_region", "dens_is_1_2"), copy = FALSE)
+
+# On applique la règle de décision de l'INSEE en matière de densité
+urbanisation_reg <- urbanisation_reg %>% group_by(code_region) %>% mutate(niveau_rural_insee = case_when(densite == 1 & percent_pop > 50 ~ 1,
+                                                                                                 dens_is_1_2 == TRUE & percent_pop_is_1_2 > 50 ~ 2,
+                                                                                                 densite == 4 & percent_pop > 50 ~ 4,
+                                                                                                 TRUE ~ 3))   #la première valeur par departement est la bonne
+
+# On garde la bonne valeur càd la première par département
+urbanisation_reg <- urbanisation_reg %>%  group_by(code_region) %>% slice(1)
+
+# On match au jeu des départements
+departements$COG <- as.numeric(departements$COG)
+test <- left_join(regions, urbanisation_reg[,c(1,8)], by = c("COG" = "code_region"), copy = FALSE)
 
 
 
