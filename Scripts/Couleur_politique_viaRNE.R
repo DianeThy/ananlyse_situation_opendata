@@ -24,7 +24,7 @@ epci <- read_csv("Data/raw/infos_interco.csv")
 # On ajoute les données de l'observatoire des territoires (nombre de jeux ouverts)
 
 # Import de la base complète
-library(googlesheets4)
+library(googlesheets4)   #taper "1" en dessous
 observatoire_opendata_territoire <- read_sheet("https://docs.google.com/spreadsheets/d/1yhcCDLrDsZzNxlPaIl25p_qN8WVPGCTstdIUxezDxtQ/edit#gid=614893302")
 
   # on renomme la colonne de jointure et on la passe au format numérique
@@ -605,31 +605,53 @@ urbanisation_reg <- urbanisation_reg %>%  group_by(code_region) %>% slice(1)
 
 # On match au jeu des départements
 departements$COG <- as.numeric(departements$COG)
-test <- left_join(regions, urbanisation_reg[,c(1,8)], by = c("COG" = "code_region"), copy = FALSE)
-
-
-
-# C) Méthode d'Olivier Bouba Olga
+regions <- left_join(regions, urbanisation_reg[,c(1,8)], by = c("COG" = "code_region"), copy = FALSE)
 
 
 
 
+# C) Méthode d'Olivier Bouba Olga (part de la pop vivant en zone rurale)
 
 
 
-#-------------------------------- AJOUT GOOGLE TRENDS  -------------------------------#
+# En repartant de la grille de densité de l'INSEE on regroupe les 4 modalités de densité en 2 classes (rural vs. urbain)
+      # très dense et dense (càd 1 et 2) = urbain (càd 1) 
+      # peu dense et très peu dense (càd 3 et 4) = rural (càd 2)
+urbanisation_INSEE <- urbanisation_INSEE %>% mutate(densite_binaire = case_when(densite == 2 ~ 1, 
+                                                                                  densite == 3 ~ 2, 
+                                                                                  densite == 4 ~ 2))
+
+    ### niveau départemental
+
+# On somme la population par départements et par type de densité (urbain / rural)
+urbanisation_dep <- urbanisation_INSEE %>% group_by(code_departement,densite_binaire) %>% summarise(somme_pop = sum(pop))
+
+# On calcule le pourcentage
+urbanisation_dep <- urbanisation_dep %>% group_by(code_departement) %>% mutate(percent_pop = (somme_pop/sum(somme_pop) * 100))
+
+# On garde par département le pourcentage de population vivant dans une commune rurale (densite_binaire == 2) + on renomme
+urbanisation_dep <- urbanisation_dep %>% filter(densite_binaire == 2) %>% rename(percent_pop_rurale = percent_pop)
+
+# Puis on ajoute cette nouvelle variable aux données des départements
+    # même format pour la colonne de jointure
+urbanisation_dep$code_departement <- as.numeric(urbanisation_dep$code_departement)
+departements <- left_join(departements, urbanisation_dep[,c(1,4)], by = c("COG" = "code_departement"), copy = FALSE)
 
 
-library(gtrendsR)
-geo.codes = sort(unique(countries[substr(countries$sub_code, 1, 2) == "FR", ]$sub_code))
-geo.codes <- as.data.frame(geo.codes)
-google_trends = gtrends(c("open data", "opendata"), geo = reg[,2:5], gprop = "web", time = "now 1-H")[[1]]
-test <- google_trends$geo
 
-data("countries")
-reg <- unique(countries$sub_code[substr(countries$sub_code, 1,2) == "FR"])
-reg
-countries[countries$sub_code %in% codes[2:length(codes)],]
+    ### niveau régionnal
+
+# On somme la population par régions et par type de densité (urbain / rural)
+urbanisation_reg <- urbanisation_INSEE %>% group_by(code_region,densite_binaire) %>% summarise(somme_pop = sum(pop))
+
+# On calcule le pourcentage
+urbanisation_reg <- urbanisation_reg %>% group_by(code_region) %>% mutate(percent_pop = (somme_pop/sum(somme_pop) * 100))
+
+# On garde par région le pourcentage de population vivant dans une commune rurale (densite_binaire == 2) + on renomme
+urbanisation_reg <- urbanisation_reg %>% filter(densite_binaire == 2) %>% rename(percent_pop_rurale = percent_pop)
+
+# Puis on ajoute cette nouvelle variable aux données des régions
+regions <- left_join(regions, urbanisation_reg[,c(1,4)], by = c("COG" = "code_region"), copy = FALSE)
 
 
 
@@ -708,19 +730,19 @@ epci <- epci %>% mutate(nb_ptf = replace_na(nb_ptf, 0),
                            nb_datagouv = replace_na(nb_datagouv, 0))
 
 
-# Et enfin on réordonne pour avoir les variables à expliquer au début de la base 
+# On réordonne pour avoir les variables à expliquer au début de la base 
     #(nb de jeux ouverts et aussi la vble binaire : ouverture de données ou pas?)
-regions <- regions[,c(1,20,2:19)]
-departements <- departements[,c(1,2,19,3:18)]
-communes <- communes[,c(1:3,18,4:17)]
+regions <- regions[,c(1,26,2:25)]
+departements <- departements[,c(1,2,22,3:21)]
+communes <- communes[,c(1:3,20,4:19)]
 epci <- epci[,c(1:3,17,4:16)]
 
 
 # On met au bon format les variables
-regions[,c(2:5,7,9:19)] <- lapply(regions[,c(2:5,7,9:19)], as.numeric) 
-departements[,c(2:6,8,10:18)] <- lapply(departements[,c(2:6,8,10:18)], as.numeric) 
-communes[,c(2:7,9,11:16,18)] <- lapply(communes[,c(2:7,9,11:16,18)], as.numeric) #runer 2 fois ?
-epci[,c(2:7,9,11:17)] <- lapply(epci[,c(2:7,9,11:17)], as.numeric) #idem 
+regions[,c(2:5,7,9:23,25,26)] <- lapply(regions[,c(2:5,7,9:23,25,26)], as.numeric) 
+departements[,c(2:6,8,10:19,21,22)] <- lapply(departements[,c(2:6,8,10:19,21,22)], as.numeric) 
+communes[,c(2:7,9,11:17,18,19,20)] <- lapply(communes[,c(2:7,9,11:17,18,19,20)], as.numeric)
+epci[,c(2:7,9,11:17)] <- lapply(epci[,c(2:7,9,11:17)], as.numeric)
 
 
 # On exporte les bases pour l'analyse
@@ -741,21 +763,146 @@ write.csv(epci,"./Data/process/epci.csv", row.names = FALSE, fileEncoding = "UTF
 
 
 
+# VARIABLES QUANTI
+    # - nb_ptf
+    # - nb_datagouv
+    # - pop_insee
+    # - age_chef
+    # - flux_migration_res
+    # - taux_chomage
+    # - PIB_habitant
+    # - primaire_VA
+    # - secondaire_VA
+    # - tertiaire_marchand_VA
+    # - tertiaire_non_mar_VA
+    # - part_plus65
+    # - niveau_vie
+    # - part_diplomes
+    # - nb_crea_entps
+    # - nb_nuitees_hotels
+    # - depenses_hab
+    # - nb_etudiants
+    # - part_etudiants
+    # - percent_pop_rurale
+
+# VARIABLES QUALI
+  # modalités
+    # - ouvre_data (2)
+    # - niveau_rural_mode (6)
+    # - niveau_rural_insee (4)
+  # string
+    # - nom
+    # - partis_po_chef
+    # - CSP_chef
+
+
+
+                ### A) Régions
+
+
+# VARIABLES QUANTI
+
+  # Boxplots
+library(rAmCharts)
+amBoxplot(regions$nb_ptf, xlab=" ", ylab=" ", main="Nombre de données publiées sur la plateforme locale")
+amBoxplot(regions$nb_datagouv, xlab=" ", ylab=" ", main="Nombre de données publiées sur datagouv")
+amBoxplot(regions$pop_insee, xlab=" ", ylab=" ", main="Population")
+amBoxplot(regions, xlab=" ", ylab=" ", main="")
+amBoxplot(regions, xlab=" ", ylab=" ", main="")
+amBoxplot(regions, xlab=" ", ylab=" ", main="")
+amBoxplot(regions, xlab=" ", ylab=" ", main="")
+amBoxplot(regions, xlab=" ", ylab=" ", main="")
+amBoxplot(regions, xlab=" ", ylab=" ", main="")
+amBoxplot(regions, xlab=" ", ylab=" ", main="")
+amBoxplot(regions, xlab=" ", ylab=" ", main="")
+amBoxplot(regions, xlab=" ", ylab=" ", main="")
+amBoxplot(regions, xlab=" ", ylab=" ", main="")
+amBoxplot(regions, xlab=" ", ylab=" ", main="")
+amBoxplot(regions, xlab=" ", ylab=" ", main="")
+amBoxplot(regions, xlab=" ", ylab=" ", main="")
+amBoxplot(regions, xlab=" ", ylab=" ", main="")
+amBoxplot(regions, xlab=" ", ylab=" ", main="")
+amBoxplot(regions, xlab=" ", ylab=" ", main="")
+amBoxplot(regions, xlab=" ", ylab=" ", main="")
+amBoxplot(regions, xlab=" ", ylab=" ", main="")
+amBoxplot(regions, xlab=" ", ylab=" ", main="")
+amBoxplot(regions, xlab=" ", ylab=" ", main="")
+amBoxplot(regions, xlab=" ", ylab=" ", main="")
+amBoxplot(regions, xlab=" ", ylab=" ", main="")
+
+#faire un dico des variables avec description pour appeler cette description dans les légendes des graphs : gains de temps
+
+
+
+# VARIABLES QUALI
+
+
+
+                ### B) Départements
+
+
+
+
+# VARIABLES QUANTI
+
+
+
+
+# VARIABLES QUALI
 
 
 
 
 
 
+                ### C) Communes
+
+
+
+
+# VARIABLES QUANTI
+
+
+
+
+# VARIABLES QUALI
 
 
 
 
 
 
+                ### D) EPCI
 
 
 
+
+# VARIABLES QUANTI
+
+
+
+
+# VARIABLES QUALI
+
+
+
+
+############################## POUBELLE ---------------------------------------
+
+
+#-------------------------------- AJOUT GOOGLE TRENDS  -------------------------------#
+
+
+library(gtrendsR)
+geo.codes = sort(unique(countries[substr(countries$sub_code, 1, 2) == "FR", ]$sub_code))
+geo.codes <- as.data.frame(geo.codes)
+google_trends = gtrends(c("open data", "opendata"), geo = reg[,2:5], gprop = "web", time = "now 1-H")[[1]]
+test <- google_trends$geo
+
+data("countries")
+reg <- unique(countries$sub_code[substr(countries$sub_code, 1,2) == "FR"])
+reg
+countries[countries$sub_code %in% codes[2:length(codes)],]
 
 
 

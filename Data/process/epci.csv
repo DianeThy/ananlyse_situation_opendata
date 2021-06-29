@@ -2,11 +2,11 @@
 "Bordeaux Métropole",75,33,1,187,73,796273,"Profession libérale",70,"Parti socialiste",16.3,15999,200054781,22760,16.4,1816.19012107657,1
 "Boucle Nord de Seine",11,92,0,0,0,445459,NA,NA,NA,NA,NA,NA,NA,NA,163.784470692028,1
 "Brest Métropole",53,29,1,210,5,213880,"Cadre de la fonction publique",66,"Parti socialiste",17.8,1826,242900074,21660,12.2,1726.09019113522,1
-"CA Alès Agglomération",76,30,0,0,0,132220,"Personne diverse sans activité professionnelle de moins de 60 ans (sauf retraité)",54,NA,25.2,1372,243000643,18670,5.3,959.369896082287,1
+"CA Alès Agglomération",76,30,0,0,0,132220,"Personne diverse sans activité professionnelle de moins de 60 ans (sauf retraité)",55,NA,25.2,1372,243000643,18670,5.3,959.369896082287,1
 "CA Amiens Métropole",32,80,0,0,0,183911,"Ancienne profession intermédiaire",70,"Les Républicains",15.8,2078,200054781,20320,11.7,2421.10217675941,1
 "CA Annemasse-les Voirons-Agglomération",84,74,1,0,1,90702,"Professeur des écoles, instituteur et assimilé",43,"Union démocrate indépendante",14.2,1305,200067551,26140,9.6,1348.9395745408,1
 "CA Annonay Rhône Agglo",84,7,0,0,0,49955,"Employé civil et agent de service de la fonction publique",43,NA,21.8,426,200040491,21300,5.1,868.672249224302,1
-"CA Arche Agglo",84,NA,0,0,0,58684,"Ancien cadre",66,NA,19.8,575,200068781,21810,6,659.830916433781,1
+"CA Arche Agglo",84,NA,0,0,0,58684,"Ancien cadre",67,NA,19.8,575,200068781,21810,6,659.830916433781,1
 "CA Ardenne Métropole",44,8,1,10,0,126950,"Cadre de la fonction publique",45,NA,20.9,875,200067213,19320,4.7,782.661329342261,1
 "CA Arlysère",84,73,0,0,0,62785,"Chef d'entreprise de 10 salariés ou plus",66,NA,20.8,720,200041010,22400,5.6,1048.80219718086,1
 "CA Bassin d'Arcachon Sud-Pôle Atlantique (COBAS)",75,33,0,0,0,67244,"Ancienne profession intermédiaire",71,"Union pour un mouvement populaire",30.7,1068,243300316,23380,8.7,1247.09767191125,1
@@ -99,14 +99,14 @@
 "CA du Centre de la Martinique",2,972,0,0,0,159688,NA,NA,NA,19.3,1862,249720053,19130,8.8,583.350703935174,1
 "CA du Centre Littoral",3,973,1,40,0,139348,NA,NA,NA,7.2,1469,200054781,NA,6.9,537.557635057554,1
 "CA du Choletais",52,49,0,0,0,106711,"Profession libérale",61,"Union pour un mouvement populaire",20.4,758,200060010,21090,5,946.613214757616,1
-"CA du Cotentin",28,50,1,27,0,185946,"Profession libérale",40,NA,20.7,1087,200065597,21670,5.9,714.249696255902,1
+"CA du Cotentin",28,50,1,27,0,185946,"Profession libérale",41,NA,20.7,1087,200065597,21670,5.9,714.249696255902,1
 "CA du Douaisis Agglo",32,59,1,0,2,151307,"Ancien cadre",63,NA,18,1155,245901152,19110,5.2,693.407929771921,1
 "CA du Gard Rhodanien",76,30,0,0,0,75501,"Profession libérale",50,NA,21,772,248400251,21000,6.8,555.743263665382,1
 "CA du Grand Angoulême",75,16,0,0,0,147950,"Personne diverse sans activité professionnelle de moins de 60 ans (sauf retraité)",41,"Libres",21.8,1346,200070514,21100,7.3,1109.18374004731,1
 "CA du Grand Annecy",84,74,0,0,0,206835,"Cadre de la fonction publique",54,"La République en marche",19,3373,247400740,26420,13.8,841.964013730752,1
 "CA du Grand Avignon (COGA)",NA,NA,1,0,17,197746,"Ancien cadre",71,NA,20,3126,248400293,19640,9.9,1117.32533821165,1
 "CA du Grand Cahors",76,46,1,0,23,42486,"Cadre de la fonction publique",49,NA,25.4,409,243100518,21200,8,987.040992562256,1
-"CA du Grand Chambéry",84,73,1,20,35,138223,"Ingénieur et cadre technique d'entreprise",55,NA,19.7,1972,200068674,23040,11.6,1185.97946383742,1
+"CA du Grand Chambéry",84,73,1,20,35,138223,"Ingénieur et cadre technique d'entreprise",56,NA,19.7,1972,200068674,23040,11.6,1185.97946383742,1
 "CA du Grand Cognac",75,16,0,0,0,71882,"Agriculteur sur grande exploitation",46,NA,23.4,557,200071827,21950,5.7,835.429235970062,1
 "CA du Grand Dax",75,40,0,0,0,57424,"Chef d'entreprise de 10 salariés ou plus",45,NA,26.1,680,244000865,21080,6,753.967418849262,1
 "CA du Grand Dole",27,39,1,0,1,56045,"Cadre administratif et commercial d'entreprise",67,NA,22.4,429,242500361,21270,5.5,913.442800071371,1
@@ -234,9 +234,9 @@
 "CA Territoire de la Côte Ouest (TCO)",4,974,0,0,0,216765,"Cadre de la fonction publique",49,NA,10.7,2328,249740119,16300,6.2,914.836553179711,1
 "CA Territoires Vendômois",24,41,1,0,1,56604,"Profession intermédiaire de la santé et du travail social",49,NA,25.8,318,243700754,21300,5.7,627.962627376157,1
 "CA Thonon Agglomération",84,74,0,0,0,89290,"Profession libérale",54,NA,17.6,1027,200071967,27870,9.4,649.677770187031,1
-"CA Troyes Champagne Métropole",44,10,0,0,0,174658,"Profession libérale",55,"Union pour un mouvement populaire",19.6,1821,200054781,20220,6.7,771.436986167253,1
-"CA Troyes Champagne Métropole",44,10,0,0,0,174658,"Profession libérale",55,"Rassemblement pour la République",19.6,1821,200054781,20220,6.7,771.436986167253,1
-"CA Troyes Champagne Métropole",44,10,0,0,0,174658,"Profession libérale",55,"Les Républicains",19.6,1821,200054781,20220,6.7,771.436986167253,1
+"CA Troyes Champagne Métropole",44,10,0,0,0,174658,"Profession libérale",56,"Union pour un mouvement populaire",19.6,1821,200054781,20220,6.7,771.436986167253,1
+"CA Troyes Champagne Métropole",44,10,0,0,0,174658,"Profession libérale",56,"Rassemblement pour la République",19.6,1821,200054781,20220,6.7,771.436986167253,1
+"CA Troyes Champagne Métropole",44,10,0,0,0,174658,"Profession libérale",56,"Les Républicains",19.6,1821,200054781,20220,6.7,771.436986167253,1
 "CA Tulle Agglo",75,19,0,0,0,46122,"Cadre de la fonction publique",69,NA,26.3,276,200043172,21540,5,773.994484844543,1
 "CA Val d'Europe Agglomération",11,77,0,0,0,36079,"Chef d'entreprise de 10 salariés ou plus",59,NA,9.6,849,247700594,26570,12.4,1895.31578646858,1
 "CA Val d'Yerres Val de Seine",11,91,0,0,0,179331,"Cadre de la fonction publique",50,"Les Républicains",16,2514,200054781,23620,11.6,396.212571390334,1
@@ -249,7 +249,7 @@
 "CA Versailles Grand Parc (C.A.V.G.P.)",11,NA,1,39,39,270042,"Cadre de la fonction publique",61,"Union pour la démocratie française",17.8,4201,200054781,30540,29.8,228.031801386451,1
 "CA Vichy Communauté",84,3,0,0,0,84770,"Cadre de la fonction publique",46,NA,28.5,737,246300701,20580,5.9,1281.66151881562,1
 "CA Vienne Condrieu",84,NA,1,0,1,91244,"Personne diverse sans activité professionnelle de moins de 60 ans (sauf retraité)",52,NA,19.2,1222,200046977,23160,8.5,894.074959668581,1
-"CA Villefranche Beaujolais Saône",84,NA,0,0,0,74752,"Cadre administratif et commercial d'entreprise",48,NA,18.3,1025,200046977,21140,7.3,757.968610873288,1
+"CA Villefranche Beaujolais Saône",84,NA,0,0,0,74752,"Cadre administratif et commercial d'entreprise",49,NA,18.3,1025,200046977,21140,7.3,757.968610873288,1
 "CA Vitré Communauté",53,35,0,0,0,82412,NA,NA,NA,16.5,622,243500139,21680,5.4,478.712188758919,1
 "CC Adour Madiran",NA,NA,0,0,0,25177,"Cadre de la fonction publique",44,NA,27,236,200069300,20060,4.6,751.704320610081,1
 "CC Agly Fenouillèdes",76,66,0,0,0,6015,"Profession libérale",61,NA,30.7,55,NA,16980,3.7,690.352945968412,1
@@ -283,10 +283,10 @@
 "CC Aunis Sud",75,17,0,0,0,32182,"Agriculteur sur grande exploitation",63,NA,20.5,308,241700434,20870,4.2,418.94444689578,1
 "CC Auray Quiberon Terre Atlantique",53,56,0,0,0,88628,"Agriculteur sur moyenne exploitation",53,"Les Républicains",25,880,200067932,22100,6.8,634.049260955906,1
 "CC Aure-Louron",76,65,1,1,0,7113,"Ancien employé",61,NA,25,85,NA,20520,6.7,743.257231829046,1
-"CC Auxonne Pontailler Val de Saône",27,21,0,0,0,23768,"Cadre administratif et commercial d'entreprise",50,NA,19,153,242100410,21220,3.4,417.750531386738,1
+"CC Auxonne Pontailler Val de Saône",27,21,0,0,0,23768,"Cadre administratif et commercial d'entreprise",51,NA,19,153,242100410,21220,3.4,417.750531386738,1
 "CC Auzon Communauté",84,43,0,0,0,9485,"Profession libérale",65,NA,25.6,68,NA,20230,2.7,365.464201370585,1
 "CC Avallon,Vézelay,Morvan",27,89,0,0,0,19823,"Ancien cadre",68,NA,26.7,132,NA,20300,5,563.129169651415,1
-"CC Aveyron Bas Ségala Viaur",76,12,0,0,0,5776,"Ancien artisan, commerçant, chef d'entreprise",71,NA,32.3,44,NA,19090,4.2,505.534130886427,1
+"CC Aveyron Bas Ségala Viaur",76,12,0,0,0,5776,"Ancien artisan, commerçant, chef d'entreprise",72,NA,32.3,44,NA,19090,4.2,505.534130886427,1
 "CC Avre Luce Noye",32,80,0,0,0,22231,"Ancien cadre",70,NA,16.6,112,248000531,22150,5.8,581.064405559804,1
 "CC Aygues-Ouvèze en Provence (CCAOP)",93,84,0,0,0,19506,"Ingénieur et cadre technique d'entreprise",45,NA,19.5,225,248400236,21970,6.1,402.159307392597,1
 "CC Bassée-Montois",11,77,0,0,0,24039,"Ancien agriculteur exploitant",68,NA,18.5,207,NA,22500,3.8,378.318856441616,1
@@ -318,7 +318,7 @@
 "CC Briance Sud Haute Vienne",75,87,0,0,0,9302,"Profession libérale",68,NA,24.3,74,NA,20880,5.7,487.306913566975,1
 "CC Brie des Rivières et Châteaux",11,77,0,0,0,39445,"Chef d'entreprise de 10 salariés ou plus",59,NA,13.9,448,247700057,25960,7,512.172885790341,1
 "CC Brie Nangissienne",11,77,0,0,0,27871,"Profession de l'information, des arts et des spectacles",63,NA,13.9,268,NA,22490,4.3,341.405905421406,1
-"CC Bruyères-Vallons des Vosges",44,88,0,0,0,15691,"Profession intermédiaire administrative de la fonction publique",50,NA,22.3,111,200068757,19980,3,495.723043145752,1
+"CC Bruyères-Vallons des Vosges",44,88,0,0,0,15691,"Profession intermédiaire administrative de la fonction publique",51,NA,22.3,111,200068757,19980,3,495.723043145752,1
 "CC Buëch-Dévoluy",93,5,0,0,0,9636,"Professeur, profession scientifique",60,NA,27.2,111,NA,20130,6.4,746.048847031964,1
 "CC Bugey Sud",84,1,0,0,0,34828,"Personne diverse sans activité professionnelle de moins de 60 ans (sauf retraité)",39,NA,21.5,325,NA,21600,5.3,716.081134719191,1
 "CC Cagire Garonne Salat",76,31,0,0,0,18282,"Profession libérale",55,NA,28.3,165,200072643,20570,5.2,792.058465156985,1
@@ -404,7 +404,7 @@
 "CC d'Auberive Vingeanne et Montsaugeonnais",44,52,0,0,0,8614,"Profession libérale",56,NA,23.4,57,NA,21520,3.5,996.565390062689,1
 "CC d'Entre Bièvre et Rhône",84,38,0,0,0,68947,"Employé administratif d'entreprise",57,NA,19.2,718,200040491,21800,4.2,656.788691893773,1
 "CC d'Erdre et Gesvres",52,44,0,0,0,62337,"Personne diverse sans activité professionnelle de 60 ans et plus (sauf retraité)",71,NA,13.5,630,244400404,23990,10,419.065697418868,1
-"CC de Bayeux Intercom",28,14,0,0,0,30840,"Cadre administratif et commercial d'entreprise",60,"Union des démocrates et indépendants",25.1,247,200066801,21890,6.4,1144.13668774319,1
+"CC de Bayeux Intercom",28,14,0,0,0,30840,"Cadre administratif et commercial d'entreprise",61,"Union des démocrates et indépendants",25.1,247,200066801,21890,6.4,1144.13668774319,1
 "CC de Belle-Île-en-Mer",53,56,0,0,0,5532,"Profession intermédiaire administrative de la fonction publique",49,NA,27.6,51,NA,21900,6.1,1625.90631597975,1
 "CC de Bièvre Est",84,38,0,0,0,22472,"Cadre de la fonction publique",62,NA,16.9,238,243800984,23010,6.2,739.724856710573,1
 "CC de Blavet Bellevue Océan",53,56,0,0,0,18338,"Personne diverse sans activité professionnelle de moins de 60 ans (sauf retraité)",50,NA,18.7,121,200042174,22500,5.3,243.740215945032,1
@@ -441,7 +441,7 @@
 "CC de l'Arc Mosellan",44,57,0,0,0,34992,"Cadre de la fonction publique",42,NA,16.7,206,245701362,25030,6.3,444.84727451989,1
 "CC de l'Argonne Ardennaise",44,8,0,0,0,17996,"Agriculteur sur moyenne exploitation",59,NA,25.1,142,NA,19740,3.1,576.472408312958,1
 "CC de l'Argonne Champenoise",44,51,0,0,0,12410,"Profession libérale",59,NA,25.7,74,NA,20380,3.1,982.902940370669,1
-"CC de l'Ernée",52,53,0,0,0,21435,"Ingénieur et cadre technique d'entreprise",55,NA,22.3,114,200083392,20180,2.7,712.011423372988,1
+"CC de l'Ernée",52,53,0,0,0,21435,"Ingénieur et cadre technique d'entreprise",56,NA,22.3,114,200083392,20180,2.7,712.011423372988,1
 "CC de l'Est de la Somme",32,NA,0,0,0,21015,"Ancien artisan, commerçant, chef d'entreprise",69,NA,21.6,71,NA,19290,2.5,877.530838924578,1
 "CC de l'Est Guyanais",3,973,0,0,0,7100,NA,NA,NA,3.9,16,NA,NA,2.6,236.360123943662,1
 "CC de l'Est Lyonnais (CCEL)",84,69,0,0,0,41019,"Ancien cadre",70,NA,16.5,555,200046977,27160,10.5,488.026944099076,1
@@ -490,7 +490,7 @@
 "CC de la Montagne d'Ardèche",84,7,0,0,0,5046,"Ancien cadre",70,"Les Républicains",32.1,25,NA,18080,3.1,703.921353547364,1
 "CC de la Montagne Noire",76,11,0,0,0,6031,"Professeur des écoles, instituteur et assimilé",49,NA,27.4,48,NA,18450,5.3,765.346987232631,1
 "CC de la Mossig et du Vignoble",44,67,0,0,0,24899,"Ancien employé",67,NA,19,170,246700488,24340,7.1,365.378893128238,1
-"CC de la Muse et des Raspes du Tarn",76,12,0,0,0,5595,"Ingénieur et cadre technique d'entreprise",53,NA,29.4,48,NA,19290,4.5,474.860482573727,1
+"CC de la Muse et des Raspes du Tarn",76,12,0,0,0,5595,"Ingénieur et cadre technique d'entreprise",54,NA,29.4,48,NA,19290,4.5,474.860482573727,1
 "CC de la Picardie Verte",32,60,0,0,0,33665,"Professeur des écoles, instituteur et assimilé",48,NA,18.7,155,200067999,20580,3.5,402.213908510322,1
 "CC de la Piève de l'Ornano et du Taravo",94,NA,0,0,0,12408,"Profession libérale",39,NA,30.6,204,242010056,23450,8.8,1328.02719535783,1
 "CC de la Plaine d'Estrées",32,60,0,0,0,18170,"Personnel des services directs aux particuliers",62,NA,15.2,137,200067965,24120,5.7,395.363180517336,1
@@ -512,7 +512,7 @@
 "CC de la Sologne des Étangs",24,41,0,0,0,8869,"Personne diverse sans activité professionnelle de 60 ans et plus (sauf retraité)",63,NA,25.8,65,NA,21000,4,220.845492163716,1
 "CC de la Sologne des Rivières",24,41,0,0,0,11261,"Professeur, profession scientifique",29,NA,30.6,51,NA,20840,3.6,328.610393393127,1
 "CC de la Station des Rousses-Haut Jura",27,39,0,0,0,7217,"Profession libérale",42,NA,13,73,NA,33300,7.9,826.709458223639,1
-"CC de la Tenarèze",76,32,0,0,0,15165,"Ancien agriculteur exploitant",66,NA,31.1,145,NA,19470,4.7,559.017701285856,1
+"CC de la Tenarèze",76,32,0,0,0,15165,"Ancien agriculteur exploitant",67,NA,31.1,145,NA,19470,4.7,559.017701285856,1
 "CC de la Terre des Deux Caps",32,62,0,0,0,22459,"Ancien cadre",67,NA,17.2,165,246200729,20180,5.1,516.421492942696,1
 "CC de la Thiérache du Centre",32,2,0,0,0,27564,"Cadre administratif et commercial d'entreprise",49,NA,20.7,101,NA,18950,2.6,372.979203671455,1
 "CC de la Vallée d'Ossau",75,64,0,0,0,10047,"Ancien cadre",68,NA,27.3,91,NA,20560,6,778.188016323281,1
@@ -548,7 +548,7 @@
 "CC de Noblat",75,87,0,0,0,12254,"Professeur des écoles, instituteur et assimilé",51,NA,25.6,98,NA,20720,5.3,501.361059245961,1
 "CC de Nozay",52,44,0,0,0,15978,"Personne diverse sans activité professionnelle de moins de 60 ans (sauf retraité)",52,NA,14.5,94,NA,20630,4.7,541.78177181124,1
 "CC de Parthenay-Gâtine",75,79,0,0,0,38989,"Cadre de la fonction publique",46,NA,26.5,249,NA,19530,3.4,732.339144374054,1
-"CC de Petite-Terre",6,976,0,0,0,30039,"Professeur des écoles, instituteur et assimilé",63,NA,NA,170,NA,NA,NA,336.431829621492,1
+"CC de Petite-Terre",6,976,0,0,0,30039,"Professeur des écoles, instituteur et assimilé",64,NA,NA,170,NA,NA,NA,336.431829621492,1
 "CC de Petite Camargue",76,30,0,0,0,26949,"Commerçant et assimilé",56,NA,19.2,309,243000643,20260,5.4,580.946017291922,1
 "CC de Pont-Audemer / Val de Risle",28,27,0,0,0,34014,"Ancien cadre",70,NA,19.4,223,200023414,20820,4.2,707.53217586876,1
 "CC de Portes Sud Périgord",75,24,0,0,0,8488,"Cadre administratif et commercial d'entreprise",55,NA,32,111,NA,19580,5.5,503.510334590009,1
@@ -569,7 +569,7 @@
 "CC de Villedieu Intercom",28,50,0,0,0,16141,"Cadre de la fonction publique",41,NA,25.9,107,200069425,19850,3.2,617.251958366892,1
 "CC de Vitry,Champagne et Der",44,51,1,0,1,25696,"Ancien cadre",69,"Parti socialiste",22.4,163,NA,19640,3.5,959.759956802615,1
 "CC de Yenne",84,73,0,0,0,7259,"Ancien cadre",70,NA,20.4,65,NA,23070,5.7,719.84169031547,1
-"CC Decazeville Communauté",76,12,1,0,1,19553,"Ancien cadre",73,NA,31.8,129,NA,19300,2.6,909.764294993096,1
+"CC Decazeville Communauté",76,12,1,0,1,19553,"Ancien cadre",74,NA,31.8,129,NA,19300,2.6,909.764294993096,1
 "CC des 1000 étangs",27,70,0,0,0,8853,"Cadre administratif et commercial d'entreprise",60,NA,26.5,61,NA,20010,3.1,344.951452614933,1
 "CC des 4B Sud Charente",75,16,0,0,0,20676,"Cadre de la fonction publique",61,NA,25.7,161,200071827,20060,3.6,691.428644321919,1
 "CC des Albères,de la Côte Vermeille et de l'Illibéris",76,66,0,0,0,56061,NA,NA,NA,31.8,683,200027183,20220,6.2,903.944607837891,1
@@ -580,7 +580,7 @@
 "CC des Bastides en Haut-Agenais Périgord",75,47,0,0,0,17495,"Ancien employé",68,NA,29.6,160,NA,19550,4.4,578.982577879394,1
 "CC des Campagnes de l'Artois",32,62,0,0,0,34602,"Ancien cadre",71,NA,18.4,207,200033579,21820,5,485.793330732328,1
 "CC des Causses à l'Aubrac",76,12,0,0,0,15004,"Agriculteur sur petite exploitation",55,NA,29.4,113,NA,20260,3.9,707.761964142895,1
-"CC des Cévennes au Mont Lozère",76,48,0,0,0,5299,"Ancienne profession intermédiaire",64,NA,30.1,57,NA,16600,8.2,620.274385733157,1
+"CC des Cévennes au Mont Lozère",76,48,0,0,0,5299,"Ancienne profession intermédiaire",65,NA,30.1,57,NA,16600,8.2,620.274385733157,1
 "CC des Cévennes Gangeoises et Suménoises",76,NA,0,0,0,13503,"Professeur, profession scientifique",61,NA,26.4,131,NA,18690,6.2,606.322861586314,1
 "CC des Coëvrons",52,53,0,0,0,28164,"Profession libérale",46,NA,23.5,141,200083392,20200,3,822.235221914501,1
 "CC des Collines du Nord Dauphiné",84,38,0,0,0,24647,"Ingénieur et cadre technique d'entreprise",62,NA,16.5,306,200046977,25360,7.7,536.465912687142,1
@@ -598,7 +598,7 @@
 "CC des Deux Rives",NA,NA,0,0,0,19254,"Chef d'entreprise de 10 salariés ou plus",74,"Parti radical de gauche",23.7,131,NA,19510,4,1267.5726591877,1
 "CC des Deux Vallées",32,60,0,0,0,23515,"Ancien cadre",68,"Parti communiste français",18.8,141,200067965,22190,4,333.241544546034,1
 "CC des Deux Vallées",11,91,0,0,0,18927,"Cadre administratif et commercial d'entreprise",58,NA,20.6,217,NA,26130,8,416.025359010937,1
-"CC des Deux Vallées Vertes",27,25,0,0,0,16632,"Agriculteur sur moyenne exploitation",55,NA,22.4,95,242500361,20970,3.4,392.728352573353,1
+"CC des Deux Vallées Vertes",27,25,0,0,0,16632,"Agriculteur sur moyenne exploitation",56,NA,22.4,95,242500361,20970,3.4,392.728352573353,1
 "CC des Forêts du Perche",24,28,0,0,0,8083,"Ancien artisan, commerçant, chef d'entreprise",64,NA,24.8,49,NA,20810,3.3,542.411975751577,1
 "CC des Gorges de l'Ardèche",84,7,0,0,0,15410,"Professeur, profession scientifique",57,NA,28.5,220,NA,20320,5.3,1075.53904282933,1
 "CC des Grands Lacs",75,40,0,0,0,29920,"Ancienne profession intermédiaire",68,NA,25.8,406,243300316,22040,5.7,384.107338235294,1
@@ -613,7 +613,7 @@
 "CC des Landes d'Armagnac",75,40,0,0,0,11303,"Cadre administratif et commercial d'entreprise",60,NA,29.9,77,NA,20290,3.6,497.571577457312,1
 "CC des Lisières de l'Oise",32,60,0,0,0,16936,"Ancien cadre",56,NA,18.9,122,NA,22850,6.9,508.482972957015,1
 "CC des Loges",24,45,0,0,0,42813,"Profession libérale",54,NA,18.5,341,244500468,23670,7.6,248.782173405274,1
-"CC des Luys en Béarn",75,64,0,0,0,29067,"Cadre administratif et commercial d'entreprise",49,NA,19.2,255,200067254,22770,7.4,695.91807100836,1
+"CC des Luys en Béarn",75,64,0,0,0,29067,"Cadre administratif et commercial d'entreprise",50,NA,19.2,255,200067254,22770,7.4,695.91807100836,1
 "CC des Montagnes du Giffre",84,74,0,0,0,12382,"Professeur, profession scientifique",46,NA,18.3,201,NA,25310,7.4,807.751500565337,1
 "CC des Monts d'Alban et du Villefranchois",76,81,0,0,0,6505,"Contremaître, agent de maîtrise",60,NA,25.5,57,NA,19250,3.9,600.073239046887,1
 "CC des Monts de Gy",27,70,0,0,0,6306,"Ancienne profession intermédiaire",67,NA,18.8,39,NA,21130,4.2,773.483112908341,1
@@ -647,7 +647,7 @@
 "CC des Sept Vallées",32,62,0,0,0,30420,"Cadre de la fonction publique",44,NA,22.5,180,200069029,18980,3.2,495.577834648258,1
 "CC des Sorgues du Comtat",93,84,0,0,0,49245,"Ancien cadre",76,NA,19.9,682,248400251,20330,5.4,1152.31363488679,1
 "CC des Sources de l'Orne",28,61,0,0,0,12723,"Agriculteur sur grande exploitation",73,NA,23.7,69,NA,20090,4,778.291663915743,1
-"CC des Sources du Lac d'Annecy",84,74,0,0,0,15643,"Chef d'entreprise de 10 salariés ou plus",67,NA,22.9,183,200066793,23670,6.3,636.583377229432,1
+"CC des Sources du Lac d'Annecy",84,74,0,0,0,15643,"Chef d'entreprise de 10 salariés ou plus",68,NA,22.9,183,200066793,23670,6.3,636.583377229432,1
 "CC des Sucs",84,43,0,0,0,18495,"Ancien cadre",74,NA,22.5,139,NA,20770,4.4,479.001745336577,1
 "CC des Terres d'Apcher-Margeride-Aubrac",76,48,0,0,0,11417,"Ingénieur et cadre technique d'entreprise",47,NA,26.3,48,NA,20700,4.1,552.831771919068,1
 "CC des Terres d'Auxois",27,21,0,0,0,16540,"Ancien cadre",73,NA,24.8,137,NA,21030,6.2,617.439646916566,1
@@ -674,7 +674,7 @@
 "CC Domfront Tinchebray Interco",28,61,0,0,0,16530,"Ancienne profession intermédiaire",68,NA,26,92,200035814,19840,3.3,805.368639443436,1
 "CC Douarnenez Communauté",53,29,0,0,0,18949,"Employé de commerce",66,NA,28.4,120,NA,20710,6.6,1570.48828856404,1
 "CC Drôme Sud Provence",84,26,0,0,0,43196,"Ancien cadre",69,NA,19.3,409,200040459,21650,6.5,197.486839059172,1
-"CC Dronne et Belle",75,24,0,0,0,11565,"Ancien cadre",70,NA,30.7,118,NA,20430,4.6,772.303277129269,1
+"CC Dronne et Belle",75,24,0,0,0,11565,"Ancien cadre",71,NA,30.7,118,NA,20430,4.6,772.303277129269,1
 "CC du Barséquanais en Champagne",44,10,0,0,0,19581,"Ancien agriculteur exploitant",68,NA,22.9,97,200069250,21950,3.4,228.4771257852,1
 "CC du Bas Armagnac",76,32,0,0,0,8930,"Cadre de la fonction publique",36,NA,29.4,75,NA,20140,4.5,505.051913773796,1
 "CC du Bassin d'Aubenas",84,7,0,0,0,41173,"Personne diverse sans activité professionnelle de moins de 60 ans (sauf retraité)",54,NA,26,479,200039824,20080,5.9,532.529059092123,1
@@ -685,7 +685,7 @@
 "CC du Bazadais",75,33,0,0,0,16289,"Artisan",65,NA,25.9,143,200043974,19730,4.2,433.90327337467,1
 "CC du Béarn des Gaves",75,64,0,0,0,18331,"Ancien cadre",78,NA,29.8,152,200039204,20350,5.1,444.826379902897,1
 "CC du Bocage Bourbonnais",84,3,0,0,0,14123,"Cadre de la fonction publique",46,NA,28,84,NA,19900,4.2,232.262899525597,1
-"CC du Bocage Mayennais",52,53,0,0,0,19659,"Agriculteur sur moyenne exploitation",60,NA,28.8,140,200055887,19450,2.2,673.908165216949,1
+"CC du Bocage Mayennais",52,53,0,0,0,19659,"Agriculteur sur moyenne exploitation",61,NA,28.8,140,200055887,19450,2.2,673.908165216949,1
 "CC du Bonnevalais",24,28,0,0,0,12977,"Ancien cadre",68,"Union pour un mouvement populaire",22.6,74,NA,21770,3.3,670.655352546814,1
 "CC du Bonnevalais",24,28,0,0,0,12977,"Ancien cadre",68,"Démocratie libérale",22.6,74,NA,21770,3.3,670.655352546814,1
 "CC du Briançonnais",93,5,1,1,0,21210,"Cadre de la fonction publique",36,NA,21.3,301,NA,20820,8.5,833.850326261198,1
@@ -701,7 +701,7 @@
 "CC du Centre Corse",94,NA,0,0,0,9898,"Professeur, profession scientifique",63,NA,18.5,118,NA,20130,13,472.735065669832,1
 "CC du Centre du Haut-Rhin",44,68,0,0,0,15541,NA,NA,NA,16.9,118,200066009,24150,4.9,976.169489093366,1
 "CC du Chaourçois et du Val d'Armance",44,10,0,0,0,10835,"Ancien artisan, commerçant, chef d'entreprise",68,NA,25,63,200069250,20440,3.5,326.035277341947,1
-"CC du Châtillonnais en Berry",24,36,0,0,0,6397,"Ancien cadre",69,NA,37.6,34,NA,19480,2.5,784.133296857902,1
+"CC du Châtillonnais en Berry",24,36,0,0,0,6397,"Ancien cadre",70,NA,37.6,34,NA,19480,2.5,784.133296857902,1
 "CC du Chemin des Dames",32,2,0,0,0,5534,"Ancien cadre",68,NA,18.6,33,NA,20990,3.9,289.678420672208,1
 "CC du Civraisien en Poitou",75,86,0,0,0,28346,"Agriculteur sur moyenne exploitation",63,NA,28.7,234,200069854,19560,3.9,479.128933535596,1
 "CC du Clermontais",76,34,0,0,0,27964,"Agriculteur sur petite exploitation",57,NA,21.7,317,243400694,19390,6.8,871.47600271778,1
@@ -709,7 +709,7 @@
 "CC du Clunisois",27,71,0,0,0,14438,"Cadre de la fonction publique",62,NA,27.9,116,NA,21510,8.6,627.520474442444,1
 "CC du Confluent et des Coteaux de Prayssas",75,47,0,0,0,18789,"Commerçant et assimilé",55,NA,24.5,154,243300316,19700,4.6,399.205824684656,1
 "CC du Cordais et du Causse (4 C)",76,81,0,0,0,4756,"Ancien cadre",69,NA,32.2,53,NA,18280,8.4,933.288000420521,1
-"CC du Créonnais",75,33,0,0,0,17212,"Cadre de la fonction publique",65,NA,15.7,225,243300316,22720,6.6,333.697214152917,1
+"CC du Créonnais",75,33,0,0,0,17212,"Cadre de la fonction publique",66,NA,15.7,225,243300316,22720,6.6,333.697214152917,1
 "CC du Crestois et de Pays de Saillans Cœur de Drôme",84,26,0,0,0,15608,"Professeur, profession scientifique",60,NA,24.3,226,NA,20120,8.7,653.577600589441,1
 "CC du Diois",84,26,0,0,0,11920,"Professeur des écoles, instituteur et assimilé",63,NA,26.8,176,NA,19160,8.4,573.440072147651,1
 "CC du District Urbain de Faulquemont (DUF)",44,57,0,0,0,25122,"Ancien cadre",78,NA,18.8,174,200067502,21470,4.1,870.5755242417,1
@@ -759,7 +759,7 @@
 "CC du Nord Est Béarn",75,64,0,0,0,34837,"Agriculteur sur moyenne exploitation",57,NA,19.7,293,200067254,23160,8.8,382.433469873985,1
 "CC du Pays Arnay Liernais",27,21,0,0,0,7432,"Ancien artisan, commerçant, chef d'entreprise",68,NA,30.1,56,NA,20320,4.4,458.451727664155,1
 "CC du Pays Beaume-Drobie",84,7,0,0,0,8912,"Artisan",54,NA,30.1,114,NA,19340,6.2,721.123030745063,1
-"CC du Pays Bellegardien (CCPB)",84,1,0,0,0,22203,"Profession libérale",57,NA,16.4,198,240100750,23330,5.5,453.49957528262,1
+"CC du Pays Bellegardien (CCPB)",84,1,0,0,0,22203,"Profession libérale",58,NA,16.4,198,240100750,23330,5.5,453.49957528262,1
 "CC du Pays Bigouden Sud",53,29,0,0,0,38565,"Chef d'entreprise de 10 salariés ou plus",47,"Les Républicains",30.3,293,200068120,22120,6.3,722.462625178271,1
 "CC du Pays Châtillonnais",27,21,0,0,0,21021,"Technicien",39,NA,28,118,NA,19980,3.7,355.997513914657,1
 "CC du Pays d'Alésia et de la Seine",27,21,0,0,0,7763,"Cadre de la fonction publique",51,NA,24.6,50,NA,20820,4.2,455.017566662373,1
@@ -789,7 +789,7 @@
 "CC du Pays de Honfleur-Beuzeville",28,NA,0,0,0,28383,"Ancien employé",60,NA,20.6,301,NA,21640,6.8,425.0439037452,1
 "CC du Pays de l'Arbresle (CCPA)",84,69,0,0,0,38336,"Ancienne profession intermédiaire",67,NA,17.7,474,200046977,25570,11.9,631.982376617279,1
 "CC du Pays de l'Huisne Sarthoise",52,72,0,0,0,29548,"Cadre administratif et commercial d'entreprise",62,NA,22.1,127,200072684,21100,3.6,301.646187559226,1
-"CC du Pays de l'Ourcq",11,77,0,0,0,18337,"Agriculteur sur moyenne exploitation",57,NA,13.4,165,NA,22630,4.2,549.09731526422,1
+"CC du Pays de l'Ourcq",11,77,0,0,0,18337,"Agriculteur sur moyenne exploitation",58,NA,13.4,165,NA,22630,4.2,549.09731526422,1
 "CC du Pays de l'Ozon",84,69,0,0,0,25971,"Ancien artisan, commerçant, chef d'entreprise",76,NA,18.3,354,200046977,26620,10.8,467.967047861076,1
 "CC du Pays de la Châtaigneraie",52,85,0,0,0,15995,"Commerçant et assimilé",42,NA,24.8,101,NA,19660,2.2,404.19635948734,1
 "CC du Pays de la Serre",32,2,0,0,0,14879,"Technicien",53,NA,19.3,56,NA,19660,2.7,387.240504738222,1
@@ -842,7 +842,7 @@
 "CC du Pays de Tronçais",84,3,0,0,0,7625,"Ancien artisan, commerçant, chef d'entreprise",72,NA,33,57,NA,19290,4.2,603.971405901639,1
 "CC du Pays de Valois",32,60,0,0,0,56676,"Cadre administratif et commercial d'entreprise",55,NA,14.5,419,NA,24160,5.7,263.727009492554,1
 "CC du Pays de Villeneuve en Armagnac Landais",75,40,0,0,0,6414,"Ancien employé",64,NA,24.5,39,NA,20670,3.9,406.51567352666,1
-"CC du Pays de Villersexel",27,NA,0,0,0,8180,"Ancien cadre",66,NA,23.5,36,NA,20430,2.8,648.269415647922,1
+"CC du Pays de Villersexel",27,NA,0,0,0,8180,"Ancien cadre",67,NA,23.5,36,NA,20430,2.8,648.269415647922,1
 "CC du Pays de Wissembourg",44,67,0,0,0,16583,"Ancien cadre",71,NA,20.6,102,NA,23370,6.5,286.542641862148,1
 "CC du Pays des Abers",53,29,0,0,0,41618,"Agriculteur sur moyenne exploitation",64,NA,18.8,298,242900314,22440,5.9,459.526305925321,1
 "CC du Pays des Achards",52,85,0,0,0,18700,"Ancien cadre",65,NA,17.6,164,NA,21030,3.5,962.679226737968,1
@@ -851,7 +851,7 @@
 "CC du Pays des Herbiers",52,85,0,0,0,30162,"Personne diverse sans activité professionnelle de moins de 60 ans (sauf retraité)",57,"Mouvement pour la France",17,240,NA,21360,4.6,423.056729328294,1
 "CC du Pays des Paillons",93,6,0,0,0,26917,"Ancien artisan, commerçant, chef d'entreprise",78,NA,22,308,200030195,22740,5.6,774.572847642754,1
 "CC du Pays des Sorgues et des Monts de Vaucluse",93,84,1,6,0,33960,"Ancien artisan, commerçant, chef d'entreprise",52,NA,22.3,480,248400251,21710,8.6,566.96443639576,1
-"CC du Pays des Sources",32,60,0,0,0,22668,"Ancien agriculteur exploitant",67,NA,15.8,160,200067965,22850,5,369.578711399329,1
+"CC du Pays des Sources",32,60,0,0,0,22668,"Ancien agriculteur exploitant",68,NA,15.8,160,200067965,22850,5,369.578711399329,1
 "CC du Pays du Coquelicot",32,80,0,0,0,29090,"Agriculteur sur moyenne exploitation",60,NA,20.6,166,NA,20640,3.3,693.252448264008,1
 "CC du Pays du Neubourg",28,27,0,0,0,23054,"Profession libérale",72,NA,17.2,151,200066413,22960,4.3,458.50799297302,1
 "CC du Pays du Saintois",44,54,0,0,0,14694,"Cadre de la fonction publique",41,NA,18.3,100,NA,22810,5.8,229.869945556009,1
@@ -912,7 +912,7 @@
 "CC du Saulnois",44,57,0,0,0,30199,"Cadre de la fonction publique",42,NA,20.5,167,NA,20810,3.6,509.78922977582,1
 "CC du Saves",76,32,0,0,0,9870,"Professeur, profession scientifique",55,NA,25.4,106,NA,21850,7,533.244133738602,1
 "CC du Secteur de Saint-Loubès",75,33,0,0,0,27027,"Profession intermédiaire administrative de la fonction publique",52,NA,18.3,370,243300316,23470,7.4,578.391613201613,1
-"CC du Seignanx",75,40,0,0,0,27477,"Cadre de la fonction publique",59,NA,21.2,322,200067106,22480,6.5,478.828184663537,1
+"CC du Seignanx",75,40,0,0,0,27477,"Cadre de la fonction publique",60,NA,21.2,322,200067106,22480,6.5,478.828184663537,1
 "CC du Serein",27,89,0,0,0,7685,"Agriculteur sur grande exploitation",46,NA,27.1,41,NA,21130,4,420.655198438517,1
 "CC du Sisteronais-Buëch",NA,NA,0,0,0,25576,"Ancien cadre",80,"Union pour un mouvement populaire",27.6,257,NA,19700,5.7,519.842257194245,1
 "CC du Sisteronais-Buëch",NA,NA,0,0,0,25576,"Ancien cadre",80,"Rassemblement pour la République",27.6,257,NA,19700,5.7,519.842257194245,1
@@ -967,7 +967,7 @@
 "CC Élan Limousin Avenir Nature",75,87,0,0,0,28304,"Employé administratif d'entreprise",59,NA,22.4,184,248719312,21110,4.5,438.759047131148,1
 "CC Enclave des Papes-Pays de Grignan",NA,NA,0,0,0,23598,"Ancien cadre",69,NA,25.7,241,NA,20080,5.6,341.415066531062,1
 "CC Entr'Allier Besbre et Loire",84,3,0,0,0,25763,"Ancien cadre",68,NA,27.4,129,200071140,19500,3,229.611506035788,1
-"CC Entre Arroux,Loire et Somme",27,71,0,0,0,23621,"Professeur, profession scientifique",59,NA,31.4,114,NA,20290,2.4,256.009700690064,1
+"CC Entre Arroux,Loire et Somme",27,71,0,0,0,23621,"Professeur, profession scientifique",60,NA,31.4,114,NA,20290,2.4,256.009700690064,1
 "CC Entre Beauce et Perche",24,28,0,0,0,22048,"Agriculteur sur grande exploitation",59,NA,18.6,140,200033181,22510,3.7,506.74310413643,1
 "CC Entre Dore et Allier",84,63,0,0,0,19249,"Personne diverse sans activité professionnelle de moins de 60 ans (sauf retraité)",60,NA,20.2,140,200070712,22140,5,109.5815294301,1
 "CC Entre Juine et Renarde (CCEJR)",11,91,0,0,0,27850,"Agriculteur sur moyenne exploitation",51,NA,17.6,279,200057859,27060,9.3,883.186177378815,1
@@ -1009,7 +1009,7 @@
 "CC Interrégionale Aumale - Blangy-sur-Bresle",NA,NA,0,0,0,22320,"Ancien cadre",76,NA,21.7,100,NA,19980,2.1,219.960941308244,1
 "CC Isigny-Omaha Intercom",28,14,0,0,0,27278,"Ancien cadre",61,NA,22.7,154,241400555,20480,3.3,740.443718747709,1
 "CC Isle-Loue-Auvézère en Périgord",75,24,0,0,0,14145,"Profession libérale",59,NA,31.1,108,NA,19720,3.9,424.958580417109,1
-"CC Isle Double Landais",75,24,0,0,0,12105,"Ancien cadre",74,NA,29.1,122,NA,19480,3,998.232372573317,1
+"CC Isle Double Landais",75,24,0,0,0,12105,"Ancien cadre",75,NA,29.1,122,NA,19480,3,998.232372573317,1
 "CC Isle et Crempse-en-Périgord",75,24,0,0,0,14584,"Ancien employé",66,NA,29.2,158,NA,19720,4.4,397.791793060889,1
 "CC Isle Vern Salembre en Périgord",75,24,0,0,0,19487,"Personne diverse sans activité professionnelle de moins de 60 ans (sauf retraité)",58,NA,26.7,130,200040392,20200,3.5,877.91880381793,1
 "CC Jabron-Lure-Vançon-Durance",NA,NA,0,0,0,5453,"Ancien agriculteur exploitant",70,NA,22.6,48,NA,21550,6.1,255.616158078122,1
@@ -1033,7 +1033,7 @@
 "CC Le Gesnois Bilurien",52,72,0,0,0,31316,"Ancien cadre",61,NA,18.9,176,247200132,21610,3.4,301.420035764465,1
 "CC Le Grand Charolais",NA,NA,0,0,0,41905,"Cadre de la fonction publique",40,NA,27.3,248,NA,20180,4,439.62321942489,1
 "CC Le Grésivaudan",84,38,0,0,0,104179,"Cadre de la fonction publique",71,NA,18,1222,200040715,26550,19.1,1272.70827249254,1
-"CC Le Tonnerrois en Bourgogne",27,89,0,0,0,17106,"Employé de commerce",55,NA,27.8,102,NA,19810,3.7,568.090499240033,1
+"CC Le Tonnerrois en Bourgogne",27,89,0,0,0,17106,"Employé de commerce",56,NA,27.8,102,NA,19810,3.7,568.090499240033,1
 "CC Leff Armor Communauté",53,22,1,5,0,31934,"Agriculteur sur moyenne exploitation",48,NA,22.8,174,200069409,20960,3.8,771.998927475418,1
 "CC Les Avant-Monts",76,34,0,0,0,26947,"Ancienne profession intermédiaire",69,NA,24.2,310,243400769,19890,5.5,517.388959809997,1
 "CC Les Balcons du Dauphiné",84,38,0,0,0,77408,"Professeur, profession scientifique",48,NA,16.4,840,243800604,23350,6.3,342.169118437371,1
@@ -1089,7 +1089,7 @@
 "CC Moselle et Madon",44,54,0,0,0,29335,"Cadre de la fonction publique",46,NA,20.8,197,245400676,23240,6.9,1577.70177160389,1
 "CC Nebbiu - Conca d'Oro",94,NA,0,0,0,7321,"Ancien cadre",76,NA,27.8,96,NA,20250,6.3,511.605966398033,1
 "CC Neste Barousse",76,65,0,0,0,7426,"Professeur, profession scientifique",47,NA,32.6,79,NA,20440,5,569.272271747913,1
-"CC Nièvre et Somme",32,80,0,0,0,28670,"Ancien cadre",70,NA,18.5,177,248000531,20600,3.5,331.557828740844,1
+"CC Nièvre et Somme",32,80,0,0,0,28670,"Ancien cadre",71,NA,18.5,177,248000531,20600,3.5,331.557828740844,1
 "CC Norge et Tille",27,21,0,0,0,16125,"Professeur, profession scientifique",49,NA,17.8,160,242100410,27530,12,166.124891162791,1
 "CC Normandie-Cabourg-Pays d'Auge",28,14,0,0,0,31847,"Cadre administratif et commercial d'entreprise",63,NA,26.3,357,200065597,22400,6.5,620.197765880617,1
 "CC Océan Marais de Monts",52,85,0,0,0,19529,"Profession libérale",62,NA,31.9,204,200071629,21300,3.9,1011.68838189359,1
@@ -1108,16 +1108,16 @@
 "CC Pays de Chantonnay",52,85,0,0,0,23058,"Personne diverse sans activité professionnelle de 60 ans et plus (sauf retraité)",63,NA,18,131,NA,20700,3.1,306.083154653482,1
 "CC Pays de Châteaugiron Communauté",53,35,0,0,0,26158,"Agriculteur sur moyenne exploitation",54,NA,13.7,210,243500139,24550,12.7,670.268540025996,1
 "CC Pays de Fontenay-Vendée",52,85,0,0,0,36459,"Chef d'entreprise de 10 salariés ou plus",46,NA,25.1,212,NA,20180,3.9,501.253221426808,1
-"CC Pays de Montereau",11,77,0,0,0,43004,"Profession intermédiaire administrative de la fonction publique",49,NA,17.6,448,200054781,19560,3.6,576.558865454376,1
+"CC Pays de Montereau",11,77,0,0,0,43004,"Profession intermédiaire administrative de la fonction publique",50,NA,17.6,448,200054781,19560,3.6,576.558865454376,1
 "CC Pays de Nay",NA,NA,0,0,0,29782,"Cadre de la fonction publique",64,NA,21.1,246,200067254,22350,7.9,803.395676583171,1
 "CC Pays de Nemours",11,77,0,0,0,30645,"Personne diverse sans activité professionnelle de moins de 60 ans (sauf retraité)",55,"Union pour un mouvement populaire",19.6,274,200023919,21870,5.4,200.035541197585,1
 "CC Pays de Nérondes",24,18,0,0,0,5074,"Ancienne profession intermédiaire",58,NA,26.8,35,NA,19790,3.3,333.731842727631,1
 "CC Pays de Nexon Monts de Chalus",75,87,0,0,0,13358,"Ingénieur et cadre technique d'entreprise",48,NA,26.9,93,248719312,20690,4.8,350.424109896691,1
-"CC Pays des Vans en Cévennes",84,7,0,0,0,9419,"Agriculteur sur petite exploitation",61,NA,31.8,132,NA,19340,6.6,735.340410871642,1
+"CC Pays des Vans en Cévennes",84,7,0,0,0,9419,"Agriculteur sur petite exploitation",62,NA,31.8,132,NA,19340,6.6,735.340410871642,1
 "CC Pays du Mont-Blanc",84,74,0,0,0,45574,"Cadre administratif et commercial d'entreprise",67,NA,19.9,695,200033116,23940,7.4,454.812695177075,1
 "CC Pays Forcalquier et Montagne de Lure",93,4,0,0,0,9903,"Ingénieur et cadre technique d'entreprise",32,NA,28.6,130,NA,19920,9.6,580.600994648086,1
 "CC Pays Fort Sancerrois Val de Loire",24,18,0,0,0,19203,"Chef d'entreprise de 10 salariés ou plus",48,NA,27.9,118,NA,21710,4,221.767039525074,1
-"CC Pays Rhin - Brisach",44,68,0,0,0,33580,"Ancien cadre",64,NA,16.7,215,246800726,24520,4.2,778.868948481239,1
+"CC Pays Rhin - Brisach",44,68,0,0,0,33580,"Ancien cadre",65,NA,16.7,215,246800726,24520,4.2,778.868948481239,1
 "CC Pays Ségali Communauté",76,12,0,0,0,18544,"Profession intermédiaire administrative de la fonction publique",45,NA,25.7,143,241200187,21090,4.8,728.211596742882,1
 "CC Périgord-Limousin",75,24,0,0,0,14694,"Ancien artisan, commerçant, chef d'entreprise",65,NA,32.2,150,NA,19450,4.1,619.640722743977,1
 "CC Perthois-Bocage et Der",44,51,0,0,0,5771,"Professeur, profession scientifique",61,NA,23.5,40,NA,21500,2.8,491.706272743025,1
@@ -1134,7 +1134,7 @@
 "CC Pontivy Communauté",53,NA,0,0,0,47933,"Profession libérale",59,NA,22.1,281,200042174,20830,4.1,593.407045876536,1
 "CC Porte d'Aquitaine en Pays de Serres",75,47,0,0,0,5401,"Ancienne profession intermédiaire",65,NA,22.6,39,NA,20960,4.8,405.564632475468,1
 "CC Porte de Drômardèche",84,NA,0,0,0,48240,"Cadre de la fonction publique",34,"Parti socialiste",19.8,401,200068781,20590,4,459.838670812604,1
-"CC Porte de Maurienne",84,73,0,0,0,6898,"Cadre administratif et commercial d'entreprise",56,NA,19.5,52,NA,22130,4.3,471.298757610902,1
+"CC Porte de Maurienne",84,73,0,0,0,6898,"Cadre administratif et commercial d'entreprise",57,NA,19.5,52,NA,22130,4.3,471.298757610902,1
 "CC Porte du Jura",27,39,0,0,0,10872,NA,NA,NA,25.2,75,NA,21020,3.7,683.063223877851,1
 "CC Porte Océane du Limousin",75,87,0,0,0,26424,"Technicien",57,NA,26.7,189,248719312,21020,3.8,602.569567817136,1
 "CC Portes de la Creuse en Marche",75,23,0,0,0,6781,"Ancienne profession intermédiaire",71,NA,33.5,36,NA,18880,2.4,461.511073587966,1
@@ -1164,13 +1164,13 @@
 "CC Roche aux Fées Communauté",53,35,0,0,0,26892,"Profession intermédiaire administrative de la fonction publique",57,NA,18.2,175,243500139,21290,4.9,447.883707422282,1
 "CC Roi Morvan Communauté",53,56,0,0,0,25880,"Ingénieur et cadre technique d'entreprise",61,NA,29.1,183,NA,19240,3.4,448.792593508501,1
 "CC Roumois Seine",28,NA,0,0,0,40707,"Cadre de la fonction publique",41,NA,18.2,300,200023414,23720,5.6,683.44040803793,1
-"CC Roussillon-Conflent",76,66,0,0,0,18621,"Ancien employé",60,NA,22.4,191,200027183,19120,4.9,661.41961548789,1
+"CC Roussillon-Conflent",76,66,0,0,0,18621,"Ancien employé",61,NA,22.4,191,200027183,19120,4.9,661.41961548789,1
 "CC Rumilly Terre de Savoie",84,74,0,0,0,31775,"Ancien cadre",63,NA,15.3,320,200066793,24240,5.3,561.81200440598,1
 "CC Rurales de l'Entre-deux-Mers",75,33,0,0,0,16851,"Employé civil et agent de service de la fonction publique",57,NA,21.7,127,NA,20210,4.2,517.534972405199,1
 "CC Saint-Flour Communauté",84,15,0,0,0,24692,"Cadre de la fonction publique",40,NA,25.9,125,NA,20050,3.7,832.261866596469,1
 "CC Saint-Marcellin Vercors Isère Communauté",84,38,0,0,0,45375,"Cadre de la fonction publique",43,NA,21.5,427,200040715,21860,6.6,782.547652451791,1
 "CC Saint-Pourçain Sioule Limagne",84,3,0,0,0,34877,"Cadre administratif et commercial d'entreprise",37,NA,25.4,236,200071363,20450,4.8,366.081806348023,1
-"CC Saint Affricain,Roquefort,Sept Vallons",76,12,0,0,0,14627,"Chef d'entreprise de 10 salariés ou plus",44,NA,26.7,103,NA,20300,5.3,552.666652081767,1
+"CC Saint Affricain,Roquefort,Sept Vallons",76,12,0,0,0,14627,"Chef d'entreprise de 10 salariés ou plus",45,NA,26.7,103,NA,20300,5.3,552.666652081767,1
 "CC Saint Cyr Mère Boitier entre Charolais et Mâconnais",27,71,0,0,0,8195,"Ancien cadre",65,NA,24.5,69,NA,21070,6.2,565.356715070165,1
 "CC Saône-Beaujolais",84,69,0,0,0,44896,"Ancien cadre",64,NA,18.3,447,200040590,22060,5.1,484.661779000356,1
 "CC Saône Doubs Bresse",27,71,0,0,0,12455,"Cadre de la fonction publique",59,NA,20.6,101,247100589,21420,3.3,419.041832195905,1
@@ -1201,7 +1201,7 @@
 "CC Sundgau",44,68,0,0,0,48664,"Ingénieur et cadre technique d'entreprise",53,NA,18.8,296,200066009,27540,5.9,761.048766644748,1
 "CC Tannay-Brinon-Corbigny",27,58,0,0,0,10306,"Profession libérale",55,NA,34.8,66,NA,19990,4.5,817.553027362701,1
 "CC Tarn-Agout",76,NA,0,0,0,29343,"Ancien cadre",73,NA,19.2,329,200066124,22790,10.3,399.246979177317,1
-"CC Terre d'Auge",28,14,0,0,0,19770,"Personne diverse sans activité professionnelle de 60 ans et plus (sauf retraité)",61,NA,22.6,235,200065597,22120,6.2,528.012502276176,1
+"CC Terre d'Auge",28,14,0,0,0,19770,"Personne diverse sans activité professionnelle de 60 ans et plus (sauf retraité)",62,NA,22.6,235,200065597,22120,6.2,528.012502276176,1
 "CC Terre d'Eau",44,88,0,0,0,18834,"Ancien ouvrier",76,NA,24.6,105,NA,21550,3.8,410.459161622597,1
 "CC Terre de Camargue",76,30,0,0,0,20466,"Profession libérale",66,NA,28.9,308,NA,20880,5.1,1287.3673272745,1
 "CC Terre de Picardie",32,80,0,0,0,18595,"Ancienne profession intermédiaire",72,NA,16.5,87,NA,19770,3.1,853.78048184996,1
@@ -1211,7 +1211,7 @@
 "CC Terres de Chalosse",75,40,0,0,0,18765,"Agriculteur sur moyenne exploitation",57,NA,23.1,143,244000675,20870,3.7,253.748503064215,1
 "CC Terres de Perche",24,28,0,0,0,14876,"Profession intermédiaire de la santé et du travail social",59,NA,23.9,90,NA,20590,3,333.892005915569,1
 "CC Terres de Saône",27,70,0,0,0,13621,"Profession libérale",69,NA,20.4,81,247000011,21080,3,779.103492401439,1
-"CC Terres des Confluences",76,82,0,0,0,41983,"Ancien cadre",68,NA,22.2,355,248200099,18710,3.9,300.685584879594,1
+"CC Terres des Confluences",76,82,0,0,0,41983,"Ancien cadre",69,NA,22.2,355,248200099,18710,3.9,300.685584879594,1
 "CC Terres du Haut Berry",24,18,0,0,0,26487,"Ancien cadre",64,NA,21.5,183,241800507,22310,4.8,421.772238834145,1
 "CC Terres Touloises",44,54,0,0,0,45551,"Chef d'entreprise de 10 salariés ou plus",55,NA,17.4,352,245400676,21620,5.6,528.696122368334,1
 "CC Territoriale Sud-Luberon",93,84,0,0,0,25535,"Ancien cadre",63,NA,20.9,347,200054807,22480,11.1,344.740236538085,1
@@ -1228,7 +1228,7 @@
 "CC Usses et Rhône",84,NA,0,0,0,20855,"Ancien agriculteur exploitant",70,NA,14.7,204,NA,27900,6.9,715.767469671542,1
 "CC Vaison Ventoux",NA,NA,0,0,0,17250,"Ancien employé",63,NA,29,177,NA,20600,7.1,639.190297391304,1
 "CC Val-de-Cher-Controis",24,41,1,23,0,49295,"Ancien artisan, commerçant, chef d'entreprise",70,NA,27.5,386,200030385,20860,3.6,431.120427020996,1
-"CC Val 81",76,81,0,0,0,5686,"Contremaître, agent de maîtrise",57,NA,28.1,57,NA,19530,3.8,282.743105874077,1
+"CC Val 81",76,81,0,0,0,5686,"Contremaître, agent de maîtrise",58,NA,28.1,57,NA,19530,3.8,282.743105874077,1
 "CC Val Briard",11,77,0,0,0,27948,"Cadre de la fonction publique",49,NA,13.5,337,NA,25770,5.6,339.096767568341,1
 "CC Val de Charente",75,16,0,0,0,14651,"Cadre administratif et commercial d'entreprise",55,NA,29.7,159,NA,18980,3.9,714.444810593134,1
 "CC Val de Gâtine",75,79,0,0,0,21919,"Ancien cadre",67,NA,22.1,138,NA,20520,3.7,555.995044938182,1
@@ -1278,8 +1278,8 @@
 "CU Le Mans Métropole",52,72,0,0,0,210627,"Professeur, profession scientifique",61,"Parti socialiste",21.1,1905,200054781,20930,8.7,1362.11181268308,1
 "CU Limoges Métropole",75,87,0,0,0,212161,"Profession libérale",34,NA,21.5,1991,200066512,21240,9.3,995.973156423659,1
 "CU Perpignan Méditerranée Métropole",76,66,0,0,0,272800,"Agriculteur sur petite exploitation",54,NA,23.9,3503,200043602,19020,7,1161.84862181085,1
-"Dijon Métropole",27,21,0,0,0,257933,"Cadre de la fonction publique",69,"Parti socialiste",18.9,3398,200054781,22050,12.7,1069.50396843366,1
-"Dijon Métropole",27,21,0,0,0,257933,"Cadre de la fonction publique",69,"Ligue communiste révolutionnaire",18.9,3398,200054781,22050,12.7,1069.50396843366,1
+"Dijon Métropole",27,21,0,0,0,257933,"Cadre de la fonction publique",70,"Parti socialiste",18.9,3398,200054781,22050,12.7,1069.50396843366,1
+"Dijon Métropole",27,21,0,0,0,257933,"Cadre de la fonction publique",70,"Ligue communiste révolutionnaire",18.9,3398,200054781,22050,12.7,1069.50396843366,1
 "Est Ensemble",11,93,0,0,0,418239,NA,NA,NA,NA,NA,NA,NA,NA,417.073797708965,1
 "Eurométropole de Strasbourg",44,67,1,61,14,498227,"Professeur, profession scientifique",61,NA,16.3,6942,200054781,20760,16,1888.22429376569,1
 "Grand-Orly Seine Bièvre",11,94,0,0,0,701702,NA,NA,NA,NA,NA,NA,NA,NA,407.523530943335,1
