@@ -660,6 +660,12 @@ regions <- left_join(regions, urbanisation_reg[,c(1,4)], by = c("COG" = "code_re
 # ------------------------------- MANIPULATIONS DES BASES
 
 
+# On ajoute une colonne du type d'organisation pour les EPCI (à partir du jeu OFGL)
+comptes_epci <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-gfp-consolidee/download/?format=csv&disjunctive.dep_name=true&disjunctive.gfp_tranche_population=true&disjunctive.nat_juridique=true&disjunctive.mode_financement=true&disjunctive.gfp_tranche_revenu_imposable_par_habitant=true&disjunctive.epci_name=true&disjunctive.agregat=true&refine.exer=2019&refine.agregat=D%C3%A9penses+totales&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
+comptes_epci <- comptes_epci[,c(8,12)] %>% rename(type = `Nature juridique 2020 abrégée`, SIREN = `Code Siren 2020 EPCI`) %>% unique()
+comptes_epci$type <-  str_replace_all(comptes_epci$type, c("M" = "MET", "MET69" = "MET"))
+epci <- left_join(epci, comptes_epci, by="SIREN")
+
 # On retire toutes les variables qui ne sont pas utiles à l'analyse
           # chef de l'exécutif qui servait en étape intermédiaire pour récuperer le parti politique
           # les variables du jeu de l'observatoire des territoires avec les liens vers les portails open data etc.
@@ -735,14 +741,14 @@ epci <- epci %>% mutate(nb_ptf = replace_na(nb_ptf, 0),
 regions <- regions[,c(1,26,2:25)]
 departements <- departements[,c(1,2,22,3:21)]
 communes <- communes[,c(1:3,20,4:19)]
-epci <- epci[,c(1:3,17,4:16)]
+epci <- epci[,c(1,16,2:3,18,4:15,17)]
 
 
 # On met au bon format les variables
 regions[,c(2:5,7,9:23,25,26)] <- lapply(regions[,c(2:5,7,9:23,25,26)], as.numeric) 
 departements[,c(2:6,8,10:19,21,22)] <- lapply(departements[,c(2:6,8,10:19,21,22)], as.numeric) 
 communes[,c(2:7,9,11:17,18,19,20)] <- lapply(communes[,c(2:7,9,11:17,18,19,20)], as.numeric)
-epci[,c(2:7,9,11:17)] <- lapply(epci[,c(2:7,9,11:17)], as.numeric)
+epci[,c(3:8,10,12:18)] <- lapply(epci[,c(3:8,10,12:18)], as.numeric)
 
 
 # On exporte les bases pour l'analyse

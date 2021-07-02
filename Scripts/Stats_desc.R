@@ -37,7 +37,6 @@ epci <- read_csv("Data/process/epci.csv")
             # - nb_crea_entps
             # - nb_nuitees_hotels
             # - nb_etudiants
-vbles_quanti <- c("nb_ptf","nb_datagouv","taux_chomage","primaire_VA","secondaire_VA","tertiaire_marchand_VA","tertiaire_non_mar_VA", "part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","pop_insee","age_chef","PIB_habitant","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")
         # VARIABLES QUALI
           # modalités
             # - ouvre_data (2)
@@ -48,13 +47,21 @@ vbles_quanti <- c("nb_ptf","nb_datagouv","taux_chomage","primaire_VA","secondair
             # - nom
             # - partis_po_chef
             # - CSP_chef
+
+vbles_quanti <- c("nb_ptf","nb_datagouv","taux_chomage","primaire_VA","secondaire_VA","tertiaire_marchand_VA","tertiaire_non_mar_VA", "part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","pop_insee","age_chef","PIB_habitant","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")
 vbles_quali <- c("ouvre_data","niveau_rural_mode","niveau_rural_insee","flux_migration_res","nom","partis_po_chef","CSP_chef")
+
+
+
 
 
                 ### A) Régions
 
 
+
+
 # VARIABLES QUANTI
+
 
   # Boxplots
 library(rAmCharts)  # ATTENTION : individual = n° d'obs, est différent de "number of outliers" 
@@ -193,14 +200,8 @@ corrplot(cor1, method="color", col=col(200),
 
   # Statistiques
 summary(regions) 
-summary(departements) 
-summary(communes) 
-summary(epci) 
-    # nb de NA (compte à partir de la colonne la moins fournie : le parti politique)
-NA_reg <- as.data.frame(apply(is.na(regions), 2, sum)) %>% rename(nb_NA = `apply(is.na(regions), 2, sum)`) #/26
-NA_dep <- as.data.frame(apply(is.na(departements), 2, sum)) %>% rename(nb_NA = `apply(is.na(departements), 2, sum)`) #/119
-NA_com <- as.data.frame(apply(is.na(communes), 2, sum)) %>% rename(nb_NA = `apply(is.na(communes), 2, sum)`) #/35684
-NA_epci <- as.data.frame(apply(is.na(epci), 2, sum)) %>% rename(nb_NA = `apply(is.na(epci), 2, sum)`) #/1318
+NA_reg <- as.data.frame(apply(is.na(regions), 2, sum)) %>% rename(nb_NA = `apply(is.na(regions), 2, sum)`) %>%
+                        mutate(percent_NA = nb_NA/nrow(regions)*100) %>% mutate(percent_NA = round(percent_NA, 2)) #max 3/26 NA
 
 
 
@@ -241,6 +242,8 @@ fviz_pca_var (res.pca, col.var = "cos2",
 # VARIABLES QUANTI
 
 
+summary(departements) 
+NA_dep <- as.data.frame(apply(is.na(departements), 2, sum)) %>% rename(nb_NA = `apply(is.na(departements), 2, sum)`) #/119
 
 
 # VARIABLES QUALI
@@ -258,6 +261,8 @@ fviz_pca_var (res.pca, col.var = "cos2",
 # VARIABLES QUANTI
 
 
+summary(communes) 
+NA_com <- as.data.frame(apply(is.na(communes), 2, sum)) %>% rename(nb_NA = `apply(is.na(communes), 2, sum)`) #/35684
 
 
 # VARIABLES QUALI
@@ -274,10 +279,19 @@ fviz_pca_var (res.pca, col.var = "cos2",
 
 # VARIABLES QUANTI
 
+summary(epci) 
+NA_epci <- as.data.frame(apply(is.na(epci), 2, sum)) %>% rename(nb_NA = `apply(is.na(epci), 2, sum)`) #/1318
 
 
 
 # VARIABLES QUALI
+
+
+
+
+#------------------
+test <- epci[,c("nom","pop_insee","partis_po_chef")] %>% filter(stringr::str_detect(nom, "Métropole"))
+test <- test %>% distinct(c("nom","pop_insee"))
 
 
 
