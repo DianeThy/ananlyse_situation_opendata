@@ -7,7 +7,7 @@ library(tidyverse)
 #----------------------------------------- REGIONS
 
 
-# Import comptes consolidés
+# Import comptes consolidés - data OFGL
 OFGL_regions <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-regions-consolidee/download/?format=csv&disjunctive.reg_name=true&disjunctive.agregat=true&refine.agregat=D%C3%A9penses+totales&refine.exer=2019&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
 
 # On garde les champs qui nous intéressent 
@@ -35,7 +35,7 @@ OFGL_regions <- OFGL_regions %>% arrange(COG)
 #----------------------------------------- DEPARTEMENTS
 
 
-# Import comptes consolidés 
+# Import comptes consolidés - data OFGL
 OFGL_departements <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-departements-consolidee/download/?format=csv&disjunctive.reg_name=true&disjunctive.dep_tranche_population=true&disjunctive.dep_name=true&disjunctive.agregat=true&refine.exer=2019&refine.agregat=D%C3%A9penses+totales&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
 
 # On garde les champs qui nous intéressent 
@@ -67,7 +67,7 @@ OFGL_departements <- OFGL_departements %>% arrange(COG) %>% replace(type, "DEP")
 #----------------------------------------- COMMUNES
 
 
-# Import jeu des comptes consolidés
+# Import jeu des comptes consolidés - data OFGL
 OFGL_communes <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-communes-consolidee/download/?format=csv&disjunctive.reg_name=true&disjunctive.dep_name=true&disjunctive.epci_name=true&disjunctive.tranche_population=true&disjunctive.tranche_revenu_imposable_par_habitant=true&disjunctive.com_name=true&disjunctive.agregat=true&refine.exer=2019&refine.agregat=D%C3%A9penses+totales&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
 
 # On garde les champs qui nous intéressent 
@@ -100,7 +100,7 @@ OFGL_communes <- OFGL_communes %>% arrange(COG)
 #------------------------------------------- TOUTES COLL
 
 
-# On regroupe ces 3 niveaux de collectivités pour avoir toutes les informationss en une seule base
+# On regroupe ces 3 niveaux de collectivités pour avoir toutes les informations en une seule base
 infos_coll <- rbind(OFGL_regions, 
                     OFGL_departements[,c(1:4)], 
                     OFGL_communes[,c(1:4)])
@@ -111,7 +111,7 @@ infos_coll <- rbind(OFGL_regions,
 #----------------------------------------- INTERCO (juste SIREN et noms)
 
 
-# Import comptes consolidés 
+# Import comptes consolidés - data OFGL 
 OFGL_interco <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-gfp-consolidee/download/?format=csv&disjunctive.dep_name=true&disjunctive.gfp_tranche_population=true&disjunctive.nat_juridique=true&disjunctive.mode_financement=true&disjunctive.gfp_tranche_revenu_imposable_par_habitant=true&disjunctive.epci_name=true&disjunctive.agregat=true&refine.exer=2019&refine.agregat=D%C3%A9penses+totales&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
 
 # On garde les champs qui nous intéressent 
@@ -142,7 +142,7 @@ OFGL_interco <- OFGL_interco %>% arrange(nom)
 #------------------------------------------- EXPORT
 
 
-# On exporte toutes ces bases qui aideront pour croiser des variables de différents jeux quand les variables pivot ne sont pas les mêmes
+# On exporte toutes ces bases qui aideront pour croiser des variables de différents jeux quand les noms d'organisation ne sont pas exactement les mêmes
 rio::export(OFGL_regions,"./Data/external/infos_regions.csv")
 rio::export(OFGL_departements,"./Data/external/infos_departements.csv")
 rio::export(OFGL_communes,"./Data/external/infos_communes.csv")
