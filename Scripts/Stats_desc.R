@@ -5,7 +5,6 @@
 
 ###############################################################################################################################
 
-
 library(tidyverse)
 
 # Import des bases finalisées
@@ -48,7 +47,7 @@ epci <- read_csv("Data/process/epci.csv")
             # - partis_po_chef
             # - CSP_chef
 
-vbles_quanti <- c("nb_ptf","nb_datagouv","taux_chomage","primaire_VA","secondaire_VA","tertiaire_marchand_VA","tertiaire_non_mar_VA", "part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","pop_insee","age_chef","PIB_habitant","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")
+vbles_quanti <- c("nb_publi","nb_ptf","nb_datagouv","taux_chomage","primaire_VA","secondaire_VA","tertiaire_marchand_VA","tertiaire_non_mar_VA", "part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","pop_insee","age_chef","PIB_habitant","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")
 vbles_quali <- c("ouvre_data","niveau_rural_mode","niveau_rural_insee","flux_migration_res","nom","partis_po_chef","CSP_chef")
 
 
@@ -63,9 +62,12 @@ vbles_quali <- c("ouvre_data","niveau_rural_mode","niveau_rural_insee","flux_mig
 # VARIABLES QUANTI
 
 
+#----------- Points atypiques
+
   # Boxplots
 library(rAmCharts)  # ATTENTION : individual = n° d'obs, est différent de "number of outliers" 
-amBoxplot(regions$nb_ptf, xlab=" ", ylab=" ", main="Nombre de données publiées sur la plateforme locale")
+amBoxplot(regions$nb_ptf, xlab=" ", ylab=" ", main="Nombre de données publiées sur la plateforme locale") #4
+amBoxplot(regions$nb_publi, xlab=" ", ylab=" ", main="Nombre total de données publiées") #4
 amBoxplot(regions$nb_datagouv, xlab=" ", ylab=" ", main="Nombre de données publiées sur datagouv") #4
 amBoxplot(regions$pop_insee, xlab=" ", ylab=" ", main="Population") #4
 amBoxplot(regions$age_chef, xlab=" ", ylab=" ", main="Âge du chef de l'exécutif") #2
@@ -88,10 +90,12 @@ amBoxplot(regions$percent_pop_rurale, xlab=" ", ylab=" ", main="Pourcentage de p
 
   # Test de Rosner pour les points atypiques
 library("EnvStats")
+    # nb_publi
+rosnerTest(regions$nb_publi, k = 4, alpha = 0.05) #outlier quand nb de jeux ouverts sur datagouv = 861, obs° 6 à 9 càd Ile de France
     # nb_datagouv
-rosnerTest(regions$nb_datagouv, k = 4, alpha = 0.05) #outlier quand nb de jeux ouverts sur datagouv = 861, obs° 6 à 9 càd Ile de France
+rosnerTest(regions$nb_datagouv, k = 4, alpha = 0.05) #outlier quand nb de jeux ouverts sur datagouv >= 861, Ile de France aussi
     # pop_insee
-rosnerTest(regions$pop_insee, k = 4, alpha = 0.05) #outlier quand pop = 12.258.425, Ile de France aussi
+rosnerTest(regions$pop_insee, k = 4, alpha = 0.05) #outlier quand pop = 12.258.425, Ile de France
     # age_chef
 rosnerTest(regions$age_chef, k = 2, alpha = 0.05) # finalement pas d'outlier : 'FALSE'
     # taux_chomage
@@ -122,6 +126,9 @@ rosnerTest(regions$part_etudiants, k = 4, alpha = 0.05) #outlier quand part >= 5
 
 # On retire les points atypiques dans une nouvelle base pour faire une double analyse par la suite
 regions_sans_outliers <- regions[-c(1:9,27),]
+
+
+#----------- Distribution
 
 
   # Histogrammes de distribution
@@ -164,15 +171,14 @@ shapiro.test(regions_sans_outliers$part_etudiants)  #normal
 shapiro.test(regions_sans_outliers$percent_pop_rurale)
 
 
-  # Matrice de corrélation de Spearman car variables ne suivent pas toutes une loi normale
-cor1 <- cor(regions_sans_outliers[,c(vbles_quanti)], use="complete.obs", method=c("spearman"))
+  # Matrice de corrélation de Spearman car variables ne suivent pas toutes une loi normale (on exclu les Y)
+cor1 <- cor(regions_sans_outliers[,c("taux_chomage","primaire_VA","secondaire_VA","tertiaire_marchand_VA","tertiaire_non_mar_VA", "part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","pop_insee","age_chef","PIB_habitant","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")], use="complete.obs", method=c("spearman"))
 library(corrplot)
 col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
 corrplot(cor1, method="color", col=col(200), 
              type="upper",
              addCoef.col = "black")
 # corrélations moyennes (0.5<x<0.6) :
-    # - nb_ptf et nb_datagouv/secondaire_VA/percent_pop_rurale/pop_insee
     # - taux_chomage et depenses_hab/pop_insee/nb_etudiants
     # - primaire_VA et part_diplomes/nb_nuitees_hotels/nb_etudiants
     # - secondaire_VA et depenses_hab/nb_cre_entps
@@ -182,7 +188,6 @@ corrplot(cor1, method="color", col=col(200),
     # - part_etudiants et nb_crea_entps
     # - percent_pop_rurale et pop_insee/nb_etudiants
 # corrélations fortes (x>0.6) :
-    # - nb_ptf et primaire_VA/pert_etudiants/nb_etudiants
     # - taux_chomage et tertaire_non_mar_VA/percent_pop_rurale/niveau_vie
     # - primaire_VA et tertiaire_marchand_VA/percent_pop_rurale/nb_crea_entps
     # - secondaire_VA et tertiaire_marchand_VA/part_diplomes
@@ -231,7 +236,9 @@ fviz_pca_var (res.pca, col.var = "cos2",
 
 
 
-
+# CORSE / Gilles SImeoni, Professions libérales, 20 avril 67, Femu a Corsica
+# GUYANE : Gabriel SERville, Professions Intermédiaires, 27 septembre 1959, Péyi Guyane
+# MARTINIQUE: Alfred Marie-Jeanne, Professions Intermédiaires, 15 novembre 1936, Mouvement indépendantiste martiniquais
 
 
                 ### B) Départements

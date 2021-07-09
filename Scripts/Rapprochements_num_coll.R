@@ -1,4 +1,5 @@
-########### RAPPROCHEMENT CODES - COLLECTIVITES ########### 
+########### EXTRACTION IDENTIFIANTS COLLECTIVITES ET EPCI - DATACTIVIST ########### 
+
 library(tidyverse)
 
 
@@ -7,22 +8,25 @@ library(tidyverse)
 
 
 # Import comptes consolidés
-OFGL_region <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-regions-consolidee/download/?format=csv&disjunctive.reg_name=true&disjunctive.agregat=true&refine.agregat=D%C3%A9penses+totales&refine.exer=2019&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
+OFGL_regions <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-regions-consolidee/download/?format=csv&disjunctive.reg_name=true&disjunctive.agregat=true&refine.agregat=D%C3%A9penses+totales&refine.exer=2019&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
 
 # On garde les champs qui nous intéressent 
-OFGL_region <- OFGL_region[,c(4,5,7,8)]
+OFGL_regions <- OFGL_regions[,c(4:7)]
 
 # On les renomme
-OFGL_region <- OFGL_region %>% rename(COG = `Code Insee 2020 Région`,
-                                      nom = `Nom 2020 Région`,
-                                      nom_minimise = `Libellé Budget`,
-                                      SIREN = `Code Siren Collectivité`)
-
+OFGL_regions <- OFGL_regions %>% rename(COG = `Code Insee 2021 Région`,
+                                        nom = `Nom 2021 Région`,
+                                        type = `Catégorie`,
+                                        SIREN = `Code Siren Collectivité`)
+    
 # On réordonne 
-OFGL_region <- OFGL_region[,c(2,4,1,3)]
+OFGL_regions <- OFGL_regions[,c(2,4,1,3)]
+
+# On met au bon format les variables numériques
+OFGL_regions[,c(2,3)] <- lapply(OFGL_regions[,c(2,3)], as.numeric)
 
 # On trie les observations avec COG par ordre croissant
-OFGL_region <- OFGL_region %>% arrange(COG)
+OFGL_regions <- OFGL_regions %>% arrange(COG)
 
 
 
@@ -32,23 +36,29 @@ OFGL_region <- OFGL_region %>% arrange(COG)
 
 
 # Import comptes consolidés 
-OFGL_departement <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-departements-consolidee/download/?format=csv&disjunctive.reg_name=true&disjunctive.dep_tranche_population=true&disjunctive.dep_name=true&disjunctive.agregat=true&refine.exer=2019&refine.agregat=D%C3%A9penses+totales&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
+OFGL_departements <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-departements-consolidee/download/?format=csv&disjunctive.reg_name=true&disjunctive.dep_tranche_population=true&disjunctive.dep_name=true&disjunctive.agregat=true&refine.exer=2019&refine.agregat=D%C3%A9penses+totales&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
 
 # On garde les champs qui nous intéressent 
-OFGL_departement <- OFGL_departement[,c(3,7,8,10,11)]
+OFGL_departements <- OFGL_departements[,c(3,7:10)]
 
 # On les renomme
-OFGL_departement <- OFGL_departement %>% rename(COG = `Code Insee 2020 Département`,
-                                                nom = `Nom 2020 Département`,
-                                                nom_minimise = `Libellé Budget`,
-                                                code_region = `Code Insee 2020 Région`,
-                                                SIREN = `Code Siren Collectivité`)
+OFGL_departements <- OFGL_departements %>% rename(COG = `Code Insee 2021 Département`,
+                                                  nom = `Nom 2021 Département`,
+                                                  type = `Catégorie`,
+                                                  code_region = `Code Insee 2021 Région`,
+                                                  SIREN = `Code Siren Collectivité`)
 
 # On réordonne 
-OFGL_departement <- OFGL_departement[,c(3,5,2,4,1)]
+OFGL_departements <- OFGL_departements[,c(3,5,2,4,1)]
+
+# On modifie le type "DEPT" par "DEP"
+OFGL_departements$type <- str_replace_all(OFGL_departements$type, "DEPT", "DEP")
+
+# On met au bon format les variables numériques
+OFGL_departements[,c(2,3,5)] <- lapply(OFGL_departements[,c(2,3,5)], as.numeric)
 
 # On trie les observations avec COG par ordre croissant
-OFGL_departement <- OFGL_departement %>% arrange(COG)
+OFGL_departements <- OFGL_departements %>% arrange(COG) %>% replace(type, "DEP")
 
 
 
@@ -57,25 +67,31 @@ OFGL_departement <- OFGL_departement %>% arrange(COG)
 #----------------------------------------- COMMUNES
 
 
-# Import jeu des comptes consolidés des communes car numéro SIREN et INSEE y sont
-OFGL_commune <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-communes-consolidee/download/?format=csv&disjunctive.reg_name=true&disjunctive.dep_name=true&disjunctive.epci_name=true&disjunctive.tranche_population=true&disjunctive.tranche_revenu_imposable_par_habitant=true&disjunctive.com_name=true&disjunctive.agregat=true&refine.exer=2019&refine.agregat=D%C3%A9penses+totales&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
+# Import jeu des comptes consolidés
+OFGL_communes <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-communes-consolidee/download/?format=csv&disjunctive.reg_name=true&disjunctive.dep_name=true&disjunctive.epci_name=true&disjunctive.tranche_population=true&disjunctive.tranche_revenu_imposable_par_habitant=true&disjunctive.com_name=true&disjunctive.agregat=true&refine.exer=2019&refine.agregat=D%C3%A9penses+totales&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
 
 # On garde les champs qui nous intéressent 
-OFGL_commune <- OFGL_commune[,c(3,5,15,16,18,20)]
+OFGL_communes <- OFGL_communes[,c(3,5,15:18)]
 
 # On les renomme
-OFGL_commune <- OFGL_commune %>% rename(COG = `Code Insee 2020 Commune`,
-                                              code_region = `Code Insee 2020 Région`,
-                                              code_departement = `Code Insee 2020 Département`,
-                                              nom = `Nom 2020 Commune`,
-                                              nom_minimise = `Libellé Budget`,
-                                              SIREN = `Code Siren Collectivité`)
+OFGL_communes <- OFGL_communes %>% rename(COG = `Code Insee 2021 Commune`,
+                                          code_region = `Code Insee 2021 Région`,
+                                          code_departement = `Code Insee 2021 Département`,
+                                          nom = `Nom 2021 Commune`,
+                                          type = `Catégorie`,
+                                          SIREN = `Code Siren Collectivité`)
 
 # On réordonne 
-OFGL_commune <- OFGL_commune[,c(4,6,3,5,1,2)]
+OFGL_communes <- OFGL_communes[,c(4,6,3,5,1,2)]
+
+# On modifie le type "Commune" par "COM"
+OFGL_communes$type <- str_replace_all(OFGL_communes$type, "Commune", "COM")
+
+# On met au bon format les variables numériques
+OFGL_communes[,c(2,3,5,6)] <- lapply(OFGL_communes[,c(2,3,5,6)], as.numeric)
 
 # On trie les observations avec COG par ordre croissant
-OFGL_commune <- OFGL_commune %>% arrange(COG)
+OFGL_communes <- OFGL_communes %>% arrange(COG)
 
 
 
@@ -84,12 +100,10 @@ OFGL_commune <- OFGL_commune %>% arrange(COG)
 #------------------------------------------- TOUTES COLL
 
 
-OFGL_region$type <- "REG"
-OFGL_departement$type <- "DEP"
-OFGL_commune$type <- "COM"
-
-# On regroupe ces 3 nieaux de collectivités pour avoir toutes les infos en une seule base
-infos_coll <- rbind(OFGL_region,OFGL_departement[,c(1:4,6)],OFGL_commune[,c(1:4,7)])
+# On regroupe ces 3 niveaux de collectivités pour avoir toutes les informationss en une seule base
+infos_coll <- rbind(OFGL_regions, 
+                    OFGL_departements[,c(1:4)], 
+                    OFGL_communes[,c(1:4)])
 
 
 
@@ -101,17 +115,23 @@ infos_coll <- rbind(OFGL_region,OFGL_departement[,c(1:4,6)],OFGL_commune[,c(1:4,
 OFGL_interco <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-gfp-consolidee/download/?format=csv&disjunctive.dep_name=true&disjunctive.gfp_tranche_population=true&disjunctive.nat_juridique=true&disjunctive.mode_financement=true&disjunctive.gfp_tranche_revenu_imposable_par_habitant=true&disjunctive.epci_name=true&disjunctive.agregat=true&refine.exer=2019&refine.agregat=D%C3%A9penses+totales&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
 
 # On garde les champs qui nous intéressent 
-OFGL_interco <- OFGL_interco[,c(3,5,12,13,16)]
+OFGL_interco <- OFGL_interco[,c(3,5,8,12,13)]
 
 # On les renomme
-OFGL_interco <- OFGL_interco %>% rename(nom = `Nom 2020 EPCI`,
-                                              nom_minimise = `Libellé Budget`,
-                                              code_region = `Code Insee 2020 Région`,
-                                              code_departement = `Code Insee 2020 Département`,
-                                              SIREN = `Code Siren 2020 EPCI`)
+OFGL_interco <- OFGL_interco %>% rename(nom = `Nom 2021 EPCI`,
+                                        type = `Nature juridique 2021 abrégée`,
+                                        code_region = `Code Insee 2021 Région`,
+                                        code_departement = `Code Insee 2021 Département`,
+                                        SIREN = `Code Siren 2021 EPCI`)
 
 # On réordonne 
-OFGL_interco <- OFGL_interco[,c(4,5,3,1,2)]
+OFGL_interco <- OFGL_interco[,c(5,4,3,1,2)]
+
+# On modifie le type "M" par "MET"
+OFGL_interco$type <- str_replace_all(OFGL_interco$type, "M", "MET")
+
+# On met au bon format les variables numériques
+OFGL_interco[,c(2,4,5,6)] <- lapply(OFGL_interco[,c(2,4,5)], as.numeric)
 
 # On trie les observations avec COG par ordre croissant
 OFGL_interco <- OFGL_interco %>% arrange(nom)
@@ -123,11 +143,11 @@ OFGL_interco <- OFGL_interco %>% arrange(nom)
 
 
 # On exporte toutes ces bases qui aideront pour croiser des variables de différents jeux quand les variables pivot ne sont pas les mêmes
-#rio::export(OFGL_region,"./Data/external/infos_regions.csv")
-#rio::export(OFGL_departement,"./Data/external/infos_departements.csv")
-#rio::export(OFGL_commune,"./Data/external/infos_communes.csv")
-#rio::export(infos_coll,"./Data/external/infos_collectivites.csv")
-#rio::export(OFGL_interco,"./Data/external/infos_interco.csv")
+rio::export(OFGL_regions,"./Data/external/infos_regions.csv")
+rio::export(OFGL_departements,"./Data/external/infos_departements.csv")
+rio::export(OFGL_communes,"./Data/external/infos_communes.csv")
+rio::export(infos_coll,"./Data/external/infos_collectivites.csv")
+rio::export(OFGL_interco,"./Data/external/infos_interco.csv")
 
 
 

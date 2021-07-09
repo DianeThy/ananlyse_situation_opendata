@@ -277,7 +277,7 @@ epci <- epci %>% rename(partis_po_chef = partiLabel)
 ## Nombre de partis politiques manquants pour les orgas
 regions %>% count(is.na(partis_po_chef))  # 3/17
 departements %>% count(is.na(partis_po_chef))  #32/98
-communes %>% count(is.na(partis_po_chef))  # 34386/34966
+communes %>% count(is.na(partis_po_chef))  # 34387/34966
 epci %>% count(is.na(partis_po_chef))  # 1106/1272
 
 
@@ -349,6 +349,8 @@ regions <- left_join(regions, stats_locales_reg[,-2], by="COG", copy=FALSE)
 departements <- left_join(departements, stats_locales_dep[,-2], by="COG", copy=FALSE)
 communes <- left_join(communes, stats_locales_com[,-2], by="COG", copy=FALSE)
 epci <- left_join(epci, stats_locales_epci[,-2], by="SIREN", copy=FALSE)
+    # le siren de la métropole de Lille ayant changé on attribue les valeurs nous mêmes car pas de match (old : 245900410, new : 200093201)
+epci[1295,c(22:26)] <- stats_locales_epci[,c(3:7)] %>% filter(stats_locales_epci$nom == "Métropole Européenne de Lille")
 
 
 
@@ -454,10 +456,19 @@ urbanisation_com <- read_excel("FET2021_D4.xlsx", col_names = TRUE, skip = 2, sh
 
 # On renomme les colonnes
 urbanisation_com <- urbanisation_com %>% rename(COG = `Code géographique communal`,
-                                                        niveau_rural = `Typologie urbain/rural`)
+                                                niveau_rural = `Typologie urbain/rural`)
 
 # Match avec le jeu de l'analyse
 communes <- left_join(communes, urbanisation_com, by="COG", copy=FALSE)
+
+# Pour plus de simplicité on remplace les catégories par un digit de 1 à 6 tel que :
+  #- 1 : urbain dense 
+  #- 2 : urbain densité intermédiaire
+  #- 3 : rural sous forte influence d'un pôle
+  #- 4 : rural sous faible influence d'un pôle
+  #- 5 : rural autonome peu dense
+  #- 6 : rural autonome très peu dense
+communes$niveau_rural <- str_replace_all(communes$niveau_rural, c("urbain dense" = "1", "urbain densité intermédiaire" = "2", "rural sous forte influence d'un pôle" = "3", "rural sous faible influence d'un pôle" = "4", "rural autonome peu dense" = "5", "rural autonome très peu dense" = "6"))
 
 
 
@@ -469,6 +480,7 @@ communes <- left_join(communes, urbanisation_com, by="COG", copy=FALSE)
 
 
 # A) Calcul du mode
+
 
     ### niveau départemental
 
@@ -509,7 +521,7 @@ urbanisation_reg$COG <- sprintf("%02d", urbanisation_reg$COG)
 regions$COG <- as.numeric(regions$COG)
 urbanisation_reg$COG <- as.numeric(urbanisation_reg$COG)
 
-# On affecte ces données au jeu des départements par un match via le COG
+# On affecte ces données au jeu des régions par un match via le COG
 regions <- left_join(regions, urbanisation_reg, by="COG", copy=F)
 
 
@@ -600,11 +612,11 @@ urbanisation_reg <- urbanisation_reg %>% group_by(code_region) %>% mutate(niveau
                                                                                                  densite == 4 & percent_pop > 50 ~ 4,
                                                                                                  TRUE ~ 3))   #la première valeur par departement est la bonne
 
-# On garde la bonne valeur càd la première par département
+# On garde la bonne valeur càd la première par régions
 urbanisation_reg <- urbanisation_reg %>%  group_by(code_region) %>% slice(1)
 
-# On match au jeu des départements
-departements$COG <- as.numeric(departements$COG)
+# On match au jeu des régions
+regions$COG <- as.numeric(regions$COG)
 regions <- left_join(regions, urbanisation_reg[,c(1,8)], by = c("COG" = "code_region"), copy = FALSE)
 
 
@@ -635,6 +647,7 @@ urbanisation_dep <- urbanisation_dep %>% filter(densite_binaire == 2) %>% rename
 # Puis on ajoute cette nouvelle variable aux données des départements
     # même format pour la colonne de jointure
 urbanisation_dep$code_departement <- as.numeric(urbanisation_dep$code_departement)
+departements$COG <- as.numeric(departements$COG)
 departements <- left_join(departements, urbanisation_dep[,c(1,4)], by = c("COG" = "code_departement"), copy = FALSE)
 
 
@@ -660,10 +673,11 @@ regions <- left_join(regions, urbanisation_reg[,c(1,4)], by = c("COG" = "code_re
 # ------------------------------- MANIPULATIONS DES BASES
 
 
+
 # On ajoute une colonne du type d'organisation pour les EPCI (à partir du jeu OFGL)
 comptes_epci <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-gfp-consolidee/download/?format=csv&disjunctive.dep_name=true&disjunctive.gfp_tranche_population=true&disjunctive.nat_juridique=true&disjunctive.mode_financement=true&disjunctive.gfp_tranche_revenu_imposable_par_habitant=true&disjunctive.epci_name=true&disjunctive.agregat=true&refine.exer=2019&refine.agregat=D%C3%A9penses+totales&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
 comptes_epci <- comptes_epci[,c(8,12)] %>% rename(type = `Nature juridique 2020 abrégée`, SIREN = `Code Siren 2020 EPCI`) %>% unique()
-comptes_epci$type <-  str_replace_all(comptes_epci$type, c("M" = "MET", "MET69" = "MET"))
+comptes_epci$type <-  str_replace_all(comptes_epci$type, c("MET69" = "M", "M" = "MET"))
 epci <- left_join(epci, comptes_epci, by="SIREN")
 
 # On retire toutes les variables qui ne sont pas utiles à l'analyse
@@ -689,7 +703,6 @@ epci <- epci %>% rename(nb_ptf = `nb-ptf`,
                         nb_datagouv = `nb-datagouv`, 
                         pop_insee = `pop-insee`)
 
-
 # On remplace les NA mal notés (NULL, null, N/A etc.) par de vrais NAs.
 regions[regions == "null" | regions == "N/A" | regions == "NULL" | regions == "NA"] <- NA
 departements[departements == "null" | departements == "N/A" | departements == "NULL" | departements == "NA"] <- NA
@@ -698,31 +711,7 @@ epci[epci == "null" | epci == "N/A" | epci == "NULL" | epci == "NA"] <- NA
 
 
 
-# On créé 2 variables : une pour savoir si l'orga est concernée par la loi Lemaire, une autre pour savoir si elle ouvre des données 
-    # obligation d'ouvrir ? Oui=1, Non=0  : communes et départements forcément concernés donc on la créé pour EPCI et communes
-    # empiriquement ouvre ? Oui=1, Non=0  : on la créé pour tous les types d'orgas car en pratique ce n'est pas tjs le cas
-
-    ## Régions
-regions$ouvre_data <- case_when(is.na(regions$nb_ptf) & is.na(regions$nb_datagouv) ~ 0,
-                                !is.na(regions$nb_ptf) ~ 1,
-                                !is.na(regions$nb_datagouv) ~ 1)
-    ## Départements
-departements$ouvre_data <- case_when(is.na(departements$nb_ptf) & is.na(departements$nb_datagouv) ~ 0,
-                                     !is.na(departements$nb_ptf) ~ 1,
-                                     !is.na(departements$nb_datagouv) ~ 1)
-    ## Communes
-communes$obligation_ouvrir <- case_when(communes$pop_insee < 3500 ~ 0,
-                                        communes$pop_insee >= 3500 ~ 1)
-communes$ouvre_data <- case_when(is.na(communes$nb_ptf) & is.na(communes$nb_datagouv) ~ 0,
-                                 !is.na(communes$nb_ptf) ~ 1,
-                                 !is.na(communes$nb_datagouv) ~ 1)
-    ## EPCI
-epci$obligation_ouvrir <- case_when(epci$pop_insee < 3500 ~ 0,
-                                    epci$pop_insee >= 3500 ~ 1)
-epci$ouvre_data <- case_when(is.na(epci$nb_ptf) & is.na(epci$nb_datagouv) ~ 0,
-                             !is.na(epci$nb_ptf) ~ 1,
-                             !is.na(epci$nb_datagouv) ~ 1)
-
+    #--------------- Manips variables dépendantes
 
 
 # Pour les orgas qui n'ouvrent pas de données on remplace les NA par 0 car pas valeur manquante mais plutôt : 0 données ouvertes
@@ -736,19 +725,58 @@ epci <- epci %>% mutate(nb_ptf = replace_na(nb_ptf, 0),
                            nb_datagouv = replace_na(nb_datagouv, 0))
 
 
+# On créé 3 variables : une pour savoir si l'orga est concernée par la loi Lemaire, une autre pour savoir si elle ouvre des données et une autre pour savoir COMBIEN de données elle ouvre (nb_ptf + nb_datagouv)
+    # obligation d'ouvrir ? Oui=1, Non=0  : communes, départements et EPCI ont tous pop > 3500 donc on la créé seulement pour les communes
+min(regions$pop_insee)
+min(departements$pop_insee, na.rm=T)
+min(epci$pop_insee)
+    # empiriquement ouvre ? Oui=1, Non=0  : on la créé pour tous les types d'orgas car en pratique ce n'est pas tjs le cas
+
+    ## Régions
+regions <- regions %>% mutate(nb_publi = nb_ptf + nb_datagouv)
+regions$ouvre_data <- case_when(regions$nb_publi == 0 ~ 0,
+                                regions$nb_publi > 0 ~ 1)
+    ## Départements
+departements <- departements %>% mutate(nb_publi = nb_ptf + nb_datagouv)
+departements$ouvre_data <- case_when(departements$nb_publi == 0 ~ 0,
+                                     departements$nb_publi > 0 ~ 1)
+    ## Communes
+communes$obligation_ouvrir <- case_when(communes$pop_insee < 3500 ~ 0,
+                                        communes$pop_insee >= 3500 ~ 1)
+communes <- communes %>% mutate(nb_publi = nb_ptf + nb_datagouv)
+communes$ouvre_data <- case_when(communes$nb_publi == 0 ~ 0,
+                                 communes$nb_publi > 0 ~ 1)
+    ## EPCI
+epci <- epci %>% mutate(nb_publi = nb_ptf + nb_datagouv)
+epci$ouvre_data <- case_when(epci$nb_publi == 0 ~ 0,
+                             epci$nb_publi > 0 ~ 1)
+
+
 # On réordonne pour avoir les variables à expliquer au début de la base 
     #(nb de jeux ouverts et aussi la vble binaire : ouverture de données ou pas?)
-regions <- regions[,c(1,26,2:25)]
-departements <- departements[,c(1,2,22,3:21)]
-communes <- communes[,c(1:3,20,4:19)]
-epci <- epci[,c(1,16,2:3,18,4:15,17)]
+regions <- regions[,c(1,26,27,2:25)]
+departements <- departements[,c(1,22,23,2:21)]
+communes <- communes[,c(1,20,21,2:19)]
+epci <- epci[,c(1,16:18,2:15)]
+
+
+# Pour les régions il ne manque que 3 infos sur les chefs de l'éxécutif donc on complète à la main pour avoir une base finie
+regions[c(2,3,27),]$CSP_chef <- c("Professions Intermédiaires","Professions Intermédiaires","Profession libérale")
+regions[c(2,3,27),]$age_chef <- age(c("1936/11/15","1959/09/27","1967/04/20"), units = "years")
+regions[c(2,3,27),]$partis_po_chef <- c("Mouvement indépendantiste martiniquais","Péyi Guyane","Femu a Corsica")
+
+
+# Pareil pour les métropoles, manque infos pour 4 obs donc on ajoute manuellement
+epci[c(1283,1291,1308,1316),]$partis_po_chef <- c("sans étiquette","Europe Écologie Les Verts","Parti socialiste","Parti socialiste")
+epci[1291,]$CSP_chef <- "Chef d'entreprise"
+epci[1291,]$age_chef <- age("1970/12/31")
 
 
 # On met au bon format les variables
-regions[,c(2:5,7,9:23,25,26)] <- lapply(regions[,c(2:5,7,9:23,25,26)], as.numeric) 
-departements[,c(2:6,8,10:19,21,22)] <- lapply(departements[,c(2:6,8,10:19,21,22)], as.numeric) 
-communes[,c(2:7,9,11:17,18,19,20)] <- lapply(communes[,c(2:7,9,11:17,18,19,20)], as.numeric)
-epci[,c(3:8,10,12:18)] <- lapply(epci[,c(3:8,10,12:18)], as.numeric)
+regions[,c(2:6,8,10:27)] <- lapply(regions[,c(2:6,8,10:27)], as.numeric) 
+departements[,c(2:7,9,11:23)] <- lapply(departements[,c(2:7,9,11:23)], as.numeric) 
+communes[,c(2:8,10,12:21)] <- lapply(communes[,c(2:8,10,12:21)], as.numeric)
+epci[,c(3:9,11,13:18)] <- lapply(epci[,c(3:9,11,13:18)], as.numeric)
 
 
 # On exporte les bases pour l'analyse
