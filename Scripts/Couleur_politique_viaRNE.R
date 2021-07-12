@@ -21,12 +21,23 @@ communes <- read_csv("Data/raw/infos_communes.csv")
 epci <- read_csv("Data/raw/infos_interco.csv")
 
 
-# On ajoute les données de l'observatoire des territoires (nombre de jeux ouverts)
+
+#------------------------------- AJOUT DONNEES OBSERVATOIRE DES TERRITOIRES : FUTUR(S) Y
+
 
 # Import de la base complète
 library(googlesheets4)   #taper "1" en dessous
 observatoire_opendata_territoire <- read_sheet("https://docs.google.com/spreadsheets/d/1yhcCDLrDsZzNxlPaIl25p_qN8WVPGCTstdIUxezDxtQ/edit#gid=614893302")
 
+
+# Après vérification les données ne sont pas fiables : on importe une base avec des corrections pour joindre les 2 et avoir les bonnes infos de Yt
+modifs_OODT <- read_csv("Data/external/modifs_recensement_OODT.csv")
+    # on remplace les obs où le nombre de jeux sur propre plateforme renseigné était faux
+observatoire_opendata_territoire[c(430,505,507,643),]$`nb-ptf` <- modifs_OODT[c(4,1,2,6),]$`nb-ptf`  # nb-ptf
+    # on ajoute des obs pour les orgas où 0 jeux n'étaient recensés mais en réalité portail existe bien
+observatoire_opendata_territoire <- rbind(observatoire_opendata_territoire, modifs_OODT[c(3,5,7:12),])
+
+          
   # on renomme la colonne de jointure et on la passe au format numérique
 observatoire_opendata_territoire <- observatoire_opendata_territoire %>% rename(SIREN = siren)
 observatoire_opendata_territoire$SIREN <- as.numeric(observatoire_opendata_territoire$SIREN)
@@ -37,7 +48,7 @@ observatoire_dep <- observatoire_opendata_territoire %>% filter(type == "DEP") #
 observatoire_com <- observatoire_opendata_territoire %>% filter(type == "COM")  #351 obs
 observatoire_epci <- observatoire_opendata_territoire %>% filter(type == "MET" | type == "CU" | type == "CC" | type == "CA")  # 17+5+43+99 = 164
 
-# On match par le numéro (SIREN, INSEE)
+# On match par le numéro (SIREN, COG INSEE)
 regions <- left_join(regions, observatoire_reg[,-c(2:3)], by="SIREN", copy=FALSE)
 departements <- left_join(departements, observatoire_dep[,-c(2:3)], by="SIREN", copy=FALSE)
 communes <- left_join(communes, observatoire_com[,-c(2:3)], by="SIREN", copy=FALSE)
@@ -64,29 +75,29 @@ comptes_epci <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-gfp-c
 
 
 # On sélectionne les variables de la population et du SIREN
-comptes_reg <- comptes_reg[,c(7,12)]
-comptes_dep <- comptes_dep[,c(10,15)]
-comptes_com <- comptes_com[,c(18,24)]
-comptes_epci <- comptes_epci[,c(12,20)]
+comptes_reg_pop <- comptes_reg[,c(7,12)]
+comptes_dep_pop <- comptes_dep[,c(10,15)]
+comptes_com_pop <- comptes_com[,c(18,24)]
+comptes_epci_pop <- comptes_epci[,c(12,20)]
 
 # On renomme les colonnes
-comptes_reg <- comptes_reg %>% rename(SIREN = `Code Siren Collectivité`,
+comptes_reg_pop <- comptes_reg_pop %>% rename(SIREN = `Code Siren Collectivité`,
                                       `pop-insee` = `Population totale`)
-comptes_dep <- comptes_dep %>% rename(SIREN = `Code Siren Collectivité`,
+comptes_dep_pop <- comptes_dep_pop %>% rename(SIREN = `Code Siren Collectivité`,
                                       `pop-insee` = `Population totale`)
-comptes_com <- comptes_com %>% rename(SIREN = `Code Siren Collectivité`,
+comptes_com_pop <- comptes_com_pop %>% rename(SIREN = `Code Siren Collectivité`,
                                       `pop-insee` = `Population totale`)
-comptes_epci <- comptes_epci %>% rename(SIREN = `Code Siren 2020 EPCI`,
+comptes_epci_pop <- comptes_epci_pop %>% rename(SIREN = `Code Siren 2021 EPCI`,
                                       `pop-insee` = `Population totale`)
 
 # On supprime les doublons pour les EPCI
-comptes_epci <- comptes_epci %>% group_by(SIREN) %>% distinct(SIREN, .keep_all=TRUE)
+comptes_epci_pop <- comptes_epci_pop %>% group_by(SIREN) %>% distinct(SIREN, .keep_all=TRUE)
 
 # On ajoute la population à nos bases
-regions <- left_join(regions, comptes_reg, by = "SIREN", copy = FALSE)
-departements <- left_join(departements, comptes_dep, by = "SIREN", copy = FALSE)
-communes <- left_join(communes, comptes_com, by = "SIREN", copy = FALSE)
-epci <- left_join(epci, comptes_epci, by = "SIREN", copy = FALSE)
+regions <- left_join(regions, comptes_reg_pop, by = "SIREN", copy = FALSE)
+departements <- left_join(departements, comptes_dep_pop, by = "SIREN", copy = FALSE)
+communes <- left_join(communes, comptes_com_pop, by = "SIREN", copy = FALSE)
+epci <- left_join(epci, comptes_epci_pop, by = "SIREN", copy = FALSE)
 
 # On supprime l'ancienne colonne de la pop incomplète et on renomme
 regions <- regions[,-12] %>% rename(`pop-insee` = `pop-insee.y`)
@@ -107,11 +118,18 @@ epci <- epci[,c(1:12,17,13:16)]
 
 
 
-# On importe les bases RNE de datagouv pour chaque type d'orga
+# On importe les bases RNE (archives du 5 juillet 2019) de datagouv pour chaque type d'orga
 RNE_reg <- read_delim("https://www.data.gouv.fr/fr/datasets/r/430e13f9-834b-4411-a1a8-da0b4b6e715c", "\t", escape_double = FALSE, trim_ws = TRUE)
 RNE_dep <- read_delim("https://www.data.gouv.fr/fr/datasets/r/601ef073-d986-4582-8e1a-ed14dc857fba", "\t", escape_double = FALSE, trim_ws = TRUE)
 RNE_com <- read_delim("https://www.data.gouv.fr/fr/datasets/r/d5f400de-ae3f-4966-8cb6-a85c70c6c24a", "\t", escape_double = FALSE, trim_ws = TRUE)
 RNE_epci <- read_delim("https://www.data.gouv.fr/fr/datasets/r/41d95d7d-b172-4636-ac44-32656367cdc7", "\t", escape_double = FALSE, trim_ws = TRUE)
+
+test <- read_table2("http://data.cquest.org/repertoire-national-des-elus/archives/20190705_2-rne-epci.txt.gz", locale = locale(encoding = "ISO-8859-1"), skip = 1)
+RNE <- read_table2("http://data.cquest.org/repertoire-national-des-elus/archives/20190705_3-rne-cd.txt.gz", locale = locale(encoding = "ISO-8859-1"), skip = 1)
+RNE <- read_table2("http://data.cquest.org/repertoire-national-des-elus/archives/20190705_2-rne-cr.txt.gz", locale = locale(encoding = "ISO-8859-1"), skip = 1)
+RNE <- read_table2("http://data.cquest.org/repertoire-national-des-elus/archives/20190705_2-rne-cac.txt.gz", locale = locale(encoding = "ISO-8859-1"), skip = 1)
+RNE <- read_table2("http://data.cquest.org/repertoire-national-des-elus/archives/20190705_2-rne-maires.txt.gz", locale = locale(encoding = "ISO-8859-1"), skip = 1)
+
 
 # On filtre pour ne garder que les chefs (et pas tous les élus)
 RNE_reg <- RNE_reg %>% filter(`Libellé de la fonction` == "Président du conseil régional")
@@ -359,32 +377,26 @@ epci[1295,c(22:26)] <- stats_locales_epci[,c(3:7)] %>% filter(stats_locales_epci
 
 
 
-# Import des bases OFGL
-comptes_reg <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-regions-consolidee/download/?format=csv&disjunctive.reg_name=true&disjunctive.agregat=true&refine.agregat=D%C3%A9penses+totales&refine.exer=2019&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
-comptes_dep <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-departements-consolidee/download/?format=csv&disjunctive.reg_name=true&disjunctive.dep_tranche_population=true&disjunctive.dep_name=true&disjunctive.agregat=true&refine.exer=2019&refine.agregat=D%C3%A9penses+totales&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
-comptes_com <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-communes-consolidee/download/?format=csv&disjunctive.reg_name=true&disjunctive.dep_name=true&disjunctive.epci_name=true&disjunctive.tranche_population=true&disjunctive.tranche_revenu_imposable_par_habitant=true&disjunctive.com_name=true&disjunctive.agregat=true&refine.exer=2019&refine.agregat=D%C3%A9penses+totales&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
-comptes_epci <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-gfp-consolidee/download/?format=csv&disjunctive.dep_name=true&disjunctive.gfp_tranche_population=true&disjunctive.nat_juridique=true&disjunctive.mode_financement=true&disjunctive.gfp_tranche_revenu_imposable_par_habitant=true&disjunctive.epci_name=true&disjunctive.agregat=true&refine.exer=2019&refine.agregat=D%C3%A9penses+totales&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
-
-
-# On filtre pour ne garder que les dépenses totales de l'année 2019 (UTD)
-comptes_reg <- comptes_reg %>% filter(Exercice == 2019)
-comptes_dep <- comptes_dep %>% filter(Exercice == 2019)
-comptes_com <- comptes_com %>% filter(Exercice == 2019)
-comptes_epci <- comptes_epci %>% filter(Exercice == 2019)
+# On repart des bases OFGL importées précédemment pour récupérer la population des orgas
+    # On filtre pour ne garder que les dépenses totales de l'année 2019 (UTD)
+comptes_reg_tot19 <- comptes_reg %>% filter(Exercice == 2019)
+comptes_dep_tot19 <- comptes_dep %>% filter(Exercice == 2019)
+comptes_com_tot19 <- comptes_com %>% filter(Exercice == 2019)
+comptes_epci_tot19 <- comptes_epci %>% filter(Exercice == 2019)
 
 
 # On renomme la colonne du SIREN dans le jeu du budget (colonne pivot)
-comptes_reg <- comptes_reg %>% rename(SIREN = `Code Siren Collectivité`)
-comptes_dep <- comptes_dep %>% rename(SIREN = `Code Siren Collectivité`)
-comptes_com <- comptes_com %>% rename(SIREN = `Code Siren Collectivité`)
-comptes_epci <- comptes_epci %>% rename(SIREN = `Code Siren Collectivité`)
+comptes_reg_tot19 <- comptes_reg_tot19 %>% rename(SIREN = `Code Siren Collectivité`)
+comptes_dep_tot19 <- comptes_dep_tot19 %>% rename(SIREN = `Code Siren Collectivité`)
+comptes_com_tot19 <- comptes_com_tot19 %>% rename(SIREN = `Code Siren Collectivité`)
+comptes_epci_tot19 <- comptes_epci_tot19 %>% rename(SIREN = `Code Siren Collectivité`)
 
 
 # Matchs
-regions <- left_join(regions, comptes_reg[,c(7,13)], by="SIREN", copy=FALSE)
-departements <- left_join(departements, comptes_dep[,c(10,16)], by="SIREN", copy=FALSE)  #du jeu comptes on ne prend que le SIREN et le budget
-communes <- left_join(communes, comptes_com[,c(18,25)], by="SIREN", copy=FALSE)
-epci <- left_join(epci, comptes_epci[,c(15,21)], by="SIREN", copy=FALSE)
+regions <- left_join(regions, comptes_reg_tot19[,c(7,13)], by="SIREN", copy=FALSE)
+departements <- left_join(departements, comptes_dep_tot19[,c(10,16)], by="SIREN", copy=FALSE)  #du jeu comptes on ne prend que le SIREN et le budget
+communes <- left_join(communes, comptes_com_tot19[,c(18,25)], by="SIREN", copy=FALSE)
+epci <- left_join(epci, comptes_epci_tot19[,c(15,21)], by="SIREN", copy=FALSE)
 
 
 # On renomme la colonne du budget par un nom exploitable
@@ -675,10 +687,9 @@ regions <- left_join(regions, urbanisation_reg[,c(1,4)], by = c("COG" = "code_re
 
 
 # On ajoute une colonne du type d'organisation pour les EPCI (à partir du jeu OFGL)
-comptes_epci <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-gfp-consolidee/download/?format=csv&disjunctive.dep_name=true&disjunctive.gfp_tranche_population=true&disjunctive.nat_juridique=true&disjunctive.mode_financement=true&disjunctive.gfp_tranche_revenu_imposable_par_habitant=true&disjunctive.epci_name=true&disjunctive.agregat=true&refine.exer=2019&refine.agregat=D%C3%A9penses+totales&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
-comptes_epci <- comptes_epci[,c(8,12)] %>% rename(type = `Nature juridique 2020 abrégée`, SIREN = `Code Siren 2020 EPCI`) %>% unique()
-comptes_epci$type <-  str_replace_all(comptes_epci$type, c("MET69" = "M", "M" = "MET"))
-epci <- left_join(epci, comptes_epci, by="SIREN")
+comptes_epci_type <- comptes_epci[,c(8,12)] %>% rename(type = `Nature juridique 2020 abrégée`, SIREN = `Code Siren 2020 EPCI`) %>% unique()
+comptes_epci_type$type <-  str_replace_all(comptes_epci_type$type, c("MET69" = "M", "M" = "MET"))
+epci <- left_join(epci, comptes_epci_type, by="SIREN")
 
 # On retire toutes les variables qui ne sont pas utiles à l'analyse
           # chef de l'exécutif qui servait en étape intermédiaire pour récuperer le parti politique
@@ -807,7 +818,7 @@ data("countries")
 reg <- unique(countries$sub_code[substr(countries$sub_code, 1,2) == "FR"])
 reg
 countries[countries$sub_code %in% codes[2:length(codes)],]
-
+ 
 
 
 

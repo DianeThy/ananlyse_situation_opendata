@@ -1,120 +1,118 @@
-"nom","nb_publi","ouvre_data","code_region","nb_ptf","nb_datagouv","pop_insee","CSP_chef","age_chef","partis_po_chef","part_plus65","niveau_vie","part_diplomes","taux_chomage","nb_crea_entps","nb_nuitees_hotels","flux_migration_res","depenses_hab","nb_etudiants","part_etudiants","niveau_rural_mode","niveau_rural_insee","percent_pop_rurale"
-"Ain",51,1,84,39,12,655171,"Cadre administratif et commercial d'entreprise",57,"Les Républicains",17.3,23420,8.5,6.1,6546,1311,69,979.300259611613,3229,0.5,4,3,50.1712908991995
-"Aisne",0,0,32,0,0,549587,"Professeur, profession scientifique",59,"Union des démocrates et indépendants",19.7,19690,4,11.8,3225,523,51,1104.02238055121,5714,1,3,3,57.6723130021606
-"Allier",0,0,84,0,0,349336,"Commerçant et assimilé",46,NA,26.7,20360,4.7,9.1,2326,860,63,1321.5922763185,4152,1.2,6,3,55.0600701981507
-"Alpes-de-Haute-Provence",34,1,93,34,0,167331,"Fonctionnaire de catégorie A (obsolète)",70,NA,25.4,20580,7.4,10.3,1847,764,13,1367.55652682408,912,0.5,6,3,53.6449307075128
-"Hautes-Alpes",116,1,93,61,55,146148,"Retraité fonct.publique (sf enseig.) (obsolète)",72,"Les Républicains",23.5,20880,7.4,7.9,1740,976,13,1512.96815946848,1120,0.8,6,3,56.2929984994762
-"Alpes-Maritimes",48,1,93,24,24,1098539,"Commerçant et assimilé",65,"Union pour un mouvement populaire",24.2,22140,11.6,8.9,21957,9062,83,1139.86256353211,46080,4.2,3,1,4.48331260594205
-"Ardèche",17,1,84,17,0,334591,"Autre cadre (secteur privé) (obsolète)",53,NA,24.1,20780,5.6,9.3,3237,612,26,1220.61477813211,1422,0.4,5,3,59.1220742613635
-"Ardennes",0,0,44,0,0,283004,"Ancienne profession intermédiaire",63,NA,20.7,19650,3.9,10,1843,285,51,1281.05143740018,2114,0.7,6,3,54.0955263379134
-"Ariège",1,1,76,0,1,158205,"Ingénieur (obsolète)",57,NA,25.4,19820,5.6,10.7,1670,258,31,1408.14581290098,978,0.6,6,3,60.6204253263077
-"Aube",1,1,44,0,1,316639,"Cadre de la fonction publique",69,NA,20.9,20430,5.2,10.6,2637,763,51,1157.46973885087,9587,3,6,1,34.9296820757916
-"Aude",23,1,76,23,0,377580,NA,NA,NA,25.2,19240,6,11.4,4001,1111,31,1495.75159280153,3342,0.9,6,2,48.0433158535736
-"Aveyron",0,0,76,0,0,289481,"Ancien cadre",73,"Union des démocrates et indépendants",26.9,20640,5.3,6.4,2423,722,31,1293.75573944404,3305,1.1,6,3,69.4562437769962
-"Bouches-du-Rhône",0,0,93,0,0,2047433,"Cadre de la fonction publique",59,"Union pour un mouvement populaire",20,21360,11.9,10.1,33069,6724,83,1300.07683241405,98938,4.8,2,1,5.40094156933961
-"Bouches-du-Rhône",0,0,93,0,0,2047433,"Cadre de la fonction publique",59,"Les Républicains",20,21360,11.9,10.1,33069,6724,83,1300.07683241405,98938,4.8,2,1,5.40094156933961
-"Calvados",23,1,28,0,23,709715,"Sans profession déclarée (obsolète)",66,"Union pour la démocratie française",20.7,21490,7.7,7.7,7243,3556,50,1019.53689444354,37048,5.2,3,2,43.0927369740458
-"Cantal",5,1,84,0,5,151615,"Ingénieur et cadre technique d'entreprise",54,NA,27.3,20510,4.2,5,860,445,63,1500.87776367774,1390,0.9,6,3,73.8757985989852
-"Charente",57,1,75,57,0,365697,"Agriculteur sur grande exploitation",46,NA,24.5,20640,5.5,8.2,3129,468,17,1213.18990544084,4107,1.1,6,3,64.3718774930548
-"Charente-Maritime",1,1,75,0,1,660458,"Autre profession (obsolète)",68,"Union pour un mouvement populaire",26.6,21280,6.2,8.7,7558,2321,33,1200.7110722105,16196,2.5,5,3,55.6300220354022
-"Charente-Maritime",1,1,75,0,1,660458,"Autre profession (obsolète)",68,"Démocratie libérale",26.6,21280,6.2,8.7,7558,2321,33,1200.7110722105,16196,2.5,5,3,55.6300220354022
-"Charente-Maritime",1,1,75,0,1,660458,"Autre profession (obsolète)",68,"Union pour la démocratie française",26.6,21280,6.2,8.7,7558,2321,33,1200.7110722105,16196,2.5,5,3,55.6300220354022
-"Charente-Maritime",1,1,75,0,1,660458,"Autre profession (obsolète)",68,"Parti républicain",26.6,21280,6.2,8.7,7558,2321,33,1200.7110722105,16196,2.5,5,3,55.6300220354022
-"Charente-Maritime",1,1,75,0,1,660458,"Autre profession (obsolète)",68,"Libres",26.6,21280,6.2,8.7,7558,2321,33,1200.7110722105,16196,2.5,5,3,55.6300220354022
-"Cher",0,0,24,0,0,315100,"Retraité des professions libérales (obsolète)",72,NA,25,20880,5.2,8.8,2168,678,45,1207.03448724215,4199,1.3,6,3,59.6530347289841
-"Corrèze",0,0,75,0,0,249707,"Agriculteur sur moyenne exploitation",54,"Les Républicains",26.7,20960,5.2,6.8,1920,538,87,1252.05556259937,3526,1.4,6,3,64.7156511943809
-"Côte-d'Or",3,1,27,3,0,546466,"Permanent politique (obsolète)",68,"Démocratie libérale",20.3,22400,9.1,6.8,5709,2544,71,1024.57105076986,37649,6.9,6,2,33.041849014944
-"Côte-d'Or",3,1,27,3,0,546466,"Permanent politique (obsolète)",68,"Union pour la démocratie française",20.3,22400,9.1,6.8,5709,2544,71,1024.57105076986,37649,6.9,6,2,33.041849014944
-"Côte-d'Or",3,1,27,3,0,546466,"Permanent politique (obsolète)",68,"Parti républicain",20.3,22400,9.1,6.8,5709,2544,71,1024.57105076986,37649,6.9,6,2,33.041849014944
-"Côtes-d'Armor",261,1,53,133,128,618478,NA,NA,NA,25.2,21230,6,7.4,4164,1168,35,1024.9582570439,8176,1.3,5,3,66.7684395786769
-"Creuse",0,0,75,0,0,123500,"Profession libérale",54,"Union pour un mouvement populaire",29.5,19380,4.2,8,754,123,87,1559.50350445344,947,0.8,6,3,88.9065897941638
-"Dordogne",0,0,75,0,0,426667,"Enseignant 1er deg.-directeur école (obsolète)",67,"Parti socialiste",28.1,20140,5,8.7,4291,1008,33,1274.39994278911,3252,0.8,5,3,80.284403323619
-"Doubs",28,1,27,28,0,552619,"Employé (secteur privé) (obsolète)",59,"Union pour un mouvement populaire",19.1,22590,7.5,7.6,4920,1082,70,975.293708395839,26472,4.8,6,2,44.3601630224072
-"Doubs",28,1,27,28,0,552619,"Employé (secteur privé) (obsolète)",59,"divers droite",19.1,22590,7.5,7.6,4920,1082,70,975.293708395839,26472,4.8,6,2,44.3601630224072
-"Drôme",0,0,84,0,0,522276,"Profession libérale",56,"Les Républicains",21.3,21100,7.3,9.3,6163,1292,7,1170.91143680736,7928,1.5,6,2,43.5553458770421
-"Eure",32,1,28,32,0,620046,"Personne diverse sans activité professionnelle de 60 ans et plus (sauf retraité)",62,NA,18.5,21700,5.6,8.5,4852,620,76,878.218953206698,3295,0.5,4,3,62.3942884905179
-"Eure-et-Loir",58,1,24,29,29,445281,"Retraité salarié privé (obsolète)",84,NA,19.8,22070,5.7,8.1,3604,719,78,1106.26270804279,2598,0.6,3,2,45.7128223434554
-"Finistère",91,1,53,45,46,936432,"Sans profession déclarée (obsolète)",50,"Parti socialiste",22.3,21690,7.7,7.3,6930,1946,56,937.278806181335,32762,3.5,5,3,51.4739573375577
-"Gard",0,0,76,0,0,757564,"Agriculteur sur moyenne exploitation",71,"Parti socialiste",22.3,20020,7.2,11.9,8941,1451,34,1199.0251869545,15425,2,5,2,27.8994874295135
-"Haute-Garonne",195,1,76,82,113,1373626,"Médecin (obsolète)",73,"Parti socialiste",16.3,23140,16.9,8,22414,3129,81,1188.17988025853,118499,8.6,3,1,23.6414925968979
-"Gers",38,1,76,19,19,197851,"Grands corps de l'état (obsolète)",67,"Parti socialiste",26.9,20820,6.3,6.3,1886,221,31,1336.27550439472,1394,0.7,6,3,83.9289629467222
-"Gironde",164,1,75,80,84,1595903,"Cadre de la fonction publique",59,NA,18.8,22400,11.3,8.1,26039,4665,24,1069.93572816769,105699,6.6,5,2,28.6298305862937
-"Hérault",34,1,76,34,0,1152125,"Retraité fonct.publique (sf enseig.) (obsolète)",75,"Parti socialiste",21,20330,11.4,12,19335,3308,30,1222.10464901812,83254,7.2,2,2,21.7843738778696
-"Ille-et-Vilaine",70,1,53,45,25,1079333,"Cadre de la fonction publique",61,"Parti socialiste",17.5,22230,10.9,6.4,10675,3053,22,946.480854166416,73073,6.8,4,2,45.3417707430398
-"Indre",8,1,24,0,8,229772,"Retraité salarié privé (obsolète)",71,NA,27.2,20200,4,8.1,1458,419,37,1030.88799871177,1843,0.8,6,3,65.2064636800173
-"Indre-et-Loire",2,1,24,1,1,620671,"Ancien cadre",68,"Les Républicains",21.1,21750,8.7,7.7,6155,1885,41,939.969561957946,32866,5.3,5,2,38.5081393350052
-"Isère",81,1,84,33,48,1279514,"Pharmacien (obsolète)",60,"Union pour un mouvement populaire",17.9,22950,11.8,6.9,15998,2467,69,1208.84193810306,65369,5.1,4,2,35.1093360525719
-"Isère",81,1,84,33,48,1279514,"Pharmacien (obsolète)",60,"Union pour un mouvement populaire",17.9,22950,11.8,6.9,15998,2467,69,1208.84193810306,65369,5.1,5,2,35.1093360525719
-"Jura",2,1,27,2,0,270142,"Ancien artisan, commerçant, chef d'entreprise",59,"Union pour la démocratie française",22.9,21700,5,6.1,2097,508,25,1126.79701627292,1986,0.7,6,3,65.8298771121352
-"Landes",0,0,75,0,0,418200,"Cadre de la fonction publique",58,"Parti socialiste",24.4,21360,5.5,8.3,4715,1129,64,1188.68119375897,2624,0.6,5,3,61.9474087236528
-"Loir-et-Cher",69,1,24,0,69,343026,"Industriel-Chef entreprise (obsolète)",54,"Union pour un mouvement populaire",24,21380,5.5,7,2596,981,37,1099.75330158647,3419,1,5,3,66.0831839476974
-"Loir-et-Cher",69,1,24,0,69,343026,"Industriel-Chef entreprise (obsolète)",54,"Union pour la démocratie française",24,21380,5.5,7,2596,981,37,1099.75330158647,3419,1,5,3,66.0831839476974
-"Loire",0,0,84,0,0,778211,"Autre retraité (obsolète)",71,"Les Républicains",21.8,20770,6,8.3,8343,709,69,992.43372729247,29857,3.8,5,2,26.0030763934007
-"Haute-Loire",0,0,84,0,0,234613,"Retraité salarié privé (obsolète)",72,"Union pour un mouvement populaire",23.6,20800,4.7,6.6,1760,324,42,1135.56861789415,1635,0.7,6,3,70.3394987413812
-"Loire-Atlantique",517,1,52,260,257,1415805,"Sans profession déclarée (obsolète)",63,"Parti socialiste",17.8,22600,10.9,6.8,16395,3307,49,901.664953521142,65857,4.7,4,2,31.7251937887443
-"Loiret",224,1,24,41,183,691942,"Agriculteur sur moyenne exploitation",57,"Union des démocrates et indépendants",19.5,21960,7.9,8.3,6177,1408,37,961.95802941576,20784,3,5,2,31.614917610607
-"Lot",4,1,76,0,4,179390,"Agent technique et technicien (obsolète)",64,NA,28.8,20740,6.2,8.3,1714,546,31,1297.77479998885,1459,0.8,5,3,80.9591394636588
-"Lot-et-Garonne",0,0,75,0,0,342358,"Ancien cadre",69,"Parti socialiste",25.6,19930,5,8.6,3060,394,33,1169.0974605822,3963,1.2,5,3,59.0003665402804
-"Lot-et-Garonne",0,0,75,0,0,342358,"Ancien cadre",69,"Parti socialiste",25.6,19930,5,8.6,3060,394,33,1169.0974605822,3963,1.2,6,3,59.0003665402804
-"Lozère",0,0,76,0,0,80141,"Fonctionnaire de catégorie A (obsolète)",49,"Parti socialiste",24.7,20420,5.4,5.3,521,378,34,1770.41348460838,1379,1.7,6,3,84.6196747493441
-"Maine-et-Loire",176,1,52,88,88,833602,"Médecin (obsolète)",74,NA,19.2,21110,6.9,7.7,6733,1348,44,848.025654748909,46014,5.5,3,3,57.2929346097751
-"Manche",85,1,28,50,35,516010,"Retraité des professions libérales (obsolète)",70,NA,24,20980,4.8,6.2,3292,1277,14,1048.9671840662,4013,0.8,5,3,67.6170052988457
-"Marne",0,0,44,0,0,584108,"Professeur des écoles, instituteur et assimilé",62,"Les Républicains",18.8,21650,7.4,7.8,5259,1666,8,852.911378409472,31297,5.4,6,2,39.2255749608111
-"Haute-Marne",0,0,44,0,0,183720,"Personne diverse sans activité professionnelle de moins de 60 ans (sauf retraité)",45,"Les Républicains",24,20190,3.7,7.2,1003,301,51,1188.076287285,1095,0.6,6,3,67.2804032909635
-"Mayenne",292,1,52,0,292,317742,"Profession libérale",62,"Union des démocrates et indépendants",21.4,20830,4.7,5.5,2411,296,35,1075.04596757747,4624,1.5,5,3,64.792337199245
-"Meurthe-et-Moselle",17,1,44,16,1,747614,"Cadre de la fonction publique",55,NA,18.8,21480,8,8.1,6520,1037,57,990.209472388158,53730,7.2,4,2,30.1193895956405
-"Meuse",0,0,44,0,0,195047,"Profession libérale",73,"Union pour un mouvement populaire",21.6,20590,3.8,7.9,978,240,54,1253.51579106574,1068,0.5,6,3,74.233914881804
-"Morbihan",17,1,53,0,17,769772,"Autre profession (obsolète)",67,"Union pour un mouvement populaire",23.5,21600,6.4,7.3,6445,1876,35,889.427039097291,16900,2.2,5,3,50.5367209109056
-"Morbihan",17,1,53,0,17,769772,"Autre profession (obsolète)",67,"Démocratie libérale",23.5,21600,6.4,7.3,6445,1876,35,889.427039097291,16900,2.2,5,3,50.5367209109056
-"Morbihan",17,1,53,0,17,769772,"Autre profession (obsolète)",67,"Objectif France",23.5,21600,6.4,7.3,6445,1876,35,889.427039097291,16900,2.2,5,3,50.5367209109056
-"Moselle",20,1,44,20,0,1064905,"Ingénieur (obsolète)",67,"Union des démocrates et indépendants",19,21650,6.8,8.2,8136,1795,54,819.251328512872,27390,2.6,4,2,27.48247899084
-"Nièvre",40,1,27,38,2,216182,"Retraité des professions libérales (obsolète)",71,"Parti socialiste",28.7,20320,4.4,7.1,1321,391,18,1436.22346624603,2314,1.1,6,3,64.0050886416314
-"Nord",7,1,32,7,0,2639070,"Permanent politique (obsolète)",70,"Union pour un mouvement populaire",16.4,20040,8.8,10.9,27024,3868,62,1112.03305819474,152012,5.8,2,2,14.6099886407868
-"Nord",7,1,32,7,0,2639070,"Permanent politique (obsolète)",70,"Rassemblement pour la République",16.4,20040,8.8,10.9,27024,3868,62,1112.03305819474,152012,5.8,2,2,14.6099886407868
-"Oise",179,1,32,125,54,842804,"Cadre de la fonction publique",60,"Union pour un mouvement populaire",16.3,22150,6.8,8.3,6975,1285,80,1017.01828628008,12324,1.5,4,2,39.6525164009262
-"Oise",179,1,32,125,54,842804,"Cadre de la fonction publique",60,"Les Républicains",16.3,22150,6.8,8.3,6975,1285,80,1017.01828628008,12324,1.5,4,2,39.6525164009262
-"Orne",0,0,28,0,0,294421,"Cadre administratif et commercial d'entreprise",62,NA,25,20140,4.2,7.8,1828,328,14,1179.77169488589,2943,1,6,3,72.9234745619472
-"Pas-de-Calais",0,0,32,0,0,1494330,"Permanent politique (obsolète)",69,"Parti socialiste",18,19200,4.3,10.2,9924,2555,59,1147.33646788862,30283,2,4,2,23.8750545555905
-"Puy-de-Dôme",24,1,84,24,0,667365,"Retraité de l'enseignement (obsolète)",71,"Parti socialiste",21.2,21890,9,7.3,6315,1910,3,1070.58138667746,41486,6.2,6,2,41.7343539194361
-"Pyrénées-Atlantiques",7,1,75,7,0,694279,"Retraité agricole (obsolète)",77,"Union pour la démocratie française",23.4,21850,9.3,7,8236,2683,40,1029.93620854152,19869,2.9,5,2,33.5601719666164
-"Hautes-Pyrénées",78,1,76,39,39,235131,"Ancien cadre",75,"Parti radical de gauche",26.4,20420,6.1,9.3,2463,2789,31,1536.07363206043,5525,2.3,6,2,44.9990372082
-"Pyrénées-Orientales",12,1,76,0,12,482567,"Cadre administratif et commercial d'entreprise",52,"Parti socialiste",25.5,19350,6.5,13.8,5870,1660,34,1340.62349965911,10746,2.2,6,2,33.9164191526862
-"Bas-Rhin",100,1,44,0,100,1139258,NA,NA,NA,17.8,22620,10.3,7.1,11647,4437,68,944.430005187587,68344,6,4,2,29.8512677535152
-"Haut-Rhin",0,0,44,0,0,777734,NA,NA,NA,19,23130,7.2,8,6821,2975,67,901.499978861667,14343,1.8,4,2,28.3422116932581
-"Rhône",0,0,84,0,0,464828,"Sans profession déclarée (obsolète)",63,"Union pour un mouvement populaire",16.7,22990,15.7,7.5,34631,5831,38,974.876703619403,171080,36.8,2,1,10.1148624122658
-"Métropole de Lyon",0,0,84,0,0,1400134,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2264.06432618592,NA,NA,NA,NA,NA
-"Haute-Saône",0,0,27,0,0,244305,"Retraité de l'enseignement (obsolète)",72,"Parti socialiste",22.2,20680,4.3,7.8,1624,142,25,1136.41220282025,1052,0.4,4,3,71.4165378573143
-"Saône-et-Loire",77,1,27,14,63,572527,"Cadre de la fonction publique",55,NA,25,20850,5.2,7.6,4434,1453,21,1078.90691942913,5056,0.9,5,3,56.2767973584418
-"Sarthe",1,1,52,1,0,582211,"Avocat (obsolète)",62,"Union pour un mouvement populaire",21.3,21040,5.5,8.3,3761,894,49,1014.90942357668,14531,2.5,5,3,56.2147620678333
-"Savoie",5,1,84,0,5,442775,"Grands corps de l'état (obsolète)",61,"Union pour un mouvement populaire",20,23160,8.4,6.2,6076,3499,38,1216.77561709672,13219,3,5,2,43.7570447197651
-"Savoie",5,1,84,0,5,442775,"Grands corps de l'état (obsolète)",61,"Rassemblement pour la République",20,23160,8.4,6.2,6076,3499,38,1216.77561709672,13219,3,5,2,43.7570447197651
-"Savoie",5,1,84,0,5,442775,"Grands corps de l'état (obsolète)",61,"Union des démocrates pour la République",20,23160,8.4,6.2,6076,3499,38,1216.77561709672,13219,3,5,2,43.7570447197651
-"Haute-Savoie",0,0,84,0,0,823928,"Retraité salarié privé (obsolète)",74,"divers droite",16.5,26600,10.1,6.2,11273,4887,73,982.751897811459,9338,1.1,4,2,28.5187514079957
-"Paris",0,0,11,0,0,NA,NA,NA,NA,16.7,28270,38.2,6.5,76851,38022,92,NA,365531,NA,1,1,NA
-"Seine-Maritime",131,1,28,131,0,1280803,"Cadre supérieur (secteur privé) (obsolète)",61,NA,19.2,21140,7,9.4,11316,2499,27,1190.6386379248,59321,4.6,5,1,26.6783577496462
-"Seine-et-Marne",1,1,11,0,1,1419206,"Professeur, profession scientifique",66,"Union des démocrates et indépendants",14.1,23470,8.4,6.9,18953,9653,94,976.914128928429,28961,2,3,2,21.5024081661994
-"Yvelines",0,0,11,0,0,1458275,"Personne diverse sans activité professionnelle de 60 ans et plus (sauf retraité)",63,"Union pour un mouvement populaire",16.1,26810,19.9,6.4,21901,2516,75,936.440865358043,38312,2.6,3,1,7.71998238460064
-"Yvelines",0,0,11,0,0,1458275,"Personne diverse sans activité professionnelle de 60 ans et plus (sauf retraité)",63,"Rassemblement pour la République",16.1,26810,19.9,6.4,21901,2516,75,936.440865358043,38312,2.6,3,1,7.71998238460064
-"Deux-Sèvres",1,1,75,0,1,385495,"Agriculteur sur grande exploitation",57,NA,22.7,20840,5.3,6.1,2481,455,86,966.230763771255,2764,0.7,5,3,69.1789256606768
-"Somme",1,1,32,0,1,584797,"Cadre administratif et commercial d'entreprise",52,NA,19.1,20320,6.1,10,4290,933,60,1080.16218132104,31333,5.4,3,2,44.0131500772369
-"Tarn",0,0,76,0,0,397929,"Autre cadre (secteur privé) (obsolète)",47,"Parti socialiste",24.6,20400,6.3,8.9,4103,492,31,1203.96776030397,7513,1.9,4,2,43.7112021289136
-"Tarn-et-Garonne",0,0,76,0,0,263125,"Retraité agricole (obsolète)",71,"sans étiquette",21.6,20140,5.5,9.7,2704,327,31,1283.45355462233,1695,0.6,6,3,63.5601453847315
-"Var",9,1,93,9,0,1073201,"Retraité fonct.publique (sf enseig.) (obsolète)",70,"Les Républicains",25.5,21590,7.8,9.4,16786,3676,13,1109.38483907488,16369,1.5,5,1,13.7447177713833
-"Vaucluse",21,1,93,21,0,570921,"Professeur, profession scientifique",77,"Union pour un mouvement populaire",21.4,19880,7.4,11,7875,2223,13,1144.48424291627,10967,1.9,5,2,26.9935410947844
-"Vaucluse",21,1,93,21,0,570921,"Professeur, profession scientifique",77,"Les Républicains",21.4,19880,7.4,11,7875,2223,13,1144.48424291627,10967,1.9,5,2,26.9935410947844
-"Vendée",0,0,52,0,0,689496,"Retr.artis.commerc.chef d'entrep. (obsolète)",67,"divers droite",23.5,21320,4.4,6.5,5526,1546,44,960.811725144163,6631,1,5,3,63.500698056293
-"Vienne",1,1,75,0,1,447026,"Agriculteur sur moyenne exploitation",58,NA,21.3,20900,7.7,6.8,3822,1685,79,1002.88024745764,29232,6.5,6,3,60.1404059733197
-"Haute-Vienne",0,0,75,0,0,383215,"Professeur du secondaire et techn. (obsolète)",68,"Parti socialiste",24.1,20860,7,7.7,3263,706,19,1105.94799786021,19901,5.2,3,3,50.0612628965738
-"Vosges",0,0,44,0,0,382328,"Autre profession (obsolète)",58,"Union pour un mouvement populaire",23.2,20240,4.2,9,2750,940,54,1182.27554107991,3693,1,6,3,67.5184199002918
-"Vosges",0,0,44,0,0,382328,"Autre profession (obsolète)",58,"Rassemblement pour la République",23.2,20240,4.2,9,2750,940,54,1182.27554107991,3693,1,6,3,67.5184199002918
-"Yonne",0,0,27,0,0,350970,"Ancien artisan, commerçant, chef d'entreprise",69,NA,23.5,20800,4.8,7.9,2749,725,21,1089.8823032168,2057,0.6,6,3,67.1956983780236
-"Territoire de Belfort",0,0,27,0,0,147347,"Cadre de la fonction publique",43,NA,19.2,21860,8.7,8.9,1354,310,25,1057.26233998656,5617,3.8,3,1,22.9275060700659
-"Essonne",0,0,11,0,0,1305061,"Cadre de la fonction publique",50,"Les Républicains",14.7,23920,13,6.7,19626,2049,77,1107.93713630244,46606,3.6,3,1,5.38503986874609
-"Hauts-de-Seine",287,1,11,138,149,1622143,"Chef d'entreprise de 10 salariés ou plus",64,"Union pour un mouvement populaire",15.1,28040,29.5,6.5,32480,6020,75,1160.25193383074,86830,5.4,1,1,NA
-"Hauts-de-Seine",287,1,11,138,149,1622143,"Chef d'entreprise de 10 salariés ou plus",64,"Rassemblement pour la République",15.1,28040,29.5,6.5,32480,6020,75,1160.25193383074,86830,5.4,1,1,NA
-"Seine-Saint-Denis",529,1,11,356,173,1616311,"Cadre de la fonction publique",51,"Parti socialiste",11.7,17740,9.4,10.8,35012,5032,77,1425.54906030461,60491,3.7,1,1,NA
-"Val-de-Marne",0,0,11,0,0,1389336,"Permanent politique (obsolète)",70,"Parti communiste français",14.7,22880,17,7.4,26168,3365,75,1294.75983533861,63069,4.5,1,1,NA
-"Val-d'Oise",0,0,11,0,0,1237218,"Cadre de la fonction publique",75,NA,13.3,21970,10.3,8.5,20790,4080,60,990.39290963274,33417,2.7,3,1,3.87318107868472
-"Guadeloupe",0,0,1,0,0,400170,"Retraité de l'enseignement (obsolète)",79,"Parti socialiste",17.9,15773,5.4,20.5,5336,1216,972,1847.73485511158,9573,2.4,2,2,12.6192098505588
-"La Réunion",0,0,4,0,0,862814,"Cadre de la fonction publique",59,"Les Républicains",11.1,15440,5.4,21.3,8278,1532,31,1986.93167807894,22610,2.6,2,2,2.86367273114909
-"Mayotte",0,0,6,0,0,262895,"Retraité de l'enseignement (obsolète)",72,"Union pour un mouvement populaire",NA,3140,NA,NA,1352,100,NA,1304.21382361779,1872,0.7,2,2,17.1099104156433
+"nom","code_region","Prénom de l'élu","CSP_chef","chef_upper","taux_chomage","nb_nuitees_hotels","flux_migration_res","depenses_hab","nb_etudiants","part_etudiants","niveau_rural_insee","percent_pop_rurale","ouvre_data"
+"Ain",84,"Jean","Cadre administratif et commercial d'entreprise","JEAN DEGUERRY","6.1",1311,"69",979.300259611613,3229,0.5,3,50.1712908991995,NA
+"Aisne",32,"Nicolas","Professeur, profession scientifique","NICOLAS FRICOTEAUX","11.8",523,"51",1104.02238055121,5714,1,3,57.6723130021606,NA
+"Allier",84,"Claude","Commerçant et assimilé","CLAUDE RIBOULET","9.1",860,"63",1321.5922763185,4152,1.2,3,55.0600701981507,NA
+"Alpes-de-Haute-Provence",93,"René","Fonctionnaire de catégorie A (obsolète)","RENE MASSETTE","10.3",764,"13",1367.55652682408,912,0.5,3,53.6449307075128,NA
+"Hautes-Alpes",93,"Jean-Marie","Retraité fonct.publique (sf enseig.) (obsolète)","JEAN-MARIE BERNARD","7.9",976,"13",1512.96815946848,1120,0.8,3,56.2929984994762,NA
+"Alpes-Maritimes",93,"Charles-Ange","Commerçant et assimilé","CHARLES-ANGE GINESY","8.9",9062,"83",1139.86256353211,46080,4.2,1,4.48331260594205,NA
+"Ardèche",84,"Laurent","Autre cadre (secteur privé) (obsolète)","LAURENT UGHETTO","9.3",612,"26",1220.61477813211,1422,0.4,3,59.1220742613635,NA
+"Ardennes",44,"Noël","Ancienne profession intermédiaire","NOEL BOURGEOIS","10",285,"51",1281.05143740018,2114,0.7,3,54.0955263379134,NA
+"Ariège",76,"Christine","Ingénieur (obsolète)","CHRISTINE TEQUI","10.7",258,"31",1408.14581290098,978,0.6,3,60.6204253263077,NA
+"Aube",44,"Philippe","Cadre de la fonction publique","PHILIPPE PICHERY","10.6",763,"51",1157.46973885087,9587,3,1,34.9296820757916,NA
+"Aude",76,NA,NA,NA,"11.4",1111,"31",1495.75159280153,3342,0.9,2,48.0433158535736,NA
+"Aveyron",76,"Jean-François","Ancien cadre","JEAN-FRANCOIS GALLIARD","6.4",722,"31",1293.75573944404,3305,1.1,3,69.4562437769962,NA
+"Bouches-du-Rhône",93,"Martine","Cadre de la fonction publique","MARTINE VASSAL","10.1",6724,"83",1300.07683241405,98938,4.8,1,5.40094156933961,NA
+"Bouches-du-Rhône",93,"Martine","Cadre de la fonction publique","MARTINE VASSAL","10.1",6724,"83",1300.07683241405,98938,4.8,1,5.40094156933961,NA
+"Calvados",28,"Jean-Léonce","Sans profession déclarée (obsolète)","JEAN-LEONCE DUPONT","7.7",3556,"50",1019.53689444354,37048,5.2,2,43.0927369740458,NA
+"Cantal",84,"Bruno","Ingénieur et cadre technique d'entreprise","BRUNO FAURE","5",445,"63",1500.87776367774,1390,0.9,3,73.8757985989852,NA
+"Charente",75,"Jérôme","Agriculteur sur grande exploitation","JEROME SOURISSEAU","8.2",468,"17",1213.18990544084,4107,1.1,3,64.3718774930548,NA
+"Charente-Maritime",75,"Dominique","Autre profession (obsolète)","DOMINIQUE BUSSEREAU","8.7",2321,"33",1200.7110722105,16196,2.5,3,55.6300220354022,NA
+"Charente-Maritime",75,"Dominique","Autre profession (obsolète)","DOMINIQUE BUSSEREAU","8.7",2321,"33",1200.7110722105,16196,2.5,3,55.6300220354022,NA
+"Charente-Maritime",75,"Dominique","Autre profession (obsolète)","DOMINIQUE BUSSEREAU","8.7",2321,"33",1200.7110722105,16196,2.5,3,55.6300220354022,NA
+"Charente-Maritime",75,"Dominique","Autre profession (obsolète)","DOMINIQUE BUSSEREAU","8.7",2321,"33",1200.7110722105,16196,2.5,3,55.6300220354022,NA
+"Charente-Maritime",75,"Dominique","Autre profession (obsolète)","DOMINIQUE BUSSEREAU","8.7",2321,"33",1200.7110722105,16196,2.5,3,55.6300220354022,NA
+"Cher",24,"Michel","Retraité des professions libérales (obsolète)","MICHEL AUTISSIER","8.8",678,"45",1207.03448724215,4199,1.3,3,59.6530347289841,NA
+"Corrèze",75,"Pascal","Agriculteur sur moyenne exploitation","PASCAL COSTE","6.8",538,"87",1252.05556259937,3526,1.4,3,64.7156511943809,NA
+"Côte-d'Or",27,"François","Permanent politique (obsolète)","FRANCOIS SAUVADET","6.8",2544,"71",1024.57105076986,37649,6.9,2,33.041849014944,NA
+"Côte-d'Or",27,"François","Permanent politique (obsolète)","FRANCOIS SAUVADET","6.8",2544,"71",1024.57105076986,37649,6.9,2,33.041849014944,NA
+"Côte-d'Or",27,"François","Permanent politique (obsolète)","FRANCOIS SAUVADET","6.8",2544,"71",1024.57105076986,37649,6.9,2,33.041849014944,NA
+"Côtes-d'Armor",53,NA,NA,NA,"7.4",1168,"35",1024.9582570439,8176,1.3,3,66.7684395786769,NA
+"Creuse",75,"Valérie","Profession libérale","VALERIE SIMONET","8",123,"87",1559.50350445344,947,0.8,3,88.9065897941638,NA
+"Dordogne",75,"Germinal","Enseignant 1er deg.-directeur école (obsolète)","GERMINAL PEIRO","8.7",1008,"33",1274.39994278911,3252,0.8,3,80.284403323619,NA
+"Doubs",27,"Christine","Employé (secteur privé) (obsolète)","CHRISTINE BOUQUIN","7.6",1082,"70",975.293708395839,26472,4.8,2,44.3601630224072,NA
+"Doubs",27,"Christine","Employé (secteur privé) (obsolète)","CHRISTINE BOUQUIN","7.6",1082,"70",975.293708395839,26472,4.8,2,44.3601630224072,NA
+"Drôme",84,"Marie-Pierre","Profession libérale","MARIE-PIERRE MOUTON","9.3",1292,"07",1170.91143680736,7928,1.5,2,43.5553458770421,NA
+"Eure",28,"Pascal","Personne diverse sans activité professionnelle de 60 ans et plus (sauf retraité)","PASCAL LEHONGRE","8.5",620,"76",878.218953206698,3295,0.5,3,62.1720035717422,NA
+"Eure-et-Loir",24,"Claude","Retraité salarié privé (obsolète)","CLAUDE TEROUINARD","8.1",719,"78",1106.26270804279,2598,0.6,2,45.7128223434554,NA
+"Finistère",53,"Nathalie","Sans profession déclarée (obsolète)","NATHALIE SARRABEZOLLES","7.3",1946,"56",937.278806181335,32762,3.5,3,51.4739573375577,NA
+"Gard",76,"Françoise","Agriculteur sur moyenne exploitation","FRANCOISE LAURENT-PERRIGOT","11.9",1451,"34",1199.0251869545,15425,2,2,27.8994874295135,NA
+"Haute-Garonne",76,"Georges","Médecin (obsolète)","GEORGES MERIC","8",3129,"81",1188.17988025853,118499,8.6,1,23.6414925968979,NA
+"Gers",76,"Philippe","Grands corps de l'état (obsolète)","PHILIPPE MARTIN","6.3",221,"31",1336.27550439472,1394,0.7,3,83.9289629467222,NA
+"Gironde",75,"Jean-Luc","Cadre de la fonction publique","JEAN-LUC GLEYZE","8.1",4665,"24",1069.93572816769,105699,6.6,2,28.6298305862937,NA
+"Hérault",76,"Kléber","Retraité fonct.publique (sf enseig.) (obsolète)","KLEBER MESQUIDA","12",3308,"30",1222.10464901812,83254,7.2,2,21.7843738778696,NA
+"Ille-et-Vilaine",53,"Jean-Luc","Cadre de la fonction publique","JEAN-LUC CHENUT","6.4",3053,"22",946.480854166416,73073,6.8,2,45.3417707430398,NA
+"Indre",24,"Serge","Retraité salarié privé (obsolète)","SERGE DESCOUT","8.1",419,"37",1030.88799871177,1843,0.8,3,65.2064636800173,NA
+"Indre-et-Loire",24,"Jean-Gérard","Ancien cadre","JEAN-GERARD PAUMIER","7.7",1885,"41",939.969561957946,32866,5.3,2,38.5081393350052,NA
+"Isère",84,"Jean-Pierre","Pharmacien (obsolète)","JEAN-PIERRE BARBIER","6.9",2467,"69",1208.84193810306,65369,5.1,2,35.1093360525719,NA
+"Jura",27,"Clément","Ancien artisan, commerçant, chef d'entreprise","CLEMENT PERNOT","6.1",508,"25",1126.79701627292,1986,0.7,3,65.8298771121352,NA
+"Landes",75,"Xavier","Cadre de la fonction publique","XAVIER FORTINON","8.3",1129,"64",1188.68119375897,2624,0.6,3,61.9474087236528,NA
+"Loir-et-Cher",24,"Nicolas","Industriel-Chef entreprise (obsolète)","NICOLAS PERRUCHOT","7",981,"37",1099.75330158647,3419,1,3,66.0831839476974,NA
+"Loir-et-Cher",24,"Nicolas","Industriel-Chef entreprise (obsolète)","NICOLAS PERRUCHOT","7",981,"37",1099.75330158647,3419,1,3,66.0831839476974,NA
+"Loire",84,"Georges","Autre retraité (obsolète)","GEORGES ZIEGLER","8.3",709,"69",992.43372729247,29857,3.8,2,26.0030763934007,NA
+"Haute-Loire",84,"Jean-Pierre","Retraité salarié privé (obsolète)","JEAN-PIERRE MARCON","6.6",324,"42",1135.56861789415,1635,0.7,3,70.3394987413812,NA
+"Loire-Atlantique",52,"Philippe","Sans profession déclarée (obsolète)","PHILIPPE GROSVALET","6.8",3307,"49",901.664953521142,65857,4.7,2,31.7251937887443,NA
+"Loiret",24,"Marc","Agriculteur sur moyenne exploitation","MARC GAUDET","8.3",1408,"37",961.95802941576,20784,3,2,31.614917610607,NA
+"Lot",76,"Serge","Agent technique et technicien (obsolète)","SERGE RIGAL","8.3",546,"31",1297.77479998885,1459,0.8,3,80.9591394636588,NA
+"Lot-et-Garonne",75,"Pierre","Ancien cadre","PIERRE CAMANI","8.6",394,"33",1169.0974605822,3963,1.2,3,59.0003665402804,NA
+"Lozère",76,"Sophie","Fonctionnaire de catégorie A (obsolète)","SOPHIE PANTEL","5.3",378,"34",1770.41348460838,1379,1.7,3,84.6196747493441,NA
+"Maine-et-Loire",52,"Christian","Médecin (obsolète)","CHRISTIAN GILLET","7.7",1348,"44",848.025654748909,46014,5.5,3,57.2929346097751,NA
+"Manche",28,"Marc","Retraité des professions libérales (obsolète)","MARC LEFEVRE","6.2",1277,"14",1048.9671840662,4013,0.8,3,67.6170052988457,NA
+"Marne",44,"Christian","Professeur des écoles, instituteur et assimilé","CHRISTIAN BRUYEN","7.8",1666,"08",852.911378409472,31297,5.4,2,39.2255749608111,NA
+"Haute-Marne",44,"Nicolas","Personne diverse sans activité professionnelle de moins de 60 ans (sauf retraité)","NICOLAS LACROIX","7.2",301,"51",1188.076287285,1095,0.6,3,67.2804032909635,NA
+"Mayenne",52,"Olivier","Profession libérale","OLIVIER RICHEFOU","5.5",296,"35",1075.04596757747,4624,1.5,3,64.792337199245,NA
+"Meurthe-et-Moselle",44,"Valérie","Cadre de la fonction publique","VALERIE BEAUSERT-LEICK","8.1",1037,"57",990.209472388158,53730,7.2,2,30.1193895956405,NA
+"Meuse",44,"Claude","Profession libérale","CLAUDE LEONARD","7.9",240,"54",1253.51579106574,1068,0.5,3,74.233914881804,NA
+"Morbihan",53,"François","Autre profession (obsolète)","FRANCOIS GOULARD","7.3",1876,"35",889.427039097291,16900,2.2,3,50.5367209109056,NA
+"Morbihan",53,"François","Autre profession (obsolète)","FRANCOIS GOULARD","7.3",1876,"35",889.427039097291,16900,2.2,3,50.5367209109056,NA
+"Morbihan",53,"François","Autre profession (obsolète)","FRANCOIS GOULARD","7.3",1876,"35",889.427039097291,16900,2.2,3,50.5367209109056,NA
+"Moselle",44,"Patrick","Ingénieur (obsolète)","PATRICK WEITEN","8.2",1795,"54",819.251328512872,27390,2.6,2,27.48247899084,NA
+"Nièvre",27,"Alain","Retraité des professions libérales (obsolète)","ALAIN LASSUS","7.1",391,"18",1436.22346624603,2314,1.1,3,64.0050886416314,NA
+"Nord",32,"Jean-René","Permanent politique (obsolète)","JEAN-RENE LECERF","10.9",3868,"62",1112.03305819474,152012,5.8,2,14.6099886407868,NA
+"Nord",32,"Jean-René","Permanent politique (obsolète)","JEAN-RENE LECERF","10.9",3868,"62",1112.03305819474,152012,5.8,2,14.6099886407868,NA
+"Oise",32,"Nadège","Cadre de la fonction publique","NADEGE LEFEBVRE","8.3",1285,"80",1017.01828628008,12324,1.5,2,39.6525164009262,NA
+"Oise",32,"Nadège","Cadre de la fonction publique","NADEGE LEFEBVRE","8.3",1285,"80",1017.01828628008,12324,1.5,2,39.6525164009262,NA
+"Orne",28,"Christophe","Cadre administratif et commercial d'entreprise","CHRISTOPHE DE BALORRE","7.8",328,"14",1179.77169488589,2943,1,3,72.9234745619472,NA
+"Pas-de-Calais",32,"Jean-Claude","Permanent politique (obsolète)","JEAN-CLAUDE LEROY","10.2",2555,"59",1147.33646788862,30283,2,2,23.8750545555905,NA
+"Puy-de-Dôme",84,"Jean-Yves","Retraité de l'enseignement (obsolète)","JEAN-YVES GOUTTEBEL","7.3",1910,"03",1070.58138667746,41486,6.2,2,41.7343539194361,NA
+"Pyrénées-Atlantiques",75,"Jean-Jacques","Retraité agricole (obsolète)","JEAN-JACQUES LASSERRE","7",2683,"40",1029.93620854152,19869,2.9,2,33.5601719666164,NA
+"Hautes-Pyrénées",76,"Michel","Ancien cadre","MICHEL PELIEU","9.3",2789,"31",1536.07363206043,5525,2.3,2,44.9990372082,NA
+"Pyrénées-Orientales",76,"Hermeline","Cadre administratif et commercial d'entreprise","HERMELINE MALHERBE","13.8",1660,"34",1340.62349965911,10746,2.2,2,33.9164191526862,NA
+"Bas-Rhin",44,NA,NA,NA,"7.1",4437,"68",944.430005187587,68344,6,2,29.8512677535152,NA
+"Haut-Rhin",44,NA,NA,NA,"8",2975,"67",901.499978861667,14343,1.8,2,28.3422116932581,NA
+"Rhône",84,"Christophe","Sans profession déclarée (obsolète)","CHRISTOPHE GUILLOTEAU","7.5",5831,"38",974.876703619403,171080,36.8,1,10.1148624122658,NA
+"Métropole de Lyon",84,NA,NA,NA,NA,NA,NA,2264.06432618592,NA,NA,NA,NA,NA
+"Haute-Saône",27,"Yves","Retraité de l'enseignement (obsolète)","YVES KRATTINGER","7.8",142,"25",1136.41220282025,1052,0.4,3,71.4165378573143,NA
+"Saône-et-Loire",27,"André","Cadre de la fonction publique","ANDRE ACCARY","7.6",1453,"21",1078.90691942913,5056,0.9,3,56.2767973584418,NA
+"Sarthe",52,"Dominique","Avocat (obsolète)","DOMINIQUE LE MENER","8.3",894,"49",1014.90942357668,14531,2.5,3,56.2147620678333,NA
+"Savoie",84,"Hervé","Grands corps de l'état (obsolète)","HERVE GAYMARD","6.2",3499,"38",1216.77561709672,13219,3,2,43.7570447197651,NA
+"Savoie",84,"Hervé","Grands corps de l'état (obsolète)","HERVE GAYMARD","6.2",3499,"38",1216.77561709672,13219,3,2,43.7570447197651,NA
+"Savoie",84,"Hervé","Grands corps de l'état (obsolète)","HERVE GAYMARD","6.2",3499,"38",1216.77561709672,13219,3,2,43.7570447197651,NA
+"Haute-Savoie",84,"Christian","Retraité salarié privé (obsolète)","CHRISTIAN MONTEIL","6.2",4887,"73",982.751897811459,9338,1.1,2,28.5187514079957,NA
+"Paris",11,NA,NA,NA,"6.5",38022,"92",3789.94999065076,365531,16.5,1,NA,NA
+"Seine-Maritime",28,"Bertrand","Cadre supérieur (secteur privé) (obsolète)","BERTRAND BELLANGER","9.4",2499,"27",1190.6386379248,59321,4.6,1,26.6783577496462,NA
+"Seine-et-Marne",11,"Patrick","Professeur, profession scientifique","PATRICK SEPTIERS","6.9",9653,"94",976.914128928429,28961,2,2,21.5024081661994,NA
+"Yvelines",11,"Pierre","Personne diverse sans activité professionnelle de 60 ans et plus (sauf retraité)","PIERRE BEDIER","6.4",2516,"75",936.440865358043,38312,2.6,1,7.71998238460064,NA
+"Yvelines",11,"Pierre","Personne diverse sans activité professionnelle de 60 ans et plus (sauf retraité)","PIERRE BEDIER","6.4",2516,"75",936.440865358043,38312,2.6,1,7.71998238460064,NA
+"Deux-Sèvres",75,"Hervé","Agriculteur sur grande exploitation","HERVE DE TALHOUET-ROY","6.1",455,"86",966.230763771255,2764,0.7,3,69.1789256606768,NA
+"Somme",32,"Stéphane","Cadre administratif et commercial d'entreprise","STEPHANE HAUSSOULIER","10",933,"60",1080.16218132104,31333,5.4,2,44.0131500772369,NA
+"Tarn",76,"Christophe","Autre cadre (secteur privé) (obsolète)","CHRISTOPHE RAMOND","8.9",492,"31",1203.96776030397,7513,1.9,2,43.7112021289136,NA
+"Tarn-et-Garonne",76,"Christian","Retraité agricole (obsolète)","CHRISTIAN ASTRUC","9.7",327,"31",1283.45355462233,1695,0.6,3,63.5601453847315,NA
+"Var",93,"Marc","Retraité fonct.publique (sf enseig.) (obsolète)","MARC GIRAUD","9.4",3676,"13",1109.38483907488,16369,1.5,1,13.7447177713833,NA
+"Vaucluse",93,"Maurice","Professeur, profession scientifique","MAURICE CHABERT","11",2223,"13",1144.48424291627,10967,1.9,2,26.9935410947844,NA
+"Vaucluse",93,"Maurice","Professeur, profession scientifique","MAURICE CHABERT","11",2223,"13",1144.48424291627,10967,1.9,2,26.9935410947844,NA
+"Vendée",52,"Yves","Retr.artis.commerc.chef d'entrep. (obsolète)","YVES AUVINET","6.5",1546,"44",960.811725144163,6631,1,3,63.500698056293,NA
+"Vienne",75,"Alain","Agriculteur sur moyenne exploitation","ALAIN PICHON","6.8",1685,"79",1002.88024745764,29232,6.5,3,60.1404059733197,NA
+"Haute-Vienne",75,"Jean-Claude","Professeur du secondaire et techn. (obsolète)","JEAN-CLAUDE LEBLOIS","7.7",706,"19",1105.94799786021,19901,5.2,3,50.0612628965738,NA
+"Vosges",44,"François","Autre profession (obsolète)","FRANCOIS VANNSON","9",940,"54",1182.27554107991,3693,1,3,67.5184199002918,NA
+"Vosges",44,"François","Autre profession (obsolète)","FRANCOIS VANNSON","9",940,"54",1182.27554107991,3693,1,3,67.5184199002918,NA
+"Yonne",27,"Patrick","Ancien artisan, commerçant, chef d'entreprise","PATRICK GENDRAUD","7.9",725,"21",1089.8823032168,2057,0.6,3,67.1956983780236,NA
+"Territoire de Belfort",27,"Florian","Cadre de la fonction publique","FLORIAN BOUQUET","8.9",310,"25",1057.26233998656,5617,3.8,1,22.9275060700659,NA
+"Essonne",11,"François","Cadre de la fonction publique","FRANCOIS DUROVRAY","6.7",2049,"77",1107.93713630244,46606,3.6,1,5.38503986874609,NA
+"Hauts-de-Seine",11,"Georges","Chef d'entreprise de 10 salariés ou plus","GEORGES SIFFREDI","6.5",6020,"75",1160.25193383074,86830,5.4,1,NA,NA
+"Hauts-de-Seine",11,"Georges","Chef d'entreprise de 10 salariés ou plus","GEORGES SIFFREDI","6.5",6020,"75",1160.25193383074,86830,5.4,1,NA,NA
+"Seine-Saint-Denis",11,"Stéphane","Cadre de la fonction publique","STEPHANE TROUSSEL","10.8",5032,"77",1425.54906030461,60491,3.7,1,NA,NA
+"Val-de-Marne",11,"Christian","Permanent politique (obsolète)","CHRISTIAN FAVIER","7.4",3365,"75",1294.75983533861,63069,4.5,1,NA,NA
+"Val-d'Oise",11,"Marie-Christine","Cadre de la fonction publique","MARIE-CHRISTINE CAVECCHI","8.5",4080,"60",990.39290963274,33417,2.7,1,3.87318107868472,NA
+"Guadeloupe",1,"Josette","Retraité de l'enseignement (obsolète)","JOSETTE BOREL-LINCERTIN","20.5",1216,"972",1847.73485511158,9573,2.4,2,12.6192098505588,NA
+"La Réunion",4,"Cyrille","Cadre de la fonction publique","CYRILLE MELCHIOR","21.3",1532,"31",1986.93167807894,22610,2.6,2,2.86367273114909,NA
+"Mayotte",6,"Soibahadine","Retraité de l'enseignement (obsolète)","SOIBAHADINE IBRAHIM RAMADANI",NA,100,NA,1304.21382361779,1872,0.7,2,17.1099104156433,NA
