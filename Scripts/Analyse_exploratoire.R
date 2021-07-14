@@ -132,31 +132,34 @@ rosnerTest(regions_unique$depenses_hab, k = 2, alpha = 0.05) #outlier quand dép
 regions_unique_sans_outliers <- regions_unique[-c(1:5,17),]  # Ile de France et DROM
 
 
+
+#----------- Stats
+
+
+  # Statistiques descriptives
+library(summarytools)
+view(dfSummary(regions_unique)) # avec outliers
+view(dfSummary(regions_unique_sans_outliers)) # sans outliers, toutes les variables sont homogènes (sauf nb_datagouv mais pas utile) = écart-type < moyenne
+
+
+
 #----------- Distribution
 
 
   # Histogrammes de distribution
 
 # Variable à expliquer
-mean <- mean(regions_unique_sans_outliers$nb_publi, na.rm = TRUE)   
-sd <- sd(regions_unique_sans_outliers$nb_publi, na.rm = TRUE) 
+par(mfrow=c(1,2))
+hist(regions_unique$nb_publi, prob=T, ylim=c(0, 0.015), 
+     xlab="Avec outliers", ylab="Densité", main="Nombre de publications open data")
+lines(density(regions_unique$nb_publi), col="red", lwd=2)
+curve(dnorm(x, mean=mean(regions_unique$nb_publi), sd=sd(regions_unique$nb_publi)),col="#0033CC", lwd=2, add=TRUE, yaxt="n")
+hist(regions_unique_sans_outliers$nb_publi, prob=T, ylim=c(0, 0.015), 
+     xlab="Sans outliers", ylab="Densité", main="Nombre de publications open data")
+lines(density(regions_unique_sans_outliers$nb_publi), col="red", lwd=2)
+curve(dnorm(x, mean=mean(regions_unique_sans_outliers$nb_publi), sd=sd(regions_unique_sans_outliers$nb_publi)), 
+      col="#0033CC", lwd=2, add=TRUE, yaxt="n")
 
-regions_unique %>% ggplot(aes(regions_unique$nb_publi)) +
-      geom_histogram(aes(y=..density..),  color="black", fill = "steelblue", alpha = 0.2) +
-      geom_density(color="red", size = 1) +
-      stat_function(fun = dnorm, colour = "Black", size = 1, args = list(mean = mean, sd = sd))  +
-      xlim(c(min(regions_unique$nb_publi)-10, max(regions_unique$nb_publi)+10))+ 
-      ggtitle("Nombre de jeux ouverts sur portail propre ou sur datagouv") +
-      xlab("Nombre de base de données") + 
-      ylab("Fréquence") +
-      theme_linedraw()
-
-hist(regions_unique_sans_outliers$nb_publi, freq=F)
-lines(density(regions_unique_sans_outliers$nb_publi), col="red")
-lines(seq(10, 40, by=.5), dnorm(seq(10, 40, by=.5),
-        mean(regions_unique_sans_outliers$nb_publi), 
-        sd(regions_unique_sans_outliers$nb_publi)), col="blue")
-plot.window(ylim=c(0,0.2))
 
 # Variables explicatives
 library(RColorBrewer)
@@ -186,43 +189,49 @@ hist(regions_unique_sans_outliers$percent_pop_rurale, main="Pourcentage de popul
 
 
   # Test de Spearman des bases sans outliers
-shapiro.test(regions_unique_sans_outliers$taux_chomage)
-shapiro.test(regions_unique_sans_outliers$primaire_VA)  #normal à 5%
+shapiro.test(regions_unique_sans_outliers$nb_publi) #normal
+shapiro.test(regions_unique_sans_outliers$taux_chomage)  #tout juste normal à 5%
+shapiro.test(regions_unique_sans_outliers$primaire_VA)  #normal
 shapiro.test(regions_unique_sans_outliers$secondaire_VA)  #normal
 shapiro.test(regions_unique_sans_outliers$tertiaire_marchand_VA)  #normal
-shapiro.test(regions_unique_sans_outliers$tertiaire_non_mar_VA)  #tout juste normal
+shapiro.test(regions_unique_sans_outliers$tertiaire_non_mar_VA)  #normal
 shapiro.test(regions_unique_sans_outliers$part_plus65)  #normal
 shapiro.test(regions_unique_sans_outliers$part_diplomes)
 shapiro.test(regions_unique_sans_outliers$depenses_hab)  #normal
 shapiro.test(regions_unique_sans_outliers$part_etudiants)  #normal
-shapiro.test(regions_unique_sans_outliers$percent_pop_rurale)
+shapiro.test(regions_unique_sans_outliers$percent_pop_rurale)  #à 5% mais pas 10%
+
+
+#----------- Corrélations
+
 
 
   # Matrice de corrélation de Spearman car variables ne suivent pas toutes une loi normale (on exclu les Y)
-cor1 <- cor(regions_unique_sans_outliers[,c("taux_chomage","primaire_VA","secondaire_VA","tertiaire_marchand_VA","tertiaire_non_mar_VA", "part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","pop_insee","age_chef","PIB_habitant","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")], use="complete.obs", method=c("spearman"))
 library(corrplot)
+cor1 <- cor(regions_unique_sans_outliers[,c("nb_publi","taux_chomage","primaire_VA","secondaire_VA","tertiaire_marchand_VA","tertiaire_non_mar_VA", "part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","pop_insee","age_chef","PIB_habitant","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")], use="complete.obs", method=c("spearman"))
 col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
 corrplot(cor1, method="color", col=col(200), 
              type="upper",
              addCoef.col = "black")
 # corrélations moyennes (0.5<x<0.6) :
-    # - taux_chomage et depenses_hab/pop_insee/nb_etudiants
-    # - primaire_VA et part_diplomes/nb_nuitees_hotels/nb_etudiants
-    # - secondaire_VA et depenses_hab/nb_cre_entps
-    # - tertiaire_marchand_VA et nb_crea_entps
-    # - tertiaire_non_mar_VA et depenses_hab/
-    # - part_plus65 et part_etudiants/age_chef
-    # - part_etudiants et nb_crea_entps
+    # - taux_chomage et depenses_hab
+    # - primaire_VA et part_etudiants/pop_insee/age_chef/nb_etudiants
+    # - secondaire_VA et part_diplomes
+    # - tertiaire_marchand_VA et nb_nuitees_hotels
+    # - tertiaire_non_mar_VA et depenses_hab
+    # - part_plus65 et age_chef
+    # - part_diplomes et part_etudiants/nb_etudiants
     # - percent_pop_rurale et pop_insee/nb_etudiants
-# corrélations fortes (x>0.6) :
+    # - PIB_habitant et nb_crea_entps/nb_nuitees_hotels
+# corrélations fortes (x≥0.6) :
     # - taux_chomage et tertaire_non_mar_VA/percent_pop_rurale/niveau_vie
-    # - primaire_VA et tertiaire_marchand_VA/percent_pop_rurale/nb_crea_entps
-    # - secondaire_VA et tertiaire_marchand_VA/part_diplomes
-    # - tertiaire_marchand_VA et part_diplomes/depenses_hab/PIB_habitant
+    # - primaire_VA et tertiaire_marchand_VA/percent_pop_rurale/nb_crea_entps/nb_nuitees_hotels
+    # - secondaire_VA et tertiaire_marchand_VA
+    # - tertiaire_marchand_VA et part_diplomes/depenses_hab/PIB_habitant/nb_crea_entps
     # - tertaire_non_mar_VA et PIB_habitant/niveau_vie
     # - part_diplomes et depenses_hab/PIb_habitant/nb_crea_entps/nb_nuitees_hotels
     # - depenses_hab et PIB_habitant/niveau_vie
-    # - part_etudiants et pop_insee/age_chef/nb_etudiants
+    # - part_etudiants et pop_insee/age_chef/nb_crea_entps/nb_nuitees_hotels/nb_etudiants
     # - percent_pop_rurale et nb_crea_entps/nb_nuitees_hotels
     # - pop_insee et nb_crea_entps/nb_nuitees_hotels/nb_etudiants
     # - PIB_habitant et niveau_vie
@@ -230,29 +239,169 @@ corrplot(cor1, method="color", col=col(200),
     # - nb_nuitees_hotels et nb_etudiants
 
 
-  # Statistiques
-summary(regions) 
-NA_reg <- as.data.frame(apply(is.na(regions), 2, sum)) %>% rename(nb_NA = `apply(is.na(regions), 2, sum)`) %>%
-                        mutate(percent_NA = nb_NA/nrow(regions)*100) %>% mutate(percent_NA = round(percent_NA, 2)) #max 3/26 NA
 
-
-
-
-
-
-
-# ACP, arbre décisionnel, clusters quand Y défini(s)
+# ACP pour voir groupements de variables explicatives
 library(FactoMineR)
 library(factoextra)
-basepauvreté1.actifs=basepauvreté1[,c(4:12)]
-basepauvreté1.illus=basepauvreté1[,3]
-basepauvreté2=basepauvreté1.actifs
-View(basepauvreté2)
-
-par(mfrow=c(1,1))
-fviz_pca_var (res.pca, col.var = "cos2",
+  # plot
+res.pca = PCA(regions_unique_sans_outliers[,c(6,8,10:26)], graph=F)
+fviz_pca_var(res.pca, col.var = "cos2",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
              repel = TRUE)
+
+  # inertie de chaque axe fictif : % de la variance
+round(res.pca$eig,2)
+fviz_eig(res.pca, addlabels = TRUE) #axes 1 et 2 conservent 60% de l'info des 19 Xt
+
+  # contributions des Xt aux axes 1 et 2
+round(res.pca$var$contrib,2)
+fviz_contrib(res.pca, choice = "var", axes = 1, col="black")  #axe 1 = dynamisme région
+fviz_contrib(res.pca, choice = "var", axes = 2, col="black")  #axe 2 = qualité de vie
+
+  # corrélations des Xt aux dimensions : voir relation po/neg entre vble et axe
+res <- get_pca_var(res.pca)
+corrplot(res$cor, is.corr=FALSE, method="circle", tl.srt=45, tl.col="#004400", col=brewer.pal(n=9, name="RdYlBu"),
+addCoef.col="black")  #plus l'age du chef/% pop rurale augmentent, moins la région est attractive
+
+  # projection de Y
+res.pca1=PCA(regions_unique_sans_outliers[,c(2,6,8,10:26)], quanti.sup=1)
+fviz_pca_var (res.pca1, col.var = "cos2",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE) #permet de voir corrélations avec Xt : plus la région est dynamique plus elle a de chances d'ouvrir data, mais pas forcément une bonne qualité de vie (partie inférieure du plot)
+
+  # projection de Y avec outliers
+res.pca1=PCA(regions_unique[,c(2,6,8:26)], quanti.sup=1)
+fviz_pca_var (res.pca1, col.var = "cos2",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE) #favorise open data : dynamisme (nb_cre_entps, nb_etudiants)
+
+
+  # projections des régions sur le plan à 2 dimensions
+fviz_pca_ind(res.pca, col.ind = "cos2",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE)
+fviz_pca_biplot(res.pca1, repel = TRUE,
+                col.var = "#2E9FDF",
+                col.ind = "red"
+                )
+
+# regions les plus dynamiques : 10,11
+# regions les moins dynamiques : 1,2,3
+# regions avec meilleure qualité de vie :6,7
+# regions avec moins bonne qualité de vie : 4
+
+
+
+
+
+#----------- Relations entre Y et les Xt
+
+
+
+
+ggplot(data = regions_unique_sans_outliers, mapping=aes(pop_insee, nb_publi)) + 
+  geom_point(mapping=aes(pop_insee, nb_publi), size=3) + 
+  geom_quantile(quantiles=0.5, size=1, colour="red") +
+  labs(title="Relation entre le nombre de publications et le nombre d'habitants",
+       y="Nombre de publications open data", x="") +
+  theme_linedraw()
+ggplot(data = regions_unique_sans_outliers, mapping=aes(taux_chomage, nb_publi)) + 
+  geom_point(mapping=aes(taux_chomage, nb_publi), size=3) + 
+  geom_quantile(quantiles=0.5, size=1, colour="red") +
+  labs(title="Relation entre le nombre de publications et le taux de chômage",
+       y="Nombre de publications open data", x="") +
+  theme_linedraw()
+ggplot(data = regions_unique_sans_outliers, mapping=aes(primaire_VA, nb_publi)) + 
+  geom_point(mapping=aes(primaire_VA, nb_publi), size=3) + 
+  geom_quantile(quantiles=0.5, size=1, colour="red") +
+  labs(title="Relation entre le nombre de publications et la part du primaire dans la VA",
+       y="Nombre de publications open data", x="") +
+  theme_linedraw()
+ggplot(data = regions_unique_sans_outliers, mapping=aes(secondaire_VA, nb_publi)) + 
+  geom_point(mapping=aes(secondaire_VA, nb_publi), size=3) + 
+  geom_quantile(quantiles=0.5, size=1, colour="red") +
+  labs(title="Relation entre le nombre de publications et la part du secondaire dans la VA",
+       y="Nombre de publications open data", x="") +
+  theme_linedraw()
+ggplot(data = regions_unique_sans_outliers, mapping=aes(tertiaire_marchand_VA, nb_publi)) + 
+  geom_point(mapping=aes(tertiaire_marchand_VA, nb_publi), size=3) + 
+  geom_quantile(quantiles=0.5, size=1, colour="red") +
+  labs(title="Relation entre le nombre de publications et la part du tertiaire marchand",
+       y="Nombre de publications open data", x="") +
+  theme_linedraw()
+ggplot(data = regions_unique_sans_outliers, mapping=aes(tertiaire_non_mar_VA, nb_publi)) + 
+  geom_point(mapping=aes(tertiaire_non_mar_VA, nb_publi), size=3) + 
+  geom_quantile(quantiles=0.5, size=1, colour="red") +
+  labs(title="Relation entre le nombre de publications et la part du tertiaire non marchand",
+       y="Nombre de publications open data", x="") +
+  theme_linedraw()
+ggplot(data = regions_unique_sans_outliers, mapping=aes(part_plus65, nb_publi)) + 
+  geom_point(mapping=aes(part_plus65, nb_publi), size=3) + 
+  geom_quantile(quantiles=0.5, size=1, colour="red") +
+  labs(title="Relation entre le nombre de publications et la part des plus de 65 ans",
+       y="Nombre de publications open data", x="") +
+  theme_linedraw()
+ggplot(data = regions_unique_sans_outliers, mapping=aes(part_diplomes, nb_publi)) + 
+  geom_point(mapping=aes(part_diplomes, nb_publi), size=3) + 
+  geom_quantile(quantiles=0.5, size=1, colour="red") +
+  labs(title="Relation entre le nombre de publications et la part des diplomés",
+       y="Nombre de publications open data", x="") +
+  theme_linedraw()
+ggplot(data = regions_unique_sans_outliers, mapping=aes(depenses_hab, nb_publi)) + 
+  geom_point(mapping=aes(depenses_hab, nb_publi), size=3) + 
+  geom_quantile(quantiles=0.5, size=1, colour="red") +
+  labs(title="Relation entre le nombre de publications et les dépenses par habitant",
+       y="Nombre de publications open data", x="") +
+  theme_linedraw()
+ggplot(data = regions_unique_sans_outliers, mapping=aes(part_etudiants, nb_publi)) + 
+  geom_point(mapping=aes(part_etudiants, nb_publi), size=3) + 
+  geom_quantile(quantiles=0.5, size=1, colour="red") +
+  labs(title="Relation entre le nombre de publications et la part des étudiants",
+       y="Nombre de publications open data", x="") +
+  theme_linedraw()
+ggplot(data = regions_unique_sans_outliers, mapping=aes(percent_pop_rurale, nb_publi)) + 
+  geom_point(mapping=aes(percent_pop_rurale, nb_publi), size=3) + 
+  geom_quantile(quantiles=0.5, size=1, colour="red") +
+  labs(title="Relation entre le nombre de publications et le pourcentage de population rurale",
+       y="Nombre de publications open data", x="") +
+  theme_linedraw()
+ggplot(data = regions_unique_sans_outliers, mapping=aes(age_chef, nb_publi)) + 
+  geom_point(mapping=aes(age_chef, nb_publi), size=3) + 
+  geom_quantile(quantiles=0.5, size=1, colour="red") +
+  labs(title="Relation entre le nombre de publications et l'âge du chef",
+       y="Nombre de publications open data", x="") +
+  theme_linedraw()
+ggplot(data = regions_unique_sans_outliers, mapping=aes(PIB_habitant, nb_publi)) + 
+  geom_point(mapping=aes(PIB_habitant, nb_publi), size=3) + 
+  geom_quantile(quantiles=0.5, size=1, colour="red") +
+  labs(title="Relation entre le nombre de publications et le PIB par habitant",
+       y="Nombre de publications open data", x="") +
+  theme_linedraw()
+ggplot(data = regions_unique_sans_outliers, mapping=aes(niveau_vie, nb_publi)) + 
+  geom_point(mapping=aes(niveau_vie, nb_publi), size=3) + 
+  geom_quantile(quantiles=0.5, size=1, colour="red") +
+  labs(title="Relation entre le nombre de publications et le niveau de vie",
+       y="Nombre de publications open data", x="") +
+  theme_linedraw()
+ggplot(data = regions_unique_sans_outliers, mapping=aes(nb_crea_entps, nb_publi)) + 
+  geom_point(mapping=aes(nb_crea_entps, nb_publi), size=3) + 
+  geom_quantile(quantiles=0.5, size=1, colour="red") +
+  labs(title="Relation entre le nombre de publications et le nombre d'entreprises créées",
+       y="Nombre de publications open data", x="") +
+  theme_linedraw()
+ggplot(data = regions_unique_sans_outliers, mapping=aes(nb_nuitees_hotels, nb_publi)) + 
+  geom_point(mapping=aes(nb_nuitees_hotels, nb_publi), size=3) + 
+  geom_quantile(quantiles=0.5, size=1, colour="red") +
+  labs(title="Relation entre le nombre de publications et le nombre de nuitées en hotels",
+       y="Nombre de publications open data", x="") +
+  theme_linedraw()
+ggplot(data = regions_unique_sans_outliers, mapping=aes(nb_etudiants, nb_publi)) + 
+  geom_point(mapping=aes(nb_etudiants, nb_publi), size=3) + 
+  geom_quantile(quantiles=0.5, size=1, colour="red") +
+  labs(title="Relation entre le nombre de publications et le nombre d'étudiants",
+       y="Nombre de publications open data", x="") +
+  theme_linedraw()
+
 
 
 
@@ -260,12 +409,9 @@ fviz_pca_var (res.pca, col.var = "cos2",
 
 #Fréquences of categorical levels
 #cluster partis po
+#clusters CSP
 
 
-
-# CORSE / Gilles SImeoni, Professions libérales, 20 avril 67, Femu a Corsica
-# GUYANE : Gabriel SERville, Professions Intermédiaires, 27 septembre 1959, Péyi Guyane
-# MARTINIQUE: Alfred Marie-Jeanne, Professions Intermédiaires, 15 novembre 1936, Mouvement indépendantiste martiniquais
 
 
                 ### B) Départements
@@ -278,6 +424,31 @@ fviz_pca_var (res.pca, col.var = "cos2",
 
 summary(departements) 
 NA_dep <- as.data.frame(apply(is.na(departements), 2, sum)) %>% rename(nb_NA = `apply(is.na(departements), 2, sum)`) #/119
+
+
+
+
+# Arbre de décision CART (https://www.guru99.com/r-decision-trees.html)
+library(rpart)
+library(caret)
+library(rpart.plot)
+# On définit les paramètres de contrôle
+ctrl=rpart.control(cp=0.01, xval=5, maxdepth=3)
+
+# Fit Theatre
+rpart_thea <- rpart(nb_publi ~ CSP_chef+flux_migration_res+niveau_rural_mode+niveau_rural_insee+taux_chomage+primaire_VA+secondaire_VA+tertiaire_marchand_VA+tertiaire_non_mar_VA+part_plus65+part_diplomes+depenses_hab+part_etudiants+percent_pop_rurale+pop_insee+age_chef+PIB_habitant+niveau_vie+nb_crea_entps+nb_nuitees_hotels+nb_etudiants, data = regions_unique_sans_outliers, method="anova")
+summary(rpart_thea)
+# Plot
+rpart.plot(rpart_thea, box.palette = "Blues")
+X11()
+par(xpd=NA)
+plot(rpart_thea,uniform=F)
+text(rpart_thea,all=T,use.n=T,cex=0.8)
+# Voir erreur de prévision selon la taille de l'arbre
+plotcp(rpart_thea)
+printcp(rpart_thea)
+
+
 
 
 # VARIABLES QUALI
