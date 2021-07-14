@@ -797,16 +797,16 @@ communes <- communes[,c(1,20,21,2:19)]
 epci <- epci[,c(1,16:18,2:15)]
 
 
-# Pour les régions il ne manque que 3 infos sur les chefs de l'éxécutif donc on complète à la main pour avoir une base finie
-regions[c(2,3),]$CSP_chef <- c("Professions Intermédiaires","Professions Intermédiaires")
-regions[c(2,3),]$age_chef <- age(c("1936/11/15","1959/09/27"), units = "years")
-regions[c(2,3),]$partis_po_chef <- c("Mouvement indépendantiste martiniquais","Péyi Guyane")
+# Pour les régions il ne manque que 3 infos sur les chefs de l'exécutif donc on complète à la main pour avoir une base finie
+regions[c(2,3),]$CSP_chef <- c("Professions Intermédiaires","Cadres et professions intellectuelles supérieures") #Alfred Marie-Jeanne pr Martinique de 2015 à 2021
+regions[c(2,3),]$age_chef <- age(c("1936/11/15","1953/09/26"), units = "years") #Rodolphe Alexandre pr Guyane de 2015 à 2021
+regions[c(2,3),]$partis_po_chef <- c("Mouvement indépendantiste martiniquais","Divers Gauche")
 
 
 # Pareil pour les métropoles, manque infos pour 4 obs donc on ajoute manuellement
-epci[c(1283,1291,1308,1316),]$partis_po_chef <- c("sans étiquette","Europe Écologie Les Verts","Parti socialiste","Parti socialiste")
-epci[1291,]$CSP_chef <- "Chef d'entreprise"
-epci[1291,]$age_chef <- age("1970/12/31")
+epci[c(1,1310),]$partis_po_chef <- c("Les républicains","Parti socialiste")  #Bordeaux MET (Patrick Bobet) et Grenoble MET
+epci[1310,]$CSP_chef <- "Cadres et professions intellectuelles supérieures"  #Christophe Ferrari président Grenoble MET depuis 2014
+epci[1310,]$age_chef <- age("1969/05/18")
 
 
 # On met au bon format les variables
@@ -821,31 +821,6 @@ write.csv(regions,"./Data/process/regions.csv", row.names = FALSE, fileEncoding 
 write.csv(departements,"./Data/process/departements.csv", row.names = FALSE, fileEncoding = "UTF-8")
 write.csv(communes,"./Data/process/communes.csv", row.names = FALSE, fileEncoding = "UTF-8")
 write.csv(epci,"./Data/process/epci.csv", row.names = FALSE, fileEncoding = "UTF-8")
-
-
-
-
-
-
-
-############################## POUBELLE ---------------------------------------
-
-
-#-------------------------------- AJOUT GOOGLE TRENDS  -------------------------------#
-
-
-library(gtrendsR)
-geo.codes = sort(unique(countries[substr(countries$sub_code, 1, 2) == "FR", ]$sub_code))
-geo.codes <- as.data.frame(geo.codes)
-google_trends = gtrends(c("open data", "opendata"), geo = reg[,2:5], gprop = "web", time = "now 1-H")[[1]]
-test <- google_trends$geo
-
-data("countries")
-reg <- unique(countries$sub_code[substr(countries$sub_code, 1,2) == "FR"])
-reg
-countries[countries$sub_code %in% codes[2:length(codes)],]
- 
-
 
 
 

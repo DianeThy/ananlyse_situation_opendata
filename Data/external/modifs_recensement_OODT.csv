@@ -1,0 +1,13 @@
+siren,nom,type,regcode,url-ptf,nb-ptf,url-datagouv,nb-datagouv,id-datagouv,id-ods,pop-insee,lat,long,merge,depcode
+200053403,NORMANDIE,REG,,https://opendata.normandie.fr/search?source=signormandie,32,,,,,,,,,
+200053759,NOUVELLE AQUITAINE,REG,,https://territoires.nouvelle-aquitaine.fr/outils-et-ressources/open-data,2,,,,,,,,,
+222400012,DORDOGNE,DEP,,https://data.dordogne.fr/search?source=dsin%20-%20d%C3%A9partement%20de%20la%20dordogne,3,,,,,,,,,
+224100016,LOIR ET CHER,DEP,,https://www.pilote41.fr/outils/schemas-plans-programmes/19-opendata/264-open-data-41,80,,,,,,,,,
+200046977,METROPOLE DE LYON,DEP,,https://data.grandlyon.com/jeux-de-donnees?sort=-date&scope=dataset&responsibleParty.organisationName=M%C3%A9tropole%20de%20Lyon,360,,,,,,,,,
+227300019,SAVOIE,DEP,,https://opendata.savoie.fr/,7,,,,,,,,,
+217500016,PARIS,DEP,,https://opendata.paris.fr/pages/home/,315,,,,,,,,,
+246300701,CLERMONT AUVERGNE,MET,,,,https://www.data.gouv.fr/fr/organizations/clermont-auvergne-metropole/,1,5f60b2cb86bb3584d0f09f08,,,,,,
+200023414,ROUEN,MET,,,,https://www.data.gouv.fr/fr/organizations/metropole-rouen-normandie/,2,5a0467d188ee38711f65672c ,,,,,,
+220200026,AISNE,DEP,,,,https://www.data.gouv.fr/fr/organizations/departement-de-laisne/,1,5c191f768b4c415805166203 ,,,,,,
+223000019,GARD,DEP,,,,https://legacy.data.gouv.fr/fr/organizations/departement-du-gard/,31,5fd1e3ddd8016453bf402e4b,,,,,,
+224200014,LOIRE,DEP,,,,https://legacy.data.gouv.fr/fr/organizations/departement-de-la-loire/,1,5e57c46f6f444113dfb8f1be,,,,,,
