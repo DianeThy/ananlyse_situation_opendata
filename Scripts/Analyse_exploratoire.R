@@ -90,50 +90,75 @@ amBoxplot(regions_unique$part_etudiants, xlab=" ", ylab=" ", main="Part des étu
 amBoxplot(regions_unique$percent_pop_rurale, xlab=" ", ylab=" ", main="Pourcentage de population vivant en zone rurale")
 
 
-  # Test de Rosner pour les points atypiques
-library("EnvStats")
+  # Test de Grubbs quand 1 point atypique
+library(outliers) 
     # nb_publi
-rosnerTest(regions_unique$nb_publi, k = 4, alpha = 0.05) #outlier quand nb de jeux ouverts sur datagouv = 861, obs° 6 à 9 càd Ile de France
-    # nb_datagouv
-rosnerTest(regions_unique$nb_datagouv, k = 4, alpha = 0.05) #outlier quand nb de jeux ouverts sur datagouv >= 861, Ile de France aussi
-    # pop_insee
-rosnerTest(regions_unique$pop_insee, k = 4, alpha = 0.05) #outlier quand pop = 12.258.425, Ile de France
-    # age_chef
-rosnerTest(regions_unique$age_chef, k = 2, alpha = 0.05) # finalement pas d'outlier : 'FALSE'
-    # taux_chomage
-rosnerTest(regions_unique$taux_chomage, k = 4, alpha = 0.05) #outlier quand taux >= 16.1, Guadeloupe, Guyane, Réunion
-    # PIB_habitant
-rosnerTest(regions_unique$PIB_habitant, k = 5, alpha = 0.05) #outlier quand PIB/hab >= 34117, Ile de France
+grubbs.test(regions_unique$nb_publi, type=10, two.sided = TRUE)
+order(regions_unique$nb_publi)  #outlier qd nb de jeux ouverts ≥ 303, obs n°5 càd Ile de France
     # tertiaire_marchand_VA
-rosnerTest(regions_unique$tertiaire_marchand_VA, k = 4, alpha = 0.05) #outlier quand part = 71.9%, Ile de France
-    # tertiaire_non_mar_VA
-rosnerTest(regions_unique$tertiaire_non_mar_VA, k = 7, alpha = 0.05) # finalement pas d'outlier
-    # part_plus65
-rosnerTest(regions_unique$part_plus65, k = 1, alpha = 0.05) #outlier quand part = 5.3, Guyane
-    # niveau_vie
-rosnerTest(regions_unique$niveau_vie, k = 7, alpha = 0.05) #outlier quand niveau =< 17880 et = 23860, Martinique, Réunion, Ile de France
+grubbs.test(regions_unique$tertiaire_marchand_VA, type=10, two.sided = TRUE)  #outlier quand part ≥ 71.9%, Ile de France
+order(regions_unique$tertiaire_marchand_VA)
     # part_diplomes
-rosnerTest(regions_unique$part_diplomes, k = 4, alpha = 0.05) #outlier quand part = 19.9%, Ile de France
+grubbs.test(regions_unique$part_diplomes, type=10, two.sided = TRUE)  #outlier quand part ≥ 19.9%, Ile de France
+order(regions_unique$part_diplomes)
     # nb_crea_entps
-rosnerTest(regions_unique$nb_crea_entps, k = 4, alpha = 0.05) #outlier quand nb = 251781, Ile de France
-    # nb_nuitees_hotels
-rosnerTest(regions_unique$nb_nuitees_hotels, k = 4, alpha = 0.05) #outlier quand nb = 70736, Ile de France
-    # depenses_hab
-rosnerTest(regions_unique$depenses_hab, k = 6, alpha = 0.05) #outlier quand dépenses > 1158, Guyane, Martinique, Guadeloupe, Réunion, Corse
+grubbs.test(regions_unique$nb_crea_entps, type=10, two.sided = TRUE)  #outlier quand nb ≥ 251781 , Ile de France
+order(regions_unique$nb_crea_entps)
     # nb_etudiants
-rosnerTest(regions_unique$nb_etudiants, k = 4, alpha = 0.05) #outlier quand nb = 723217, Ile de France
+grubbs.test(regions_unique$nb_etudiants, type=10, two.sided = TRUE)  #outlier quand nb ≥ 723217, Ile de France
+order(regions_unique$nb_etudiants)
     # part_etudiants
-rosnerTest(regions_unique$part_etudiants, k = 4, alpha = 0.05) #outlier quand part >= 5.9%, Ile de France
+grubbs.test(regions_unique$part_etudiants, type=10, two.sided = TRUE)  #outlier quand part  ≥ 5.9%, Ile de France
+order(regions_unique$part_etudiants)
+
+
+  # Test de Rosner quand plusieurs points atypiques
+library(EnvStats) 
+    # taux_chomage
+rosnerTest(regions_unique$taux_chomage, k = 3, alpha = 0.05) #outlier quand taux ≥ 16.1, Guadeloupe, Guyane, Réunion
+    # PIB_habitant
+rosnerTest(regions_unique$PIB_habitant, k = 6, alpha = 0.05) #outlier quand PIB/hab ≥ 59387 ou ≤ 14879, Ile de France et Guyane
+    # part_plus65
+rosnerTest(regions_unique$part_plus65, k = 2, alpha = 0.05) #outlier quand part ≤ 11.1%, Guyane et Réunion
+    # niveau_vie
+rosnerTest(regions_unique$niveau_vie, k = 3, alpha = 0.05) #outlier quand niveau ≥ 23860 ou ≤ 17880, Ile de France, Martinique, Réunion
+    # nb_nuitees_hotels
+rosnerTest(regions_unique$nb_nuitees_hotels, k = 4, alpha = 0.05) #outlier quand nb ≥ 70736, Ile de France
+    # depenses_hab
+rosnerTest(regions_unique$depenses_hab, k = 2, alpha = 0.05) #outlier quand dépenses ≥ 2835, Martinique, Corse
 
 
 # On retire les points atypiques dans une nouvelle base pour faire une double analyse par la suite
-regions_unique_sans_outliers <- regions_unique[-c(1:9,27),]
+regions_unique_sans_outliers <- regions_unique[-c(1:5,17),]  # Ile de France et DROM
 
 
 #----------- Distribution
 
 
   # Histogrammes de distribution
+
+# Variable à expliquer
+mean <- mean(regions_unique_sans_outliers$nb_publi, na.rm = TRUE)   
+sd <- sd(regions_unique_sans_outliers$nb_publi, na.rm = TRUE) 
+
+regions_unique %>% ggplot(aes(regions_unique$nb_publi)) +
+      geom_histogram(aes(y=..density..),  color="black", fill = "steelblue", alpha = 0.2) +
+      geom_density(color="red", size = 1) +
+      stat_function(fun = dnorm, colour = "Black", size = 1, args = list(mean = mean, sd = sd))  +
+      xlim(c(min(regions_unique$nb_publi)-10, max(regions_unique$nb_publi)+10))+ 
+      ggtitle("Nombre de jeux ouverts sur portail propre ou sur datagouv") +
+      xlab("Nombre de base de données") + 
+      ylab("Fréquence") +
+      theme_linedraw()
+
+hist(regions_unique_sans_outliers$nb_publi, freq=F)
+lines(density(regions_unique_sans_outliers$nb_publi), col="red")
+lines(seq(10, 40, by=.5), dnorm(seq(10, 40, by=.5),
+        mean(regions_unique_sans_outliers$nb_publi), 
+        sd(regions_unique_sans_outliers$nb_publi)), col="blue")
+plot.window(ylim=c(0,0.2))
+
+# Variables explicatives
 library(RColorBrewer)
 par(mfrow=c(5,2))
 hist(regions_unique$taux_chomage, main="Taux de chômage", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 6, name = "YlGn"))
