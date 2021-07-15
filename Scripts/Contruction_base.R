@@ -708,6 +708,7 @@ regions <- left_join(regions, urbanisation_reg[,c(1,4)], by = c("COG" = "code_re
 comptes_epci_type <- comptes_epci[,c(8,12)] %>% rename(type = `Nature juridique 2021 abrégée`, SIREN = `Code Siren 2021 EPCI`) %>% unique()
 comptes_epci_type$type <-  str_replace_all(comptes_epci_type$type, c("MET69" = "M", "M" = "MET"))
 epci <- left_join(epci, comptes_epci_type, by="SIREN")
+epci[1320,]$type <- "MET"  #à la main pour Lille car type pas mis à cause du chgmt de SIREN
 
 # On retire toutes les variables qui ne sont pas utiles à l'analyse
           # chef de l'exécutif qui servait en étape intermédiaire pour récuperer le parti politique
@@ -797,6 +798,8 @@ communes <- communes[,c(1,20,21,2:19)]
 epci <- epci[,c(1,16:18,2:15)]
 
 
+    #--------------- Compléter infos manquantes (REG, DEP, MET)
+
 # Pour les régions il ne manque que 3 infos sur les chefs de l'exécutif donc on complète à la main pour avoir une base finie
 regions[c(2,3),]$CSP_chef <- c("Professions Intermédiaires","Cadres et professions intellectuelles supérieures") #Alfred Marie-Jeanne pr Martinique de 2015 à 2021
 regions[c(2,3),]$age_chef <- age(c("1936/11/15","1953/09/26"), units = "years") #Rodolphe Alexandre pr Guyane de 2015 à 2021
@@ -808,6 +811,20 @@ epci[c(1,1310),]$partis_po_chef <- c("Les républicains","Parti socialiste")  #B
 epci[1310,]$CSP_chef <- "Cadres et professions intellectuelles supérieures"  #Christophe Ferrari président Grenoble MET depuis 2014
 epci[1310,]$age_chef <- age("1969/05/18")
 
+
+# On complète aussi les NA des départements en retirant les DOM-TOM déjà ds les régions
+departements <- departements[-c(119:121),]
+  # nb de NA
+NA_dep <- as.data.frame(apply(is.na(departements), 2, sum)) %>% 
+                        rename(nb_NA = `apply(is.na(departements), 2, sum)`) %>%
+                        mutate(percent_NA = nb_NA/nrow(departements)*100) %>% 
+                        mutate(percent_NA = round(percent_NA, 2)) #manque toutes infos sur 2 chefs + 22 partis po
+  # ajout info
+departements[84,c(8:10)] <- epci[1313,c(10:12)] #metropole de Lyon on injecte les infos du jeu 'epci'
+departements[92,c(8:10)] <- communes %>% filter(nom == "Paris") %>% select(CSP_chef, age_chef, partis_po_chef)
+departements[c(3,4,7,8,10,16,23,34,35,40,43,54,57,58,73,86,97,98,105,109,110,118),]$partis_po_chef <- c("Union des démocrates et indépendants","Parti socialiste","Parti socialiste","Les Républicains","divers droite", "Les Républicains","Les Républicains","Les Républicains","Les Républicains","Parti socialiste","Les Républicains","Parti socialiste","divers droite","divers droite","Les Républicains","sans étiquette","Les Républicains","Les Républicains","Les Républicains","Les Républicains","Les Républicains","Les Républicains")
+  
+  
 
 # On met au bon format les variables
 regions[,c(2:6,8,10:27)] <- lapply(regions[,c(2:6,8,10:27)], as.numeric) 

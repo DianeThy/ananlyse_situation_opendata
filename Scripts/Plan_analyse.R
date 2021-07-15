@@ -10,19 +10,16 @@
 ## jointure ruralité (INSEE)
 ## manipulations des bases
 
-        # Analyse exploratoire
+        # Analyse exploratoire (toutes orgas avec infos complètes)
 
-## 1. Regions
-### Variables une à une
-    ### quanti : outliers (boxplots, test), distrib (histo, test), corrélations (matrice, ACP, arbre), stats desc (summary)
+### 1. Variables une à une
+    ### quanti : outliers (boxplots/violins, test), stats desc (summary), distrib (histo, test), corrélations (matrice)
     ### quali : 
-### Relations entre les variables explicatives
+### 2. Relations des variables explicatives avec Y (sélection des Xt très corrélés)
+    ### quanti : 
+    ### quali :
+### 3. Relations entre les variables explicatives
+    ### violin plot croisés : 
+    ### ACP (x3 par type d'orga)
 
-### Relations des variables explicatives avec Y
 
-
-df <- data.frame(time = 1:10,
-                 a = cumsum(rnorm(10)),
-                 b = cumsum(rnorm(10)),
-                 c = cumsum(rnorm(10)))
-df <- data.table::melt(df ,  id.vars = 'time', variable.name = 'series')
