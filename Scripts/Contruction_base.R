@@ -49,15 +49,15 @@ observatoire_com <- observatoire_opendata_territoire %>% filter(type == "COM")  
 observatoire_epci <- observatoire_opendata_territoire %>% filter(type == "MET" | type == "CU" | type == "CC" | type == "CA")  # 17+5+43+99 = 164
 
 # On match par le numéro (SIREN, COG INSEE)
-regions <- left_join(regions, observatoire_reg[,-c(2:3)], by="SIREN", copy=FALSE)
-departements <- left_join(departements, observatoire_dep[,-c(2:3)], by="SIREN", copy=FALSE)
-communes <- left_join(communes, observatoire_com[,-c(2:3)], by="SIREN", copy=FALSE)
+regions <- left_join(regions, observatoire_reg[,-c(2:3)], by="SIREN", na_matches="never")
+departements <- left_join(departements, observatoire_dep[,-c(2:3)], by="SIREN", na_matches="never")
+communes <- left_join(communes, observatoire_com[,-c(2:3)], by="SIREN", na_matches="never")
 
 # Pour les EPCI on se rend compte qu'il y a des doublons donc on les supprime avant de matcher
 doublons <- as.data.frame(table(epci$SIREN)) %>% arrange(desc(Freq))
 epci <- epci %>% distinct(SIREN, .keep_all=TRUE)
     # match
-epci <- left_join(epci, observatoire_epci[,-c(2:3)], by="SIREN", copy=FALSE)
+epci <- left_join(epci, observatoire_epci[,-c(2:3)], by="SIREN", na_matches="never")
 
 
 
@@ -94,10 +94,10 @@ comptes_epci_pop <- comptes_epci_pop %>% rename(SIREN = `Code Siren 2021 EPCI`,
 comptes_epci_pop <- comptes_epci_pop %>% group_by(SIREN) %>% distinct(SIREN, .keep_all=TRUE)
 
 # On ajoute la population à nos bases
-regions <- left_join(regions, comptes_reg_pop, by = "SIREN", copy = FALSE)
-departements <- left_join(departements, comptes_dep_pop, by = "SIREN", copy = FALSE)
-communes <- left_join(communes, comptes_com_pop, by = "SIREN", copy = FALSE)
-epci <- left_join(epci, comptes_epci_pop, by = "SIREN", copy = FALSE)
+regions <- left_join(regions, comptes_reg_pop, by = "SIREN", na_matches="never")
+departements <- left_join(departements, comptes_dep_pop, by = "SIREN", na_matches="never")
+communes <- left_join(communes, comptes_com_pop, by = "SIREN", na_matches="never")
+epci <- left_join(epci, comptes_epci_pop, by = "SIREN", na_matches="never")
 
 # On supprime l'ancienne colonne de la pop incomplète et on renomme
 regions <- regions[,-12] %>% rename(`pop-insee` = `pop-insee.y`)
@@ -133,9 +133,6 @@ RNE_dep <- RNE_dep %>% filter(`Libellé de fonction` == "Président du conseil d
 RNE_epci <- RNE_epci %>% filter(`Libellé de fonction` == "Président")
 
 # Le COG des communes est en 2 parties (COG dep et COG com) donc on rassemble pour avoir code INSEE
-    #pour la martinique COG dep = ZB, on remplace par "97" pour obtenir bon COG ensuite (dep + com)
-RNE_com$`Code du département (Maire)` <- str_replace_all(RNE_com$`Code du département (Maire)`, "ZB", "97")
-    #on rassemble les codes INSEE
 RNE_com$COG <- paste(RNE_com$`Code du département (Maire)`, RNE_com$`Code Insee de la commune`, sep='')
 
 # On renomme la colonne pivot (pour la jointure) pour les autres orgas
@@ -144,18 +141,24 @@ RNE_corse <- RNE_corse %>% rename(COG = `Code région`)
 RNE_dep <- RNE_dep %>% rename(COG = `Code du département`)
 RNE_epci <- RNE_epci %>% rename(SIREN = `N° SIREN`)
 
-# Le SIREN de la métropole de Lyon a changé en 2020 donc on met à jour celui du RNE datant de 2019 pour match
+# Le SIREN de la métropole de Lyon entré dans le RNE est faux donc on le change pour le match (SIREN de la CU de Lyon 3è)
 RNE_epci[921,]$SIREN <- 200046977
 
-# On met au format numérique les colonnes pivot qui le nécessitent
+# On met au format numérique les colonnes pivot 
 regions$COG <- as.numeric(regions$COG)
 RNE_reg$COG <- as.numeric(RNE_reg$COG)
+departements$COG <- as.numeric(departements$COG)
+RNE_dep$COG <- as.numeric(RNE_dep$COG)
+communes$COG <- as.numeric(communes$COG)
+RNE_com$COG <- as.numeric(RNE_com$COG)
+epci$SIREN <- as.numeric(epci$SIREN)
+RNE_epci$SIREN <- as.numeric(RNE_epci$SIREN)
 
 # On joint les données par le numéro (COG ou SIREN) en ne gardant que qq infos du chef (nom, prénom, CSP et date de naissance)
-regions <- left_join(regions, rbind(unique(RNE_reg[,c(1,5,6,8,10)]),RNE_corse[,c(1,3,4,6,8)]), by="COG", copy=FALSE)  #on ajoute les élus des régions où on rbind la corse
-departements <- left_join(departements, RNE_dep[,c(1,3,4,10,11)], by="COG", copy=FALSE)
-communes <- left_join(communes, RNE_com[-c(34709),c(5,6,8,10,13)], by="COG", copy=FALSE)  #on retire une obs pour la martinique où 2 chefs (on garde le plus récent)
-epci <- left_join(epci, RNE_epci[,c(2,7,8,10,12)], by="SIREN", copy=FALSE)
+regions <- left_join(regions, rbind(unique(RNE_reg[,c(1,5,6,8,10)]),RNE_corse[,c(1,3,4,6,8)]), by="COG", na_matches="never")  #on ajoute les élus des régions où on rbind la corse
+departements <- left_join(departements, RNE_dep[,c(1,3,4,10,11)], by="COG", na_matches="never")
+communes <- left_join(communes, RNE_com[,c(5,6,8,10,13)], by="COG", na_matches="never")  #on retire une obs pour la martinique où 2 chefs (on garde le plus récent)
+epci <- left_join(epci, RNE_epci[,c(2,7,8,10,12)], by="SIREN", na_matches="never")
 
 
 # On met les noms et prénoms au format tel que sous wikidata pour match (ex : Michel Dupont)
@@ -246,7 +249,7 @@ WHERE {
   ?chef wdt:P27 wd:Q142  .    #on limite aux pers françaises
   ?chef wdt:P102 ?parti .     #on recup le parti
   ?chef wdt:P569 ?date .   #on recup la date de naissance
-  FILTER(YEAR(?date) > 1920).    #on trie pour ne garder que les personnes "actuelles" (moins de 100 ans)
+  FILTER(YEAR(?date) > 1920).    #on trie pour ne garder que les politiciens "actuels" (moins de 100 ans)
   SERVICE wikibase:label { bd:serviceParam wikibase:language "fr". }
 }
 ORDER BY ?chefLabel ')
@@ -281,16 +284,16 @@ epci[, chef_upper := stringi::stri_trans_general (str = chef_upper, id = "Latin-
 
 # On procède au match maintenant
     ## REGIONS
-regions <- left_join(regions, wikidata_partis_po[,2:3], by="chef_upper", copy=FALSE) 
+regions <- left_join(regions, wikidata_partis_po[,2:3], by="chef_upper", na_matches="never") 
 regions <- regions[,-20]  #on retire la colonne des noms en majuscules
     ## DEPARTEMENTS
-departements <- left_join(departements, wikidata_partis_po[,2:3], by="chef_upper", copy=FALSE) 
+departements <- left_join(departements, wikidata_partis_po[,2:3], by="chef_upper", na_matches="never") 
 departements <- departements[,-21]
     ## COMMUNES
-communes <- left_join(communes, wikidata_partis_po[,2:3], by="chef_upper", copy=FALSE) 
+communes <- left_join(communes, wikidata_partis_po[,2:3], by="chef_upper", na_matches="never") 
 communes <- communes[,-22]
     ## EPCI
-epci <- left_join(epci, wikidata_partis_po[,2:3], by="chef_upper", copy=FALSE) 
+epci <- left_join(epci, wikidata_partis_po[,2:3], by="chef_upper", na_matches="never") 
 epci <- epci[,-21]
 
 
@@ -304,7 +307,7 @@ epci <- epci %>% rename(partis_po_chef = partiLabel)
 ## Nombre de partis politiques manquants pour les orgas
 regions %>% count(is.na(partis_po_chef))  # 2/17
 departements %>% count(is.na(partis_po_chef))  #27/98
-communes %>% count(is.na(partis_po_chef))  # 34265/34966
+communes %>% count(is.na(partis_po_chef))  # 34277/34966
 epci %>% count(is.na(partis_po_chef))  # 1079/1272
 
 
@@ -372,14 +375,14 @@ stats_locales_epci <- stats_locales_epci %>%
 
 # On met au bon format les colonnes de jointure
 stats_locales_reg$COG <- as.numeric(stats_locales_reg$COG)
+stats_locales_dep$COG <- as.numeric(stats_locales_dep$COG)
+stats_locales_com$COG <- as.numeric(stats_locales_com$COG)
 
 ## On match par les COG pour collectivités et SIREN pour interco
-regions <- left_join(regions, stats_locales_reg[,-2], by="COG", copy=FALSE)
-departements <- left_join(departements, stats_locales_dep[,-2], by="COG", copy=FALSE)
-communes <- left_join(communes, stats_locales_com[,-2], by="COG", copy=FALSE)
-epci <- left_join(epci, stats_locales_epci[,-2], by="SIREN", copy=FALSE)
-    # le siren de la métropole de Lille ayant changé on attribue les valeurs nous mêmes car pas de match (old : 245900410, new : 200093201)
-epci[1320,c(22:26)] <- stats_locales_epci[,c(3:7)] %>% filter(stats_locales_epci$nom == "Métropole Européenne de Lille")
+regions <- left_join(regions, stats_locales_reg[,-2], by="COG", na_matches="never")
+departements <- left_join(departements, stats_locales_dep[,-2], by="COG", na_matches="never")
+communes <- left_join(communes, stats_locales_com[,-2], by="COG", na_matches="never")
+epci <- left_join(epci, stats_locales_epci[,-2], by="SIREN", na_matches="never")
 
 
 
@@ -404,10 +407,10 @@ comptes_epci_tot19 <- comptes_epci_tot19 %>% rename(SIREN = `Code Siren Collecti
 
 
 # Matchs
-regions <- left_join(regions, comptes_reg_tot19[,c(7,13)], by="SIREN", copy=FALSE)
-departements <- left_join(departements, comptes_dep_tot19[,c(10,16)], by="SIREN", copy=FALSE)  #du jeu comptes on ne prend que le SIREN et le budget
-communes <- left_join(communes, comptes_com_tot19[,c(18,25)], by="SIREN", copy=FALSE)
-epci <- left_join(epci, comptes_epci_tot19[,c(15,21)], by="SIREN", copy=FALSE)
+regions <- left_join(regions, comptes_reg_tot19[,c(7,13)], by="SIREN", na_matches="never")
+departements <- left_join(departements, comptes_dep_tot19[,c(10,16)], by="SIREN", na_matches="never")  #du jeu comptes on ne prend que le SIREN et le budget
+doublons <- left_join(communes, unique(comptes_com_tot19[,c(18,25)]), by="SIREN", na_matches="never")
+epci <- left_join(epci, comptes_epci_tot19[,c(15,21)], by="SIREN", na_matches="never")
 
 
 # On renomme la colonne du budget par un nom exploitable
@@ -453,9 +456,9 @@ Nb_etudiants_dep$COG <- gsub("^0", "", Nb_etudiants_dep$COG)  #puis on retire le
 Nb_etudiants_reg$COG <- as.numeric(Nb_etudiants_reg$COG)
 
 # Matchs pour les niveaux géographiques dispo (càd regions, dep et communes)
-regions <- left_join(regions, Nb_etudiants_reg, by="COG", copy=FALSE)
-departements <- left_join(departements, Nb_etudiants_dep, by="COG", copy=FALSE)
-communes <- left_join(communes, Nb_etudiants_com, by="COG", copy=FALSE)
+regions <- left_join(regions, Nb_etudiants_reg, by="COG", na_matches="never")
+departements <- left_join(departements, Nb_etudiants_dep, by="COG", na_matches="never")
+communes <- left_join(communes, Nb_etudiants_com, by="COG", na_matches="never")
 
 # On transforme le nombre d'étudiants en taux pour voir si indicateur plus parlant (sélection entre les 2 aux stats desc)
 regions <- regions %>% mutate(part_etudiants = nb_etudiants/`pop-insee`*100)
@@ -485,7 +488,7 @@ urbanisation_com <- urbanisation_com %>% rename(COG = `Code géographique commun
                                                 niveau_rural = `Typologie urbain/rural`)
 
 # Match avec le jeu de l'analyse
-communes <- left_join(communes, urbanisation_com, by="COG", copy=FALSE)
+communes <- left_join(communes, urbanisation_com, by="COG", na_matches="never")
 
 # Pour plus de simplicité on remplace les catégories par un digit de 1 à 6 tel que :
   #- 1 : urbain dense 
@@ -575,10 +578,10 @@ urbanisation_INSEE <- urbanisation_INSEE[,-2] %>% rename(COG = `\nCode \nCommune
                                                 pop = `Population \nmunicipale \n2017`)
 
 # On récupère le numéro de région en matchant aux données communales où l'on a cette info
-urbanisation_INSEE <- left_join(urbanisation_INSEE, communes[,c(3,6)], by = "COG", copy = FALSE)
+urbanisation_INSEE <- left_join(urbanisation_INSEE, communes[,c(3,6)], by = "COG", na_matches="never")
 
 # Comme il s'agit d'un autre indicateur de densité (4 classes et pas 6) on l'ajoute aux données des communes, puis on choisira l'agrégation adaptée avec l'analyse exploratoire
-communes <- left_join(communes, unique(urbanisation_INSEE[,c(1,2)]), by = "COG", copy = FALSE)  #on enlève les doublons
+communes <- left_join(communes, unique(urbanisation_INSEE[,c(1,2)]), by = "COG", na_matches="never")  #on enlève les doublons
 
 
 
@@ -599,7 +602,7 @@ df_is_1_2 <- urbanisation_dep[,-c(2,4)]
 df_is_1_2 <- df_is_1_2 %>% group_by(code_departement, dens_is_1_2) %>% mutate(somme_pop_is_1_2 = sum(somme_pop))
 df_is_1_2 <- df_is_1_2[,-2] %>% distinct()
 df_is_1_2 <- df_is_1_2 %>% group_by(code_departement) %>% mutate(percent_pop_is_1_2 = (somme_pop_is_1_2/sum(somme_pop_is_1_2) * 100))
-urbanisation_dep <- left_join(urbanisation_dep, df_is_1_2, by = c("code_departement", "dens_is_1_2"), copy = FALSE)
+urbanisation_dep <- left_join(urbanisation_dep, df_is_1_2, by = c("code_departement", "dens_is_1_2"), na_matches="never")
 
 # On applique la règle de décision de l'INSEE en matière de densité
 urbanisation_dep <- urbanisation_dep %>% group_by(code_departement) %>% mutate(niveau_rural_insee = case_when(densite == 1 & percent_pop > 50 ~ 1,
@@ -613,7 +616,7 @@ urbanisation_dep <- urbanisation_dep %>%  group_by(code_departement) %>% slice(1
 # On match au jeu des départements
 departements$COG <- as.numeric(departements$COG)
 urbanisation_dep$code_departement <- as.numeric(urbanisation_dep$code_departement)
-departements <- left_join(departements, urbanisation_dep[,c(1,8)], by = c("COG" = "code_departement"), copy = FALSE)
+departements <- left_join(departements, urbanisation_dep[,c(1,8)], by = c("COG" = "code_departement"), na_matches="never")
 
 
 
@@ -634,7 +637,7 @@ df_is_1_2 <- urbanisation_reg[,-c(2,4)]
 df_is_1_2 <- df_is_1_2 %>% group_by(code_region, dens_is_1_2) %>% mutate(somme_pop_is_1_2 = sum(somme_pop))
 df_is_1_2 <- df_is_1_2[,-2] %>% distinct()
 df_is_1_2 <- df_is_1_2 %>% group_by(code_region) %>% mutate(percent_pop_is_1_2 = (somme_pop_is_1_2/sum(somme_pop_is_1_2) * 100))
-urbanisation_reg <- left_join(urbanisation_reg, df_is_1_2, by = c("code_region", "dens_is_1_2"), copy = FALSE)
+urbanisation_reg <- left_join(urbanisation_reg, df_is_1_2, by = c("code_region", "dens_is_1_2"), na_matches="never")
 
 # On applique la règle de décision de l'INSEE en matière de densité
 urbanisation_reg <- urbanisation_reg %>% group_by(code_region) %>% mutate(niveau_rural_insee = case_when(densite == 1 & percent_pop > 50 ~ 1,
@@ -646,7 +649,7 @@ urbanisation_reg <- urbanisation_reg %>% group_by(code_region) %>% mutate(niveau
 urbanisation_reg <- urbanisation_reg %>%  group_by(code_region) %>% slice(1)
 
 # On match au jeu des régions
-regions <- left_join(regions, urbanisation_reg[,c(1,8)], by = c("COG" = "code_region"), copy = FALSE)
+regions <- left_join(regions, urbanisation_reg[,c(1,8)], by = c("COG" = "code_region"), na_matches="never")
 
 
 
@@ -678,7 +681,7 @@ urbanisation_dep <- urbanisation_dep %>% filter(densite_binaire == 2) %>% rename
 urbanisation_dep$code_departement <- as.numeric(urbanisation_dep$code_departement)
 departements$COG <- as.numeric(departements$COG)
     # match
-departements <- left_join(departements, urbanisation_dep[,c(1,4)], by = c("COG" = "code_departement"), copy = FALSE)
+departements <- left_join(departements, urbanisation_dep[,c(1,4)], by = c("COG" = "code_departement"), na_matches="never")
 
 
 
@@ -694,7 +697,7 @@ urbanisation_reg <- urbanisation_reg %>% group_by(code_region) %>% mutate(percen
 urbanisation_reg <- urbanisation_reg %>% filter(densite_binaire == 2) %>% rename(percent_pop_rurale = percent_pop)
 
 # Puis on ajoute cette nouvelle variable aux données des régions
-regions <- left_join(regions, urbanisation_reg[,c(1,4)], by = c("COG" = "code_region"), copy = FALSE) 
+regions <- left_join(regions, urbanisation_reg[,c(1,4)], by = c("COG" = "code_region"), na_matches="never") 
 
 
 

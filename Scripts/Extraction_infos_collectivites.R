@@ -52,13 +52,13 @@ OFGL_departements <- OFGL_departements %>% rename(COG = `Code Insee 2021 Départ
 OFGL_departements <- OFGL_departements[,c(3,5,2,4,1)]
 
 # On modifie le type "DEPT" par "DEP"
-OFGL_departements$type <- str_replace_all(OFGL_departements$type, "DEPT", "DEP")
+OFGL_departements$type <- "DEP"
 
 # On met au bon format les variables numériques
 OFGL_departements[,c(2,3,5)] <- lapply(OFGL_departements[,c(2,3,5)], as.numeric)
 
 # On trie les observations avec COG par ordre croissant
-OFGL_departements <- OFGL_departements %>% arrange(COG) %>% replace(type, "DEP")
+OFGL_departements <- OFGL_departements %>% arrange(COG) 
 
 
 
@@ -85,7 +85,7 @@ OFGL_communes <- OFGL_communes %>% rename(COG = `Code Insee 2021 Commune`,
 OFGL_communes <- OFGL_communes[,c(4,6,3,5,1,2)]
 
 # On modifie le type "Commune" par "COM"
-OFGL_communes$type <- str_replace_all(OFGL_communes$type, "Commune", "COM")
+OFGL_communes$type <- "COM"
 
 # On met au bon format les variables numériques
 OFGL_communes[,c(2,3,5,6)] <- lapply(OFGL_communes[,c(2,3,5,6)], as.numeric)
@@ -93,6 +93,8 @@ OFGL_communes[,c(2,3,5,6)] <- lapply(OFGL_communes[,c(2,3,5,6)], as.numeric)
 # On trie les observations avec COG par ordre croissant
 OFGL_communes <- OFGL_communes %>% arrange(COG)
 
+# On supprime le doublon
+OFGL_communes <- OFGL_communes %>% unique()
 
 
 
@@ -128,14 +130,19 @@ OFGL_interco <- OFGL_interco %>% rename(nom = `Nom 2021 EPCI`,
 OFGL_interco <- OFGL_interco[,c(5,4,3,1,2)]
 
 # On modifie le type "M" par "MET"
-OFGL_interco$type <- str_replace_all(OFGL_interco$type, "M", "MET")
+OFGL_interco$type <- "MET"
 
 # On met au bon format les variables numériques
-OFGL_interco[,c(2,4,5,6)] <- lapply(OFGL_interco[,c(2,4,5)], as.numeric)
+OFGL_interco[,c(2,4,5)] <- lapply(OFGL_interco[,c(2,4,5)], as.numeric)
 
 # On trie les observations avec COG par ordre croissant
 OFGL_interco <- OFGL_interco %>% arrange(nom)
 
+# On supprime les doublons
+    #exemple
+OFGL_interco %>% filter(SIREN == 200090579)
+    #suppression
+OFGL_interco <- OFGL_interco %>% unique()
 
 
 
@@ -143,11 +150,11 @@ OFGL_interco <- OFGL_interco %>% arrange(nom)
 
 
 # On exporte toutes ces bases qui aideront pour croiser des variables de différents jeux quand les noms d'organisation ne sont pas exactement les mêmes
-rio::export(OFGL_regions,"./Data/external/infos_regions.csv")
-rio::export(OFGL_departements,"./Data/external/infos_departements.csv")
-rio::export(OFGL_communes,"./Data/external/infos_communes.csv")
-rio::export(infos_coll,"./Data/external/infos_collectivites.csv")
-rio::export(OFGL_interco,"./Data/external/infos_interco.csv")
+rio::export(OFGL_regions,"./Data/raw/infos_regions.csv")
+rio::export(OFGL_departements,"./Data/raw/infos_departements.csv")
+rio::export(OFGL_communes,"./Data/raw/infos_communes.csv")
+rio::export(infos_coll,"./Data/raw/infos_collectivites.csv")
+rio::export(OFGL_interco,"./Data/raw/infos_interco.csv")
 
 
 
