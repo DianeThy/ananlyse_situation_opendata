@@ -142,22 +142,29 @@ base_unique %>% filter(part_diplomes > (summary(base_unique$part_diplomes))[5]) 
 base_unique %>% filter(depenses_hab > (summary(base_unique$depenses_hab))[5]) %>% count() #132
 
     # nb_publi
-rosnerTest(base_unique$nb_publi, k = 132, alpha = 0.05) #outlier quand taux ≥ 16.1, Guadeloupe, Guyane, Réunion
+options(max.print=9999)
+rosnerTest(base_unique$nb_publi, k = 132, alpha = 0.0001) #outlier quand publi ≥ 10
     # pop_insee
-rosnerTest(base_unique$pop_insee, k = 132, alpha = 0.05) #outlier quand PIB/hab ≥ 59387 ou ≤ 14879, Ile de France et Guyane
+rosnerTest(base_unique$pop_insee, k = 132, alpha = 0.05) #outlier quand population ≥ 654829 
     # part_plus65
-rosnerTest(base_unique$part_plus65, k = 8, alpha = 0.05) #outlier quand PIB/hab ≥ 59387 ou ≤ 14879, Ile de France et Guyane
+rosnerTest(base_unique$part_plus65, k = 8, alpha = 0.05) #outlier quand part ≥ 51.6%, obs n°172 càd Arcachon
     # nb_crea_entps
-rosnerTest(base_unique$nb_crea_entps, k = 132, alpha = 0.05) #outlier quand part ≤ 11.1%, Guyane et Réunion
+rosnerTest(base_unique$nb_crea_entps, k = 132, alpha = 0.05) #outlier quand créations ≥ 8136
     # part_diplomes
-rosnerTest(base_unique$part_diplomes, k = 130, alpha = 0.05) #outlier quand niveau ≥ 23860 ou ≤ 17880, Ile de France, Martinique, Réunion
+rosnerTest(base_unique$part_diplomes, k = 130, alpha = 0.05) #outlier quand part ≥ 32.4% 
     # depenses_hab
-rosnerTest(base_unique$depenses_hab, k = 132, alpha = 0.05) #outlier quand dépenses ≥ 2835, Martinique, Corse
+rosnerTest(base_unique$depenses_hab, k = 132, alpha = 0.05) #outlier quand dépenses ≥ 3756.05
 
 
 # On retire les points atypiques dans une nouvelle base pour faire une double analyse par la suite
-base_unique_sans_outliers <- base_unique[-c(1:5,17),]  # Ile de France et DROM
-
+base_unique_sans_outliers <- base_unique %>% filter(age_chef > 33,
+                                                    nb_publi < 10,
+                                                    pop_insee < 654829,
+                                                    part_plus65 < 51.6,
+                                                    nb_crea_entps < 8136,
+                                                    part_diplomes < 32.4,
+                                                    depenses_hab < 3756.05)
+nrow(base_unique)-nrow(base_unique_sans_outliers) #166 obs perdues
 
 
 #----------- Stats
