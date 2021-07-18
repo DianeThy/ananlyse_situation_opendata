@@ -130,7 +130,7 @@ OFGL_interco <- OFGL_interco %>% rename(nom = `Nom 2021 EPCI`,
 OFGL_interco <- OFGL_interco[,c(5,4,3,1,2)]
 
 # On modifie le type "M" par "MET"
-OFGL_interco$type <- "MET"
+OFGL_interco$type <- str_replace_all(OFGL_interco$type, "M", "MET") 
 
 # On met au bon format les variables numériques
 OFGL_interco[,c(2,4,5)] <- lapply(OFGL_interco[,c(2,4,5)], as.numeric)
