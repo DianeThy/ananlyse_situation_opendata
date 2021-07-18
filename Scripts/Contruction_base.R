@@ -814,7 +814,7 @@ epci[1309,]$CSP_chef <- "Cadres et professions intellectuelles supérieures"  #C
 epci[1309,]$age_chef <- age("1969/05/18")
 
 
-# On complète aussi les NA des départements en retirant les DOM-TOM déjà ds les régions
+# On complète aussi les NA des départements et on retire les DOM-TOM déjà ds les régions
 departements <- departements[-c(119:121),]
   # nb de NA
 NA_dep <- as.data.frame(apply(is.na(departements), 2, sum)) %>% 
@@ -822,8 +822,8 @@ NA_dep <- as.data.frame(apply(is.na(departements), 2, sum)) %>%
                         mutate(percent_NA = nb_NA/nrow(departements)*100) %>% 
                         mutate(percent_NA = round(percent_NA, 2)) #manque toutes infos sur 2 chefs + 22 partis po
   # ajout info
-departements[84,c(8:10)] <- epci[1313,c(10:12)] #metropole de Lyon on injecte les infos du jeu 'epci'
-departements[92,c(8:10)] <- communes %>% filter(nom == "Paris") %>% select(CSP_chef, age_chef, partis_po_chef)
+departements[118,c(8:10)] <- epci[1312,c(10:12)] #metropole de Lyon on injecte les infos du jeu 'epci'
+departements[91,c(8:10)] <- communes %>% filter(nom == "Paris") %>% select(CSP_chef, age_chef, partis_po_chef)
 departements[c(3,4,7,8,10,16,23,34,35,40,43,54,57,58,73,86,97,98,105,109,110,118),]$partis_po_chef <- c("Union des démocrates et indépendants","Parti socialiste","Parti socialiste","Les Républicains","divers droite", "Les Républicains","Les Républicains","Les Républicains","Les Républicains","Parti socialiste","Les Républicains","Parti socialiste","divers droite","divers droite","Les Républicains","sans étiquette","Les Républicains","Les Républicains","Les Républicains","Les Républicains","Les Républicains","Les Républicains")
   
   
