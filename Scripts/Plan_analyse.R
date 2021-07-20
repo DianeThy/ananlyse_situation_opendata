@@ -14,7 +14,7 @@
 
 ### 1. Variables une à une
     ### quanti : outliers (boxplots/violins, test), stats desc (summary), distrib (histo, test), corrélations (matrice)
-    ### quali : 
+    ### quali : répartitions, dépendances
 ### 2. Relations des variables explicatives avec Y (sélection des Xt très corrélés)
     ### quanti : 
     ### quali :

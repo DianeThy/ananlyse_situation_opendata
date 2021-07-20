@@ -52,119 +52,169 @@ vbles_quali <- c("ouvre_data","niveau_rural_mode","niveau_rural_insee","flux_mig
 
 
 
-# On va travailler sur les observations complètes pour une analyse générale
-  # on créé pour reg dep et com une colonne du type d'orga pour rbinder ensuite
+
+#-- Analyse générale sur sous-bases par type mises ensemble
+
+  # On créé pour reg dep et com une colonne du type d'orga pour rbinder ensuite
 regions$type <- "REG"
 departements$type <- "DEP"
 communes$type <- "COM"
-  # on réordonne et sélectionne les colonnes communes aux 4 types d'orga
+#epci$type <- "EPCI"  #on met une seule modalité plus globale pour l'analyse des territoires confondus
+
+  # On réordonne et sélectionne les colonnes communes aux 4 types d'orga
 reg2 <- regions %>% select(nom,type,nb_publi,ouvre_data,pop_insee,CSP_chef,age_chef,partis_po_chef,part_plus65,nb_crea_entps,flux_migration_res,part_diplomes,depenses_hab)
 dep2 <- departements %>% select(nom,type,nb_publi,ouvre_data,pop_insee,CSP_chef,age_chef,partis_po_chef,part_plus65,nb_crea_entps,flux_migration_res,part_diplomes,depenses_hab)
 com2 <- communes %>% select(nom,type,nb_publi,ouvre_data,pop_insee,CSP_chef,age_chef,partis_po_chef,part_plus65,nb_crea_entps,flux_migration_res,part_diplomes,depenses_hab)
 epci2 <- epci %>% select(nom,type,nb_publi,ouvre_data,pop_insee,CSP_chef,age_chef,partis_po_chef,part_plus65,nb_crea_entps,flux_migration_res,part_diplomes,depenses_hab)
-  # on met le tout dans une même base et on garde les obs complètes
-base <- rbind(reg2,dep2,com2,epci2) %>% na.omit()
+
+  # On met le tout dans une même base : ce sera notre base pour une première analyse globale pour les 4 types d'orga
+base <- rbind(reg2,dep2,com2,epci2) 
+
+  # On regarde le nombre de valeurs manquantes
+NA_base <- as.data.frame(apply(is.na(base), 2, sum)) %>% 
+                        rename(nb_NA = `apply(is.na(base), 2, sum)`) %>%
+                        mutate(percent_NA = nb_NA/nrow(base)*100) %>% 
+                        mutate(percent_NA = round(percent_NA, 2))
+
+  # Plus de 90% de NA pour partis_po_chef et flux_migration_res donc on drop ces colonnes, on fait retire les doublons comme vble 'partis_po_chef' plus dans l'analyse puis on retire NA sur reste de la base
+base <- base %>% select(-partis_po_chef, -flux_migration_res) %>% unique() %>% na.omit()
+str(base)
 
 
 
                 ### A) Variables une à une
 
 
+
     ## 1. VARIABLES QUANTI
 
 
 
-# Quand plusieurs partis po pour 1 orga alors plusieurs obs. Pour ne pas fausser l'analyse exploratoire sur les autres variables (quanti) on retire la colonne du parti_po et on supprime les doublons : 1 orga = 1obs
-base_unique <- base %>% select(-partis_po_chef) %>% unique()
-
+# Distrib nb_publi par type
+ggplot(base, mapping=aes(nb_publi, type)) +
+  geom_point(mapping=aes(nb_publi, type))
 
 
 #----------- Points atypiques et distribution
 
 
-g1 <- ggplot(base_unique, aes(x=nb_publi, y=frequency(nb_publi))) +  
+ggplot(base, aes(x=nb_publi, y=frequency(nb_publi))) +  
   labs(title="Distribution et box du nombre de publications", x="Nombe de publications", y="Fréquence") +
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
     theme_minimal()
-g2 <- ggplot(base_unique, aes(x=pop_insee, y=frequency(pop_insee))) +
+ggplot(base, aes(x=pop_insee, y=frequency(pop_insee))) +
   labs(title="Distribution et box du nombre d'habitants", x="Nombre d'habitants", y="Fréquence") +
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
     theme_minimal()
-g3 <- ggplot(base_unique, aes(x=age_chef, y=frequency(age_chef))) + #1 outlier
+ggplot(base, aes(x=age_chef, y=frequency(age_chef))) + #1 outlier
   labs(title="Distribution et box de l'âge du chef", x="Âge du chef de l'exécutif", y="Fréquence") +
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
     theme_minimal()
-g4 <- ggplot(base_unique, aes(x=part_plus65, y=frequency(part_plus65))) +  
+ggplot(base, aes(x=part_plus65, y=frequency(part_plus65))) +  
   labs(title="Distribution et box de la part des plus de 65 ans", x="Part des plus de 65 ans", y="Fréquence") +
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
     theme_minimal()
-ggplot(base_unique, aes(x=nb_crea_entps, y=frequency(nb_crea_entps))) +  
+ggplot(base, aes(x=nb_crea_entps, y=frequency(nb_crea_entps))) +  
   labs(title="Distribution et box du nombre d'entreprises créées", x="Nombre d'entreprises créées", y="Fréquence") +
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
     theme_minimal()
-ggplot(base_unique, aes(x=part_diplomes, y=frequency(part_diplomes))) +
+ggplot(base, aes(x=part_diplomes, y=frequency(part_diplomes))) +
   labs(title="Distribution et box de la part des diplômés", x="Part des diplômés", y="Fréquence") +
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
     theme_minimal()
-ggplot(base_unique, aes(x=depenses_hab, y=frequency(depenses_hab))) + 
+ggplot(base, aes(x=depenses_hab, y=frequency(depenses_hab))) + 
   labs(title="Distribution et box des dépenses par habitant", x="Dépenses par habitant", y="Fréquence") +
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
     theme_minimal()
 
-library(gridExtra)
-grid.arrange(g1,g2,g3,g4, ncol=2, nrow = 2)
 
-
-
-
-  # Test de Grubbs quand 1 point atypique
-library(outliers) 
-    # age_chef
-grubbs.test(base_unique$age_chef, type=10, two.sided = TRUE)
-order(base_unique$age_chef)  #outlier qd age ≤ 33, obs n°297 càd commune de Fréjus
-
-
-  # Test de Rosner quand plusieurs points atypiques
-library(EnvStats) 
 
 # Pour savoir le nombre de points potentiellement atypiques sur le violin plot (k du test de Rosner)
-base_unique %>% filter(nb_publi > (summary(base_unique$nb_publi))[5]) %>% count() #132
-base_unique %>% filter(pop_insee > (summary(base_unique$pop_insee))[5]) %>% count() #132
-base_unique %>% filter(nb_crea_entps > (summary(base_unique$nb_crea_entps))[5]) %>% count() #132
-base_unique %>% filter(part_diplomes > (summary(base_unique$part_diplomes))[5]) %>% count() #130
-base_unique %>% filter(depenses_hab > (summary(base_unique$depenses_hab))[5]) %>% count() #132
+  #on compte le nombre d'observations supérieures au 99è centiles ou inférieures au 1er
+base %>% filter(nb_publi < (quantile(nb_publi, probs = .01)) |
+                nb_publi > (quantile(nb_publi, probs = .99))) %>% count()  #354
+base %>% filter(pop_insee < (quantile(pop_insee, probs = .01)) |
+                pop_insee > (quantile(pop_insee, probs = .99))) %>% count() #688
+base %>% filter(age_chef < (quantile(age_chef, probs = .01)) |
+                age_chef > (quantile(age_chef, probs = .99))) %>% count() #635
+base %>% filter(part_plus65 < (quantile(part_plus65, probs = .01)) |
+                part_plus65 > (quantile(part_plus65, probs = .99))) %>% count() #704
+base %>% filter(nb_crea_entps < (quantile(nb_crea_entps, probs = .01)) |
+                nb_crea_entps > (quantile(nb_crea_entps, probs = .99))) %>% count() #356
+base %>% filter(part_diplomes < (quantile(part_diplomes, probs = .01)) |
+                part_diplomes > (quantile(part_diplomes, probs = .99))) %>% count() #355
+base %>% filter(depenses_hab < (quantile(depenses_hab, probs = .01)) |
+                depenses_hab > (quantile(depenses_hab, probs = .99))) %>% count() #712
 
+
+  # Test de Rosner car plus d'1 point atypique à chaque fois
+library(EnvStats) 
     # nb_publi
 options(max.print=9999)
-rosnerTest(base_unique$nb_publi, k = 132, alpha = 0.0001) #outlier quand publi ≥ 10
+rosnerTest(base$nb_publi, k = 354, alpha = 0.0001) #outlier quand publi ≥ 3
     # pop_insee
-rosnerTest(base_unique$pop_insee, k = 132, alpha = 0.05) #outlier quand population ≥ 654829 
+rosnerTest(base$pop_insee, k = 688, alpha = 0.05) #outlier quand population ≥ 34117 
+    #age_chef
+rosnerTest(base$age_chef, k = 635, alpha = 0.05) # 0 outliers quand
     # part_plus65
-rosnerTest(base_unique$part_plus65, k = 8, alpha = 0.05) #outlier quand part ≥ 51.6%, obs n°172 càd Arcachon
+rosnerTest(base$part_plus65, k = 704, alpha = 0.05) #outlier quand part ≥ 56.8%
     # nb_crea_entps
-rosnerTest(base_unique$nb_crea_entps, k = 132, alpha = 0.05) #outlier quand créations ≥ 8136
+rosnerTest(base$nb_crea_entps, k = 356, alpha = 0.05) #outlier quand créations ≥ 827
     # part_diplomes
-rosnerTest(base_unique$part_diplomes, k = 130, alpha = 0.05) #outlier quand part ≥ 32.4% 
+rosnerTest(base$part_diplomes, k = 355, alpha = 0.05) #outlier quand part ≥ 21.7% 
     # depenses_hab
-rosnerTest(base_unique$depenses_hab, k = 132, alpha = 0.05) #outlier quand dépenses ≥ 3756.05
+rosnerTest(base$depenses_hab, k = 712, alpha = 0.05) #outlier quand dépenses ≥ 3841.337
 
 
 # On retire les points atypiques dans une nouvelle base pour faire une double analyse par la suite
-base_unique_sans_outliers <- base_unique %>% filter(age_chef > 33,
-                                                    nb_publi < 10,
-                                                    pop_insee < 654829,
-                                                    part_plus65 < 51.6,
-                                                    nb_crea_entps < 8136,
-                                                    part_diplomes < 32.4,
-                                                    depenses_hab < 3756.05)
-nrow(base_unique)-nrow(base_unique_sans_outliers) #166 obs perdues
+base_sans_outliers <- base %>% filter(nb_publi < 3,
+                                                    pop_insee < 34117,
+                                                    part_plus65 < 56.8,
+                                                    nb_crea_entps < 827,
+                                                    part_diplomes < 21.7,
+                                                    depenses_hab < 3841.337)
+nrow(base)-nrow(base_sans_outliers) #1835 obs perdues
+
+
+# Distrib nb_publi par type
+ggplot(base_sans_outliers, mapping=aes(y=nb_publi, x=type)) +
+  geom_point(mapping=aes(y=nb_publi, x=type))+ 
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+      # on perd REg, DEP, MET, CU, COM donc analyse globale toutes orgas confondues pas intéressant
+
+
+#com
+com <- base %>% filter(type == "COM")
+ggplot(com, mapping=aes(nb_publi, nom)) +
+  geom_point(mapping=aes(nb_publi, nom))  # analyse binaire car inflation en 0
+
+dep <- base %>% filter(type == "DEP")
+ggplot(dep, mapping=aes(y=nb_publi, x=nom)) +
+  geom_point(mapping=aes(y=nb_publi, x=nom))
+
+reg <- base %>% filter(type == "REG")
+ggplot(reg, mapping=aes(y=nb_publi, x=nom)) +
+  geom_point(mapping=aes(y=nb_publi, x=nom))
+
+dep <- base %>% filter(type == "DEP")
+ggplot(dep, mapping=aes(y=nb_publi, x=nom)) +
+  geom_point(mapping=aes(y=nb_publi, x=nom))
+
+
+
+# étdude en frnce métropolitaine
+
+
+
+
+
 
 
 #----------- Stats
@@ -172,8 +222,8 @@ nrow(base_unique)-nrow(base_unique_sans_outliers) #166 obs perdues
 
   # Statistiques descriptives
 library(summarytools)
-view(dfSummary(regions_unique)) # avec outliers
-view(dfSummary(regions_unique_sans_outliers)) # sans outliers, toutes les variables sont homogènes (sauf nb_datagouv mais pas utile) = écart-type < moyenne
+view(dfSummary(base)) # avec outliers
+view(dfSummary(base_sans_outliers)) # sans outliers, toutes les variables sont homogènes (sauf nb_datagouv mais pas utile) = écart-type < moyenne
 
 
 
@@ -184,56 +234,56 @@ view(dfSummary(regions_unique_sans_outliers)) # sans outliers, toutes les variab
 
 # Variable à expliquer
 par(mfrow=c(1,2))
-hist(regions_unique$nb_publi, prob=T, ylim=c(0, 0.015), 
+hist(base$nb_publi, prob=T, ylim=c(0, 0.015), 
      xlab="Avec outliers", ylab="Densité", main="Nombre de publications open data")
-lines(density(regions_unique$nb_publi), col="red", lwd=2)
-curve(dnorm(x, mean=mean(regions_unique$nb_publi), sd=sd(regions_unique$nb_publi)),col="#0033CC", lwd=2, add=TRUE, yaxt="n")
-hist(regions_unique_sans_outliers$nb_publi, prob=T, ylim=c(0, 0.015), 
+lines(density(base$nb_publi), col="red", lwd=2)
+curve(dnorm(x, mean=mean(base$nb_publi), sd=sd(base$nb_publi)),col="#0033CC", lwd=2, add=TRUE, yaxt="n")
+hist(base_sans_outliers$nb_publi, prob=T, ylim=c(0, 0.015), 
      xlab="Sans outliers", ylab="Densité", main="Nombre de publications open data")
-lines(density(regions_unique_sans_outliers$nb_publi), col="red", lwd=2)
-curve(dnorm(x, mean=mean(regions_unique_sans_outliers$nb_publi), sd=sd(regions_unique_sans_outliers$nb_publi)), 
+lines(density(base_sans_outliers$nb_publi), col="red", lwd=2)
+curve(dnorm(x, mean=mean(base_sans_outliers$nb_publi), sd=sd(base_sans_outliers$nb_publi)), 
       col="#0033CC", lwd=2, add=TRUE, yaxt="n")
 
 
 # Variables explicatives
 library(RColorBrewer)
 par(mfrow=c(5,2))
-hist(regions_unique$taux_chomage, main="Taux de chômage", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 6, name = "YlGn"))
-hist(regions_unique_sans_outliers$taux_chomage, main="Taux de chômage", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 7, name = "YlGn"))
-hist(regions_unique$primaire_VA, main="Part du secteur primaire", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 5, name = "PuRd"))
-hist(regions_unique_sans_outliers$primaire_VA, main="Part du secteur primaire", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 7, name = "PuRd"))
-hist(regions_unique$secondaire_VA, main="Part du secteur secondaire", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 8, name = "Reds"))
-hist(regions_unique_sans_outliers$secondaire_VA, main="Part du secteur secondaire", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 6, name = "Reds"))
-hist(regions_unique$tertiaire_marchand_VA, main="Part du secteur tertiaire marchand", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 8, name = "Blues"))
-hist(regions_unique_sans_outliers$tertiaire_marchand_VA, main="Part du secteur tertiaire marchand", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 7, name = "Blues"))
-hist(regions_unique$tertiaire_non_mar_VA, main="Part du secteur tertiaire non marchand", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 5, name = "Greys"))
-hist(regions_unique_sans_outliers$tertiaire_non_mar_VA, main="Part du secteur tertiaire non marchand", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 7, name = "Greys"))
+hist(base$taux_chomage, main="Taux de chômage", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 6, name = "YlGn"))
+hist(base_sans_outliers$taux_chomage, main="Taux de chômage", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 7, name = "YlGn"))
+hist(base$primaire_VA, main="Part du secteur primaire", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 5, name = "PuRd"))
+hist(base_sans_outliers$primaire_VA, main="Part du secteur primaire", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 7, name = "PuRd"))
+hist(base$secondaire_VA, main="Part du secteur secondaire", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 8, name = "Reds"))
+hist(base_sans_outliers$secondaire_VA, main="Part du secteur secondaire", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 6, name = "Reds"))
+hist(base$tertiaire_marchand_VA, main="Part du secteur tertiaire marchand", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 8, name = "Blues"))
+hist(base_sans_outliers$tertiaire_marchand_VA, main="Part du secteur tertiaire marchand", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 7, name = "Blues"))
+hist(base$tertiaire_non_mar_VA, main="Part du secteur tertiaire non marchand", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 5, name = "Greys"))
+hist(base_sans_outliers$tertiaire_non_mar_VA, main="Part du secteur tertiaire non marchand", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 7, name = "Greys"))
 
 par(mfrow=c(5,2))
-hist(regions_unique$part_plus65, main="Part des plus de 65 ans", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 4, name = "Purples"))
-hist(regions_unique_sans_outliers$part_plus65, main="Part des plus de 65 ans", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 7, name = "Purples"))
-hist(regions_unique$part_diplomes, main="Part des diplômés", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Oranges"))
-hist(regions_unique_sans_outliers$part_diplomes, main="Part des diplômés", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Oranges"))
-hist(regions_unique$depenses_hab, main="Dépenses par habitant", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Greens"))
-hist(regions_unique_sans_outliers$depenses_hab, main="Dépenses par habitant", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Greens"))
-hist(regions_unique$part_etudiants, main="Part des étudiants", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Spectral"))
-hist(regions_unique_sans_outliers$part_etudiants, main="Part des étudiants", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 7, name = "Spectral"))
-hist(regions_unique$percent_pop_rurale, main="Pourcentage de population rurale", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 6, name = "PuBu"))
-hist(regions_unique_sans_outliers$percent_pop_rurale, main="Pourcentage de population rurale", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "PuBu"))
+hist(base$part_plus65, main="Part des plus de 65 ans", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 4, name = "Purples"))
+hist(base_sans_outliers$part_plus65, main="Part des plus de 65 ans", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 7, name = "Purples"))
+hist(base$part_diplomes, main="Part des diplômés", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Oranges"))
+hist(base_sans_outliers$part_diplomes, main="Part des diplômés", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Oranges"))
+hist(base$depenses_hab, main="Dépenses par habitant", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Greens"))
+hist(base_sans_outliers$depenses_hab, main="Dépenses par habitant", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Greens"))
+hist(base$part_etudiants, main="Part des étudiants", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Spectral"))
+hist(base_sans_outliers$part_etudiants, main="Part des étudiants", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 7, name = "Spectral"))
+hist(base$percent_pop_rurale, main="Pourcentage de population rurale", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 6, name = "PuBu"))
+hist(base_sans_outliers$percent_pop_rurale, main="Pourcentage de population rurale", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "PuBu"))
 
 
   # Test de Spearman des bases sans outliers
-shapiro.test(regions_unique_sans_outliers$nb_publi) #normal
-shapiro.test(regions_unique_sans_outliers$taux_chomage)  #tout juste normal à 5%
-shapiro.test(regions_unique_sans_outliers$primaire_VA)  #normal
-shapiro.test(regions_unique_sans_outliers$secondaire_VA)  #normal
-shapiro.test(regions_unique_sans_outliers$tertiaire_marchand_VA)  #normal
-shapiro.test(regions_unique_sans_outliers$tertiaire_non_mar_VA)  #normal
-shapiro.test(regions_unique_sans_outliers$part_plus65)  #normal
-shapiro.test(regions_unique_sans_outliers$part_diplomes)
-shapiro.test(regions_unique_sans_outliers$depenses_hab)  #normal
-shapiro.test(regions_unique_sans_outliers$part_etudiants)  #normal
-shapiro.test(regions_unique_sans_outliers$percent_pop_rurale)  #à 5% mais pas 10%
+shapiro.test(base_sans_outliers$nb_publi) #normal
+shapiro.test(base_sans_outliers$taux_chomage)  #tout juste normal à 5%
+shapiro.test(base_sans_outliers$primaire_VA)  #normal
+shapiro.test(base_sans_outliers$secondaire_VA)  #normal
+shapiro.test(base_sans_outliers$tertiaire_marchand_VA)  #normal
+shapiro.test(base_sans_outliers$tertiaire_non_mar_VA)  #normal
+shapiro.test(base_sans_outliers$part_plus65)  #normal
+shapiro.test(base_sans_outliers$part_diplomes)
+shapiro.test(base_sans_outliers$depenses_hab)  #normal
+shapiro.test(base_sans_outliers$part_etudiants)  #normal
+shapiro.test(base_sans_outliers$percent_pop_rurale)  #à 5% mais pas 10%
 
 
 #----------- Corrélations
@@ -242,7 +292,7 @@ shapiro.test(regions_unique_sans_outliers$percent_pop_rurale)  #à 5% mais pas 1
 
   # Matrice de corrélation de Spearman car variables ne suivent pas toutes une loi normale (on exclu les Y)
 library(corrplot)
-cor1 <- cor(regions_unique_sans_outliers[,c("nb_publi","taux_chomage","primaire_VA","secondaire_VA","tertiaire_marchand_VA","tertiaire_non_mar_VA", "part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","pop_insee","age_chef","PIB_habitant","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")], use="complete.obs", method=c("spearman"))
+cor1 <- cor(base_sans_outliers[,c("nb_publi","taux_chomage","primaire_VA","secondaire_VA","tertiaire_marchand_VA","tertiaire_non_mar_VA", "part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","pop_insee","age_chef","PIB_habitant","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")], use="complete.obs", method=c("spearman"))
 col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
 corrplot(cor1, method="color", col=col(200), 
              type="upper",
@@ -278,7 +328,7 @@ corrplot(cor1, method="color", col=col(200),
 library(FactoMineR)
 library(factoextra)
   # plot
-res.pca = PCA(regions_unique_sans_outliers[,c(6,8,10:26)], graph=F)
+res.pca = PCA(base_sans_outliers[,c(6,8,10:26)], graph=F)
 fviz_pca_var(res.pca, col.var = "cos2",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
              repel = TRUE)
@@ -299,13 +349,13 @@ corrplot(res$cor, is.corr=FALSE, method="circle", tl.srt=45, tl.col="#004400", c
 addCoef.col="black")  #plus l'age du chef/% pop rurale augmentent, moins la région est attractive
 
   # projection de Y
-res.pca1=PCA(regions_unique_sans_outliers[,c(2,6,8,10:23,26)], quanti.sup=1)
+res.pca1=PCA(base_sans_outliers[,c(2,6,8,10:23,26)], quanti.sup=1)
 fviz_pca_var (res.pca1, col.var = "cos2",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
              repel = TRUE) #permet de voir corrélations avec Xt : plus la région est dynamique plus elle a de chances d'ouvrir data, mais pas forcément une bonne qualité de vie (partie inférieure du plot)
 
   # projection de Y avec outliers
-res.pca1=PCA(regions_unique[,c(2,6,8,10:23,26)], quanti.sup=1)
+res.pca1=PCA(base[,c(2,6,8,10:23,26)], quanti.sup=1)
 fviz_pca_var (res.pca1, col.var = "cos2",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
              repel = TRUE) #favorise open data : dynamisme (nb_cre_entps, nb_etudiants)
@@ -337,9 +387,9 @@ regions_sans_outliers <- regions[c(1:9,27:29),]
 
 # On met au bon format les variables qualis
 regions[,c(3,7,9,10,25,26)] <- lapply(regions[,c(3,7,9,10,25,26)], as.factor)
-regions_unique[,c(3,7,9,24,25)] <- lapply(regions_unique[,c(3,7,9,24,25)], as.factor)
+base[,c(3,7,9,24,25)] <- lapply(base[,c(3,7,9,24,25)], as.factor)
 regions_sans_outliers[,c(3,7,9,10,25,26)] <- lapply(regions_sans_outliers[,c(3,7,9,10,25,26)], as.factor)
-regions_unique_sans_outliers[,c(3,7,9,24,25)] <- lapply(regions_unique_sans_outliers[,c(3,7,9,24,25)], as.factor)
+base_sans_outliers[,c(3,7,9,24,25)] <- lapply(base_sans_outliers[,c(3,7,9,24,25)], as.factor)
 
 
 
@@ -349,27 +399,27 @@ regions_unique_sans_outliers[,c(3,7,9,24,25)] <- lapply(regions_unique_sans_outl
 library(inspectdf)
 inspect_cat(regions[,c(3,7,9,10,25,26)]) %>% show_plot(high_cardinality = 1)  #données initiales pour voir repartition partis_po
   # partis_po ressortent le plus sont UMP, PS et LR
-inspect_cat(regions_unique[,c(3,7,9,24,25)]) %>% show_plot(high_cardinality = 1) #pour les autres c'est la base sans doublons à regarder
+inspect_cat(base[,c(3,7,9,24,25)]) %>% show_plot(high_cardinality = 1) #pour les autres c'est la base sans doublons à regarder
   # CSP_chef 12% autres professions et médecins
   # flux_migration 47% ds dep 11 càd Aude
-inspect_cat(regions_unique_sans_outliers[,c(3,7,9,24,25)]) %>% show_plot(high_cardinality = 1) #same sans outliers
+inspect_cat(base_sans_outliers[,c(3,7,9,24,25)]) %>% show_plot(high_cardinality = 1) #same sans outliers
 
 
 #----------- Dépendances
 
 
 # CSP_chef avec les autres qualis
-chisq.test(regions_unique_sans_outliers$CSP_chef, regions_unique_sans_outliers$ouvre_data)
-chisq.test(regions_unique_sans_outliers$CSP_chef, regions_unique_sans_outliers$niveau_rural_mode)
-chisq.test(regions_unique_sans_outliers$CSP_chef, regions_unique_sans_outliers$niveau_rural_insee)
-chisq.test(regions_unique_sans_outliers$CSP_chef, regions_unique_sans_outliers$flux_migration_res)
-chisq.test(regions_unique_sans_outliers$CSP_chef, regions_unique_sans_outliers$partis_po_chef)
+chisq.test(base_sans_outliers$CSP_chef, base_sans_outliers$ouvre_data)
+chisq.test(base_sans_outliers$CSP_chef, base_sans_outliers$niveau_rural_mode)
+chisq.test(base_sans_outliers$CSP_chef, base_sans_outliers$niveau_rural_insee)
+chisq.test(base_sans_outliers$CSP_chef, base_sans_outliers$flux_migration_res)
+chisq.test(base_sans_outliers$CSP_chef, base_sans_outliers$partis_po_chef)
 
 # Ouvre_data avec les autres qualis
-chisq.test(regions_unique_sans_outliers$ouvre_data, regions_unique_sans_outliers$niveau_rural_mode)
-chisq.test(regions_unique_sans_outliers$ouvre_data, regions_unique_sans_outliers$niveau_rural_insee)
-chisq.test(regions_unique_sans_outliers$ouvre_data, regions_unique_sans_outliers$flux_migration_res)
-chisq.test(regions_unique_sans_outliers$ouvre_data, regions_unique_sans_outliers$partis_po_chef)
+chisq.test(base_sans_outliers$ouvre_data, base_sans_outliers$niveau_rural_mode)
+chisq.test(base_sans_outliers$ouvre_data, base_sans_outliers$niveau_rural_insee)
+chisq.test(base_sans_outliers$ouvre_data, base_sans_outliers$flux_migration_res)
+chisq.test(base_sans_outliers$ouvre_data, base_sans_outliers$partis_po_chef)
 
 vbles_quali <- c("ouvre_data","niveau_rural_mode","niveau_rural_insee","flux_migration_res","nom","partis_po_chef","CSP_chef")
 
@@ -412,67 +462,68 @@ fviz_eig(res.pca,main="Pourcentage expliqué par chaque facteur")
 
 # Relations positives (CC > 0)
 
-ggplot(data = regions_unique_sans_outliers, mapping=aes(pop_insee, nb_publi)) + 
+
+ggplot(data = base, mapping=aes(type, nb_publi)) + 
   geom_point(mapping=aes(pop_insee, nb_publi), size=3) + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
   labs(title="Relation entre le nombre de publications et le nombre d'habitants",
        y="Nombre de publications open data", x="") +
   theme_linedraw()
-ggplot(data = regions_unique_sans_outliers, mapping=aes(taux_chomage, nb_publi)) + 
+ggplot(data = base_sans_outliers, mapping=aes(taux_chomage, nb_publi)) + 
   geom_point(mapping=aes(taux_chomage, nb_publi), size=3) + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
   labs(title="Relation entre le nombre de publications et le taux de chômage",
        y="Nombre de publications open data", x="") +
   theme_linedraw()
-ggplot(data = regions_unique_sans_outliers, mapping=aes(tertiaire_marchand_VA, nb_publi)) + 
+ggplot(data = base_sans_outliers, mapping=aes(tertiaire_marchand_VA, nb_publi)) + 
   geom_point(mapping=aes(tertiaire_marchand_VA, nb_publi), size=3) + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
   labs(title="Relation entre le nombre de publications et la part du tertiaire marchand",
        y="Nombre de publications open data", x="") +
   theme_linedraw()
-ggplot(data = regions_unique_sans_outliers, mapping=aes(tertiaire_non_mar_VA, nb_publi)) + 
+ggplot(data = base_sans_outliers, mapping=aes(tertiaire_non_mar_VA, nb_publi)) + 
   geom_point(mapping=aes(tertiaire_non_mar_VA, nb_publi), size=3) + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
   labs(title="Relation entre le nombre de publications et la part du tertiaire non marchand",
        y="Nombre de publications open data", x="") +
   theme_linedraw()
-ggplot(data = regions_unique_sans_outliers, mapping=aes(part_diplomes, nb_publi)) + 
+ggplot(data = base_sans_outliers, mapping=aes(part_diplomes, nb_publi)) + 
   geom_point(mapping=aes(part_diplomes, nb_publi), size=3) + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
   labs(title="Relation entre le nombre de publications et la part des diplomés",
        y="Nombre de publications open data", x="") +
   theme_linedraw()
-ggplot(data = regions_unique_sans_outliers, mapping=aes(part_etudiants, nb_publi)) + 
+ggplot(data = base_sans_outliers, mapping=aes(part_etudiants, nb_publi)) + 
   geom_point(mapping=aes(part_etudiants, nb_publi), size=3) + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
   labs(title="Relation entre le nombre de publications et la part des étudiants",
        y="Nombre de publications open data", x="") +
   theme_linedraw()
-ggplot(data = regions_unique_sans_outliers, mapping=aes(PIB_habitant, nb_publi)) + 
+ggplot(data = base_sans_outliers, mapping=aes(PIB_habitant, nb_publi)) + 
   geom_point(mapping=aes(PIB_habitant, nb_publi), size=3) + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
   labs(title="Relation entre le nombre de publications et le PIB par habitant",
        y="Nombre de publications open data", x="") +
   theme_linedraw()
-ggplot(data = regions_unique_sans_outliers, mapping=aes(niveau_vie, nb_publi)) + 
+ggplot(data = base_sans_outliers, mapping=aes(niveau_vie, nb_publi)) + 
   geom_point(mapping=aes(niveau_vie, nb_publi), size=3) + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
   labs(title="Relation entre le nombre de publications et le niveau de vie",
        y="Nombre de publications open data", x="") +
   theme_linedraw()
-ggplot(data = regions_unique_sans_outliers, mapping=aes(nb_crea_entps, nb_publi)) + 
+ggplot(data = base_sans_outliers, mapping=aes(nb_crea_entps, nb_publi)) + 
   geom_point(mapping=aes(nb_crea_entps, nb_publi), size=3) + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
   labs(title="Relation entre le nombre de publications et le nombre d'entreprises créées",
        y="Nombre de publications open data", x="") +
   theme_linedraw()
-ggplot(data = regions_unique_sans_outliers, mapping=aes(nb_nuitees_hotels, nb_publi)) + 
+ggplot(data = base_sans_outliers, mapping=aes(nb_nuitees_hotels, nb_publi)) + 
   geom_point(mapping=aes(nb_nuitees_hotels, nb_publi), size=3) + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
   labs(title="Relation entre le nombre de publications et le nombre de nuitées en hotels",
        y="Nombre de publications open data", x="") +
   theme_linedraw()
-ggplot(data = regions_unique_sans_outliers, mapping=aes(nb_etudiants, nb_publi)) + 
+ggplot(data = base_sans_outliers, mapping=aes(nb_etudiants, nb_publi)) + 
   geom_point(mapping=aes(nb_etudiants, nb_publi), size=3) + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
   labs(title="Relation entre le nombre de publications et le nombre d'étudiants",
@@ -482,37 +533,37 @@ ggplot(data = regions_unique_sans_outliers, mapping=aes(nb_etudiants, nb_publi))
 
 # Relations negatives (CC < 0)
 
-ggplot(data = regions_unique_sans_outliers, mapping=aes(primaire_VA, nb_publi)) + 
+ggplot(data = base_sans_outliers, mapping=aes(primaire_VA, nb_publi)) + 
   geom_point(mapping=aes(primaire_VA, nb_publi), size=3) + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
   labs(title="Relation entre le nombre de publications et la part du primaire dans la VA",
        y="Nombre de publications open data", x="") +
   theme_linedraw()
-ggplot(data = regions_unique_sans_outliers, mapping=aes(secondaire_VA, nb_publi)) + 
+ggplot(data = base_sans_outliers, mapping=aes(secondaire_VA, nb_publi)) + 
   geom_point(mapping=aes(secondaire_VA, nb_publi), size=3) + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
   labs(title="Relation entre le nombre de publications et la part du secondaire dans la VA",
        y="Nombre de publications open data", x="") +
   theme_linedraw()
-ggplot(data = regions_unique_sans_outliers, mapping=aes(part_plus65, nb_publi)) + 
+ggplot(data = base_sans_outliers, mapping=aes(part_plus65, nb_publi)) + 
   geom_point(mapping=aes(part_plus65, nb_publi), size=3) + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
   labs(title="Relation entre le nombre de publications et la part des plus de 65 ans",
        y="Nombre de publications open data", x="") +
   theme_linedraw()
-ggplot(data = regions_unique_sans_outliers, mapping=aes(percent_pop_rurale, nb_publi)) + 
+ggplot(data = base_sans_outliers, mapping=aes(percent_pop_rurale, nb_publi)) + 
   geom_point(mapping=aes(percent_pop_rurale, nb_publi), size=3) + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
   labs(title="Relation entre le nombre de publications et le pourcentage de population rurale",
        y="Nombre de publications open data", x="") +
   theme_linedraw()
-ggplot(data = regions_unique_sans_outliers, mapping=aes(age_chef, nb_publi)) + 
+ggplot(data = base_sans_outliers, mapping=aes(age_chef, nb_publi)) + 
   geom_point(mapping=aes(age_chef, nb_publi), size=3) + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
   labs(title="Relation entre le nombre de publications et l'âge du chef",
        y="Nombre de publications open data", x="") +
   theme_linedraw()
-ggplot(data = regions_unique_sans_outliers, mapping=aes(depenses_hab, nb_publi)) + 
+ggplot(data = base_sans_outliers, mapping=aes(depenses_hab, nb_publi)) + 
   geom_point(mapping=aes(depenses_hab, nb_publi), size=3) + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
   labs(title="Relation entre le nombre de publications et les dépenses par habitant",
@@ -561,7 +612,7 @@ library(rpart.plot)
 ctrl=rpart.control(cp=0.01, xval=5, maxdepth=3)
 
 # Fit Theatre
-rpart_thea <- rpart(nb_publi ~ CSP_chef+flux_migration_res+niveau_rural_mode+niveau_rural_insee+taux_chomage+primaire_VA+secondaire_VA+tertiaire_marchand_VA+tertiaire_non_mar_VA+part_plus65+part_diplomes+depenses_hab+part_etudiants+percent_pop_rurale+pop_insee+age_chef+PIB_habitant+niveau_vie+nb_crea_entps+nb_nuitees_hotels+nb_etudiants, data = regions_unique_sans_outliers, method="anova")
+rpart_thea <- rpart(nb_publi ~ CSP_chef+flux_migration_res+niveau_rural_mode+niveau_rural_insee+taux_chomage+primaire_VA+secondaire_VA+tertiaire_marchand_VA+tertiaire_non_mar_VA+part_plus65+part_diplomes+depenses_hab+part_etudiants+percent_pop_rurale+pop_insee+age_chef+PIB_habitant+niveau_vie+nb_crea_entps+nb_nuitees_hotels+nb_etudiants, data = base_sans_outliers, method="anova")
 summary(rpart_thea)
 # Plot
 rpart.plot(rpart_thea, box.palette = "Blues")
@@ -666,63 +717,63 @@ summary(modele.both)
 
   # Boxplots
 library(rAmCharts)  # ATTENTION : individual = n° d'obs, est différent de "number of outliers" 
-amBoxplot(regions_unique$nb_publi, xlab=" ", ylab=" ", main="Nombre de données publiées (local ou datagouv)") #1 outlier
-amBoxplot(regions_unique$pop_insee, xlab=" ", ylab=" ", main="Population") 
-amBoxplot(regions_unique$age_chef, xlab=" ", ylab=" ", main="Âge du chef de l'exécutif")
-amBoxplot(regions_unique$taux_chomage, xlab=" ", ylab=" ", main="Taux de chômage") #3
-amBoxplot(regions_unique$PIB_habitant, xlab=" ", ylab=" ", main="PIB par habitant")  #6
-amBoxplot(regions_unique$primaire_VA, xlab=" ", ylab=" ", main="Part du secteur primaire dans la VA")
-amBoxplot(regions_unique$secondaire_VA, xlab=" ", ylab=" ", main="Part du secteur secondaire dans la VA")
-amBoxplot(regions_unique$tertiaire_marchand_VA, xlab=" ", ylab=" ", main="Part du secteur tertiaire marchand dans la VA") #1
-amBoxplot(regions_unique$tertiaire_non_mar_VA, xlab=" ", ylab=" ", main="Part du secteur tertiaire non marchand dans la VA")
-amBoxplot(regions_unique$part_plus65, xlab=" ", ylab=" ", main="Part des plus de 65 ans dans la population") #2
-amBoxplot(regions_unique$niveau_vie, xlab=" ", ylab=" ", main="Médiane du niveau de vie") #3
-amBoxplot(regions_unique$part_diplomes, xlab=" ", ylab=" ", main="Part des diplômés dans la population") #1
-amBoxplot(regions_unique$nb_crea_entps, xlab=" ", ylab=" ", main="Nombre de création d'entreprises") #1
-amBoxplot(regions_unique$nb_nuitees_hotels, xlab=" ", ylab=" ", main="Nombre de nuitées dans des hôtels de tourisme") #1
-amBoxplot(regions_unique$depenses_hab, xlab=" ", ylab=" ", main="Dépenses totales par habitant") #2
-amBoxplot(regions_unique$nb_etudiants, xlab=" ", ylab=" ", main="Nombre d'étudiants dans la population") #1
-amBoxplot(regions_unique$part_etudiants, xlab=" ", ylab=" ", main="Part des étudiants dans la population") #1
-amBoxplot(regions_unique$percent_pop_rurale, xlab=" ", ylab=" ", main="Pourcentage de population vivant en zone rurale")
+amBoxplot(base$nb_publi, xlab=" ", ylab=" ", main="Nombre de données publiées (local ou datagouv)") #1 outlier
+amBoxplot(base$pop_insee, xlab=" ", ylab=" ", main="Population") 
+amBoxplot(base$age_chef, xlab=" ", ylab=" ", main="Âge du chef de l'exécutif")
+amBoxplot(base$taux_chomage, xlab=" ", ylab=" ", main="Taux de chômage") #3
+amBoxplot(base$PIB_habitant, xlab=" ", ylab=" ", main="PIB par habitant")  #6
+amBoxplot(base$primaire_VA, xlab=" ", ylab=" ", main="Part du secteur primaire dans la VA")
+amBoxplot(base$secondaire_VA, xlab=" ", ylab=" ", main="Part du secteur secondaire dans la VA")
+amBoxplot(base$tertiaire_marchand_VA, xlab=" ", ylab=" ", main="Part du secteur tertiaire marchand dans la VA") #1
+amBoxplot(base$tertiaire_non_mar_VA, xlab=" ", ylab=" ", main="Part du secteur tertiaire non marchand dans la VA")
+amBoxplot(base$part_plus65, xlab=" ", ylab=" ", main="Part des plus de 65 ans dans la population") #2
+amBoxplot(base$niveau_vie, xlab=" ", ylab=" ", main="Médiane du niveau de vie") #3
+amBoxplot(base$part_diplomes, xlab=" ", ylab=" ", main="Part des diplômés dans la population") #1
+amBoxplot(base$nb_crea_entps, xlab=" ", ylab=" ", main="Nombre de création d'entreprises") #1
+amBoxplot(base$nb_nuitees_hotels, xlab=" ", ylab=" ", main="Nombre de nuitées dans des hôtels de tourisme") #1
+amBoxplot(base$depenses_hab, xlab=" ", ylab=" ", main="Dépenses totales par habitant") #2
+amBoxplot(base$nb_etudiants, xlab=" ", ylab=" ", main="Nombre d'étudiants dans la population") #1
+amBoxplot(base$part_etudiants, xlab=" ", ylab=" ", main="Part des étudiants dans la population") #1
+amBoxplot(base$percent_pop_rurale, xlab=" ", ylab=" ", main="Pourcentage de population vivant en zone rurale")
 
 
   # Test de Grubbs quand 1 point atypique
 library(outliers) 
     # nb_publi
-grubbs.test(regions_unique$nb_publi, type=10, two.sided = TRUE)
-order(regions_unique$nb_publi)  #outlier qd nb de jeux ouverts ≥ 303, obs n°5 càd Ile de France
+grubbs.test(base$nb_publi, type=10, two.sided = TRUE)
+order(base$nb_publi)  #outlier qd nb de jeux ouverts ≥ 303, obs n°5 càd Ile de France
     # tertiaire_marchand_VA
-grubbs.test(regions_unique$tertiaire_marchand_VA, type=10, two.sided = TRUE)  #outlier quand part ≥ 71.9%, Ile de France
-order(regions_unique$tertiaire_marchand_VA)
+grubbs.test(base$tertiaire_marchand_VA, type=10, two.sided = TRUE)  #outlier quand part ≥ 71.9%, Ile de France
+order(base$tertiaire_marchand_VA)
     # part_diplomes
-grubbs.test(regions_unique$part_diplomes, type=10, two.sided = TRUE)  #outlier quand part ≥ 19.9%, Ile de France
-order(regions_unique$part_diplomes)
+grubbs.test(base$part_diplomes, type=10, two.sided = TRUE)  #outlier quand part ≥ 19.9%, Ile de France
+order(base$part_diplomes)
     # nb_crea_entps
-grubbs.test(regions_unique$nb_crea_entps, type=10, two.sided = TRUE)  #outlier quand nb ≥ 251781 , Ile de France
-order(regions_unique$nb_crea_entps)
+grubbs.test(base$nb_crea_entps, type=10, two.sided = TRUE)  #outlier quand nb ≥ 251781 , Ile de France
+order(base$nb_crea_entps)
     # nb_etudiants
-grubbs.test(regions_unique$nb_etudiants, type=10, two.sided = TRUE)  #outlier quand nb ≥ 723217, Ile de France
-order(regions_unique$nb_etudiants)
+grubbs.test(base$nb_etudiants, type=10, two.sided = TRUE)  #outlier quand nb ≥ 723217, Ile de France
+order(base$nb_etudiants)
     # part_etudiants
-grubbs.test(regions_unique$part_etudiants, type=10, two.sided = TRUE)  #outlier quand part  ≥ 5.9%, Ile de France
-order(regions_unique$part_etudiants)
+grubbs.test(base$part_etudiants, type=10, two.sided = TRUE)  #outlier quand part  ≥ 5.9%, Ile de France
+order(base$part_etudiants)
 
 
   # Test de Rosner quand plusieurs points atypiques
 library(EnvStats) 
     # taux_chomage
-rosnerTest(regions_unique$taux_chomage, k = 3, alpha = 0.05) #outlier quand taux ≥ 16.1, Guadeloupe, Guyane, Réunion
+rosnerTest(base$taux_chomage, k = 3, alpha = 0.05) #outlier quand taux ≥ 16.1, Guadeloupe, Guyane, Réunion
     # PIB_habitant
-rosnerTest(regions_unique$PIB_habitant, k = 6, alpha = 0.05) #outlier quand PIB/hab ≥ 59387 ou ≤ 14879, Ile de France et Guyane
+rosnerTest(base$PIB_habitant, k = 6, alpha = 0.05) #outlier quand PIB/hab ≥ 59387 ou ≤ 14879, Ile de France et Guyane
     # part_plus65
-rosnerTest(regions_unique$part_plus65, k = 2, alpha = 0.05) #outlier quand part ≤ 11.1%, Guyane et Réunion
+rosnerTest(base$part_plus65, k = 2, alpha = 0.05) #outlier quand part ≤ 11.1%, Guyane et Réunion
     # niveau_vie
-rosnerTest(regions_unique$niveau_vie, k = 3, alpha = 0.05) #outlier quand niveau ≥ 23860 ou ≤ 17880, Ile de France, Martinique, Réunion
+rosnerTest(base$niveau_vie, k = 3, alpha = 0.05) #outlier quand niveau ≥ 23860 ou ≤ 17880, Ile de France, Martinique, Réunion
     # nb_nuitees_hotels
-rosnerTest(regions_unique$nb_nuitees_hotels, k = 4, alpha = 0.05) #outlier quand nb ≥ 70736, Ile de France
+rosnerTest(base$nb_nuitees_hotels, k = 4, alpha = 0.05) #outlier quand nb ≥ 70736, Ile de France
     # depenses_hab
-rosnerTest(regions_unique$depenses_hab, k = 2, alpha = 0.05) #outlier quand dépenses ≥ 2835, Martinique, Corse
+rosnerTest(base$depenses_hab, k = 2, alpha = 0.05) #outlier quand dépenses ≥ 2835, Martinique, Corse
 
 
 # On retire les points atypiques dans une nouvelle base pour faire une double analyse par la suite
-regions_unique_sans_outliers <- regions_unique[-c(1:5,17),]  # Ile de France et DROM
+base_sans_outliers <- base[-c(1:5,17),]  # Ile de France et DROM

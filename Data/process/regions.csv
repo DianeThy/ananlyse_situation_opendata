@@ -1,9 +1,4 @@
 "nom","nb_publi","ouvre_data","nb_ptf","nb_datagouv","pop_insee","CSP_chef","age_chef","partis_po_chef","flux_migration_res","taux_chomage","PIB_habitant","primaire_VA","secondaire_VA","tertiaire_marchand_VA","tertiaire_non_mar_VA","part_plus65","niveau_vie","part_diplomes","nb_crea_entps","nb_nuitees_hotels","depenses_hab","nb_etudiants","part_etudiants","niveau_rural_mode","niveau_rural_insee","percent_pop_rurale"
-"Guadeloupe",0,0,0,0,400170,"Agents technique et techniciens",59,"divers gauche",11,17.4,22427,1.5,9.3,45.4,39.4,17.9,NA,5.4,5336,1216,1205.20538748532,9573,2.4,2,2,13.3354516172842
-"Martinique",0,0,0,0,382294,"Professions Intermédiaires",84,"Mouvement indépendantiste martiniquais",11,12.4,24110,2.1,7.6,47.9,38.4,19.8,17880,6.5,3786,1318,2835.52605902787,8659,2.3,2,2,16.5587744300767
-"Guyane",0,0,0,0,271829,"Cadres et professions intellectuelles supérieures",67,"Divers Gauche",11,16.1,14879,4.6,9.8,44.4,35.8,5.3,NA,5.7,1856,453,1773.37091399372,4734,1.7,5,2,30.5385187941943
-"La Réunion",21,1,21,0,862814,"Cadres sup. (entreprises publiques)",57,"Union pour un mouvement populaire",76,17.3,22359,1.9,6.2,50.3,35.7,11.1,15440,5.4,8278,1532,1158.19560557664,22610,2.6,2,2,2.86367273114909
-"La Réunion",21,1,21,0,862814,"Cadres sup. (entreprises publiques)",57,"Les Républicains",76,17.3,22359,1.9,6.2,50.3,35.7,11.1,15440,5.4,8278,1532,1158.19560557664,22610,2.6,2,2,2.86367273114909
 "Île-de-France",303,1,303,861,12258425,"Magistrats",54,"Union pour un mouvement populaire",75,7.3,59387,0.1,8.4,71.9,15.4,14.7,23860,19.9,251781,70736,388.50250003569,723217,5.9,3,1,4.11272423811144
 "Île-de-France",303,1,303,861,12258425,"Magistrats",54,"Rassemblement pour la République",75,7.3,59387,0.1,8.4,71.9,15.4,14.7,23860,19.9,251781,70736,388.50250003569,723217,5.9,3,1,4.11272423811144
 "Île-de-France",303,1,303,861,12258425,"Magistrats",54,"Les Républicains",75,7.3,59387,0.1,8.4,71.9,15.4,14.7,23860,19.9,251781,70736,388.50250003569,723217,5.9,3,1,4.11272423811144
@@ -25,6 +20,3 @@
 "Auvergne-Rhône-Alpes",71,1,71,0,8104357,"Autres professions",46,"Union pour un mouvement populaire",11,7,34117,1,18.2,52.7,21.5,19.4,22480,10,103528,24149,483.363252551683,350105,4.3,5,2,32.902628573767
 "Provence-Alpes-Côte d'Azur",69,1,69,68,5103573,"Médecins",62,"Union pour un mouvement populaire",76,9.1,32997,1.7,11,56.1,25.3,22.5,21350,10.1,83274,23425,429.531657662191,174386,3.4,5,1,7.59834908750106
 "Provence-Alpes-Côte d'Azur",69,1,69,68,5103573,"Médecins",62,"Rassemblement pour la République",76,9.1,32997,1.7,11,56.1,25.3,22.5,21350,10.1,83274,23425,429.531657662191,174386,3.4,5,1,7.59834908750106
-"Corse",0,0,0,0,335995,"Avocats",54,"Femu a Corsica",93,8,27780,1.2,6.5,50.8,31.9,23,20670,7.5,4691,3203,3592.82819815771,5851,1.7,NA,2,47.0176569992058
-"Corse",0,0,0,0,335995,"Avocats",54,"Inseme per a Corsica",93,8,27780,1.2,6.5,50.8,31.9,23,20670,7.5,4691,3203,3592.82819815771,5851,1.7,NA,2,47.0176569992058
-"Corse",0,0,0,0,335995,"Avocats",54,"Pè a Corsica",93,8,27780,1.2,6.5,50.8,31.9,23,20670,7.5,4691,3203,3592.82819815771,5851,1.7,NA,2,47.0176569992058

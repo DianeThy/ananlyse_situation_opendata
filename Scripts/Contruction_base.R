@@ -524,7 +524,7 @@ urbanisation_dep$niveau_rural <- as.numeric(urbanisation_dep$niveau_rural)
 
 # On récupère le mode pour chaque département grâce au group_by()
 library(DescTools)
-urbanisation_dep <- urbanisation_dep %>% group_by(code_departement)
+urbanisation_dep <- urbanisation_dep %>% group_by(code_departement) %>% na.omit()
 urbanisation_dep <- urbanisation_dep %>% summarise(Mode = Mode(niveau_rural))
 urbanisation_dep <- urbanisation_dep %>% group_by(code_departement) %>% slice(1)  #doublon on choisi la modalité la plus urbaine (4 entre 4 et 5 par ex)
 
@@ -669,9 +669,10 @@ regions <- left_join(regions, urbanisation_reg[,c(1,8)], by = c("COG" = "code_re
 # En repartant de la grille de densité de l'INSEE on regroupe les 4 modalités de densité en 2 classes (rural vs. urbain)
       # très dense et dense (càd 1 et 2) = urbain (càd 1) 
       # peu dense et très peu dense (càd 3 et 4) = rural (càd 2)
-urbanisation_INSEE <- urbanisation_INSEE %>% mutate(densite_binaire = case_when(densite == 2 ~ 1, 
-                                                                                  densite == 3 ~ 2, 
-                                                                                  densite == 4 ~ 2))
+urbanisation_INSEE <- urbanisation_INSEE %>% mutate(densite_binaire = case_when(densite == 1 ~ 1,
+                                                                                densite == 2 ~ 1, 
+                                                                                densite == 3 ~ 2, 
+                                                                                densite == 4 ~ 2))
 
     ### niveau départemental
 
@@ -687,6 +688,10 @@ urbanisation_dep <- urbanisation_dep %>% filter(densite_binaire == 2) %>% rename
 # Puis on ajoute cette nouvelle variable aux données des départements
 urbanisation_dep$code_departement <- as.numeric(urbanisation_dep$code_departement) #bon format
 departements <- left_join(departements, urbanisation_dep[,c(1,4)], by = c("COG" = "code_departement"), na_matches="never")
+
+# DEP 75,92,93,94 ; NA quand 0% rurale avec filtre dep rural, donc on affecte le taux 
+departements <- departements %>% mutate(percent_pop_rurale = case_when(is.na(percent_pop_rurale) ~ 0,
+                                                                       TRUE ~ percent_pop_rurale))
 
 
 
@@ -713,6 +718,7 @@ regions <- left_join(regions, urbanisation_reg[,c(1,4)], by = c("COG" = "code_re
 
 
 # On retire toutes les variables qui ne sont pas utiles à l'analyse
+          # les numéros COG et SIREN qui servaient en étape intermédiaire pour ajouter les données à notre base initiale
           # chef de l'exécutif qui servait en étape intermédiaire pour récuperer le parti politique
           # les variables du jeu de l'observatoire des territoires avec les liens vers les portails open data etc.
 regions <- regions[,-c(2:6,8,10,11,13:16,18)]
@@ -800,33 +806,34 @@ communes <- communes[,c(1,20,21,2:19)]
 epci <- epci[,c(1,2,17,18,3:16)]
 
 
-    #--------------- Compléter infos manquantes (REG, DEP, MET)
 
-# Pour les régions il ne manque que 3 infos sur les chefs de l'exécutif donc on complète à la main pour avoir une base finie
-regions[c(2,3),]$CSP_chef <- c("Professions Intermédiaires","Cadres et professions intellectuelles supérieures") #Alfred Marie-Jeanne pr Martinique de 2015 à 2021
-regions[c(2,3),]$age_chef <- age(c("1936/11/15","1953/09/26"), units = "years") #Rodolphe Alexandre pr Guyane de 2015 à 2021
-regions[c(2,3),]$partis_po_chef <- c("Mouvement indépendantiste martiniquais","Divers Gauche")
+    #--------------- Compléter infos manquantes quand il en manque peu dans les bases (REG, DEP, MET)
 
 
-# Pareil pour les métropoles, manque infos pour 4 obs donc on ajoute manuellement
-epci[c(1,1309),]$partis_po_chef <- c("Les républicains","Parti socialiste")  #Bordeaux MET (Patrick Bobet) et Grenoble MET
-epci[1309,]$CSP_chef <- "Cadres et professions intellectuelles supérieures"  #Christophe Ferrari président Grenoble MET depuis 2014
-epci[1309,]$age_chef <- age("1969/05/18")
-
-
-# On complète aussi les NA des départements et on retire les DOM-TOM déjà ds les régions
+# On concentre l'analyse sur la France métropolitaine donc on supprime les territoires d'outre mer
+regions <- regions[-c(1:5,27:29),]
 departements <- departements[-c(119:121),]
+communes <- communes %>% filter(code_departement < 96)
+epci <- epci %>% filter(code_departement < 96)
+
+# On ajoute manuellement les qq infos manquantes des métropoles ; 2 partis_po, 1 CSP et 1 âge de chef
+epci[c(1,1167),]$partis_po_chef <- c("Les républicains","Parti socialiste")  #Bordeaux MET (Patrick Bobet) et Grenoble MET
+epci[1167,]$CSP_chef <- "Cadres et professions intellectuelles supérieures"  #Christophe Ferrari président Grenoble MET depuis 2014
+epci[1167,]$age_chef <- age("1969/05/18")
+
+
+# On complète aussi les NA des départements
   # nb de NA
 NA_dep <- as.data.frame(apply(is.na(departements), 2, sum)) %>% 
                         rename(nb_NA = `apply(is.na(departements), 2, sum)`) %>%
                         mutate(percent_NA = nb_NA/nrow(departements)*100) %>% 
                         mutate(percent_NA = round(percent_NA, 2)) #manque toutes infos sur 2 chefs + 22 partis po
-  # ajout info
-departements[118,c(8:10)] <- epci[1312,c(10:12)] #metropole de Lyon on injecte les infos du jeu 'epci'
+  # on supprime l'obs "Metropole de Lyon" car info manquantes comme EPCI et pas DEP à l'origine
+departements <- departements[-118,]
+  # ajout infos sur les chefs qd valeur manquante
 departements[91,c(8:10)] <- communes %>% filter(nom == "Paris") %>% select(CSP_chef, age_chef, partis_po_chef)
-departements[c(3,4,7,8,10,16,23,34,35,40,43,54,57,58,73,86,97,98,105,109,110,118),]$partis_po_chef <- c("Union des démocrates et indépendants","Parti socialiste","Parti socialiste","Les Républicains","divers droite", "Les Républicains","Les Républicains","Les Républicains","Les Républicains","Parti socialiste","Les Républicains","Parti socialiste","divers droite","divers droite","Les Républicains","sans étiquette","Les Républicains","Les Républicains","Les Républicains","Les Républicains","Les Républicains","Les Républicains")
-  
-  
+departements[c(3,4,7,8,10,16,23,34,35,40,43,54,57,58,73,85,96,97,104,108,109,117),]$partis_po_chef <- c("Union des démocrates et indépendants","Parti socialiste","Parti socialiste","Les Républicains","divers droite", "Les Républicains","Les Républicains","Les Républicains","Les Républicains","Parti socialiste","Les Républicains","Parti socialiste","divers droite","divers droite","Les Républicains","sans étiquette","Les Républicains","Les Républicains","Les Républicains","Les Républicains","Les Républicains","Les Républicains")
+
 
 # On met au bon format les variables
 regions[,c(2:6,8,10:27)] <- lapply(regions[,c(2:6,8,10:27)], as.numeric) 

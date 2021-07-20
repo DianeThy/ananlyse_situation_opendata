@@ -1006,3 +1006,23 @@ summary(modele.backward)
 modele<-glm((Theatre_binaire~1),data=base_binaire,family=binomial(logit))
 modele.both<-step(modele,scope=list(lower=~1,upper=~freqConference+freqMusee+freqCinema+freqBiblio+freqRadio+freqTele+freqJeuxVid+freqLecture+participation_acti_univ+sensibilisation_culture+budget+boursier+travail+formation+genre+age), data=base_binaire,direction="both")
 summary(modele.both)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Pour les régions il ne manque que 3 infos sur les chefs de l'exécutif donc on complète à la main pour avoir une base finie
+regions[c(2,3),]$CSP_chef <- c("Professions Intermédiaires","Cadres et professions intellectuelles supérieures") #Alfred Marie-Jeanne pr Martinique de 2015 à 2021
+regions[c(2,3),]$age_chef <- age(c("1936/11/15","1953/09/26"), units = "years") #Rodolphe Alexandre pr Guyane de 2015 à 2021
+regions[c(2,3),]$partis_po_chef <- c("Mouvement indépendantiste martiniquais","Divers Gauche")
+
