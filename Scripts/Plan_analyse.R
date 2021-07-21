@@ -10,7 +10,7 @@
 ## jointure ruralité (INSEE)
 ## manipulations des bases
 
-        # Analyse exploratoire (toutes orgas avec infos complètes)
+        # Analyse exploratoire (départements)
 
 ### 1. Variables une à une
     ### quanti : stats desc (summary), outliers (boxplots/violins, test), distrib (histo, test), corrélations (matrice)
@@ -24,4 +24,16 @@
     ### dendrogramme/clusters
     ### stacked barcharts
 
+
+
+
+        # Analyse exploratoire (nouveau plan)
+
+#(format, harmonisations CSP et partis_po)
+
+
+### 1. Variables une à une
+    # Statistiques descriptives
+    # Points atypiques
+    # Distributions avec sans outliers (histogrammes)
 
