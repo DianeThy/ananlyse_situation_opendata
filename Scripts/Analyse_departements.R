@@ -162,6 +162,7 @@ departements_sans_outliers <- departements %>% filter(nb_publi < 88,
                                                      nb_nuitees_hotels < 6724)
 
 nrow(departements_unique)-nrow(departements_unique_sans_outliers) #22 obs perdues
+outliers <- anti_join(departements_unique, departements_unique_sans_outliers)
 
 
 
@@ -227,6 +228,8 @@ col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA")
 corrplot(cor1, method="color", col=col(200), 
              type="upper",
              addCoef.col = "black")
+corrplot(cor1, type="upper", order="hclust", tl.col="black", tl.srt=45, addCoef.col = "black")
+
 # corrélations moyennes (0.5<x<0.6) :
     # - taux_chomage et niveau_vie
     # - part_plus65 et niveau_vie/nb_crea_entps/nb_etudiants
@@ -330,69 +333,69 @@ departements <- departements %>% unique()
 # On regarde tous les partis po de la base
 as.data.frame(table(departements_sans_outliers$CSP_chef)) %>% arrange(desc(Freq))
 
-# 30 valeurs différentes donc on harmonise grâce au fichier détaillé des CSP de l'INSEE
-departements_sans_outliers <- departements_sans_outliers %>% mutate(CSP_chef = case_when(CSP_chef == "Fonctionnaires de catégorie A" ~ "Cadres et professions intellectuelles supérieures",
-                                                             CSP_chef == "Permanents politiques" ~ "Cadres et professions intellectuelles supérieures",
-                                                             CSP_chef == "Autres professions" ~ "Autres personnes sans activité professionnelle",
-                                                             CSP_chef == "Retraités de l'enseignement" ~ "Retraités",
-                                                             CSP_chef == "Retraités des professions libérales" ~ "Retraités",
-                                                             CSP_chef == "Retraités fonct.publique (sf enseig.)" ~ "Retraités",
-                                                             CSP_chef == "Autres cadres (secteur privé)" ~ "Cadres et professions intellectuelles supérieures",
-                                                             CSP_chef == "Pharmaciens" ~ "Cadres et professions intellectuelles supérieures",
-                                                             CSP_chef == "Retraités agricoles" ~ "Retraités",
-                                                             CSP_chef == "Retraités salariés privés" ~ "Retraités",
-                                                             CSP_chef == "Sans profession déclarée" ~ "Autres personnes sans activité professionnelle",
-                                                             CSP_chef == "Agriculteurs propriétaires exploit" ~ "Agriculteurs exploitants",
-                                                             CSP_chef == "Autres professions libérales" ~ "Cadres et professions intellectuelles supérieures",
-                                                             CSP_chef == "Avocats" ~ "Cadres et professions intellectuelles supérieures",
-                                                             CSP_chef == "Enseignants 1er deg.-directeurs école" ~ "Professions Intermédiaires",
-                                                             CSP_chef == "Grands corps de l'état" ~ "Cadres et professions intellectuelles supérieures",
-                                                             CSP_chef == "Industriels-Chefs entreprise" ~ "Artisans, commerçants et chefs d'entreprise",
-                                                             CSP_chef == "Ingénieurs" ~ "Cadres et professions intellectuelles supérieures",
-                                                             CSP_chef == "Professeurs du secondaire et techn." ~ "Professions Intermédiaires",
-                                                             CSP_chef == "Professions rattachées à enseignt." ~ "Professions Intermédiaires",
-                                                             CSP_chef == "Retr.artis.commerc.chefs d'entrep." ~ "Retraités",
-                                                             CSP_chef == "Agents technique et techniciens" ~ "Professions Intermédiaires",
-                                                             CSP_chef == "Autres retraités" ~ "Retraités",
-                                                             CSP_chef == "Cadres supérieurs (secteur privé)" ~ "Cadres et professions intellectuelles supérieures",
-                                                             CSP_chef == "Employés (secteur privé)" ~ "Employés",
-                                                             CSP_chef == "Journalistes et autres médias" ~ "Cadres et professions intellectuelles supérieures",
-                                                             CSP_chef == "Professeurs de faculté" ~ "Cadres et professions intellectuelles supérieures",
-                                                             CSP_chef == "Représentants de commerce" ~ "Professions Intermédiaires",
-                                                             CSP_chef == "Retraités des entreprises publiques" ~ "Retraités",
-                                                             CSP_chef == "Vétérinaires" ~ "Cadres et professions intellectuelles supérieures"
-                                                             ))
+# 30 valeurs différentes donc on harmonise grâce au fichier détaillé de l'INSEE : classement des métiers en 8 CSP
+departements_sans_outliers <- departements_sans_outliers %>% mutate(CSP_chef = case_when(CSP_chef == "Fonctionnaires de catégorie A" ~ "3",
+                                                                    CSP_chef == "Permanents politiques" ~ "3",
+                                                                    CSP_chef == "Autres professions" ~ "8",
+                                                                    CSP_chef == "Retraités de l'enseignement" ~ "7",
+                                                                    CSP_chef == "Retraités des professions libérales" ~ "7",
+                                                                    CSP_chef == "Retraités fonct.publique (sf enseig.)" ~ "7",
+                                                                    CSP_chef == "Autres cadres (secteur privé)" ~ "3",
+                                                                    CSP_chef == "Pharmaciens" ~ "3",
+                                                                    CSP_chef == "Retraités agricoles" ~ "7",
+                                                                    CSP_chef == "Retraités salariés privés" ~ "7",
+                                                                    CSP_chef == "Sans profession déclarée" ~ "8",
+                                                                    CSP_chef == "Agriculteurs propriétaires exploit." ~ "1",
+                                                                    CSP_chef == "Autres professions libérales" ~ "3",
+                                                                    CSP_chef == "Avocats" ~ "3",
+                                                                    CSP_chef == "Enseignants 1er deg.-directeurs école" ~ "4",
+                                                                    CSP_chef == "Grands corps de l'état" ~ "3",
+                                                                    CSP_chef == "Industriels-Chefs entreprise" ~ "2",
+                                                                    CSP_chef == "Ingénieurs" ~ "3",
+                                                                    CSP_chef == "Professeurs du secondaire et techn." ~ "4",
+                                                                    CSP_chef == "Professions rattachées à enseignt." ~ "4",
+                                                                    CSP_chef == "Retr.artis.commerc.chefs d'entrep." ~ "7",
+                                                                    CSP_chef == "Agents technique et techniciens" ~ "4",
+                                                                    CSP_chef == "Autres retraités" ~ "7",
+                                                                    CSP_chef == "Cadres supérieurs (secteur privé)" ~ "3",
+                                                                    CSP_chef == "Employés (secteur privé)" ~ "5",
+                                                                    CSP_chef == "Journalistes et autres médias" ~ "3",
+                                                                    CSP_chef == "Professeurs de faculté" ~ "3",
+                                                                    CSP_chef == "Représentants de commerce" ~ "4",
+                                                                    CSP_chef == "Retraités des entreprises publiques" ~ "7",
+                                                                    CSP_chef == "Vétérinaires" ~ "3"
+                                                                    ))
 # Même chose base avec outliers
-departements <- departements %>% mutate(CSP_chef = case_when(CSP_chef == "Fonctionnaires de catégorie A" ~ "Cadres et professions intellectuelles supérieures",
-                                                             CSP_chef == "Permanents politiques" ~ "Cadres et professions intellectuelles supérieures",
-                                                             CSP_chef == "Autres professions" ~ "Autres personnes sans activité professionnelle",
-                                                             CSP_chef == "Retraités de l'enseignement" ~ "Retraités",
-                                                             CSP_chef == "Retraités des professions libérales" ~ "Retraités",
-                                                             CSP_chef == "Retraités fonct.publique (sf enseig.)" ~ "Retraités",
-                                                             CSP_chef == "Autres cadres (secteur privé)" ~ "Cadres et professions intellectuelles supérieures",
-                                                             CSP_chef == "Pharmaciens" ~ "Cadres et professions intellectuelles supérieures",
-                                                             CSP_chef == "Retraités agricoles" ~ "Retraités",
-                                                             CSP_chef == "Retraités salariés privés" ~ "Retraités",
-                                                             CSP_chef == "Sans profession déclarée" ~ "Autres personnes sans activité professionnelle",
-                                                             CSP_chef == "Agriculteurs propriétaires exploit." ~ "Agriculteurs exploitants",
-                                                             CSP_chef == "Autres professions libérales" ~ "Cadres et professions intellectuelles supérieures",
-                                                             CSP_chef == "Avocats" ~ "Cadres et professions intellectuelles supérieures",
-                                                             CSP_chef == "Enseignants 1er deg.-directeurs école" ~ "Professions Intermédiaires",
-                                                             CSP_chef == "Grands corps de l'état" ~ "Cadres et professions intellectuelles supérieures",
-                                                             CSP_chef == "Industriels-Chefs entreprise" ~ "Artisans, commerçants et chefs d'entreprise",
-                                                             CSP_chef == "Ingénieurs" ~ "Cadres et professions intellectuelles supérieures",
-                                                             CSP_chef == "Professeurs du secondaire et techn." ~ "Professions Intermédiaires",
-                                                             CSP_chef == "Professions rattachées à enseignt." ~ "Professions Intermédiaires",
-                                                             CSP_chef == "Retr.artis.commerc.chefs d'entrep." ~ "Retraités",
-                                                             CSP_chef == "Agents technique et techniciens" ~ "Professions Intermédiaires",
-                                                             CSP_chef == "Autres retraités" ~ "Retraités",
-                                                             CSP_chef == "Cadres supérieurs (secteur privé)" ~ "Cadres et professions intellectuelles supérieures",
-                                                             CSP_chef == "Employés (secteur privé)" ~ "Employés",
-                                                             CSP_chef == "Journalistes et autres médias" ~ "Cadres et professions intellectuelles supérieures",
-                                                             CSP_chef == "Professeurs de faculté" ~ "Cadres et professions intellectuelles supérieures",
-                                                             CSP_chef == "Représentants de commerce" ~ "Professions Intermédiaires",
-                                                             CSP_chef == "Retraités des entreprises publiques" ~ "Retraités",
-                                                             CSP_chef == "Vétérinaires" ~ "Cadres et professions intellectuelles supérieures"
+departements <- departements %>% mutate(CSP_chef = case_when(CSP_chef == "Fonctionnaires de catégorie A" ~ "3",
+                                                             CSP_chef == "Permanents politiques" ~ "3",
+                                                             CSP_chef == "Autres professions" ~ "8",
+                                                             CSP_chef == "Retraités de l'enseignement" ~ "7",
+                                                             CSP_chef == "Retraités des professions libérales" ~ "7",
+                                                             CSP_chef == "Retraités fonct.publique (sf enseig.)" ~ "7",
+                                                             CSP_chef == "Autres cadres (secteur privé)" ~ "3",
+                                                             CSP_chef == "Pharmaciens" ~ "3",
+                                                             CSP_chef == "Retraités agricoles" ~ "7",
+                                                             CSP_chef == "Retraités salariés privés" ~ "7",
+                                                             CSP_chef == "Sans profession déclarée" ~ "8",
+                                                             CSP_chef == "Agriculteurs propriétaires exploit." ~ "1",
+                                                             CSP_chef == "Autres professions libérales" ~ "3",
+                                                             CSP_chef == "Avocats" ~ "3",
+                                                             CSP_chef == "Enseignants 1er deg.-directeurs école" ~ "4",
+                                                             CSP_chef == "Grands corps de l'état" ~ "3",
+                                                             CSP_chef == "Industriels-Chefs entreprise" ~ "2",
+                                                             CSP_chef == "Ingénieurs" ~ "3",
+                                                             CSP_chef == "Professeurs du secondaire et techn." ~ "4",
+                                                             CSP_chef == "Professions rattachées à enseignt." ~ "4",
+                                                             CSP_chef == "Retr.artis.commerc.chefs d'entrep." ~ "7",
+                                                             CSP_chef == "Agents technique et techniciens" ~ "4",
+                                                             CSP_chef == "Autres retraités" ~ "7",
+                                                             CSP_chef == "Cadres supérieurs (secteur privé)" ~ "3",
+                                                             CSP_chef == "Employés (secteur privé)" ~ "5",
+                                                             CSP_chef == "Journalistes et autres médias" ~ "3",
+                                                             CSP_chef == "Professeurs de faculté" ~ "3",
+                                                             CSP_chef == "Représentants de commerce" ~ "4",
+                                                             CSP_chef == "Retraités des entreprises publiques" ~ "7",
+                                                             CSP_chef == "Vétérinaires" ~ "3"
                                                              ))
 
 
@@ -470,6 +473,12 @@ ggplot(data = departements_sans_outliers, mapping=aes(part_etudiants, nb_publi))
   labs(title="Relation entre le nombre de publications et le taux de chômage",
        y="Nombre de publications open data", x="") +
   theme_linedraw()
+ggplot(data = departements_sans_outliers, mapping=aes(nb_etudiants, nb_publi)) + 
+  geom_point(mapping=aes(nb_etudiants, nb_publi), size=3) + 
+  geom_quantile(quantiles=0.5, size=1, colour="red") +
+  labs(title="Relation entre le nombre de publications et le taux de chômage",
+       y="Nombre de publications open data", x="") +
+  theme_linedraw()
 ggplot(data = departements_sans_outliers, mapping=aes(percent_pop_rurale, nb_publi)) + 
   geom_point(mapping=aes(percent_pop_rurale, nb_publi), size=3) + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
@@ -506,16 +515,192 @@ ggplot(data = departements_sans_outliers, mapping=aes(nb_nuitees_hotels, nb_publ
   labs(title="Relation entre le nombre de publications et le taux de chômage",
        y="Nombre de publications open data", x="") +
   theme_linedraw()
-ggplot(data = departements_sans_outliers, mapping=aes(nb_etudiants, nb_publi)) + 
-  geom_point(mapping=aes(nb_etudiants, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
 
 
 
-                ### C) Relations entre les variables explicatives
+
+#----------------------- ACP 
+
+
+library(FactoMineR)
+library(factoextra)
+  # plot
+res.pca_Y = PCA(departements_sans_outliers[,c("nb_publi","taux_chomage","part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","pop_insee","age_chef","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")], quanti.sup=1, graph=F)
+fviz_pca_var(res.pca_Y, col.var = "cos2",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE)
+
+  # inertie de chaque axe fictif : % de la variance
+round(res.pca_Y$eig,2)
+fviz_eig(res.pca_Y, addlabels = TRUE) #axes 1 et 2 conservent 65% de l'info des 12 Xt
+
+  # contributions des Xt aux axes 1 et 2
+round(res.pca_Y$var$contrib,2)
+fviz_contrib(res.pca_Y, choice = "var", axes = 1, col="black")  #axe 1 = dynamisme du département
+fviz_contrib(res.pca_Y, choice = "var", axes = 2, col="black")  #axe 2 = manque d'activité (indirecte)
+      # ajout CC
+
+  # corrélations des Xt aux dimensions : voir relation po/neg entre vble et axe
+corrplot(res.pca_Y$var$cor, is.corr=FALSE, method="circle", tl.srt=45, tl.col="#004400", col=brewer.pal(n=9, name="RdYlBu"),
+addCoef.col="black")  #plus % pop rurale augmente, moins la région est attractive
+
+  # projections des départements sur le plan à 2 dimensions
+fviz_pca_ind(res.pca_Y, col.ind = "cos2",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE) #noyau dur : bcp de dep avec peu d'attractivité (gauche du graph) et qualité de vie  autour de 0
+fviz_pca_biplot(res.pca_Y, repel = TRUE,
+                col.var = "#2E9FDF",
+                col.ind = "red"
+                )
+
+
+
+#----------------------- CART 
+
+
+library(rpart)
+library(caret)
+library(rpart.plot)
+
+# On définit les paramètres de contrôle
+ctrl=rpart.control(cp=0.01, xval=5, maxdepth=3)
+
+# Fit Theatre
+rpart_thea <- rpart(nb_publi ~ taux_chomage+CSP_chef+niveau_rural_mode+niveau_rural_insee+part_plus65+part_diplomes+depenses_hab+part_etudiants+percent_pop_rurale+pop_insee+age_chef+niveau_vie+nb_crea_entps+nb_nuitees_hotels+nb_etudiants, data = departements_sans_outliers, method="anova")
+summary(rpart_thea)
+# Plot
+rpart.plot(rpart_thea, box.palette = "Blues")
+
+# Voir erreur de prévision selon la taille de l'arbre
+plotcp(rpart_thea)
+printcp(rpart_thea)
+
+
+
+
+
+    ## 2. VARIABLES QUALI
+
+
+
+#----------------------- Diagrammes croisés
+
+
+
+# Croisements Y (nb_publi) avec variables qualis
+t1=tapply(departements_sans_outliers$nb_publi, departements_sans_outliers$niveau_rural_mode, mean)
+t2=tapply(departements_sans_outliers$nb_publi, departements_sans_outliers$niveau_rural_insee, mean) %>% sort()
+t3=tapply(departements_sans_outliers$nb_publi, departements_sans_outliers$flux_migration_res, mean) %>% sort()
+t4=tapply(departements_sans_outliers$nb_publi, departements_sans_outliers$partis_po_chef, mean) %>% sort()
+t5=tapply(departements_sans_outliers$nb_publi, departements_sans_outliers$CSP_chef, mean) %>% sort()
+
+# Pour connaître le nombe de départements par modalité (en pas tirer de conclu si seulement 2 ou 3)
+table(departements_sans_outliers$niveau_rural_mode)
+table(departements_sans_outliers$niveau_rural_insee)
+table(departements_sans_outliers$flux_migration_res)
+table(departements_sans_outliers$partis_po_chef)
+table(departements_sans_outliers$CSP_chef)
+
+library(RColorBrewer)
+
+barplot(t1, horiz=TRUE, xlim=c(0,40), legend = c("Urbain densité intermédiaire","Rural sous forte influence d'un pôle","Rural sous faible influence d'un pôle","Rural autonome peu dense","Rural autonome très peu dense"), main="Nombre de jeux ouverts moyen selon le niveau de ruralité (nouvelle définition du rural)", col=rev(brewer.pal(n = 5, name = "Blues")), cex.names=.9, cex.main=.96, col.main="#0033CC") #att : 1 obs dans cat "2"
+
+barplot(t2, horiz=TRUE, xlim=c(0,20), legend.text = TRUE, args.legend = list(x = "bottomright", inset = c(.02, .05), legend = c("Dense","Peu dense","Très dense")), main="Nombre de jeux ouverts moyen selon le niveau de ruralité (densité)", col = brewer.pal(n = 3, name = "Reds"), cex.names=1, cex.main=1, col.main="#FF6600")
+
+barplot(t3[36:44], horiz=TRUE, xlim=c(0,60), legend.text = TRUE, args.legend = list(x = "bottomright", inset = c(.02, .05), legend = c("Charente Maritime","Morbihan","Côtes d'Armor","Indre et Loire","Cher","Gard","Seine Maritime","Bouches du Rhônes","Hérault")), main="Top 9 des départements avec le plus grand nombre de jeux ouverts moyen, 
+        selon le principal flux de migration résidentiel", col=brewer.pal(n = 9, name = "Greys"), cex.names=1, cex.main=1, col.main="black") #données pas fiables car pas assez d'obs par modalité (rappel : les numéros correspondent au COG du dep de destination des flux résidentiels)
+
+barplot(t4, horiz=TRUE, xlim=c(0,20), main="Nombre de jeux ouverts moyen selon l'appartenance politique du chef de l'exécutif", col=brewer.pal(n = 3, name = "Purples"), cex.names=1, cex.main=1, col.main="#756BB1")
+
+barplot(t5, horiz=TRUE, xlim=c(0,55), legend.text = TRUE, args.legend = list(x = "bottomright", inset = c(.02, .05), legend=c("Artisans, commerçants et chefs d'entreprise","Employés","Agriculteurs exploitants","Retraités","Autres personnes sans activité professionnelle","Cadres et professions intellectuelles supérieures","Professions Intermédiaires")), main="Nombre de jeux ouverts moyen selon la CSP du chef de l'exécutif", col=brewer.pal(n = 7, name = "Purples"), cex.names=1, cex.main=1, col.main="#756BB1") #Cat 2 sous représentées donc att aux conclus
+
+
+
+# Pour les flux migratoires on sélectionne les modalités avec plus de 3 obs pour que ce soit à peu près représentatif
+dep_tri <- departements_sans_outliers[departements_sans_outliers$flux_migration_res %in%  names(table(departements_sans_outliers$flux_migration_res))[table(departements_sans_outliers$flux_migration_res) >3] , ]
+t3_bis=tapply(dep_tri$nb_publi, dep_tri$flux_migration_res, mean) %>% sort()
+
+table(dep_tri$flux_migration_res)
+barplot(t3_bis, horiz=TRUE, xlim=c(0,60), legend.text = TRUE, args.legend = list(x = "bottomright", inset = c(.02, .05), legend = c("Bouches du Rhônes","Haute Garonne","Marne")), main="Top 9 des départements avec le plus grand nombre de jeux ouverts moyen, 
+        selon le principal flux de migration résidentiel", col=brewer.pal(n = 9, name = "Greys"), cex.names=1, cex.main=1, col.main="black")
+
+
+
+
+#----------------------- Treemap
+
+
+# On récupère les noms des régions
+infos_reg <- read_csv("Data/raw/infos_regions.csv") %>% rename(region = nom)
+departements <- left_join(departements, infos_reg[,c(1,3)], by = c("code_region" = "COG"))
+departements_sans_outliers <- left_join(departements_sans_outliers, infos_reg[,c(1,3)], by = c("code_region" = "COG"))
+
+# Data pour savoir les départements de quelles régions ouvrent le plus de données
+t6=tapply(departements_sans_outliers$nb_publi, departements_sans_outliers$region, mean) 
+t6 <- t6 %>% as.data.frame() %>% mutate(nom = rownames(t6))
+t6$label <- paste(t6$nom, "-", round(t6$.,0), "publications", sep=" ")
+
+# Plot
+library(treemap)
+treemap(t6, 
+        index="label", 
+        vSize=".", 
+        type="index",                            
+        palette = "Pastel2",                      
+        title = "Nombre de jeux ouverts moyen selon la région",
+        fontsize.title=17,
+        fontcolor.labels = "black", 
+        fontface.labels="plain",
+        fontsize.labels=14,
+        lowerbound.cex.labels = 0.4,
+      )
+
+
+#----------------------- Boxplots croisés
+
+
+ggplot(departements_sans_outliers, aes(x=niveau_rural_mode, y=nb_publi, fill=niveau_rural_mode)) + 
+  geom_boxplot()+
+  geom_point() +
+  labs(title="Box du nombre de publications par niveau de ruralité", y = "Nombre de jeux ouverts", x = "") + 
+  scale_fill_brewer(name="Niveau de ruralité", palette="Blues") +
+  guides(fill = FALSE) +
+  theme_classic() #plus il y a d'obs plus la moyenne peut être tirée vers le bas
+ggplot(departements_sans_outliers, aes(x=niveau_rural_insee, y=nb_publi, fill=niveau_rural_insee)) + 
+  geom_boxplot()+
+  geom_point() +
+  labs(title="Box du nombre de publications par niveau de densité", y = "Nombre de jeux ouverts", x = "") + 
+  scale_fill_brewer(name="Niveau de densité", palette="Blues")  +
+  guides(fill = FALSE) +
+  theme_classic() # cat 2 et 3 vraiment comparables
+ggplot(departements_sans_outliers, aes(x=partis_po_chef, y=nb_publi, fill=partis_po_chef)) + 
+  geom_boxplot()+
+  geom_point() +
+  labs(title="Box du nombre de publications par couleur politique", y = "Nombre de jeux ouverts", x = "") + 
+  scale_fill_brewer(name="Couleur politique", palette="Blues") +
+  guides(fill = FALSE) +
+  theme_classic()
+ggplot(departements_sans_outliers, aes(x=CSP_chef, y=nb_publi, fill=CSP_chef)) + 
+  geom_boxplot()+
+  geom_point() +
+  labs(title="Box du nombre de publications par CSP du chef", y = "Nombre de jeux ouverts", x = "") + 
+  scale_fill_brewer(name="CSP du chef", palette="Blues") +
+  guides(fill = FALSE) +
+  theme_classic()  #3 et 7 vraiment comparables (cadres / retraités)
+
+
+
+#----------------------- ACM
+
+
+res.mca <- MCA(departements_sans_outliers[,c("niveau_rural_mode","niveau_rural_insee","flux_migration_res","partis_po_chef","CSP_chef")])
+fviz_mca_var(res.mca, axe=c(1,2), invisible="ind",cex=0.8,autoLab="yes", jitter = list(what = "label", width = NULL, height = NULL))
+fviz_eig(res.mca,main="Pourcentage expliqué par chaque facteur")
+
+
+
+                
+### C) Relations entre les variables explicatives
 
 
 
@@ -532,72 +717,15 @@ fviz_pca_var(res.pca, col.var = "cos2",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
              repel = TRUE)
 
-  # inertie de chaque axe fictif : % de la variance
-round(res.pca$eig,2)
-fviz_eig(res.pca, addlabels = TRUE) #axes 1 et 2 conservent 65% de l'info des 12 Xt
-
-  # contributions des Xt aux axes 1 et 2
-round(res.pca$var$contrib,2)
-fviz_contrib(res.pca, choice = "var", axes = 1, col="black")  #axe 1 = dynamisme du département
-fviz_contrib(res.pca, choice = "var", axes = 2, col="black")  #axe 2 = manque d'activité (indirecte)
-      # ajout CC
-
-  # corrélations des Xt aux dimensions : voir relation po/neg entre vble et axe
-corrplot(res.pca$var$cor, is.corr=FALSE, method="circle", tl.srt=45, tl.col="#004400", col=brewer.pal(n=9, name="RdYlBu"),
-addCoef.col="black")  #plus % pop rurale augmente, moins la région est attractive
-
-  # projection de Y
-res.pca1 = PCA(departements_unique_sans_outliers[,c("nb_publi","taux_chomage","part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","pop_insee","age_chef","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")], quanti.sup=1, graph=F)
-fviz_pca_var (res.pca1, col.var = "cos2",
-             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-             repel = TRUE) #permet de voir corrélations avec Xt : plus la région est dynamique plus elle a de chances d'ouvrir data, mais pas forcément une bonne qualité de vie (partie inférieure du plot)
-
-  # projection de Y avec outliers
-res.pca2 = PCA(departements_unique[,c("nb_publi","taux_chomage","part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","pop_insee","age_chef","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")], quanti.sup=1, graph=F)
-fviz_pca_var (res.pca2, col.var = "cos2",
-             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-             repel = TRUE) #favorise open data : dynamisme (nb_crea_entps, nb_etudiants)
-
-
-  # projections des régions sur le plan à 2 dimensions
-fviz_pca_ind(res.pca, col.ind = "cos2",
-             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-             repel = TRUE)
-fviz_pca_biplot(res.pca1, repel = TRUE,
-                col.var = "#2E9FDF",
-                col.ind = "red"
-                )
-
-
-
-
-#----------------------- Arbre de décision CART (https://www.guru99.com/r-decision-trees.html)
-
-
-library(rpart)
-library(caret)
-library(rpart.plot)
-# On définit les paramètres de contrôle
-ctrl=rpart.control(cp=0.01, xval=5, maxdepth=3)
-
-# Fit Theatre
-rpart_thea <- rpart(nb_publi ~ taux_chomage+CSP_chef+niveau_rural_mode+niveau_rural_insee+part_plus65+part_diplomes+depenses_hab+part_etudiants+percent_pop_rurale+pop_insee+age_chef+niveau_vie+nb_crea_entps+nb_nuitees_hotels+nb_etudiants, data = departements_sans_outliers, method="anova")
-summary(rpart_thea)
-# Plot
-rpart.plot(rpart_thea, box.palette = "Blues")
-plot(rpart_thea,uniform=F)
-text(rpart_thea,all=T,use.n=T,cex=0.8)
-# Voir erreur de prévision selon la taille de l'arbre
-plotcp(rpart_thea)
-printcp(rpart_thea)
-
 
 
 #-----------------------  Dendrogramme
 
 
-departements_sans_outliers %>% rownames(nom)
-  select(nb_publi,nb_ptf,nb_datagouv,taux_chomage,part_plus65,part_diplomes,depenses_hab,part_etudiants,percent_pop_rurale,pop_insee,age_chef,niveau_vie,nb_crea_entps,nb_nuitees_hotels,nb_etudiants) %>% 
+dep_rownames <- departements_sans_outliers
+rownames(dep_rownames) = departements_sans_outliers$nom
+
+dep_rownames %>%  select(nb_publi,nb_ptf,nb_datagouv,taux_chomage,part_plus65,part_diplomes,depenses_hab,part_etudiants,percent_pop_rurale,pop_insee,age_chef,niveau_vie,nb_crea_entps,nb_nuitees_hotels,nb_etudiants) %>% 
   dist() %>% 
   hclust() %>% 
   as.dendrogram() -> dend
@@ -613,5 +741,46 @@ dend %>%
   set("branches_k_color", value = c("skyblue", "orange", "grey"), k = 3) %>%
   plot(horiz=TRUE, axes=FALSE)
 abline(v = 350, lty = 2)
+
+
+
+
+
+
+
+########################################################################
+## Dataframe dictionnaire des variables
+########################################################################
+
+
+# Description niveau_rural_mode
+niveau_rural_mode <- as.data.frame(table(departements_sans_outliers$niveau_rural_mode)) %>% rename(num = Var1) %>% select(-Freq)
+niveau_rural_mode <- niveau_rural_mode %>% mutate(description = c("urbain densité intermédiaire", "rural sous forte influence d'un pôle", "rural sous faible influence d'un pôle", "rural autonome peu dense", "rural autonome très peu dense"),
+                                                  variable = "niveau_rural_mode") %>% select(variable,num,description)
+# Description niveau_rural_insee
+niveau_rural_insee <- as.data.frame(table(departements_sans_outliers$niveau_rural_insee)) %>% rename(num = Var1) %>% select(-Freq)
+niveau_rural_insee <- niveau_rural_insee %>% mutate(description = c("très dense", "dense", "peu dense"),
+                                                  variable = "niveau_rural_insee") %>% select(variable,num,description)
+# Description CSP_chef
+CSP_chef <- as.data.frame(table(departements_sans_outliers$CSP_chef)) %>% rename(num = Var1) %>% select(-Freq)
+CSP_chef <- CSP_chef %>% mutate(description = c("Agriculteurs exploitants","Artisans, commerçants et chefs d'entreprise","Cadres et professions intellectuelles supérieures","Professions Intermédiaires", "Employés","Retraités","Autres personnes sans activité professionnelle"),
+                                                  variable = "CSP_chef") %>% select(variable,num,description)
+# Description flux_migration_res
+flux_migration_res <- as.data.frame(table(departements_sans_outliers$flux_migration_res)) %>% rename(num = Var1) %>% select(-Freq) 
+  # on va recouper avec le nom du département (import base)
+infos_dep <- read_csv("Data/raw/infos_departements.csv")
+flux_migration_res$num <- as.numeric(flux_migration_res$num)
+flux_migration_res <- left_join(flux_migration_res, infos_dep[,c(1,3)], by = c("num" = "COG")) %>% rename(description = nom)
+flux_migration_res <- flux_migration_res %>% mutate(variable = "flux_migration_res") %>% select(variable,num,description)
+flux_migration_res[20,]$description <- "Corse"  # pour la Corse on met à la main car pas dans infos_dep
+
+
+# On met tout ça ensemble pour avoir un dictionnaire des variables
+flux_migration_res$num <- as.factor(flux_migration_res$num)  # même format pour la jointure
+dico_variables <- rbind(niveau_rural_mode, niveau_rural_insee, CSP_chef, flux_migration_res)
+
+
+
+
 
 

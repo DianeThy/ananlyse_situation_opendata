@@ -13,13 +13,15 @@
         # Analyse exploratoire (toutes orgas avec infos complètes)
 
 ### 1. Variables une à une
-    ### quanti : outliers (boxplots/violins, test), stats desc (summary), distrib (histo, test), corrélations (matrice)
-    ### quali : répartitions, dépendances
+    ### quanti : stats desc (summary), outliers (boxplots/violins, test), distrib (histo, test), corrélations (matrice)
+    ### quali : répartitions, harmonisations, dépendances
 ### 2. Relations des variables explicatives avec Y (sélection des Xt très corrélés)
-    ### quanti : 
-    ### quali :
+    ### quanti : nuages de points, ACP
+    ### quali : barplots croisés, treemap, boxplots croisés
+    ### confondues : CART
 ### 3. Relations entre les variables explicatives
-    ### violin plot croisés : 
-    ### ACP (x3 par type d'orga)
+    ### ACP
+    ### dendrogramme/clusters
+    ### stacked barcharts
 
 
