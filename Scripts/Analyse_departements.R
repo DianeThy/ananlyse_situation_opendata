@@ -19,39 +19,6 @@ departements[,c("ouvre_data","niveau_rural_mode","niveau_rural_insee","flux_migr
 
 
 
-########################################################################
-## Dataframe dictionnaire des variables
-########################################################################
-
-
-# Description niveau_rural_mode
-niveau_rural_mode <- as.data.frame(table(departements_sans_outliers$niveau_rural_mode)) %>% rename(num = Var1) %>% select(-Freq)
-niveau_rural_mode <- niveau_rural_mode %>% mutate(description = c("urbain dense","urbain densité intermédiaire", "rural sous forte influence d'un pôle", "rural sous faible influence d'un pôle", "rural autonome peu dense", "rural autonome très peu dense"),
-                                                  variable = "niveau_rural_mode") %>% select(variable,num,description)
-# Description niveau_rural_insee
-niveau_rural_insee <- as.data.frame(table(departements_sans_outliers$niveau_rural_insee)) %>% rename(num = Var1) %>% select(-Freq)
-niveau_rural_insee <- niveau_rural_insee %>% mutate(description = c("très dense", "dense", "peu dense"),
-                                                    variable = "niveau_rural_insee") %>% select(variable,num,description)
-# Description CSP_chef
-CSP_chef <- as.data.frame(table(departements_sans_outliers$CSP_chef)) %>% rename(num = Var1) %>% select(-Freq)
-CSP_chef <- CSP_chef %>% mutate(description = c("Agriculteurs exploitants","Artisans, commerçants et chefs d'entreprise","Cadres et professions intellectuelles supérieures","Professions Intermédiaires", "Employés","Retraités","Autres personnes sans activité professionnelle"),
-                                variable = "CSP_chef") %>% select(variable,num,description)
-# Description flux_migration_res
-flux_migration_res <- as.data.frame(table(departements_sans_outliers$flux_migration_res)) %>% rename(num = Var1) %>% select(-Freq) 
-  # on va recouper avec le nom du département (import base)
-infos_dep <- read_csv("Data/raw/infos_departements.csv")
-infos_dep$COG <- as.character(infos_dep$COG)
-flux_migration_res <- left_join(flux_migration_res, infos_dep[,c(1,3)], by = c("num" = "COG")) %>% rename(description = nom)
-flux_migration_res <- flux_migration_res %>% mutate(variable = "flux_migration_res") %>% select(variable,num,description)
-flux_migration_res[20,]$description <- "Corse"  # pour la Corse on met à la main car pas dans infos_dep
-
-
-# On met tout ça ensemble pour avoir un dictionnaire des variables
-dico_variables <- rbind(niveau_rural_mode, niveau_rural_insee, CSP_chef, flux_migration_res)
-
-
-
-
 #----------------------- Harmonisation couleur politique
 
 
@@ -125,6 +92,48 @@ departements <- departements %>% mutate(CSP_chef = case_when(CSP_chef == "Foncti
                                                              CSP_chef == "Médecins" ~ "3",
                                                              CSP_chef == "Fonctionnaires de catégorie B" ~ "4"
                                                              ))
+
+
+
+
+
+########################################################################
+## Dataframe dictionnaire des variables
+########################################################################
+
+
+# Description niveau_rural_mode
+niveau_rural_mode <- as.data.frame(table(departements$niveau_rural_mode)) %>% rename(num = Var1) %>% select(-Freq)
+niveau_rural_mode <- niveau_rural_mode %>% mutate(description = c("urbain dense","urbain densité intermédiaire", "rural sous forte influence d'un pôle", "rural sous faible influence d'un pôle", "rural autonome peu dense", "rural autonome très peu dense"),
+                                                  variable = "niveau_rural_mode") %>% select(variable,num,description)
+# Description niveau_rural_insee
+niveau_rural_insee <- as.data.frame(table(departements$niveau_rural_insee)) %>% rename(num = Var1) %>% select(-Freq)
+niveau_rural_insee <- niveau_rural_insee %>% mutate(description = c("très dense", "dense", "peu dense"),
+                                                    variable = "niveau_rural_insee") %>% select(variable,num,description)
+# Description CSP_chef
+CSP_chef <- as.data.frame(table(departements$CSP_chef)) %>% rename(num = Var1) %>% select(-Freq)
+CSP_chef <- CSP_chef %>% mutate(description = c("Agriculteurs exploitants","Artisans, commerçants et chefs d'entreprise","Cadres et professions intellectuelles supérieures","Professions Intermédiaires", "Employés","Retraités","Autres personnes sans activité professionnelle"),
+                                variable = "CSP_chef") %>% select(variable,num,description)
+# Description flux_migration_res
+flux_migration_res <- as.data.frame(table(departements$flux_migration_res)) %>% rename(num = Var1) %>% select(-Freq) 
+  # on va recouper avec le nom du département (import base)
+infos_dep <- read_csv("Data/raw/infos_departements.csv")
+infos_dep$COG <- as.character(infos_dep$COG)
+flux_migration_res <- left_join(flux_migration_res, infos_dep[,c(1,3)], by = c("num" = "COG")) %>% rename(description = nom)
+flux_migration_res <- flux_migration_res %>% mutate(variable = "flux_migration_res") %>% select(variable,num,description)
+flux_migration_res[20,]$description <- "Corse"  # pour la Corse on met à la main car pas dans infos_dep
+
+# Description code_region
+code_region <- as.data.frame(table(departements$code_region)) %>% rename(num = Var1) %>% select(-Freq) 
+  # on va recouper avec le nom de la région (import base)
+infos_reg <- read_csv("Data/raw/infos_regions.csv")
+infos_reg$COG <- as.character(infos_reg$COG)
+code_region <- left_join(code_region, infos_reg[,c(1,3)], by = c("num" = "COG")) %>% rename(description = nom)
+code_region <- code_region %>% mutate(variable = "code_region") %>% select(variable,num,description)
+
+
+# On met tout ça ensemble pour avoir un dictionnaire des variables
+dico_variables <- rbind(niveau_rural_mode, niveau_rural_insee, CSP_chef, flux_migration_res, code_region)
 
 
 
@@ -262,7 +271,7 @@ departements_sans_outliers <- departements %>% filter(nb_publi < 88,
                                                       nb_nuitees_hotels < 6724)
 
 nrow(departements)-nrow(departements_sans_outliers) #22 obs perdues
-outliers <- anti_join(departements, departements_sans_outliers)
+outliers <- anti_join(departements, departements_sans_outliers)  # dep d'Ile de France x4, Pays de la Loire x3, Occitanie x3 etc.
 
 
 
@@ -544,28 +553,28 @@ departements %>% group_by(code_region) %>% count(nom) %>% mutate(n = sum(n)) %>%
 #----------------------- Boxplots croisés
 
 
-ggplot(departements_sans_outliers, aes(x=niveau_rural_mode, y=nb_publi, fill=niveau_rural_mode)) + 
+ggplot(departements, aes(x=niveau_rural_mode, y=nb_publi, fill=niveau_rural_mode)) + 
   geom_boxplot()+
   geom_point() +
   labs(title="Box du nombre de publications par niveau de ruralité", y = "Nombre de jeux ouverts", x = "") + 
   scale_fill_brewer(name="Niveau de ruralité", palette="Blues") +
   guides(fill = FALSE) +
   theme_classic() #plus il y a d'obs plus la moyenne peut être tirée vers le bas
-ggplot(departements_sans_outliers, aes(x=niveau_rural_insee, y=nb_publi, fill=niveau_rural_insee)) + 
+ggplot(departements, aes(x=niveau_rural_insee, y=nb_publi, fill=niveau_rural_insee)) + 
   geom_boxplot()+
   geom_point() +
   labs(title="Box du nombre de publications par niveau de densité", y = "Nombre de jeux ouverts", x = "") + 
   scale_fill_brewer(name="Niveau de densité", palette="Blues")  +
   guides(fill = FALSE) +
   theme_classic() # cat 2 et 3 vraiment comparables
-ggplot(departements_sans_outliers, aes(x=partis_po_chef, y=nb_publi, fill=partis_po_chef)) + 
+ggplot(departements, aes(x=partis_po_chef, y=nb_publi, fill=partis_po_chef)) + 
   geom_boxplot()+
   geom_point() +
   labs(title="Box du nombre de publications par couleur politique", y = "Nombre de jeux ouverts", x = "") + 
   scale_fill_brewer(name="Couleur politique", palette="Blues") +
   guides(fill = FALSE) +
   theme_classic()
-ggplot(departements_sans_outliers, aes(x=CSP_chef, y=nb_publi, fill=CSP_chef)) + 
+ggplot(departements, aes(x=CSP_chef, y=nb_publi, fill=CSP_chef)) + 
   geom_boxplot()+
   geom_point() +
   labs(title="Box du nombre de publications par CSP du chef", y = "Nombre de jeux ouverts", x = "") + 
@@ -740,7 +749,7 @@ ggplot(data = departements, mapping=aes(part_plus65, nb_publi, col=CSP_chef)) +
 
 
                 
-### C) Relations entre les variables explicatives
+          ### C) Relations entre les variables explicatives
 
 
 
@@ -749,8 +758,8 @@ ggplot(data = departements, mapping=aes(part_plus65, nb_publi, col=CSP_chef)) +
 #-----------------------  Dendrogramme
 
 
-dep_rownames <- departements_sans_outliers
-rownames(dep_rownames) = departements_sans_outliers$nom
+dep_rownames <- departements
+rownames(dep_rownames) = departements$nom
 
 dep_rownames %>%  select(nb_publi,nb_ptf,nb_datagouv,taux_chomage,part_plus65,part_diplomes,depenses_hab,part_etudiants,percent_pop_rurale,pop_insee,age_chef,niveau_vie,nb_crea_entps,nb_nuitees_hotels,nb_etudiants) %>% 
   dist() %>% 
