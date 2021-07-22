@@ -1018,6 +1018,7 @@ abline(v = 350, lty = 2)
 
 
 
+rio::export(departements, "./Data/process/dep_analyse_explo.csv")
 
 
 
