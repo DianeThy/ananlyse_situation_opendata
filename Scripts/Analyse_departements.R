@@ -403,12 +403,14 @@ chisq.test(departements$partis_po_chef, departements$CSP_chef) #indépendant
 library(rpart)
 library(caret)
 library(rpart.plot)
+library(randomForest)
 
 # On définit les paramètres de contrôle
 ctrl=rpart.control(cp=0.01, xval=5, maxdepth=3, minsplit = 5)
+#tuneRF(x=departements, y = departements$nb_publi, mtryStart=3, ntreeTry = 500, stepFactor = 2, improve=0.001)  #mtry=31
 
 # Arbre
-arbre_nb.publi <- rpart(nb_publi ~ taux_chomage+CSP_chef+niveau_rural_mode+niveau_rural_insee+part_plus65+part_diplomes+depenses_hab+part_etudiants+percent_pop_rurale+pop_insee+age_chef+niveau_vie+nb_crea_entps+nb_nuitees_hotels+nb_etudiants+partis_po_chef, data = departements, method="anova")
+arbre_nb.publi <- rpart(nb_publi ~ taux_chomage+CSP_chef+niveau_rural_mode+niveau_rural_insee+part_plus65+part_diplomes+depenses_hab+part_etudiants+percent_pop_rurale+pop_insee+age_chef+niveau_vie+nb_crea_entps+nb_nuitees_hotels+nb_etudiants+partis_po_chef, data = departements, method="anova", control = )
 summary(arbre_nb.publi)
 # Plot
 rpart.plot(arbre_nb.publi, box.palette = "Blues")
@@ -610,6 +612,67 @@ ggplot(departements, aes(x=CSP_chef, y=nb_publi, fill=CSP_chef)) +
   guides(fill = FALSE) +
   theme_classic()  #3 et 7 vraiment comparables (cadres / retraités)
 
+
+
+#----------------------- Stacked barchart
+
+
+  # Répartition de la variable binaire : ouvre des données ou non 
+tY <- as.data.frame(table(departements$ouvre_data))
+ggplot(tY, aes(x=Var1, y=Freq)) + 
+  geom_bar(stat="identity", fill="steelblue")+
+  geom_text(aes(y=Freq/2, label=Freq), vjust=1.6, color="white", size=5)+
+  labs(title="Répartition des départements selon qu'ils ouvrent ou non des données", y = "Nombre de jeux ouverts", x = "") + 
+  theme_minimal()
+
+
+
+  # Niveau de ruralité et ouvre_data
+t7 <- departements %>% group_by(ouvre_data) %>% count(niveau_rural_insee)
+  # plot
+library(viridis)
+library(hrbrthemes)
+library(plotly)
+ggp <- ggplot(t7, aes(fill=ouvre_data, y=n, x=niveau_rural_insee,  
+                text = paste("Ouvre des données", ouvre_data, 
+                             "\nNiveau de ruralité", niveau_rural_insee,
+                              "\n", n,"départements"), group=niveau_rural_insee)) + 
+    geom_bar(position="stack", stat="identity") +
+    scale_fill_viridis(discrete = T, name="Ouvre des données?", option="E", direction=-1) +
+    theme_ipsum() +
+    xlab("") + ylab("Nombre de départements") + ggtitle("Ouverture de données selon le niveau de ruralité") +
+    theme(axis.title.y = element_text(size=12))
+ggplotly(ggp, tooltip=c("text"))
+
+
+  # partis_po_chef et ouvre_data
+t8 <- departements %>% group_by(ouvre_data) %>% count(partis_po_chef)
+  # plot
+ggp2 <- ggplot(t8, aes(fill=ouvre_data, y=n, x=partis_po_chef,  
+                text = paste("Ouvre des données", ouvre_data, 
+                             "\nCouleur politique :", partis_po_chef,
+                              "\n", n,"départements"), group=partis_po_chef)) + 
+    geom_bar(position="stack", stat="identity") +
+    scale_fill_viridis(discrete = T, name="Ouvre des données?", option="E", direction=-1) +
+    theme_ipsum() +
+    xlab("") + ylab("Nombre de départements") + ggtitle("Ouverture de données selon la couleur politique") +
+    theme(axis.title.y = element_text(size=12))
+ggplotly(ggp2, tooltip=c("text"))
+
+
+  # CSP_chef et ouvre_data
+t9 <- departements %>% group_by(ouvre_data) %>% count(CSP_chef)
+  # plot
+ggp3 <- ggplot(t9, aes(fill=ouvre_data, y=n, x=CSP_chef,  
+                text = paste("Ouvre des données", ouvre_data, 
+                             "\nCSP du chef :", CSP_chef,
+                              "\n", n,"départements"), group=ouvre_data)) + 
+    geom_bar(position="stack", stat="identity") +
+    scale_fill_viridis(discrete = T, name="Ouvre des données?", option="E", direction=-1) +
+    theme_ipsum() +
+    xlab("") + ylab("Nombre de départements") + ggtitle("Ouverture de données selon la CSP du chef") +
+    theme(axis.title.y = element_text(size=12))
+ggplotly(ggp3, tooltip=c("text"))
 
 
 

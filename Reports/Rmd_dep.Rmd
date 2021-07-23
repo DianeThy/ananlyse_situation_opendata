@@ -1,0 +1,62 @@
+---
+title: "Rapport sur l'ouverture de données dans la départements de France métropolitaine"
+author: "Datactivist"
+date: "23/07/2021"
+output: html_document
+---
+
+<style>
+body {
+text-align: justify}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE, collapse = TRUE,  fig.show = "hold", out.width = "100%")
+knitr::opts_knit$set(root.dir = 'C:/Users/diane/Desktop/Analyse Diane')
+```
+
+<br>
+
+```{r echo=FALSE, out.width='25%', fig.align='left'}
+knitr::include_graphics(here::here("./Reports/logo_datactivist.png"))
+```
+
+<br> 
+
+Dans ce rapport nous allons étudier les déterminants de l'ouverture de données des 94 **départements** de France métropolitaine. Pourtant régi par la loi République Numérique datant du 7 octobre 2016, seuls 66% de ceux-ci publient au moins un jeu de données sur la plateforme publique '*data.gouv.fr*' ou sur leur propre portail open data.
+
+
+<br> 
+
+Après une longue période de récolte de données aux natures variées et provenant de sources diverses, nous disposons pour cette étude de plusieurs variables, censées expliquer la situation **open data** des départements. 
+
+```{r echo=FALSE}
+# On importe la base des départements
+library(tidyverse)
+departements <- read_csv("Data/process/departements.csv")
+
+library(DT)
+DT::datatable(departements, caption="Les déterminants à l'ouverture de données des départements", class = 'cell-border stripe', options=list(searching = FALSE, scrollX = TRUE,lengthMenu = c(5, 10, 20, 50), pageLength = 5, style = "font-size: 25%; width: 25%"))
+```
+
+
+Comme nous le voyons ci-dessus, nous disposons avec cette base de 23 variables : 
+- **nom** : le nom du département
+- **nb_publi** : le nombre de publications open data
+- **ouvre_data** : variable binaire qui indique si le département publie des données (1 : Oui, 0 : Non)
+- **code_region** : code Insee de la région dans laquelle le département se trouve
+
+        **Note :** lorsque le nombre de pulications renseigné dans la base est différent de 0, il s'agit du nombre de jeux publiés sur la plateforme locale du département s'il en a une, et dans le cas contraire il s'agit du nombre de jeux publiés sur datagouv. Le choix de ne pas sommer ces 2 champs initialement distincts, est lié au problème de moissonage lorsque le nombre de
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -38,13 +38,13 @@ summary(modele.both)
 
 
 library(lmtest)
-modele = lm(nb_publi ~ feuilles_CART+depenses_hab+densite+part_etudiants+is_extreme+part_plus65+partis_po_chef, data = departements) 
+modele = lm(nb_publi ~ feuilles_CART+depenses_hab+densite+part_etudiants+is_extreme+partis_po_chef+taux_chomage+vie_chill, data = departements) 
 summary(modele)
 
 #On vérifie si la forme linéaire retenue pour le modèle estimé est appropriée (au seuil de risque de 5 %). 
 library(zoo)
 library(lmtest) 
-reset(modele)  #forme fonctionnelle non linéaire
+reset(modele)  #forme fonctionnelle non linéaire = manque des variables pertinentes
 
 #On vérifie ensuite le VIF du modèle
 library(car)
