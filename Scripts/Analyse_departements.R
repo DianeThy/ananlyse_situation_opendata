@@ -428,7 +428,7 @@ rpart.plot(arbre_nb.publi2, box.palette = "Blues")
 library(FactoMineR)
 library(factoextra)
   # plot
-res.pca_Y = PCA(departements[,c("nb_publi","taux_chomage","part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","pop_insee","age_chef","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")], quanti.sup=1, graph=F)
+res.pca_Y = PCA(departements_sans_outliers[,c("nb_publi","taux_chomage","part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","pop_insee","age_chef","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")], quanti.sup=1, graph=F)
 fviz_pca_var(res.pca_Y, col.var = "cos2",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
              repel = TRUE)
@@ -456,8 +456,8 @@ fviz_pca_biplot(res.pca_Y, repel = TRUE,
                 )
 
 # Projections des individus colorés en fonction du nombre de jeux ouverts
-fviz_pca_ind(res.pca_Y, col.ind = departements$nb_publi,
-             gradient.cols = c("#00AFBB", "#FC4E07"),
+fviz_pca_ind(res.pca_Y, col.ind = departements_sans_outliers$nb_publi,
+             gradient.cols = c("#FFCC00", "#FC4E07"),
              repel = T)
 
 
@@ -472,7 +472,7 @@ fviz_mca_var(res.mca, axe=c(1,2), invisible="ind",cex=0.8,autoLab="yes", jitter 
   # projection des modalités
 fviz_eig(res.mca,main="Pourcentage expliqué par chaque facteur")
   # contributions des variables aux axes
-round(res.mca$var$contrib,2)
+round(res.mca$var$coord,2)
 fviz_contrib(res.mca, choice = "var", axes = 1, col="black")  #axe 1 = dynamisme du département
 fviz_contrib(res.mca, choice = "var", axes = 2, col="black")  #axe 2 = manque d'activité (indirecte)
   # corrélations des Xt aux dimensions : voir relation po/neg entre vble et axe
