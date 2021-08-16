@@ -30,12 +30,9 @@ library(googlesheets4)   #taper "1" en dessous
 observatoire_opendata_territoire <- read_sheet("https://docs.google.com/spreadsheets/d/1yhcCDLrDsZzNxlPaIl25p_qN8WVPGCTstdIUxezDxtQ/edit#gid=614893302")
 
 
-# Après vérification les données ne sont pas fiables : on importe une base avec des corrections pour joindre les 2 et avoir les bonnes infos de Yt
+# Après vérification les données ne sont pas fiables : on importe une base avec des corrections pour Y et on les applique
 modifs_OODT <- read_csv("Data/external/modifs_recensement_OODT.csv")
-    # on remplace les obs où le nombre de jeux sur propre plateforme renseigné était faux
-observatoire_opendata_territoire[c(430,505,507,643),]$`nb-ptf` <- modifs_OODT[c(4,1,2,6),]$`nb-ptf`  # nb-ptf
-    # on ajoute des obs pour les orgas où 0 jeux n'étaient recensés mais en réalité portail existe bien
-observatoire_opendata_territoire <- rbind(observatoire_opendata_territoire, modifs_OODT[c(3,5,7:12),])
+observatoire_opendata_territoire <- rbind(observatoire_opendata_territoire, modifs_OODT)
 
           
   # on renomme la colonne de jointure et on la passe au format numérique
