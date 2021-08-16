@@ -11,11 +11,11 @@ library(tidyverse)
 departements <- read_csv("Data/process/departements.csv")
 
 # Les variables :
-vbles_quanti <- c("nb_publi","nb_ptf","nb_datagouv","taux_chomage","part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","pop_insee","age_chef","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")
-vbles_quali <- c("nom","ouvre_data","niveau_rural_mode","niveau_rural_insee","flux_migration_res","partis_po_chef","CSP_chef")
+vbles_quanti <- c("nb_publi","nb_ptf","nb_datagouv","taux_chomage","part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","population","age_chef","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")
+vbles_quali <- c("nom","ouvre_data","niveau_rural","niveau_densite","flux_migration_res","partis_po_chef","CSP_chef")
 
 # On met au bon format les variables qualis
-departements[,c("ouvre_data","niveau_rural_mode","niveau_rural_insee","flux_migration_res","partis_po_chef","CSP_chef")] <- lapply(departements[,c("ouvre_data","niveau_rural_mode","niveau_rural_insee","flux_migration_res","partis_po_chef","CSP_chef")], as.factor)
+departements[,c("ouvre_data","niveau_rural","niveau_densite","flux_migration_res","partis_po_chef","CSP_chef")] <- lapply(departements[,c("ouvre_data","niveau_rural","niveau_densite","flux_migration_res","partis_po_chef","CSP_chef")], as.factor)
 
 
 
@@ -102,14 +102,14 @@ departements <- departements %>% mutate(CSP_chef = case_when(CSP_chef == "Foncti
 ########################################################################
 
 
-# Description niveau_rural_mode
-niveau_rural_mode <- as.data.frame(table(departements$niveau_rural_mode)) %>% rename(num = Var1) %>% select(-Freq)
-niveau_rural_mode <- niveau_rural_mode %>% mutate(description = c("urbain dense","urbain densité intermédiaire", "rural sous forte influence d'un pôle", "rural sous faible influence d'un pôle", "rural autonome peu dense", "rural autonome très peu dense"),
-                                                  variable = "niveau_rural_mode") %>% select(variable,num,description)
-# Description niveau_rural_insee
-niveau_rural_insee <- as.data.frame(table(departements$niveau_rural_insee)) %>% rename(num = Var1) %>% select(-Freq)
-niveau_rural_insee <- niveau_rural_insee %>% mutate(description = c("très dense", "dense", "peu dense"),
-                                                    variable = "niveau_rural_insee") %>% select(variable,num,description)
+# Description niveau_rural
+niveau_rural <- as.data.frame(table(departements$niveau_rural)) %>% rename(num = Var1) %>% select(-Freq)
+niveau_rural <- niveau_rural %>% mutate(description = c("urbain dense","urbain densité intermédiaire", "rural sous forte influence d'un pôle", "rural sous faible influence d'un pôle", "rural autonome peu dense", "rural autonome très peu dense"),
+                                                  variable = "niveau_rural") %>% select(variable,num,description)
+# Description niveau_densite
+niveau_densite <- as.data.frame(table(departements$niveau_densite)) %>% rename(num = Var1) %>% select(-Freq)
+niveau_densite <- niveau_densite %>% mutate(description = c("très dense", "dense", "peu dense"),
+                                                    variable = "niveau_densite") %>% select(variable,num,description)
 # Description CSP_chef
 CSP_chef <- as.data.frame(table(departements$CSP_chef)) %>% rename(num = Var1) %>% select(-Freq)
 CSP_chef <- CSP_chef %>% mutate(description = c("Agriculteurs exploitants","Artisans, commerçants et chefs d'entreprise","Cadres et professions intellectuelles supérieures","Professions Intermédiaires", "Employés","Retraités","Autres personnes sans activité professionnelle"),
@@ -133,8 +133,8 @@ code_region <- code_region %>% mutate(variable = "code_region") %>% select(varia
 
 
 # On met tout ça ensemble pour avoir un dictionnaire des variables
-dico_variables <- rbind(niveau_rural_mode, niveau_rural_insee, CSP_chef, flux_migration_res, code_region)
-
+dico_variables <- rbind(niveau_rural, niveau_densite, CSP_chef, flux_migration_res, code_region)
+View(dico_variables)
 
 
 
@@ -154,7 +154,7 @@ view(dfSummary(departements))
 
 # Répartitions des variables qualis
 library(inspectdf)
-inspect_cat(departements[,c("ouvre_data","code_region","niveau_rural_mode","niveau_rural_insee","flux_migration_res","CSP_chef","partis_po_chef")]) %>% show_plot() 
+inspect_cat(departements[,c("ouvre_data","code_region","niveau_rural","niveau_densite","flux_migration_res","CSP_chef","partis_po_chef")]) %>% show_plot() 
 
 
 
@@ -167,7 +167,7 @@ ggplot(departements, aes(x=nb_publi, y=frequency(nb_publi))) + #10 potentiels ou
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
     theme_minimal()
-ggplot(departements, aes(x=taux_chomage, y=frequency(taux_chomage))) +  #3
+ggplot(departements, aes(x=taux_chomage, y=frequency(taux_chomage))) +  #1
   labs(title="Distribution et box du taux de chômage", x="Taux de chômage", y="Fréquence") +
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
@@ -202,7 +202,7 @@ ggplot(departements, aes(x=percent_pop_rurale, y=frequency(percent_pop_rurale)))
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
     theme_minimal()
-ggplot(departements, aes(x=pop_insee, y=frequency(pop_insee))) +  #3
+ggplot(departements, aes(x=population, y=frequency(population))) +  #3
   labs(title="Distribution et box du nombre d'habitants", x="Nombre d'habitants", y="Fréquence") +
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
@@ -234,22 +234,27 @@ ggplot(departements, aes(x=nb_nuitees_hotels, y=frequency(nb_nuitees_hotels))) +
 departements %>% filter(nb_crea_entps > (quantile(nb_crea_entps, probs = .9))) %>% count()  #10
 
 
+# Test de Grubbs quand 1 point potentiellement atypique
+library(outliers) 
+    # taux_chomage
+grubbs.test(departements$taux_chomage, type=10, two.sided = TRUE)
+order(departements$taux_chomage)  #outlier qd taux ≥ 12.5, obs n°65 càd Pyrénées Orientales
+
+
 # Test de Rosner quand plus d'1 point potentiellement atypique
 library(EnvStats) 
     # nb_publi
 rosnerTest(departements$nb_publi, k = 10, alpha = 0.05) #outlier quand publi ≥ 88 
-    # taux_chomage
-rosnerTest(departements$taux_chomage, k = 3, alpha = 0.05) #outliers quand taux ≥ 13.8%, càd Pyrénées Orientales
     # part_diplomes
-rosnerTest(departements$part_diplomes, k = 6, alpha = 0.05) #outlier quand part ≥ 15.7%
+rosnerTest(departements$part_diplomes, k = 6, alpha = 0.05) #outlier quand part ≥ 16.7%
     # depenses_hab
 rosnerTest(departements$depenses_hab, k = 3, alpha = 0.05) #outlier quand dépenses ≥ 1770.413
     # part_etudiants
 rosnerTest(departements$part_etudiants, k = 2, alpha = 0.05) #outlier quand part ≥ 16.5%
     # nb_etudiants
 rosnerTest(departements$nb_etudiants, k = 8, alpha = 0.05) #outlier quand nombre ≥ 98938
-    # pop_insee
-rosnerTest(departements$pop_insee, k = 3, alpha = 0.05) #outlier quand nombre ≥ 2639070
+    # population
+rosnerTest(departements$population, k = 3, alpha = 0.05) #outlier quand nombre ≥ 2639070
     # niveau_vie
 rosnerTest(departements$niveau_vie, k = 5, alpha = 0.05) #outlier quand niveau ≥ 26600
     # nb_crea_entps
@@ -265,13 +270,14 @@ departements_sans_outliers <- departements %>% filter(nb_publi < 88,
                                                       depenses_hab < 1770.413,
                                                       part_etudiants < 16.5,
                                                       nb_etudiants < 98938,
-                                                      pop_insee < 2639070,
+                                                      population < 2639070,
                                                       niveau_vie < 26600,
                                                       nb_crea_entps < 32480,
                                                       nb_nuitees_hotels < 6724)
 
-nrow(departements)-nrow(departements_sans_outliers) #22 obs perdues
-outliers <- anti_join(departements, departements_sans_outliers)  # dep d'Ile de France x4, Pays de la Loire x3, Occitanie x3 etc.
+nrow(departements)-nrow(departements_sans_outliers) #21 obs perdues
+outliers <- anti_join(departements, departements_sans_outliers)  # dep d'Ile de France x4, Pays de la Loire x3, Occitanie x3 etc
+View(outliers)
 
 
 
@@ -295,34 +301,34 @@ curve(dnorm(x, mean=mean(departements_sans_outliers$nb_publi), sd=sd(departement
 library(RColorBrewer)
 
 par(mfrow=c(4,2))
-hist(departements$taux_chomage, main="Taux de chômage", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Greens"))
-hist(departements_sans_outliers$taux_chomage, main="Taux de chômage", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 7, name = "Greens"))
-hist(departements$part_plus65, main="Part des plus de 65 ans", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "PuRd"))
-hist(departements_sans_outliers$part_plus65, main="Part des plus de 65 ans", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "PuRd"))
-hist(departements$part_diplomes, main="Part des diplômés", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Blues"))
-hist(departements_sans_outliers$part_diplomes, main="Part des diplômés", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Blues"))
-hist(departements$depenses_hab, main="Dépenses par habitant", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Reds"))
-hist(departements_sans_outliers$depenses_hab, main="Dépenses par habitant", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Reds"))
+hist(departements$taux_chomage, main="Taux de chômage", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Greens"), ylim = c(0,29))
+hist(departements_sans_outliers$taux_chomage, main="Taux de chômage", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 7, name = "Greens"), ylim = c(0,29))
+hist(departements$part_plus65, main="Part des plus de 65 ans", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "PuRd"), ylim = c(0,25))
+hist(departements_sans_outliers$part_plus65, main="Part des plus de 65 ans", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "PuRd"), ylim = c(0,25))
+hist(departements$part_diplomes, main="Part des diplômés", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Blues"), ylim = c(0,65))
+hist(departements_sans_outliers$part_diplomes, main="Part des diplômés", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Blues"), ylim = c(0,65))
+hist(departements$depenses_hab, main="Dépenses par habitant", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Reds"), ylim = c(0,65))
+hist(departements_sans_outliers$depenses_hab, main="Dépenses par habitant", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Reds"), ylim = c(0,65))
 
 par(mfrow=c(4,2))
-hist(departements$part_etudiants, main="Part des étudiants", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Greens"))
-hist(departements_sans_outliers$part_etudiants, main="Part des étudiants", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 7, name = "Greens"))
-hist(departements$nb_etudiants, main="Nombre d'étudiants", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 4, name = "PuRd"))
-hist(departements_sans_outliers$nb_etudiants, main="Nombre d'étudiants", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 7, name = "PuRd"))
-hist(departements$percent_pop_rurale, main="Pourcentage de population rurale", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Blues"))
-hist(departements_sans_outliers$percent_pop_rurale, main="Pourcentage de population rurale", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Blues"))
-hist(departements$pop_insee, main="Nombre d'habitants", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 6, name = "Reds"))
-hist(departements_sans_outliers$pop_insee, main="Nombre d'habitants", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Reds"))
+hist(departements$part_etudiants, main="Part des étudiants", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Greens"), ylim = c(0,80))
+hist(departements_sans_outliers$part_etudiants, main="Part des étudiants", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 7, name = "Greens"), ylim = c(0,80))
+hist(departements$nb_etudiants, main="Nombre d'étudiants", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 4, name = "PuRd"), ylim = c(0,80))
+hist(departements_sans_outliers$nb_etudiants, main="Nombre d'étudiants", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 7, name = "PuRd"), ylim = c(0,80))
+hist(departements$percent_pop_rurale, main="Pourcentage de population rurale", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Blues"), ylim = c(0,20))
+hist(departements_sans_outliers$percent_pop_rurale, main="Pourcentage de population rurale", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Blues"), ylim = c(0,20))
+hist(departements$population, main="Nombre d'habitants", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 6, name = "Reds"), ylim = c(0,50))
+hist(departements_sans_outliers$population, main="Nombre d'habitants", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Reds"), ylim = c(0,50))
 
 par(mfrow=c(4,2))
-hist(departements$age_chef, main="Âge du chef", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Greens"))
-hist(departements_sans_outliers$age_chef, main="Âge du chef", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Greens"))
-hist(departements$niveau_vie, main="Niveau de vie", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 4, name = "PuRd"))
-hist(departements_sans_outliers$niveau_vie, main="Niveau de vie", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "PuRd"))
-hist(departements$nb_crea_entps, main="Créations d'entreprises", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Blues"))
-hist(departements_sans_outliers$nb_crea_entps, main="Créations d'entreprises", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Blues"))
-hist(departements$nb_nuitees_hotels, main="Nombre de nuitées en hotels", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 6, name = "Reds"))
-hist(departements_sans_outliers$nb_nuitees_hotels, main="Nombre de nuitées en hotels", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Reds"))
+hist(departements$age_chef, main="Âge du chef", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Greens"), ylim = c(0,20))
+hist(departements_sans_outliers$age_chef, main="Âge du chef", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Greens"), ylim = c(0,20))
+hist(departements$niveau_vie, main="Niveau de vie", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "PuRd"), ylim = c(0,40))
+hist(departements_sans_outliers$niveau_vie, main="Niveau de vie", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "PuRd"), ylim = c(0,40))
+hist(departements$nb_crea_entps, main="Créations d'entreprises", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Blues"), ylim = c(0,80))
+hist(departements_sans_outliers$nb_crea_entps, main="Créations d'entreprises", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Blues"), ylim = c(0,80))
+hist(departements$nb_nuitees_hotels, main="Nombre de nuitées en hotels", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 6, name = "Reds"), ylim = c(0,90))
+hist(departements_sans_outliers$nb_nuitees_hotels, main="Nombre de nuitées en hotels", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Reds"), ylim = c(0,90))
 
 
 
@@ -332,49 +338,49 @@ hist(departements_sans_outliers$nb_nuitees_hotels, main="Nombre de nuitées en h
 
 # Corrélations (matrice de Spearman pour non loi normale) des variables quantis
 library(corrplot)
-cor1 <- cor(departements[,c("nb_publi","taux_chomage","part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","pop_insee","age_chef","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")], use="complete.obs", method=c("spearman"))
+cor1 <- cor(departements[,c("nb_publi","taux_chomage","part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","population","age_chef","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")], use="complete.obs", method=c("spearman"))
 col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
 corrplot(cor1, method="color", col=col(200), 
              type="upper",
              addCoef.col = "black")
-corrplot(cor1, type="upper", order="hclust", tl.col="black", tl.srt=45, addCoef.col = "black")
+#corrplot(cor1, type="upper", order="hclust", tl.col="black", tl.srt=45, addCoef.col = "black")
 
       # corrélations moyennes (0.5<x<0.6) :
           # - taux_chomage et niveau_vie
           # - part_plus65 et niveau_vie/nb_crea_entps/nb_etudiants
-          # - part_diplomes et pop_insee/nb_etudiants
+          # - part_diplomes et population/nb_etudiants
           # - depenses_hab et nb_crea_entps/nb_etudiants
           # - part_etudiants et nb_crea_entps
           # - niveau_vie et nb_nuitees_hotels
       # corrélations fortes (x≥0.6) :
-          # - part_plus65 et depenses_hab/percent_pop_rurale/pop_insee
+          # - part_plus65 et depenses_hab/percent_pop_rurale/population
           # - part_diplomes et part_etudiants/percent_pop_rurale/niveau_vie/nb_crea_entps/nb_nuitees_hotels/nb_etudiants
-          # - depenses_hab et pop_insee/niveau_vie
+          # - depenses_hab et population/niveau_vie
           # - part_etudiants et percent_pop_rurale/nb_nuitees_hotels/nb_etudiants
-          # - percent_pop_rurale et pop_insee/nb_crea_entps/nb_nuitees_hotels/nb_etudiants
-          # - pop_insee et nb_crea_entps/nb_nuitees_hotels/nb_etudiants
+          # - percent_pop_rurale et population/nb_crea_entps/nb_nuitees_hotels/nb_etudiants
+          # - population et nb_crea_entps/nb_nuitees_hotels/nb_etudiants
           # - nb_crea_entps et nb_nuitees_hotels/nb_etudiants
           # - nb_nuitees_hotels et nb_etudiants
 
 
 # Dépendances des variables qualis
 # ouvre_data avec les autres qualis
-chisq.test(departements$ouvre_data, departements$niveau_rural_mode) #indépendant à 5%...
-chisq.test(departements$ouvre_data, departements$niveau_rural_insee) #indépendant
+chisq.test(departements$ouvre_data, departements$niveau_rural) # dépendant 
+chisq.test(departements$ouvre_data, departements$niveau_densite) # dépendant à +/- 10%
 chisq.test(departements$ouvre_data, departements$flux_migration_res) #indépendant
 chisq.test(departements$ouvre_data, departements$partis_po_chef) #indépendant
 chisq.test(departements$ouvre_data, departements$CSP_chef) #indépendant
 
-# niveau_rural_mode
-chisq.test(departements$niveau_rural_mode, departements$niveau_rural_insee) # dépendant
-chisq.test(departements$niveau_rural_mode, departements$flux_migration_res) # dépendant
-chisq.test(departements$niveau_rural_mode, departements$partis_po_chef) #indépendant
-chisq.test(departements$niveau_rural_mode, departements$CSP_chef) #indépendant
+# niveau_rural
+chisq.test(departements$niveau_rural, departements$niveau_densite) # dépendant
+chisq.test(departements$niveau_rural, departements$flux_migration_res) # dépendant
+chisq.test(departements$niveau_rural, departements$partis_po_chef) #indépendant
+chisq.test(departements$niveau_rural, departements$CSP_chef) #indépendant
 
-# niveau_rural_insee
-chisq.test(departements$niveau_rural_insee, departements$flux_migration_res) # dépendant
-chisq.test(departements$niveau_rural_insee, departements$partis_po_chef) #indépendant
-chisq.test(departements$niveau_rural_insee, departements$CSP_chef) #indépendant
+# niveau_densite
+chisq.test(departements$niveau_densite, departements$flux_migration_res) # dépendant
+chisq.test(departements$niveau_densite, departements$partis_po_chef) #indépendant
+chisq.test(departements$niveau_densite, departements$CSP_chef) #indépendant
 
 # flux_migration_res
 chisq.test(departements$flux_migration_res, departements$partis_po_chef) #indépendant
@@ -382,7 +388,6 @@ chisq.test(departements$flux_migration_res, departements$CSP_chef) #indépendant
 
 # partis_po_chef
 chisq.test(departements$partis_po_chef, departements$CSP_chef) #indépendant
-
 
 
 
@@ -410,15 +415,15 @@ ctrl=rpart.control(cp=0.01, xval=5, maxdepth=3, minsplit = 5)
 #tuneRF(x=departements, y = departements$nb_publi, mtryStart=3, ntreeTry = 500, stepFactor = 2, improve=0.001)  #mtry=31
 
 # Arbre
-arbre_nb.publi <- rpart(nb_publi ~ taux_chomage+CSP_chef+niveau_rural_mode+niveau_rural_insee+part_plus65+part_diplomes+depenses_hab+part_etudiants+percent_pop_rurale+pop_insee+age_chef+niveau_vie+nb_crea_entps+nb_nuitees_hotels+nb_etudiants+partis_po_chef, data = departements, method="anova", control = )
+arbre_nb.publi <- rpart(nb_publi ~ taux_chomage+CSP_chef+niveau_rural+niveau_densite+part_plus65+part_diplomes+depenses_hab+part_etudiants+percent_pop_rurale+population+age_chef+niveau_vie+nb_crea_entps+nb_nuitees_hotels+nb_etudiants+partis_po_chef, data = departements, method="anova", control = )
 summary(arbre_nb.publi)
 # Plot
 rpart.plot(arbre_nb.publi, box.palette = "Blues")
 
-# Même chose mais sans Paris qui peut fausser les répartitions
-arbre_nb.publi2 <- rpart(nb_publi ~ taux_chomage+CSP_chef+niveau_rural_mode+niveau_rural_insee+part_plus65+part_diplomes+depenses_hab+part_etudiants+percent_pop_rurale+pop_insee+age_chef+niveau_vie+nb_crea_entps+nb_nuitees_hotels+nb_etudiants+partis_po_chef, data = test, method="anova")
+# Même chose mais sans outliers qui peut fausser les répartitions
+arbre_nb.publi2 <- rpart(nb_publi ~ taux_chomage+CSP_chef+niveau_rural+niveau_densite+part_plus65+part_diplomes+depenses_hab+part_etudiants+percent_pop_rurale+population+age_chef+niveau_vie+nb_crea_entps+nb_nuitees_hotels+nb_etudiants+partis_po_chef, data = departements_sans_outliers, method="anova")
 summary(arbre_nb.publi2)
-rpart.plot(arbre_nb.publi2, box.palette = "Blues")
+rpart.plot(arbre_nb.publi2, box.palette = "Reds")
 
 
 
@@ -428,8 +433,14 @@ rpart.plot(arbre_nb.publi2, box.palette = "Blues")
 library(FactoMineR)
 library(factoextra)
   # plot
-res.pca_Y = PCA(departements_sans_outliers[,c("nb_publi","taux_chomage","part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","pop_insee","age_chef","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")], quanti.sup=1, graph=F)
+res.pca_Y = PCA(departements_sans_outliers[,c("nb_publi","taux_chomage","part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","population","age_chef","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")], quanti.sup=1, graph=F)
 fviz_pca_var(res.pca_Y, col.var = "cos2",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE)
+fviz_pca_var(res.pca_Y, col.var = "cos2", axes = c(1,3),
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE)
+fviz_pca_var(res.pca_Y, col.var = "cos2", axes = c(2,3),
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
              repel = TRUE)
 
@@ -437,11 +448,11 @@ fviz_pca_var(res.pca_Y, col.var = "cos2",
 round(res.pca_Y$eig,2)
 fviz_eig(res.pca_Y, addlabels = TRUE) #axes 1 et 2 conservent 65% de l'info des 12 Xt
 
-  # contributions des Xt aux axes 1 et 2
+  # contributions des Xt aux axes 1, 2 et 3
 round(res.pca_Y$var$contrib,2)
 fviz_contrib(res.pca_Y, choice = "var", axes = 1, col="black")  #axe 1 = dynamisme du département
-fviz_contrib(res.pca_Y, choice = "var", axes = 2, col="black")  #axe 2 = manque d'activité (indirecte)
-      # ajout CC
+fviz_contrib(res.pca_Y, choice = "var", axes = 2, col="black")  #axe 2 = pauvreté / manque d'activité 
+fviz_contrib(res.pca_Y, choice = "var", axes = 3, col="black")  #axe 3 = chef agé
 
   # corrélations des Xt aux dimensions : voir relation po/neg entre vble et axe
 corrplot(res.pca_Y$var$cor, is.corr=FALSE, method="circle", tl.srt=45, tl.col="#004400", col=brewer.pal(n=9, name="RdYlBu"), addCoef.col="black")  #plus % pop rurale augmente, moins la région est attractive
@@ -450,6 +461,13 @@ corrplot(res.pca_Y$var$cor, is.corr=FALSE, method="circle", tl.srt=45, tl.col="#
 fviz_pca_ind(res.pca_Y, col.ind = "cos2",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
              repel = T) #noyau dur : bcp de dep avec peu d'attractivité (gauche du graph) et qualité de vie  autour de 0
+fviz_pca_ind(res.pca_Y, col.ind = "cos2", axes = c(1,3),
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = T) 
+fviz_pca_ind(res.pca_Y, col.ind = "cos2", axes = c(2,3),
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = T) 
+
 fviz_pca_biplot(res.pca_Y, repel = TRUE,
                 col.var = "#2E9FDF",
                 col.ind = "red"
@@ -466,38 +484,21 @@ fviz_pca_ind(res.pca_Y, col.ind = departements_sans_outliers$nb_publi,
 
 
   # plot
-res.mca <- MCA(departements[,c("niveau_rural_mode","niveau_rural_insee","partis_po_chef","CSP_chef")])
+res.mca <- MCA(departements_sans_outliers[,c("niveau_rural","niveau_densite","partis_po_chef","CSP_chef")])
   # projection des variables
 fviz_mca_var(res.mca, axe=c(1,2), invisible="ind",cex=0.8,autoLab="yes", jitter = list(what = "label", width = NULL, height = NULL))
   # projection des modalités
 fviz_eig(res.mca,main="Pourcentage expliqué par chaque facteur")
   # contributions des variables aux axes
 round(res.mca$var$coord,2)
-fviz_contrib(res.mca, choice = "var", axes = 1, col="black")  #axe 1 = dynamisme du département
-fviz_contrib(res.mca, choice = "var", axes = 2, col="black")  #axe 2 = manque d'activité (indirecte)
+fviz_contrib(res.mca, choice = "var", axes = 1, col="black")  #axe 1 = département urbain/dense
+fviz_contrib(res.mca, choice = "var", axes = 2, col="black")  #axe 2 = faible dynamisme 
   # corrélations des Xt aux dimensions : voir relation po/neg entre vble et axe
-corrplot(res.mca$var$coord, is.corr=FALSE, method="circle", tl.srt=45, tl.col="#004400", col=brewer.pal(n=9, name="RdYlBu"), addCoef.col="black")  #plus % pop rurale augmente, moins la région est attractive
+corrplot(res.mca$var$coord, is.corr=FALSE, method="circle", tl.srt=45, tl.col="#004400", col=brewer.pal(n=9, name="RdYlBu"), addCoef.col="black") 
   # projections des départements sur le plan à 2 dimensions
 fviz_pca_ind(res.mca, col.ind = "cos2",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
              repel = T)
-
-
-
-#----------------------- AFM 
-
-
-
-# On remanie la base pour mettre les variables par groupes identifiés sur ACP et ACM
-dep_reorder <- departements[,c(2,7,11:13,15,16,19,20,23,14,18,9,21,22,17,10,8)]
-
-res.mfa <- MFA(dep_reorder, 
-               group = c(1, 9, 2, 1, 2, 1, 2), 
-               type = c("c","c","c","c","s","s","s"),
-               name.group = c("Y","dynamisme","activité","age_chef", "urbanité","flux_migr","infos_chef"),
-               graph = T)
-
-
 
 
 
@@ -511,8 +512,8 @@ res.mfa <- MFA(dep_reorder,
 
 
 # Croisements Y (nb_publi) avec variables qualis
-t1=tapply(departements$nb_publi, departements$niveau_rural_mode, mean)
-t2=tapply(departements$nb_publi, departements$niveau_rural_insee, mean) %>% sort()
+t1=tapply(departements$nb_publi, departements$niveau_rural, mean)
+t2=tapply(departements$nb_publi, departements$niveau_densite, mean) %>% sort()
 t3=tapply(departements$nb_publi, departements$flux_migration_res, mean) %>% sort()
 t4=tapply(departements$nb_publi, departements$partis_po_chef, mean) %>% sort()
 t5=tapply(departements$nb_publi, departements$CSP_chef, mean) %>% sort()
@@ -520,10 +521,10 @@ t5=tapply(departements$nb_publi, departements$CSP_chef, mean) %>% sort()
 
 library(RColorBrewer)
 barplot(t1, horiz=TRUE, xlim=c(0,230), legend = c("Urbain dense","Urbain densité intermédiaire","Rural sous forte influence d'un pôle","Rural sous faible influence d'un pôle","Rural autonome peu dense","Rural autonome très peu dense"), main="Nombre de jeux ouverts moyen selon le niveau de ruralité", col=rev(brewer.pal(n = 6, name = "Blues")), cex.names=.9, cex.main=.96, col.main="#0033CC")
-table(departements$niveau_rural_mode)
+table(departements$niveau_rural)
 
 barplot(t2, horiz=TRUE, xlim=c(0,80), legend.text = TRUE, args.legend = list(x = "bottomright", inset = c(.02, .05), legend = c("Dense","Peu dense","Très dense")), main="Nombre de jeux ouverts moyen selon le niveau de densité", col = brewer.pal(n = 3, name = "Reds"), cex.names=1, cex.main=1, col.main="#FF6600")
-table(departements$niveau_rural_insee)
+table(departements$niveau_densite)
 
 barplot(t3[36:44], horiz=TRUE, xlim=c(0,50), main="Top 9 des départements avec le plus grand nombre de jeux ouverts moyen, 
         selon le principal flux de migration résidentiel", col=brewer.pal(n = 9, name = "Greys"), cex.names=1, cex.main=1, col.main="black") #données pas fiables car pas assez d'obs par modalité (rappel : les numéros correspondent au COG du dep de destination des flux résidentiels)
@@ -583,14 +584,14 @@ table(departements$code_region)
 #----------------------- Boxplots croisés
 
 
-ggplot(departements, aes(x=niveau_rural_mode, y=nb_publi, fill=niveau_rural_mode)) + 
+ggplot(departements, aes(x=niveau_rural, y=nb_publi, fill=niveau_rural)) + 
   geom_boxplot()+
   geom_point() +
   labs(title="Box du nombre de publications par niveau de ruralité", y = "Nombre de jeux ouverts", x = "") + 
   scale_fill_brewer(name="Niveau de ruralité", palette="Blues") +
   guides(fill = FALSE) +
   theme_classic() #plus il y a d'obs plus la moyenne peut être tirée vers le bas
-ggplot(departements, aes(x=niveau_rural_insee, y=nb_publi, fill=niveau_rural_insee)) + 
+ggplot(departements, aes(x=niveau_densite, y=nb_publi, fill=niveau_densite)) + 
   geom_boxplot()+
   geom_point() +
   labs(title="Box du nombre de publications par niveau de densité", y = "Nombre de jeux ouverts", x = "") + 
@@ -628,15 +629,15 @@ ggplot(tY, aes(x=Var1, y=Freq)) +
 
 
   # Niveau de ruralité et ouvre_data
-t7 <- departements %>% group_by(ouvre_data) %>% count(niveau_rural_insee)
+t7 <- departements %>% group_by(ouvre_data) %>% count(niveau_densite)
   # plot
 library(viridis)
 library(hrbrthemes)
 library(plotly)
-ggp <- ggplot(t7, aes(fill=ouvre_data, y=n, x=niveau_rural_insee,  
+ggp <- ggplot(t7, aes(fill=ouvre_data, y=n, x=niveau_densite,  
                 text = paste("Ouvre des données", ouvre_data, 
-                             "\nNiveau de ruralité", niveau_rural_insee,
-                              "\n", n,"départements"), group=niveau_rural_insee)) + 
+                             "\nNiveau de ruralité", niveau_densite,
+                              "\n", n,"départements"), group=niveau_densite)) + 
     geom_bar(position="stack", stat="identity") +
     scale_fill_viridis(discrete = T, name="Ouvre des données?", option="E", direction=-1) +
     theme_ipsum() +
@@ -728,8 +729,8 @@ ggplot(data = departements, mapping=aes(percent_pop_rurale, nb_publi)) +
   labs(title="Relation entre le nombre de publications et le taux de chômage",
        y="Nombre de publications open data", x="") +
   theme_linedraw()
-ggplot(data = departements, mapping=aes(pop_insee, nb_publi)) + 
-  geom_point(mapping=aes(pop_insee, nb_publi), size=3) + 
+ggplot(data = departements, mapping=aes(population, nb_publi)) + 
+  geom_point(mapping=aes(population, nb_publi), size=3) + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
   labs(title="Relation entre le nombre de publications et le taux de chômage",
        y="Nombre de publications open data", x="") +
@@ -767,27 +768,27 @@ ggplot(data = departements, mapping=aes(nb_nuitees_hotels, nb_publi)) +
 
 # On essaye en colorant avec les variables catégorielles existantes
 
-    # niveau_rural_mode
-ggplot(data = departements, mapping=aes(taux_chomage, nb_publi, col=niveau_rural_mode)) + 
+    # niveau_rural
+ggplot(data = departements, mapping=aes(taux_chomage, nb_publi, col=niveau_rural)) + 
   geom_point(mapping=aes(taux_chomage, nb_publi), size=3) + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
   labs(title="Relation entre le nombre de publications et le taux de chômage",
        y="Nombre de publications open data", x="") +
   theme_linedraw()
-ggplot(data = departements, mapping=aes(part_plus65, nb_publi, col=niveau_rural_mode)) + 
+ggplot(data = departements, mapping=aes(part_plus65, nb_publi, col=niveau_rural)) + 
   geom_point(mapping=aes(part_plus65, nb_publi), size=3) + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
   labs(title="Relation entre le nombre de publications et la part des plus de 65 ans",
        y="Nombre de publications open data", x="") +
   theme_linedraw()
-    # niveau_rural_insee
-ggplot(data = departements, mapping=aes(taux_chomage, nb_publi, col=niveau_rural_insee)) + 
+    # niveau_densite
+ggplot(data = departements, mapping=aes(taux_chomage, nb_publi, col=niveau_densite)) + 
   geom_point(mapping=aes(taux_chomage, nb_publi), size=3) + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
   labs(title="Relation entre le nombre de publications et le taux de chômage",
        y="Nombre de publications open data", x="") +
   theme_linedraw()
-ggplot(data = departements, mapping=aes(part_plus65, nb_publi, col=niveau_rural_insee)) + 
+ggplot(data = departements, mapping=aes(part_plus65, nb_publi, col=niveau_densite)) + 
   geom_point(mapping=aes(part_plus65, nb_publi), size=3) + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
   labs(title="Relation entre le nombre de publications et la part des plus de 65 ans",
@@ -834,13 +835,27 @@ ggplot(data = departements, mapping=aes(part_plus65, nb_publi, col=CSP_chef)) +
   theme_linedraw()
 
 
-# On créé des variables catégorielles à partir de l'analyse exploratoire
+# On créé des variables catégorielles à partir de l'analyse exploratoire pour les données avec et sans outliers
+# Données sans outliers
      #depuis ACP
-departements$dynamisme <- res.pca_Y$ind$coord[,1]
-departements$inactivite <- res.pca_Y$ind$coord[,2]
+departements_sans_outliers$dynamisme <- res.pca_Y$ind$coord[,1]
+departements_sans_outliers$pauvrete <- res.pca_Y$ind$coord[,2]
+departements_sans_outliers$chef_age <- res.pca_Y$ind$coord[,3]
      #depuis ACM
-departements$densite <- res.mca$ind$coord[,1]
-departements$vie_chill <- res.mca$ind$coord[,2]
+departements_sans_outliers$faible_dynamisme <- res.mca$ind$coord[,1]
+departements_sans_outliers$dense <- res.mca$ind$coord[,2]
+     #depuis CART
+departements_sans_outliers <- departements_sans_outliers %>% mutate(is_big_part_diplomes = case_when(part_diplomes >= 5.65 ~ 1,
+                                                                  part_diplomes < 5.65 ~ 0))
+departements_sans_outliers <- departements_sans_outliers %>% mutate(feuilles_CART = case_when(part_diplomes < 5.65 & (CSP_chef == 1 | CSP_chef == 3 | CSP_chef == 4 | CSP_chef == 8) ~ 1,
+                                                                  part_diplomes < 5.65 & (CSP_chef == 2 | CSP_chef == 5 | CSP_chef == 6 | CSP_chef == 7 | CSP_chef == 9) ~ 2,
+                                                                  part_diplomes >= 5.65 & nb_etudiants < 5571 & population < 663911.5 ~ 3,
+                                                                  part_diplomes >= 5.65 & nb_etudiants < 5571 & population >= 663911.5 ~ 4,
+                                                                  part_diplomes >= 5.65 & nb_etudiants >= 5571 ~ 5
+                                                                  ))
+
+
+# Données avec outliers
      #depuis CART
 departements <- departements %>% mutate(is_big_nb_etu = case_when(nb_etudiants >= 56525 ~ 1,
                                                                   nb_etudiants < 56525 ~ 0))
@@ -850,7 +865,7 @@ departements <- departements %>% mutate(feuilles_CART = case_when(nb_etudiants >
                                                                   nb_etudiants < 56525 & depenses_hab < 1102 & part_etudiants < 1.7 ~ 3
                                                                   ))
      #depuis violin plots
-departements <- departements %>% mutate(is_extreme = case_when(taux_chomage < 13.8 & part_diplomes < 15.7 & depenses_hab < 1770.413 & part_etudiants < 16.5 & nb_etudiants < 98938 & pop_insee < 2639070 & niveau_vie < 26600 & nb_crea_entps < 32480 & nb_nuitees_hotels < 6724 ~ 0,
+departements <- departements %>% mutate(is_extreme = case_when(nb_publi < 88 & taux_chomage < 13.8 & part_diplomes < 15.7 & depenses_hab < 1770.413 & part_etudiants < 16.5 & nb_etudiants < 98938 & population < 2639070 & niveau_vie < 26600 & nb_crea_entps < 32480 & nb_nuitees_hotels < 6724 ~ 0,
                                                                TRUE ~ 1))
 
 
@@ -952,15 +967,15 @@ ggplot(data = departements, mapping=aes(part_plus65, nb_publi, col=is_extreme)) 
 
 # On essaye en parametrant la taille des points en fonction d'une quanti
 
-    # pop_insee
+    # population
 ggplot(data = departements, mapping=aes(taux_chomage, nb_publi)) + 
-  geom_point(mapping=aes(taux_chomage, nb_publi, size=pop_insee), col="#666666") + 
+  geom_point(mapping=aes(taux_chomage, nb_publi, size=population), col="#666666") + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
   labs(title="Relation entre le nombre de publications et le taux de chômage",
        y="Nombre de publications open data", x="") +
   theme_linedraw()
 ggplot(data = departements, mapping=aes(part_plus65, nb_publi)) + 
-  geom_point(mapping=aes(part_plus65, nb_publi, size=pop_insee), col="#666666") + 
+  geom_point(mapping=aes(part_plus65, nb_publi, size=population), col="#666666") + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
   labs(title="Relation entre le nombre de publications et la part des plus de 65 ans",
        y="Nombre de publications open data", x="") +
@@ -1048,40 +1063,10 @@ ggplot(data = departements, mapping=aes(part_plus65, nb_publi)) +
 
 
      
-          ### C) Relations entre les variables explicatives
-
-
-
-
-
-#-----------------------  Dendrogramme
-
-
-dep_rownames <- departements
-rownames(dep_rownames) = departements$nom
-
-dep_rownames %>%  select(nb_publi,nb_ptf,nb_datagouv,taux_chomage,part_plus65,part_diplomes,depenses_hab,part_etudiants,percent_pop_rurale,pop_insee,age_chef,niveau_vie,nb_crea_entps,nb_nuitees_hotels,nb_etudiants) %>% 
-  dist() %>% 
-  hclust() %>% 
-  as.dendrogram() -> dend
- 
-# Plot
-par(mar=c(7,3,1,1))  # Increase bottom margin to have the complete label
-plot(dend)
-
-library(dendextend)
-par(mar=c(1,1,1,7))
-dend %>%
-  set("labels_col", value = c("skyblue", "orange", "grey"), k=3) %>%
-  set("branches_k_color", value = c("skyblue", "orange", "grey"), k = 3) %>%
-  plot(horiz=TRUE, axes=FALSE)
-abline(v = 350, lty = 2)
-
-
-
-
+# Export des bases
 
 rio::export(departements, "./Data/process/dep_analyse_explo.csv")
+rio::export(departements_sans_outliers, "./Data/process/dep_analyse_explo_sans_outliers.csv")
 
 
 
