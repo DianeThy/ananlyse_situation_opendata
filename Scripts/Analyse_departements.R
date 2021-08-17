@@ -54,7 +54,7 @@ departements <- departements %>% unique()
 #----------------------- Harmonisation CSP du chef de l'exécutif
 
 
-# On regarde tous les partis po de la base
+# On regarde toutes les CSP de la base
 as.data.frame(table(departements$CSP_chef)) %>% arrange(desc(Freq))
 
 # Même chose base avec outliers

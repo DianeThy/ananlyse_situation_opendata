@@ -1,0 +1,84 @@
+variable,num,description
+niveau_rural,1,urbain dense
+niveau_rural,2,urbain densité intermédiaire
+niveau_rural,3,rural sous forte influence d'un pôle
+niveau_rural,4,rural sous faible influence d'un pôle
+niveau_rural,5,rural autonome peu dense
+niveau_rural,6,rural autonome très peu dense
+niveau_densite,1,très dense
+niveau_densite,2,dense
+niveau_densite,3,peu dense
+CSP_chef,1,Agriculteurs exploitants
+CSP_chef,2,"Artisans, commerçants et chefs d'entreprise"
+CSP_chef,3,Cadres et professions intellectuelles supérieures
+CSP_chef,4,Professions Intermédiaires
+CSP_chef,5,Employés
+CSP_chef,7,Retraités
+CSP_chef,8,Autres personnes sans activité professionnelle
+flux_migration_res,3,Allier
+flux_migration_res,7,ArdÃ¨che
+flux_migration_res,8,Ardennes
+flux_migration_res,13,Bouches-du-RhÃ´ne
+flux_migration_res,14,Calvados
+flux_migration_res,17,Charente-Maritime
+flux_migration_res,18,Cher
+flux_migration_res,19,CorrÃ¨ze
+flux_migration_res,21,CÃ´te-d'Or
+flux_migration_res,22,CÃ´tes-d'Armor
+flux_migration_res,24,Dordogne
+flux_migration_res,25,Doubs
+flux_migration_res,26,DrÃ´me
+flux_migration_res,27,Eure
+flux_migration_res,30,Gard
+flux_migration_res,31,Haute-Garonne
+flux_migration_res,33,Gironde
+flux_migration_res,34,HÃ©rault
+flux_migration_res,35,Ille-et-Vilaine
+flux_migration_res,37,Corse
+flux_migration_res,38,IsÃ¨re
+flux_migration_res,40,Landes
+flux_migration_res,41,Loir-et-Cher
+flux_migration_res,42,Loire
+flux_migration_res,44,Loire-Atlantique
+flux_migration_res,45,Loiret
+flux_migration_res,49,Maine-et-Loire
+flux_migration_res,50,Manche
+flux_migration_res,51,Marne
+flux_migration_res,54,Meurthe-et-Moselle
+flux_migration_res,56,Morbihan
+flux_migration_res,57,Moselle
+flux_migration_res,59,Nord
+flux_migration_res,60,Oise
+flux_migration_res,62,Pas-de-Calais
+flux_migration_res,63,Puy-de-DÃ´me
+flux_migration_res,64,PyrÃ©nÃ©es-Atlantiques
+flux_migration_res,67,Bas-Rhin
+flux_migration_res,68,Haut-Rhin
+flux_migration_res,69,RhÃ´ne
+flux_migration_res,70,Haute-SaÃ´ne
+flux_migration_res,71,SaÃ´ne-et-Loire
+flux_migration_res,73,Savoie
+flux_migration_res,75,Paris
+flux_migration_res,76,Seine-Maritime
+flux_migration_res,77,Seine-et-Marne
+flux_migration_res,78,Yvelines
+flux_migration_res,79,Deux-SÃ¨vres
+flux_migration_res,80,Somme
+flux_migration_res,81,Tarn
+flux_migration_res,83,Var
+flux_migration_res,86,Vienne
+flux_migration_res,87,Haute-Vienne
+flux_migration_res,92,Hauts-de-Seine
+flux_migration_res,94,Val-de-Marne
+code_region,11,ÃŽle-de-France
+code_region,24,Centre-Val de Loire
+code_region,27,Bourgogne-Franche-ComtÃ©
+code_region,28,Normandie
+code_region,32,Hauts-de-France
+code_region,44,Grand Est
+code_region,52,Pays de la Loire
+code_region,53,Bretagne
+code_region,75,Nouvelle-Aquitaine
+code_region,76,Occitanie
+code_region,84,Auvergne-RhÃ´ne-Alpes
+code_region,93,Provence-Alpes-CÃ´te d'Azur

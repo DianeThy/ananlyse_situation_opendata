@@ -29,7 +29,7 @@ epci <- read_csv("Data/process/epci.csv")
           # discrètes
             # - nb_ptf
             # - nb_datagouv
-            # - pop_insee
+            # - population
             # - age_chef
             # - PIB_habitant
             # - niveau_vie
@@ -39,16 +39,16 @@ epci <- read_csv("Data/process/epci.csv")
         # VARIABLES QUALI
           # modalités
             # - ouvre_data (2)
-            # - niveau_rural_mode (6)
-            # - niveau_rural_insee (4)
+            # - niveau_rural (6)
+            # - niveau_densite (4)
             # - flux_migration_res (departements français)
           # string
             # - nom
             # - partis_po_chef
             # - CSP_chef
 
-vbles_quanti <- c("nb_publi","nb_ptf","nb_datagouv","taux_chomage","primaire_VA","secondaire_VA","tertiaire_marchand_VA","tertiaire_non_mar_VA", "part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","pop_insee","age_chef","PIB_habitant","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")
-vbles_quali <- c("ouvre_data","niveau_rural_mode","niveau_rural_insee","flux_migration_res","nom","partis_po_chef","CSP_chef")
+vbles_quanti <- c("nb_publi","nb_ptf","nb_datagouv","taux_chomage","primaire_VA","secondaire_VA","tertiaire_marchand_VA","tertiaire_non_mar_VA", "part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","population","age_chef","PIB_habitant","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")
+vbles_quali <- c("ouvre_data","niveau_rural","niveau_densite","flux_migration_res","nom","partis_po_chef","CSP_chef")
 
 
 
@@ -59,13 +59,13 @@ vbles_quali <- c("ouvre_data","niveau_rural_mode","niveau_rural_insee","flux_mig
 regions$type <- "REG"
 departements$type <- "DEP"
 communes$type <- "COM"
-#epci$type <- "EPCI"  #on met une seule modalité plus globale pour l'analyse des territoires confondus
+epci$type <- "EPCI"  #on met une seule modalité plus globale pour l'analyse des territoires confondus
 
   # On réordonne et sélectionne les colonnes communes aux 4 types d'orga
-reg2 <- regions %>% select(nom,type,nb_publi,ouvre_data,pop_insee,CSP_chef,age_chef,partis_po_chef,part_plus65,nb_crea_entps,flux_migration_res,part_diplomes,depenses_hab)
-dep2 <- departements %>% select(nom,type,nb_publi,ouvre_data,pop_insee,CSP_chef,age_chef,partis_po_chef,part_plus65,nb_crea_entps,flux_migration_res,part_diplomes,depenses_hab)
-com2 <- communes %>% select(nom,type,nb_publi,ouvre_data,pop_insee,CSP_chef,age_chef,partis_po_chef,part_plus65,nb_crea_entps,flux_migration_res,part_diplomes,depenses_hab)
-epci2 <- epci %>% select(nom,type,nb_publi,ouvre_data,pop_insee,CSP_chef,age_chef,partis_po_chef,part_plus65,nb_crea_entps,flux_migration_res,part_diplomes,depenses_hab)
+reg2 <- regions %>% select(nom,type,nb_publi,ouvre_data,population,CSP_chef,age_chef,partis_po_chef,part_plus65,nb_crea_entps,flux_migration_res,part_diplomes,depenses_hab)
+dep2 <- departements %>% select(nom,type,nb_publi,ouvre_data,population,CSP_chef,age_chef,partis_po_chef,part_plus65,nb_crea_entps,flux_migration_res,part_diplomes,depenses_hab)
+com2 <- communes %>% select(nom,type,nb_publi,ouvre_data,population,CSP_chef,age_chef,partis_po_chef,part_plus65,nb_crea_entps,flux_migration_res,part_diplomes,depenses_hab)
+epci2 <- epci %>% select(nom,type,nb_publi,ouvre_data,population,CSP_chef,age_chef,partis_po_chef,part_plus65,nb_crea_entps,flux_migration_res,part_diplomes,depenses_hab)
 
   # On met le tout dans une même base : ce sera notre base pour une première analyse globale pour les 4 types d'orga
 base <- rbind(reg2,dep2,com2,epci2) 
@@ -75,6 +75,7 @@ NA_base <- as.data.frame(apply(is.na(base), 2, sum)) %>%
                         rename(nb_NA = `apply(is.na(base), 2, sum)`) %>%
                         mutate(percent_NA = nb_NA/nrow(base)*100) %>% 
                         mutate(percent_NA = round(percent_NA, 2))
+View(NA_base)
 
   # Plus de 90% de NA pour partis_po_chef et flux_migration_res donc on drop ces colonnes, on fait retire les doublons comme vble 'partis_po_chef' plus dans l'analyse puis on retire NA sur reste de la base
 base <- base %>% select(-partis_po_chef, -flux_migration_res) %>% unique() %>% na.omit()
@@ -92,7 +93,17 @@ str(base)
 
 # Distrib nb_publi par type
 ggplot(base, mapping=aes(nb_publi, type)) +
-  geom_point(mapping=aes(nb_publi, type))
+  geom_point(mapping=aes(nb_publi, type)) 
+ggplot(base, mapping=aes(population, type)) +
+  geom_point(mapping=aes(population, type)) 
+ggplot(base, mapping=aes(nb_crea_entps, type)) +
+  geom_point(mapping=aes(nb_crea_entps, type)) 
+ggplot(base, mapping=aes(part_diplomes, type)) +
+  geom_point(mapping=aes(part_diplomes, type)) 
+ggplot(base, mapping=aes(depenses_hab, type)) +
+  geom_point(mapping=aes(depenses_hab, type)) 
+
+base %>% filter(type == "REG") %>% summary()
 
 
 #----------- Points atypiques et distribution
@@ -103,7 +114,7 @@ ggplot(base, aes(x=nb_publi, y=frequency(nb_publi))) +
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
     theme_minimal()
-ggplot(base, aes(x=pop_insee, y=frequency(pop_insee))) +
+ggplot(base, aes(x=population, y=frequency(population))) +
   labs(title="Distribution et box du nombre d'habitants", x="Nombre d'habitants", y="Fréquence") +
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
@@ -140,8 +151,8 @@ ggplot(base, aes(x=depenses_hab, y=frequency(depenses_hab))) +
   #on compte le nombre d'observations supérieures au 99è centiles ou inférieures au 1er
 base %>% filter(nb_publi < (quantile(nb_publi, probs = .01)) |
                 nb_publi > (quantile(nb_publi, probs = .99))) %>% count()  #354
-base %>% filter(pop_insee < (quantile(pop_insee, probs = .01)) |
-                pop_insee > (quantile(pop_insee, probs = .99))) %>% count() #688
+base %>% filter(population < (quantile(population, probs = .01)) |
+                population > (quantile(population, probs = .99))) %>% count() #688
 base %>% filter(age_chef < (quantile(age_chef, probs = .01)) |
                 age_chef > (quantile(age_chef, probs = .99))) %>% count() #635
 base %>% filter(part_plus65 < (quantile(part_plus65, probs = .01)) |
@@ -159,8 +170,8 @@ library(EnvStats)
     # nb_publi
 options(max.print=9999)
 rosnerTest(base$nb_publi, k = 354, alpha = 0.0001) #outlier quand publi ≥ 3
-    # pop_insee
-rosnerTest(base$pop_insee, k = 688, alpha = 0.05) #outlier quand population ≥ 34117 
+    # population
+rosnerTest(base$population, k = 688, alpha = 0.05) #outlier quand population ≥ 34117 
     #age_chef
 rosnerTest(base$age_chef, k = 635, alpha = 0.05) # 0 outliers quand
     # part_plus65
@@ -175,7 +186,7 @@ rosnerTest(base$depenses_hab, k = 712, alpha = 0.05) #outlier quand dépenses �
 
 # On retire les points atypiques dans une nouvelle base pour faire une double analyse par la suite
 base_sans_outliers <- base %>% filter(nb_publi < 3,
-                                                    pop_insee < 34117,
+                                                    population < 34117,
                                                     part_plus65 < 56.8,
                                                     nb_crea_entps < 827,
                                                     part_diplomes < 21.7,
@@ -292,20 +303,20 @@ shapiro.test(base_sans_outliers$percent_pop_rurale)  #à 5% mais pas 10%
 
   # Matrice de corrélation de Spearman car variables ne suivent pas toutes une loi normale (on exclu les Y)
 library(corrplot)
-cor1 <- cor(base_sans_outliers[,c("nb_publi","taux_chomage","primaire_VA","secondaire_VA","tertiaire_marchand_VA","tertiaire_non_mar_VA", "part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","pop_insee","age_chef","PIB_habitant","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")], use="complete.obs", method=c("spearman"))
+cor1 <- cor(base_sans_outliers[,c("nb_publi","taux_chomage","primaire_VA","secondaire_VA","tertiaire_marchand_VA","tertiaire_non_mar_VA", "part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","population","age_chef","PIB_habitant","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")], use="complete.obs", method=c("spearman"))
 col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
 corrplot(cor1, method="color", col=col(200), 
              type="upper",
              addCoef.col = "black")
 # corrélations moyennes (0.5<x<0.6) :
     # - taux_chomage et depenses_hab
-    # - primaire_VA et part_etudiants/pop_insee/age_chef/nb_etudiants
+    # - primaire_VA et part_etudiants/population/age_chef/nb_etudiants
     # - secondaire_VA et part_diplomes
     # - tertiaire_marchand_VA et nb_nuitees_hotels
     # - tertiaire_non_mar_VA et depenses_hab
     # - part_plus65 et age_chef
     # - part_diplomes et part_etudiants/nb_etudiants
-    # - percent_pop_rurale et pop_insee/nb_etudiants
+    # - percent_pop_rurale et population/nb_etudiants
     # - PIB_habitant et nb_crea_entps/nb_nuitees_hotels
 # corrélations fortes (x≥0.6) :
     # - taux_chomage et tertaire_non_mar_VA/percent_pop_rurale/niveau_vie
@@ -315,9 +326,9 @@ corrplot(cor1, method="color", col=col(200),
     # - tertaire_non_mar_VA et PIB_habitant/niveau_vie
     # - part_diplomes et depenses_hab/PIb_habitant/nb_crea_entps/nb_nuitees_hotels
     # - depenses_hab et PIB_habitant/niveau_vie
-    # - part_etudiants et pop_insee/age_chef/nb_crea_entps/nb_nuitees_hotels/nb_etudiants
+    # - part_etudiants et population/age_chef/nb_crea_entps/nb_nuitees_hotels/nb_etudiants
     # - percent_pop_rurale et nb_crea_entps/nb_nuitees_hotels
-    # - pop_insee et nb_crea_entps/nb_nuitees_hotels/nb_etudiants
+    # - population et nb_crea_entps/nb_nuitees_hotels/nb_etudiants
     # - PIB_habitant et niveau_vie
     # - nb_crea_entps et nb_nuitees_hotels/nb_etudiants
     # - nb_nuitees_hotels et nb_etudiants
@@ -410,18 +421,18 @@ inspect_cat(base_sans_outliers[,c(3,7,9,24,25)]) %>% show_plot(high_cardinality 
 
 # CSP_chef avec les autres qualis
 chisq.test(base_sans_outliers$CSP_chef, base_sans_outliers$ouvre_data)
-chisq.test(base_sans_outliers$CSP_chef, base_sans_outliers$niveau_rural_mode)
-chisq.test(base_sans_outliers$CSP_chef, base_sans_outliers$niveau_rural_insee)
+chisq.test(base_sans_outliers$CSP_chef, base_sans_outliers$niveau_rural)
+chisq.test(base_sans_outliers$CSP_chef, base_sans_outliers$niveau_densite)
 chisq.test(base_sans_outliers$CSP_chef, base_sans_outliers$flux_migration_res)
 chisq.test(base_sans_outliers$CSP_chef, base_sans_outliers$partis_po_chef)
 
 # Ouvre_data avec les autres qualis
-chisq.test(base_sans_outliers$ouvre_data, base_sans_outliers$niveau_rural_mode)
-chisq.test(base_sans_outliers$ouvre_data, base_sans_outliers$niveau_rural_insee)
+chisq.test(base_sans_outliers$ouvre_data, base_sans_outliers$niveau_rural)
+chisq.test(base_sans_outliers$ouvre_data, base_sans_outliers$niveau_densite)
 chisq.test(base_sans_outliers$ouvre_data, base_sans_outliers$flux_migration_res)
 chisq.test(base_sans_outliers$ouvre_data, base_sans_outliers$partis_po_chef)
 
-vbles_quali <- c("ouvre_data","niveau_rural_mode","niveau_rural_insee","flux_migration_res","nom","partis_po_chef","CSP_chef")
+vbles_quali <- c("ouvre_data","niveau_rural","niveau_densite","flux_migration_res","nom","partis_po_chef","CSP_chef")
 
 
 
@@ -464,7 +475,7 @@ fviz_eig(res.pca,main="Pourcentage expliqué par chaque facteur")
 
 
 ggplot(data = base, mapping=aes(type, nb_publi)) + 
-  geom_point(mapping=aes(pop_insee, nb_publi), size=3) + 
+  geom_point(mapping=aes(population, nb_publi), size=3) + 
   geom_quantile(quantiles=0.5, size=1, colour="red") +
   labs(title="Relation entre le nombre de publications et le nombre d'habitants",
        y="Nombre de publications open data", x="") +
@@ -612,7 +623,7 @@ library(rpart.plot)
 ctrl=rpart.control(cp=0.01, xval=5, maxdepth=3)
 
 # Fit Theatre
-rpart_thea <- rpart(nb_publi ~ CSP_chef+flux_migration_res+niveau_rural_mode+niveau_rural_insee+taux_chomage+primaire_VA+secondaire_VA+tertiaire_marchand_VA+tertiaire_non_mar_VA+part_plus65+part_diplomes+depenses_hab+part_etudiants+percent_pop_rurale+pop_insee+age_chef+PIB_habitant+niveau_vie+nb_crea_entps+nb_nuitees_hotels+nb_etudiants, data = base_sans_outliers, method="anova")
+rpart_thea <- rpart(nb_publi ~ CSP_chef+flux_migration_res+niveau_rural+niveau_densite+taux_chomage+primaire_VA+secondaire_VA+tertiaire_marchand_VA+tertiaire_non_mar_VA+part_plus65+part_diplomes+depenses_hab+part_etudiants+percent_pop_rurale+population+age_chef+PIB_habitant+niveau_vie+nb_crea_entps+nb_nuitees_hotels+nb_etudiants, data = base_sans_outliers, method="anova")
 summary(rpart_thea)
 # Plot
 rpart.plot(rpart_thea, box.palette = "Blues")
@@ -671,8 +682,8 @@ NA_epci <- as.data.frame(apply(is.na(epci), 2, sum)) %>% rename(nb_NA = `apply(i
 
 
 #------------------
-test <- epci[,c("nom","pop_insee","partis_po_chef")] %>% filter(stringr::str_detect(nom, "Métropole"))
-test <- test %>% distinct(c("nom","pop_insee"))
+test <- epci[,c("nom","population","partis_po_chef")] %>% filter(stringr::str_detect(nom, "Métropole"))
+test <- test %>% distinct(c("nom","population"))
 
 
 
@@ -718,7 +729,7 @@ summary(modele.both)
   # Boxplots
 library(rAmCharts)  # ATTENTION : individual = n° d'obs, est différent de "number of outliers" 
 amBoxplot(base$nb_publi, xlab=" ", ylab=" ", main="Nombre de données publiées (local ou datagouv)") #1 outlier
-amBoxplot(base$pop_insee, xlab=" ", ylab=" ", main="Population") 
+amBoxplot(base$population, xlab=" ", ylab=" ", main="Population") 
 amBoxplot(base$age_chef, xlab=" ", ylab=" ", main="Âge du chef de l'exécutif")
 amBoxplot(base$taux_chomage, xlab=" ", ylab=" ", main="Taux de chômage") #3
 amBoxplot(base$PIB_habitant, xlab=" ", ylab=" ", main="PIB par habitant")  #6
