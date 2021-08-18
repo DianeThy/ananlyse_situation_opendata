@@ -162,72 +162,75 @@ inspect_cat(departements[,c("ouvre_data","code_region","niveau_rural","niveau_de
 #----------------------- Points atypiques 
 
 
-ggplot(departements, aes(x=nb_publi, y=frequency(nb_publi))) + #10 potentiels outliers 
+g1 <- ggplot(departements, aes(x=nb_publi, y=frequency(nb_publi))) + #10 potentiels outliers 
   labs(title="Distribution et box du nombre de publications open data", x="Nombe de publications", y="Fréquence") +
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
     theme_minimal()
-ggplot(departements, aes(x=taux_chomage, y=frequency(taux_chomage))) +  #1
+g2 <- ggplot(departements, aes(x=taux_chomage, y=frequency(taux_chomage))) +  #1
   labs(title="Distribution et box du taux de chômage", x="Taux de chômage", y="Fréquence") +
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
     theme_minimal()
-ggplot(departements, aes(x=part_plus65, y=frequency(part_plus65))) +  
+g3 <- ggplot(departements, aes(x=part_plus65, y=frequency(part_plus65))) +  
   labs(title="Distribution et box de la part des plus de 65 ans", x="Part des plus de 65 ans", y="Fréquence") +
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
     theme_minimal()
-ggplot(departements, aes(x=part_diplomes, y=frequency(part_diplomes))) +  #6
+g4 <- ggplot(departements, aes(x=part_diplomes, y=frequency(part_diplomes))) +  #6
   labs(title="Distribution et box de la part des diplômés dans la population", x="Part des diplômés", y="Fréquence") +
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
     theme_minimal()
-ggplot(departements, aes(x=depenses_hab, y=frequency(depenses_hab))) +  #3
+g5 <- ggplot(departements, aes(x=depenses_hab, y=frequency(depenses_hab))) +  #3
   labs(title="Distribution et box des dépenses par habitant", x="Dépenses par habitant", y="Fréquence") +
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
     theme_minimal()
-ggplot(departements, aes(x=part_etudiants, y=frequency(part_etudiants))) +  #2
-  labs(title="Distribution et box de la part des étudiants dans la population", x="Part des étudiants", y="Fréquence") +
+g6 <- ggplot(departements, aes(x=part_etudiants, y=frequency(part_etudiants))) +  #2
+  labs(title="Distribution et box de la part des étudiants", x="Part des étudiants", y="Fréquence") +
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
     theme_minimal()
-ggplot(departements, aes(x=nb_etudiants, y=frequency(nb_etudiants))) +  #8
+g7 <- ggplot(departements, aes(x=nb_etudiants, y=frequency(nb_etudiants))) +  #8
   labs(title="Distribution et box du nombre d'étudiants", x="Nombre d'étudiants", y="Fréquence") +
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
     theme_minimal()
-ggplot(departements, aes(x=percent_pop_rurale, y=frequency(percent_pop_rurale))) +  
-  labs(title="Distribution et box de la part de le population vivant en zone rurale", x="Part de population", y="Fréquence") +
+g8 <- ggplot(departements, aes(x=percent_pop_rurale, y=frequency(percent_pop_rurale))) +  
+  labs(title="Distribution et box de la part de le pop rurale", x="Part de population", y="Fréquence") +
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
     theme_minimal()
-ggplot(departements, aes(x=population, y=frequency(population))) +  #3
+g9 <- ggplot(departements, aes(x=population, y=frequency(population))) +  #3
   labs(title="Distribution et box du nombre d'habitants", x="Nombre d'habitants", y="Fréquence") +
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
     theme_minimal()
-ggplot(departements, aes(x=age_chef, y=frequency(age_chef))) +  
+g10 <- ggplot(departements, aes(x=age_chef, y=frequency(age_chef))) +  
   labs(title="Distribution et box de l'âge du chef de l'exécutif", x="Âge du chef", y="Fréquence") +
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
     theme_minimal()
-ggplot(departements, aes(x=niveau_vie, y=frequency(niveau_vie))) +  #5
+g11 <- ggplot(departements, aes(x=niveau_vie, y=frequency(niveau_vie))) +  #5
   labs(title="Distribution et box de la médiane du niveau de vie", x="Médiane du niveau de vie", y="Fréquence") +
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
     theme_minimal()
-ggplot(departements, aes(x=nb_crea_entps, y=frequency(nb_crea_entps))) +  #? 
-  labs(title="Distribution et box du nombre de créations d'entreprises", x="Créations d'entreprises", y="Fréquence") +
+g12 <- ggplot(departements, aes(x=nb_crea_entps, y=frequency(nb_crea_entps))) +  #? 
+  labs(title="Distribution et box des créations d'entreprises", x="Créations d'entreprises", y="Fréquence") +
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
     theme_minimal()
 ggplot(departements, aes(x=nb_nuitees_hotels, y=frequency(nb_nuitees_hotels))) +  #6
-  labs(title="Distribution et box du nombre de nuitées recensées dans des hôtels de tourisme", x="Nombre de nuitées", y="Fréquence") +
+  labs(title="Distribution et box du nombre de nuitées", x="Nombre de nuitées", y="Fréquence") +
   geom_violin(trim=FALSE, fill = "#CCCCCC") +
   geom_boxplot(width=0.1) + 
     theme_minimal()
 
+library(gridExtra)
+grid.arrange(g1, g2, g3, g4, ncol=2, nrow = 2)
+grid.arrange(g5, g6, g7, g8, g9, g10, g11, g12, g13, ncol=3, nrow = 3)
 
 # Pour savoir le nombre de points potentiellement atypiques sur le violin plot pour nb_crea_entps
   #on compte le nombre d'observations supérieures au 9è decile
@@ -265,8 +268,8 @@ rosnerTest(departements$nb_nuitees_hotels, k = 6, alpha = 0.05) #outlier quand n
 
 # Dans une nouvelle base on retire les observations atypiques
 departements_sans_outliers <- departements %>% filter(nb_publi < 88,
-                                                      taux_chomage < 13.8,
-                                                      part_diplomes < 15.7,
+                                                      taux_chomage < 12.5,
+                                                      part_diplomes < 16.7,
                                                       depenses_hab < 1770.413,
                                                       part_etudiants < 16.5,
                                                       nb_etudiants < 98938,
@@ -275,19 +278,19 @@ departements_sans_outliers <- departements %>% filter(nb_publi < 88,
                                                       nb_crea_entps < 32480,
                                                       nb_nuitees_hotels < 6724)
 
-nrow(departements)-nrow(departements_sans_outliers) #21 obs perdues
-outliers <- anti_join(departements, departements_sans_outliers)  # dep d'Ile de France x4, Pays de la Loire x3, Occitanie x3 etc
+nrow(departements)-nrow(departements_sans_outliers) #22 obs perdues
+outliers <- anti_join(departements, departements_sans_outliers)  # dep d'Ile de France x6, Pays de la Loire x3, Occitanie x3 etc
 View(outliers)
 
 
 
-#----------------------- Distributions avec et sans outliers
+#----------------------- Distributions
 
 
 # Variable à expliquer
 par(mfrow=c(1,2))
-hist(departements$nb_publi, prob=T, ylim=c(0, 0.07), 
-     xlab="Avec outliers", ylab="Densité", main="Nombre de publications open data")
+hist(departements$nb_publi, prob=T, ylim=c(0, 0.025), col = "#CCCCCC", main = "",
+     xlab="nombre de publications open data", ylab="densité")
 lines(density(departements$nb_publi), col="red", lwd=2)
 curve(dnorm(x, mean=mean(departements$nb_publi), sd=sd(departements$nb_publi)),col="#0033CC", lwd=2, add=TRUE, yaxt="n")
 hist(departements_sans_outliers$nb_publi, prob=T, ylim=c(0, 0.07), 
@@ -301,34 +304,50 @@ curve(dnorm(x, mean=mean(departements_sans_outliers$nb_publi), sd=sd(departement
 library(RColorBrewer)
 
 par(mfrow=c(4,2))
-hist(departements$taux_chomage, main="Taux de chômage", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Greens"), ylim = c(0,29))
-hist(departements_sans_outliers$taux_chomage, main="Taux de chômage", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 7, name = "Greens"), ylim = c(0,29))
-hist(departements$part_plus65, main="Part des plus de 65 ans", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "PuRd"), ylim = c(0,25))
-hist(departements_sans_outliers$part_plus65, main="Part des plus de 65 ans", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "PuRd"), ylim = c(0,25))
-hist(departements$part_diplomes, main="Part des diplômés", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Blues"), ylim = c(0,65))
-hist(departements_sans_outliers$part_diplomes, main="Part des diplômés", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Blues"), ylim = c(0,65))
-hist(departements$depenses_hab, main="Dépenses par habitant", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Reds"), ylim = c(0,65))
-hist(departements_sans_outliers$depenses_hab, main="Dépenses par habitant", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Reds"), ylim = c(0,65))
+hist(departements$taux_chomage, main="Taux de chômage", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Greens"), xlim = c(4,13))
+hist(departements_sans_outliers$taux_chomage, main="Taux de chômage", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n =9, name = "Greens"), xlim = c(4,13))
+hist(departements$part_plus65, main="Part des plus de 65 ans", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "PuRd"), xlim = c(10,32))
+hist(departements_sans_outliers$part_plus65, main="Part des plus de 65 ans", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "PuRd"), xlim = c(10,32))
+hist(departements$part_diplomes, main="Part des diplômés", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Blues"), xlim = c(0,40))
+hist(departements_sans_outliers$part_diplomes, main="Part des diplômés", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Blues"), xlim = c(0,40))
+hist(departements$depenses_hab, main="Dépenses par habitant", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Reds"), xlim = c(500,4000))
+hist(departements_sans_outliers$depenses_hab, main="Dépenses par habitant", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Reds"), xlim = c(500,4000))
 
 par(mfrow=c(4,2))
-hist(departements$part_etudiants, main="Part des étudiants", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Greens"), ylim = c(0,80))
-hist(departements_sans_outliers$part_etudiants, main="Part des étudiants", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 7, name = "Greens"), ylim = c(0,80))
-hist(departements$nb_etudiants, main="Nombre d'étudiants", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 4, name = "PuRd"), ylim = c(0,80))
-hist(departements_sans_outliers$nb_etudiants, main="Nombre d'étudiants", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 7, name = "PuRd"), ylim = c(0,80))
-hist(departements$percent_pop_rurale, main="Pourcentage de population rurale", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Blues"), ylim = c(0,20))
-hist(departements_sans_outliers$percent_pop_rurale, main="Pourcentage de population rurale", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Blues"), ylim = c(0,20))
-hist(departements$population, main="Nombre d'habitants", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 6, name = "Reds"), ylim = c(0,50))
-hist(departements_sans_outliers$population, main="Nombre d'habitants", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Reds"), ylim = c(0,50))
+hist(departements$part_etudiants, main="Part des étudiants", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Greens"), xlim = c(0,40))
+hist(departements_sans_outliers$part_etudiants, main="Part des étudiants", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 7, name = "Greens"), xlim = c(0,40))
+hist(departements$nb_etudiants, main="Nombre d'étudiants", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 4, name = "PuRd"), xlim = c(0, 400000))
+hist(departements_sans_outliers$nb_etudiants, main="Nombre d'étudiants", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 7, name = "PuRd"), xlim = c(0, 400000))
+hist(departements$percent_pop_rurale, main="Pourcentage de population rurale", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Blues"), xlim = c(0, 90))
+hist(departements_sans_outliers$percent_pop_rurale, main="Pourcentage de population rurale", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Blues"), xlim = c(0,90))
+hist(departements$population, main="Nombre d'habitants", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 6, name = "Reds"), xlim = c(0,3000000))
+hist(departements_sans_outliers$population, main="Nombre d'habitants", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Reds"), xlim = c(0,3000000))
 
 par(mfrow=c(4,2))
-hist(departements$age_chef, main="Âge du chef", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Greens"), ylim = c(0,20))
-hist(departements_sans_outliers$age_chef, main="Âge du chef", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Greens"), ylim = c(0,20))
-hist(departements$niveau_vie, main="Niveau de vie", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "PuRd"), ylim = c(0,40))
-hist(departements_sans_outliers$niveau_vie, main="Niveau de vie", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "PuRd"), ylim = c(0,40))
-hist(departements$nb_crea_entps, main="Créations d'entreprises", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Blues"), ylim = c(0,80))
-hist(departements_sans_outliers$nb_crea_entps, main="Créations d'entreprises", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Blues"), ylim = c(0,80))
-hist(departements$nb_nuitees_hotels, main="Nombre de nuitées en hotels", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 6, name = "Reds"), ylim = c(0,90))
-hist(departements_sans_outliers$nb_nuitees_hotels, main="Nombre de nuitées en hotels", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Reds"), ylim = c(0,90))
+hist(departements$age_chef, main="Âge du chef", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Greens"), xlim = c(40,86))
+hist(departements_sans_outliers$age_chef, main="Âge du chef", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Greens"), xlim = c(40,86))
+hist(departements$niveau_vie, main="Niveau de vie", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "PuRd"), xlim = c(16000,29000))
+hist(departements_sans_outliers$niveau_vie, main="Niveau de vie", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "PuRd"), xlim = c(16000,29000))
+hist(departements$nb_crea_entps, main="Créations d'entreprises", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Blues"), xlim = c(0,80000))
+hist(departements_sans_outliers$nb_crea_entps, main="Créations d'entreprises", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Blues"), xlim = c(0,80000))
+hist(departements$nb_nuitees_hotels, main="Nombre de nuitées en hotels", xlab="Avec outliers", ylab="Fréquences", col=brewer.pal(n = 6, name = "Reds"), xlim = c(0,40000))
+hist(departements_sans_outliers$nb_nuitees_hotels, main="Nombre de nuitées en hotels", xlab="Sans outliers", ylab="Fréquences", col=brewer.pal(n = 9, name = "Reds"), xlim = c(0,40000))
+
+
+# Test de Spearman pour les données sans outliers
+shapiro.test(departements_sans_outliers$nb_publi) # pas normal
+shapiro.test(departements_sans_outliers$taux_chomage)  # normal à 5%
+shapiro.test(departements_sans_outliers$nb_crea_entps)  # pas normal
+shapiro.test(departements_sans_outliers$part_plus65)  #normal
+shapiro.test(departements_sans_outliers$part_diplomes)  # pas normal
+shapiro.test(departements_sans_outliers$depenses_hab)  #normal
+shapiro.test(departements_sans_outliers$part_etudiants)  # pas normal
+shapiro.test(departements_sans_outliers$percent_pop_rurale)  #à 5% mais pas 10%
+shapiro.test(departements_sans_outliers$nb_nuitees_hotels)  # pas normal
+shapiro.test(departements_sans_outliers$niveau_vie)  #à 5% mais pas 10%
+shapiro.test(departements_sans_outliers$population)  # pas normal
+shapiro.test(departements_sans_outliers$nb_etudiants)  # pas normal
+shapiro.test(departements_sans_outliers$age_chef)  # pas normal
 
 
 
@@ -338,56 +357,40 @@ hist(departements_sans_outliers$nb_nuitees_hotels, main="Nombre de nuitées en h
 
 # Corrélations (matrice de Spearman pour non loi normale) des variables quantis
 library(corrplot)
-cor1 <- cor(departements[,c("nb_publi","taux_chomage","part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","population","age_chef","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")], use="complete.obs", method=c("spearman"))
+cor1 <- cor(departements_sans_outliers[,c("nb_publi","taux_chomage","part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","population","age_chef","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")], use="complete.obs", method=c("spearman"))
 col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
 corrplot(cor1, method="color", col=col(200), 
              type="upper",
              addCoef.col = "black")
-#corrplot(cor1, type="upper", order="hclust", tl.col="black", tl.srt=45, addCoef.col = "black")
-
-      # corrélations moyennes (0.5<x<0.6) :
-          # - taux_chomage et niveau_vie
-          # - part_plus65 et niveau_vie/nb_crea_entps/nb_etudiants
-          # - part_diplomes et population/nb_etudiants
-          # - depenses_hab et nb_crea_entps/nb_etudiants
-          # - part_etudiants et nb_crea_entps
-          # - niveau_vie et nb_nuitees_hotels
-      # corrélations fortes (x≥0.6) :
-          # - part_plus65 et depenses_hab/percent_pop_rurale/population
-          # - part_diplomes et part_etudiants/percent_pop_rurale/niveau_vie/nb_crea_entps/nb_nuitees_hotels/nb_etudiants
-          # - depenses_hab et population/niveau_vie
-          # - part_etudiants et percent_pop_rurale/nb_nuitees_hotels/nb_etudiants
-          # - percent_pop_rurale et population/nb_crea_entps/nb_nuitees_hotels/nb_etudiants
-          # - population et nb_crea_entps/nb_nuitees_hotels/nb_etudiants
-          # - nb_crea_entps et nb_nuitees_hotels/nb_etudiants
-          # - nb_nuitees_hotels et nb_etudiants
+      # 10 corrélations moyennes (0.5<x=<0.6) :
+      # 24 corrélations fortes (x>0.6) :
 
 
 # Dépendances des variables qualis
 # ouvre_data avec les autres qualis
-chisq.test(departements$ouvre_data, departements$niveau_rural) # dépendant 
-chisq.test(departements$ouvre_data, departements$niveau_densite) # dépendant à +/- 10%
-chisq.test(departements$ouvre_data, departements$flux_migration_res) #indépendant
-chisq.test(departements$ouvre_data, departements$partis_po_chef) #indépendant
-chisq.test(departements$ouvre_data, departements$CSP_chef) #indépendant
+chisq.test(departements_sans_outliers$ouvre_data, departements_sans_outliers$niveau_rural) # dépendant 
+chisq.test(departements_sans_outliers$ouvre_data, departements_sans_outliers$niveau_densite) # dépendant à +/- 10%
+chisq.test(departements_sans_outliers$ouvre_data, departements_sans_outliers$flux_migration_res) #indépendant
+chisq.test(departements_sans_outliers$ouvre_data, departements_sans_outliers$partis_po_chef) #indépendant
+chisq.test(departements_sans_outliers$ouvre_data, departements_sans_outliers$CSP_chef) #indépendant
 
 # niveau_rural
-chisq.test(departements$niveau_rural, departements$niveau_densite) # dépendant
-chisq.test(departements$niveau_rural, departements$flux_migration_res) # dépendant
-chisq.test(departements$niveau_rural, departements$partis_po_chef) #indépendant
-chisq.test(departements$niveau_rural, departements$CSP_chef) #indépendant
+chisq.test(departements_sans_outliers$niveau_rural, departements_sans_outliers$niveau_densite) # dépendant
+chisq.test(departements_sans_outliers$niveau_rural, departements_sans_outliers$flux_migration_res) # dépendant
+chisq.test(departements_sans_outliers$niveau_rural, departements_sans_outliers$partis_po_chef) #indépendant
+chisq.test(departements_sans_outliers$niveau_rural, departements_sans_outliers$CSP_chef) #indépendant
 
 # niveau_densite
-chisq.test(departements$niveau_densite, departements$flux_migration_res) # dépendant
-chisq.test(departements$niveau_densite, departements$partis_po_chef) #indépendant
-chisq.test(departements$niveau_densite, departements$CSP_chef) #indépendant
+chisq.test(departements_sans_outliers$niveau_densite, departements_sans_outliers$flux_migration_res) # dépendant
+chisq.test(departements_sans_outliers$niveau_densite, departements_sans_outliers$partis_po_chef) #indépendant
+chisq.test(departements_sans_outliers$niveau_densite, departements_sans_outliers$CSP_chef) #indépendant
 
 # flux_migration_res
-chisq.test(departements$flux_migration_res, departements$partis_po_chef) #indépendant
-chisq.test(departements$flux_migration_res, departements$CSP_chef) #indépendant
+chisq.test(departements_sans_outliers$flux_migration_res, departements_sans_outliers$partis_po_chef) #indépendant
+chisq.test(departements_sans_outliers$flux_migration_res, departements_sans_outliers$CSP_chef) #indépendant
 
 # partis_po_chef
-chisq.test(departements$partis_po_chef, departements$CSP_chef) #indépendant
+chisq.test(departements_sans_outliers$partis_po_chef, departements_sans_outliers$CSP_chef) #indépendant
 
 
 
@@ -410,24 +413,26 @@ library(caret)
 library(rpart.plot)
 library(randomForest)
 
-# On définit les paramètres de contrôle
-ctrl=rpart.control(cp=0.01, xval=5, maxdepth=3, minsplit = 5)
-#tuneRF(x=departements, y = departements$nb_publi, mtryStart=3, ntreeTry = 500, stepFactor = 2, improve=0.001)  #mtry=31
-
 # Arbre
-arbre_nb.publi <- rpart(nb_publi ~ taux_chomage+CSP_chef+niveau_rural+niveau_densite+part_plus65+part_diplomes+depenses_hab+part_etudiants+percent_pop_rurale+population+age_chef+niveau_vie+nb_crea_entps+nb_nuitees_hotels+nb_etudiants+partis_po_chef, data = departements, method="anova", control = )
+arbre_nb.publi <- rpart(nb_publi ~ taux_chomage+CSP_chef+niveau_rural+niveau_densite+part_plus65+part_diplomes+depenses_hab+part_etudiants+percent_pop_rurale+population+age_chef+niveau_vie+nb_crea_entps+nb_nuitees_hotels+nb_etudiants+partis_po_chef, data = departements_sans_outliers, method="anova")
 summary(arbre_nb.publi)
 # Plot
 rpart.plot(arbre_nb.publi, box.palette = "Blues")
 
-# Même chose mais sans outliers qui peut fausser les répartitions
-arbre_nb.publi2 <- rpart(nb_publi ~ taux_chomage+CSP_chef+niveau_rural+niveau_densite+part_plus65+part_diplomes+depenses_hab+part_etudiants+percent_pop_rurale+population+age_chef+niveau_vie+nb_crea_entps+nb_nuitees_hotels+nb_etudiants+partis_po_chef, data = departements_sans_outliers, method="anova")
+# Même chose mais avec les outliers pour voir les résultats
+arbre_nb.publi2 <- rpart(nb_publi ~ taux_chomage+CSP_chef+niveau_rural+niveau_densite+part_plus65+part_diplomes+depenses_hab+part_etudiants+percent_pop_rurale+population+age_chef+niveau_vie+nb_crea_entps+nb_nuitees_hotels+nb_etudiants+partis_po_chef, data = departements, method="anova")
 summary(arbre_nb.publi2)
-rpart.plot(arbre_nb.publi2, box.palette = "Reds")
+rpart.plot(arbre_nb.publi2, box.palette = "Blues")
 
 
 
 #----------------------- ACP 
+
+
+# On change l'indice pour avoir les numéros de départements sur la projection des individus 
+infos_dep
+departements_sans_outliers <- left_join(departements_sans_outliers, infos_dep[,c(1,3)], by = "nom")
+rownames(departements_sans_outliers) <- departements_sans_outliers$COG
 
 
 library(FactoMineR)
@@ -437,12 +442,7 @@ res.pca_Y = PCA(departements_sans_outliers[,c("nb_publi","taux_chomage","part_pl
 fviz_pca_var(res.pca_Y, col.var = "cos2",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
              repel = TRUE)
-fviz_pca_var(res.pca_Y, col.var = "cos2", axes = c(1,3),
-             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-             repel = TRUE)
-fviz_pca_var(res.pca_Y, col.var = "cos2", axes = c(2,3),
-             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-             repel = TRUE)
+
 
   # inertie de chaque axe fictif : % de la variance
 round(res.pca_Y$eig,2)
@@ -461,20 +461,14 @@ corrplot(res.pca_Y$var$cor, is.corr=FALSE, method="circle", tl.srt=45, tl.col="#
 fviz_pca_ind(res.pca_Y, col.ind = "cos2",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
              repel = T) #noyau dur : bcp de dep avec peu d'attractivité (gauche du graph) et qualité de vie  autour de 0
-fviz_pca_ind(res.pca_Y, col.ind = "cos2", axes = c(1,3),
-             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-             repel = T) 
-fviz_pca_ind(res.pca_Y, col.ind = "cos2", axes = c(2,3),
-             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-             repel = T) 
-
+  # biplot : variables et individus
 fviz_pca_biplot(res.pca_Y, repel = TRUE,
                 col.var = "#2E9FDF",
                 col.ind = "red"
                 )
 
 # Projections des individus colorés en fonction du nombre de jeux ouverts
-fviz_pca_ind(res.pca_Y, col.ind = departements_sans_outliers$nb_publi,
+fviz_pca_ind(res.pca_Y, col.ind = departements_sans_outliers$nb_publi, 
              gradient.cols = c("#FFCC00", "#FC4E07"),
              repel = T)
 
@@ -484,7 +478,10 @@ fviz_pca_ind(res.pca_Y, col.ind = departements_sans_outliers$nb_publi,
 
 
   # plot
-res.mca <- MCA(departements_sans_outliers[,c("niveau_rural","niveau_densite","partis_po_chef","CSP_chef")])
+res.mca <- MCA(departements_sans_outliers[,c("ouvre_data","niveau_rural","niveau_densite","partis_po_chef","CSP_chef")], quali.sup=1)
+fviz_pca_var(res.mca, col.var = "cos2",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE)
   # projection des variables
 fviz_mca_var(res.mca, axe=c(1,2), invisible="ind",cex=0.8,autoLab="yes", jitter = list(what = "label", width = NULL, height = NULL))
   # projection des modalités
@@ -543,7 +540,7 @@ dep_tri <- departements[departements$flux_migration_res %in%  names(table(depart
 t3_bis=tapply(dep_tri$nb_publi, dep_tri$flux_migration_res, mean) %>% sort()
 
 table(dep_tri$flux_migration_res)
-barplot(t3_bis, horiz=TRUE, xlim=c(0,60), legend.text = TRUE, args.legend = list(x = "bottomright", inset = c(.02, .05), legend = c("Bouches du Rhônes","Haute Garonne","Marne")), main="Top 9 des départements avec le plus grand nombre de jeux ouverts moyen, 
+barplot(t3_bis, horiz=TRUE, xlim=c(0,60), legend.text = TRUE, args.legend = list(x = "bottomright", inset = c(.02, .05), legend = c("Bouches du Rhône","Haute Garonne","Marne")), main="Top 9 des départements avec le plus grand nombre de jeux ouverts moyen, 
         selon le principal flux de migration résidentiel", col=brewer.pal(n = 5, name = "Greys"), cex.names=1, cex.main=1, col.main="black")
 
 
@@ -684,385 +681,142 @@ ggplotly(ggp3, tooltip=c("text"))
 
 
 
-#----------------------- Nuages de points
-
-
-ggplot(data = departements, mapping=aes(taux_chomage, nb_publi)) + 
-  geom_point(mapping=aes(taux_chomage, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(part_plus65, nb_publi)) + 
-  geom_point(mapping=aes(part_plus65, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(part_diplomes, nb_publi)) + 
-  geom_point(mapping=aes(part_diplomes, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(depenses_hab, nb_publi)) + 
-  geom_point(mapping=aes(depenses_hab, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(part_etudiants, nb_publi)) + 
-  geom_point(mapping=aes(part_etudiants, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(nb_etudiants, nb_publi)) + 
-  geom_point(mapping=aes(nb_etudiants, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(percent_pop_rurale, nb_publi)) + 
-  geom_point(mapping=aes(percent_pop_rurale, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(population, nb_publi)) + 
-  geom_point(mapping=aes(population, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(age_chef, nb_publi)) + 
-  geom_point(mapping=aes(age_chef, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(niveau_vie, nb_publi)) + 
-  geom_point(mapping=aes(niveau_vie, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(nb_crea_entps, nb_publi)) + 
-  geom_point(mapping=aes(nb_crea_entps, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(nb_nuitees_hotels, nb_publi)) + 
-  geom_point(mapping=aes(nb_nuitees_hotels, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-
-
-
-
-#----------------------- Identification de sous populations
-
-
-# On essaye en colorant avec les variables catégorielles existantes
-
-    # niveau_rural
-ggplot(data = departements, mapping=aes(taux_chomage, nb_publi, col=niveau_rural)) + 
-  geom_point(mapping=aes(taux_chomage, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(part_plus65, nb_publi, col=niveau_rural)) + 
-  geom_point(mapping=aes(part_plus65, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et la part des plus de 65 ans",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-    # niveau_densite
-ggplot(data = departements, mapping=aes(taux_chomage, nb_publi, col=niveau_densite)) + 
-  geom_point(mapping=aes(taux_chomage, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(part_plus65, nb_publi, col=niveau_densite)) + 
-  geom_point(mapping=aes(part_plus65, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et la part des plus de 65 ans",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-    # flux_migration_res
-ggplot(data = departements, mapping=aes(taux_chomage, nb_publi, col=flux_migration_res)) + 
-  geom_point(mapping=aes(taux_chomage, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(part_plus65, nb_publi, col=flux_migration_res)) + 
-  geom_point(mapping=aes(part_plus65, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et la part des plus de 65 ans",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-    # partis_po_chef
-ggplot(data = departements, mapping=aes(taux_chomage, nb_publi, col=partis_po_chef)) + 
-  geom_point(mapping=aes(taux_chomage, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(part_plus65, nb_publi, col=partis_po_chef)) + 
-  geom_point(mapping=aes(part_plus65, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et la part des plus de 65 ans",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-    # CSP_chef
-ggplot(data = departements, mapping=aes(taux_chomage, nb_publi, col=CSP_chef)) + 
-  geom_point(mapping=aes(taux_chomage, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(part_plus65, nb_publi, col=CSP_chef)) + 
-  geom_point(mapping=aes(part_plus65, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et la part des plus de 65 ans",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-
-
-# On créé des variables catégorielles à partir de l'analyse exploratoire pour les données avec et sans outliers
-# Données sans outliers
+# On créé des variables catégorielles à partir de l'analyse exploratoire
      #depuis ACP
 departements_sans_outliers$dynamisme <- res.pca_Y$ind$coord[,1]
 departements_sans_outliers$pauvrete <- res.pca_Y$ind$coord[,2]
-departements_sans_outliers$chef_age <- res.pca_Y$ind$coord[,3]
-     #depuis ACM
-departements_sans_outliers$faible_dynamisme <- res.mca$ind$coord[,1]
-departements_sans_outliers$dense <- res.mca$ind$coord[,2]
      #depuis CART
-departements_sans_outliers <- departements_sans_outliers %>% mutate(is_big_part_diplomes = case_when(part_diplomes >= 5.65 ~ 1,
+departements_sans_outliers <- departements_sans_outliers %>% mutate(is_5.7_part_diplomes = case_when(part_diplomes >= 5.65 ~ 1,
                                                                   part_diplomes < 5.65 ~ 0))
-departements_sans_outliers <- departements_sans_outliers %>% mutate(feuilles_CART = case_when(part_diplomes < 5.65 & (CSP_chef == 1 | CSP_chef == 3 | CSP_chef == 4 | CSP_chef == 8) ~ 1,
-                                                                  part_diplomes < 5.65 & (CSP_chef == 2 | CSP_chef == 5 | CSP_chef == 6 | CSP_chef == 7 | CSP_chef == 9) ~ 2,
-                                                                  part_diplomes >= 5.65 & nb_etudiants < 5571 & population < 663911.5 ~ 3,
-                                                                  part_diplomes >= 5.65 & nb_etudiants < 5571 & population >= 663911.5 ~ 4,
-                                                                  part_diplomes >= 5.65 & nb_etudiants >= 5571 ~ 5
-                                                                  ))
-
-
-# Données avec outliers
-     #depuis CART
-departements <- departements %>% mutate(is_big_nb_etu = case_when(nb_etudiants >= 56525 ~ 1,
-                                                                  nb_etudiants < 56525 ~ 0))
-departements <- departements %>% mutate(feuilles_CART = case_when(nb_etudiants >= 56525 ~ 4,
-                                                                  nb_etudiants < 56525 & depenses_hab >=1102 ~ 1,
-                                                                  nb_etudiants < 56525 & depenses_hab < 1102 & part_etudiants >=1.7 ~ 2,
-                                                                  nb_etudiants < 56525 & depenses_hab < 1102 & part_etudiants < 1.7 ~ 3
-                                                                  ))
-     #depuis violin plots
-departements <- departements %>% mutate(is_extreme = case_when(nb_publi < 88 & taux_chomage < 13.8 & part_diplomes < 15.7 & depenses_hab < 1770.413 & part_etudiants < 16.5 & nb_etudiants < 98938 & population < 2639070 & niveau_vie < 26600 & nb_crea_entps < 32480 & nb_nuitees_hotels < 6724 ~ 0,
-                                                               TRUE ~ 1))
 
 
 
-# on essaye les colorations des nuages de points
-    # dynamisme
-ggplot(data = departements, mapping=aes(taux_chomage, nb_publi, col=dynamisme)) + 
-  geom_point(mapping=aes(taux_chomage, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(part_plus65, nb_publi, col=dynamisme)) + 
-  geom_point(mapping=aes(part_plus65, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et la part des plus de 65 ans",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-    # inactivite
-ggplot(data = departements, mapping=aes(taux_chomage, nb_publi, col=inactivite)) + 
-  geom_point(mapping=aes(taux_chomage, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(part_plus65, nb_publi, col=inactivite)) + 
-  geom_point(mapping=aes(part_plus65, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et la part des plus de 65 ans",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-    # densite
-ggplot(data = departements, mapping=aes(taux_chomage, nb_publi, col=densite)) + 
-  geom_point(mapping=aes(taux_chomage, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(part_plus65, nb_publi, col=densite)) + 
-  geom_point(mapping=aes(part_plus65, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et la part des plus de 65 ans",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-    # vie_chill
-ggplot(data = departements, mapping=aes(taux_chomage, nb_publi, col=vie_chill)) + 
-  geom_point(mapping=aes(taux_chomage, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(part_plus65, nb_publi, col=vie_chill)) + 
-  geom_point(mapping=aes(part_plus65, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et la part des plus de 65 ans",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-    # is_big_nb_etu
-ggplot(data = departements, mapping=aes(taux_chomage, nb_publi, col=is_big_nb_etu)) + 
-  geom_point(mapping=aes(taux_chomage, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(part_plus65, nb_publi, col=is_big_nb_etu)) + 
-  geom_point(mapping=aes(part_plus65, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et la part des plus de 65 ans",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-    # feuilles_CART
-ggplot(data = departements, mapping=aes(taux_chomage, nb_publi, col=feuilles_CART)) + 
-  geom_point(mapping=aes(taux_chomage, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(part_plus65, nb_publi, col=feuilles_CART)) + 
-  geom_point(mapping=aes(part_plus65, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et la part des plus de 65 ans",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-    # is_extreme
-ggplot(data = departements, mapping=aes(taux_chomage, nb_publi, col=is_extreme)) + 
-  geom_point(mapping=aes(taux_chomage, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(part_plus65, nb_publi, col=is_extreme)) + 
-  geom_point(mapping=aes(part_plus65, nb_publi), size=3) + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et la part des plus de 65 ans",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
+
+#----------------------- Nuages de points colorés selon vbles catégorielles
 
 
+        # CSP_chef
+g1 <- ggplot(data = departements_sans_outliers, mapping=aes(taux_chomage, nb_publi, col=CSP_chef)) + 
+  geom_point(mapping=aes(taux_chomage, nb_publi), size=2) + 
+  geom_quantile(quantiles=0.5, size=1, colour="black") +
+  labs(title="",
+       y="Nombre de publications open data", x="Taux de chômage") +
+  theme_linedraw()
+g2 <- ggplot(data = departements_sans_outliers, mapping=aes(part_plus65, nb_publi, col=CSP_chef)) + 
+  geom_point(mapping=aes(part_plus65, nb_publi), size=2) + 
+  geom_quantile(quantiles=0.5, size=1, colour="black") +
+  labs(title="",
+       y="Nombre de publications open data", x="Part des plus de 65 ans") +
+  theme_linedraw()
+g3 <- ggplot(data = departements_sans_outliers, mapping=aes(part_diplomes, nb_publi, col=CSP_chef)) + 
+  geom_point(mapping=aes(part_diplomes, nb_publi), size=2) + 
+  geom_quantile(quantiles=0.5, size=1, colour="black") +
+  labs(title="",
+       y="Nombre de publications open data", x="Part des diplômés") +
+  theme_linedraw()
+g4 <- ggplot(data = departements_sans_outliers, mapping=aes(depenses_hab, nb_publi, col=CSP_chef)) + 
+  geom_point(mapping=aes(depenses_hab, nb_publi), size=2) + 
+  geom_quantile(quantiles=0.5, size=1, colour="black") +
+  labs(title="",
+       y="Nombre de publications open data", x="Dépenses par habitant") +
+  theme_linedraw()
+grid.arrange(g1, g2, g3, g4, ncol = 2, nrow = 2)
 
-# On essaye en parametrant la taille des points en fonction d'une quanti
+    # partis_po_chef
+g1 <- ggplot(data = departements_sans_outliers, mapping=aes(part_etudiants, nb_publi, col=partis_po_chef)) + 
+  geom_point(mapping=aes(part_etudiants, nb_publi), size=2) + 
+  geom_quantile(quantiles=0.5, size=1, colour="black") +
+  labs(title="",
+       y="Nombre de publications open data", x="Part des étudiants") +
+  theme_linedraw()
+g2 <- ggplot(data = departements_sans_outliers, mapping=aes(nb_etudiants, nb_publi, col=partis_po_chef)) + 
+  geom_point(mapping=aes(nb_etudiants, nb_publi), size=2) + 
+  geom_quantile(quantiles=0.5, size=1, colour="black") +
+  labs(title="",
+       y="Nombre de publications open data", x="Nombre d'étudiants") +
+  theme_linedraw()
+g3 <- ggplot(data = departements_sans_outliers, mapping=aes(percent_pop_rurale, nb_publi, col=partis_po_chef)) + 
+  geom_point(mapping=aes(percent_pop_rurale, nb_publi), size=2) + 
+  geom_quantile(quantiles=0.5, size=1, colour="black") +
+  labs(title="",
+       y="Nombre de publications open data", x="Pourcentage population rurale") +
+  theme_linedraw()
+g4 <- ggplot(data = departements_sans_outliers, mapping=aes(population, nb_publi, col=partis_po_chef)) + 
+  geom_point(mapping=aes(population, nb_publi), size=2) + 
+  geom_quantile(quantiles=0.5, size=1, colour="black") +
+  labs(title="",
+       y="Nombre de publications open data", x="Nombre d'habitants") +
+  theme_linedraw()
+grid.arrange(g1, g2, g3, g4, ncol = 2, nrow = 2)
 
-    # population
-ggplot(data = departements, mapping=aes(taux_chomage, nb_publi)) + 
-  geom_point(mapping=aes(taux_chomage, nb_publi, size=population), col="#666666") + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
+    # niveau_densite
+g1 <- ggplot(data = departements_sans_outliers, mapping=aes(age_chef, nb_publi, col=niveau_densite)) + 
+  geom_point(mapping=aes(age_chef, nb_publi), size=2) + 
+  geom_quantile(quantiles=0.5, size=1, colour="black") +
+  labs(title="",
+       y="Nombre de publications open data", x="Age du chef") +
   theme_linedraw()
-ggplot(data = departements, mapping=aes(part_plus65, nb_publi)) + 
-  geom_point(mapping=aes(part_plus65, nb_publi, size=population), col="#666666") + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et la part des plus de 65 ans",
-       y="Nombre de publications open data", x="") +
+g2 <- ggplot(data = departements_sans_outliers, mapping=aes(niveau_vie, nb_publi, col=niveau_densite)) + 
+  geom_point(mapping=aes(niveau_vie, nb_publi), size=2) + 
+  geom_quantile(quantiles=0.5, size=1, colour="black") +
+  labs(title="",
+       y="Nombre de publications open data", x="Médiane du niveau de vie") +
   theme_linedraw()
-    # nb_etudiants
-ggplot(data = departements, mapping=aes(taux_chomage, nb_publi)) + 
-  geom_point(mapping=aes(taux_chomage, nb_publi, size=nb_etudiants), col="#666666") + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
+g3 <- ggplot(data = departements_sans_outliers, mapping=aes(nb_crea_entps, nb_publi, col=niveau_densite)) + 
+  geom_point(mapping=aes(nb_crea_entps, nb_publi), size=2) + 
+  geom_quantile(quantiles=0.5, size=1, colour="black") +
+  labs(title="",
+       y="Nombre de publications open data", x="Créations d'entreprises") +
   theme_linedraw()
-ggplot(data = departements, mapping=aes(part_plus65, nb_publi)) + 
-  geom_point(mapping=aes(part_plus65, nb_publi, size=nb_etudiants), col="#666666") + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et la part des plus de 65 ans",
-       y="Nombre de publications open data", x="") +
+g4 <- ggplot(data = departements_sans_outliers, mapping=aes(nb_nuitees_hotels, nb_publi, col=niveau_densite)) + 
+  geom_point(mapping=aes(nb_nuitees_hotels, nb_publi), size=2) + 
+  geom_quantile(quantiles=0.5, size=1, colour="black") +
+  labs(title="",
+       y="Nombre de publications open data", x="Nombre de nuitées") +
   theme_linedraw()
-    # nb_crea_entps
-ggplot(data = departements, mapping=aes(taux_chomage, nb_publi)) + 
-  geom_point(mapping=aes(taux_chomage, nb_publi, size=nb_crea_entps), col="#666666") + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(part_plus65, nb_publi)) + 
-  geom_point(mapping=aes(part_plus65, nb_publi, size=nb_crea_entps), col="#666666") + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et la part des plus de 65 ans",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-    # age_chef
-ggplot(data = departements, mapping=aes(taux_chomage, nb_publi)) + 
-  geom_point(mapping=aes(taux_chomage, nb_publi, size=age_chef), col="#666666") + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(part_plus65, nb_publi)) + 
-  geom_point(mapping=aes(part_plus65, nb_publi, size=age_chef), col="#666666") + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et la part des plus de 65 ans",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-    # niveau_vie
-ggplot(data = departements, mapping=aes(taux_chomage, nb_publi)) + 
-  geom_point(mapping=aes(taux_chomage, nb_publi, size=niveau_vie), col="#666666") + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(part_plus65, nb_publi)) + 
-  geom_point(mapping=aes(part_plus65, nb_publi, size=niveau_vie), col="#666666") + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et la part des plus de 65 ans",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-    # part_diplomes
-ggplot(data = departements, mapping=aes(taux_chomage, nb_publi)) + 
-  geom_point(mapping=aes(taux_chomage, nb_publi, size=part_diplomes), col="#666666") + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(part_plus65, nb_publi)) + 
-  geom_point(mapping=aes(part_plus65, nb_publi, size=part_diplomes), col="#666666") + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et la part des plus de 65 ans",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-    # percent_pop_rurale
-ggplot(data = departements, mapping=aes(taux_chomage, nb_publi)) + 
-  geom_point(mapping=aes(taux_chomage, nb_publi, size=percent_pop_rurale), col="#666666") + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et le taux de chômage",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-ggplot(data = departements, mapping=aes(part_plus65, nb_publi)) + 
-  geom_point(mapping=aes(part_plus65, nb_publi, size=percent_pop_rurale), col="#666666") + 
-  geom_quantile(quantiles=0.5, size=1, colour="red") +
-  labs(title="Relation entre le nombre de publications et la part des plus de 65 ans",
-       y="Nombre de publications open data", x="") +
-  theme_linedraw()
-
-           
+grid.arrange(g1, g2, g3, g4, ncol = 2, nrow = 2)
 
 
+# Pour le rapport: 2 de chaque
+g1 <- ggplot(data = departements_sans_outliers, mapping=aes(taux_chomage, nb_publi, col=CSP_chef)) + 
+  geom_point(mapping=aes(taux_chomage, nb_publi), size=2) + 
+  geom_quantile(quantiles=0.5, size=1, colour="black") +
+  labs(title="",
+       y="Publications", x="Taux de chômage") +
+  theme_linedraw()
+g2 <- ggplot(data = departements_sans_outliers, mapping=aes(part_plus65, nb_publi, col=CSP_chef)) + 
+  geom_point(mapping=aes(part_plus65, nb_publi), size=2) + 
+  geom_quantile(quantiles=0.5, size=1, colour="black") +
+  labs(title="",
+       y="Publications", x="Part des plus de 65 ans") +
+  theme_linedraw()
+g3 <- ggplot(data = departements_sans_outliers, mapping=aes(percent_pop_rurale, nb_publi, col=partis_po_chef)) + 
+  geom_point(mapping=aes(percent_pop_rurale, nb_publi), size=2) + 
+  geom_quantile(quantiles=0.5, size=1, colour="black") +
+  labs(title="",
+       y="Publications", x="Pourcentage population rurale") +
+  theme_linedraw()
+g4 <- ggplot(data = departements_sans_outliers, mapping=aes(population, nb_publi, col=partis_po_chef)) + 
+  geom_point(mapping=aes(population, nb_publi), size=2) + 
+  geom_quantile(quantiles=0.5, size=1, colour="black") +
+  labs(title="",
+       y="Publications", x="Nombre d'habitants") +
+  theme_linedraw()
+g5 <- ggplot(data = departements_sans_outliers, mapping=aes(nb_crea_entps, nb_publi, col=niveau_densite)) + 
+  geom_point(mapping=aes(nb_crea_entps, nb_publi), size=2) + 
+  geom_quantile(quantiles=0.5, size=1, colour="black") +
+  labs(title="",
+       y="Publications", x="Créations d'entreprises") +
+  theme_linedraw()
+g6 <- ggplot(data = departements_sans_outliers, mapping=aes(nb_nuitees_hotels, nb_publi, col=niveau_densite)) + 
+  geom_point(mapping=aes(nb_nuitees_hotels, nb_publi), size=2) + 
+  geom_quantile(quantiles=0.5, size=1, colour="black") +
+  labs(title="",
+       y="Publications", x="Nombre de nuitées") +
+  theme_linedraw()
+grid.arrange(g1, g2, g3, g4, g5, g6, ncol = 2, nrow = 3)
      
+
 # Export des bases
 
 rio::export(departements, "./Data/process/dep_analyse_explo.csv")
