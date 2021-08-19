@@ -139,7 +139,7 @@ View(dico_variables)
 
 
 
-                ### A) Visualisations des variables une à une
+                ### A) Analyse non supervisée
 
 
 
@@ -394,12 +394,12 @@ chisq.test(departements_sans_outliers$partis_po_chef, departements_sans_outliers
 
 
 
-                ### B) Relations des variables explicatives avec Y
+                ### B) Analyse supervisée
 
 
 
 
-    ## 1. VARIABLES QUANTI et QUALI
+    ## 1. VARIABLES QUANTITATIVES
 
 
 
@@ -419,30 +419,28 @@ summary(arbre_nb.publi)
 # Plot
 rpart.plot(arbre_nb.publi, box.palette = "Blues")
 
-# Même chose mais avec les outliers pour voir les résultats
-arbre_nb.publi2 <- rpart(nb_publi ~ taux_chomage+CSP_chef+niveau_rural+niveau_densite+part_plus65+part_diplomes+depenses_hab+part_etudiants+percent_pop_rurale+population+age_chef+niveau_vie+nb_crea_entps+nb_nuitees_hotels+nb_etudiants+partis_po_chef, data = departements, method="anova")
-summary(arbre_nb.publi2)
-rpart.plot(arbre_nb.publi2, box.palette = "Blues")
 
 
 
 #----------------------- ACP 
 
 
-# On change l'indice pour avoir les numéros de départements sur la projection des individus 
-infos_dep
+# On change l'index de la base, pour avoir les numéros de départements sur la projection des individus 
+infos_dep <- read_csv("https://www.data.gouv.fr/fr/datasets/r/4d8c420b-c412-4deb-a469-b722b195f9c7")
 departements_sans_outliers <- left_join(departements_sans_outliers, infos_dep[,c(1,3)], by = "nom")
 rownames(departements_sans_outliers) <- departements_sans_outliers$COG
 
 
 library(FactoMineR)
 library(factoextra)
-  # plot
+
+  # ACP
 res.pca_Y = PCA(departements_sans_outliers[,c("nb_publi","taux_chomage","part_plus65","part_diplomes","depenses_hab","part_etudiants","percent_pop_rurale","population","age_chef","niveau_vie","nb_crea_entps","nb_nuitees_hotels","nb_etudiants")], quanti.sup=1, graph=F)
+
+  # plot
 fviz_pca_var(res.pca_Y, col.var = "cos2",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
              repel = TRUE)
-
 
   # inertie de chaque axe fictif : % de la variance
 round(res.pca_Y$eig,2)
@@ -452,243 +450,15 @@ fviz_eig(res.pca_Y, addlabels = TRUE) #axes 1 et 2 conservent 65% de l'info des 
 round(res.pca_Y$var$contrib,2)
 fviz_contrib(res.pca_Y, choice = "var", axes = 1, col="black")  #axe 1 = dynamisme du département
 fviz_contrib(res.pca_Y, choice = "var", axes = 2, col="black")  #axe 2 = pauvreté / manque d'activité 
-fviz_contrib(res.pca_Y, choice = "var", axes = 3, col="black")  #axe 3 = chef agé
+fviz_contrib(res.pca_Y, choice = "var", axes = 3, col="black")  #axe 3 = chef age
 
   # corrélations des Xt aux dimensions : voir relation po/neg entre vble et axe
 corrplot(res.pca_Y$var$cor, is.corr=FALSE, method="circle", tl.srt=45, tl.col="#004400", col=brewer.pal(n=9, name="RdYlBu"), addCoef.col="black")  #plus % pop rurale augmente, moins la région est attractive
 
-  # projections des départements sur le plan à 2 dimensions
-fviz_pca_ind(res.pca_Y, col.ind = "cos2",
-             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-             repel = T) #noyau dur : bcp de dep avec peu d'attractivité (gauche du graph) et qualité de vie  autour de 0
-  # biplot : variables et individus
-fviz_pca_biplot(res.pca_Y, repel = TRUE,
-                col.var = "#2E9FDF",
-                col.ind = "red"
-                )
-
-# Projections des individus colorés en fonction du nombre de jeux ouverts
+  # projections des départements colorés en fonction du nombre de jeux ouverts
 fviz_pca_ind(res.pca_Y, col.ind = departements_sans_outliers$nb_publi, 
              gradient.cols = c("#FFCC00", "#FC4E07"),
              repel = T)
-
-
-
-#----------------------- ACM
-
-
-  # plot
-res.mca <- MCA(departements_sans_outliers[,c("ouvre_data","niveau_rural","niveau_densite","partis_po_chef","CSP_chef")], quali.sup=1)
-fviz_pca_var(res.mca, col.var = "cos2",
-             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-             repel = TRUE)
-  # projection des variables
-fviz_mca_var(res.mca, axe=c(1,2), invisible="ind",cex=0.8,autoLab="yes", jitter = list(what = "label", width = NULL, height = NULL))
-  # projection des modalités
-fviz_eig(res.mca,main="Pourcentage expliqué par chaque facteur")
-  # contributions des variables aux axes
-round(res.mca$var$coord,2)
-fviz_contrib(res.mca, choice = "var", axes = 1, col="black")  #axe 1 = département urbain/dense
-fviz_contrib(res.mca, choice = "var", axes = 2, col="black")  #axe 2 = faible dynamisme 
-  # corrélations des Xt aux dimensions : voir relation po/neg entre vble et axe
-corrplot(res.mca$var$coord, is.corr=FALSE, method="circle", tl.srt=45, tl.col="#004400", col=brewer.pal(n=9, name="RdYlBu"), addCoef.col="black") 
-  # projections des départements sur le plan à 2 dimensions
-fviz_pca_ind(res.mca, col.ind = "cos2",
-             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-             repel = T)
-
-
-
-
-    ## 2. VARIABLES QUALI
-
-
-
-#----------------------- Diagrammes croisés
-
-
-
-# Croisements Y (nb_publi) avec variables qualis
-t1=tapply(departements$nb_publi, departements$niveau_rural, mean)
-t2=tapply(departements$nb_publi, departements$niveau_densite, mean) %>% sort()
-t3=tapply(departements$nb_publi, departements$flux_migration_res, mean) %>% sort()
-t4=tapply(departements$nb_publi, departements$partis_po_chef, mean) %>% sort()
-t5=tapply(departements$nb_publi, departements$CSP_chef, mean) %>% sort()
-
-
-library(RColorBrewer)
-barplot(t1, horiz=TRUE, xlim=c(0,230), legend = c("Urbain dense","Urbain densité intermédiaire","Rural sous forte influence d'un pôle","Rural sous faible influence d'un pôle","Rural autonome peu dense","Rural autonome très peu dense"), main="Nombre de jeux ouverts moyen selon le niveau de ruralité", col=rev(brewer.pal(n = 6, name = "Blues")), cex.names=.9, cex.main=.96, col.main="#0033CC")
-table(departements$niveau_rural)
-
-barplot(t2, horiz=TRUE, xlim=c(0,80), legend.text = TRUE, args.legend = list(x = "bottomright", inset = c(.02, .05), legend = c("Dense","Peu dense","Très dense")), main="Nombre de jeux ouverts moyen selon le niveau de densité", col = brewer.pal(n = 3, name = "Reds"), cex.names=1, cex.main=1, col.main="#FF6600")
-table(departements$niveau_densite)
-
-barplot(t3[36:44], horiz=TRUE, xlim=c(0,50), main="Top 9 des départements avec le plus grand nombre de jeux ouverts moyen, 
-        selon le principal flux de migration résidentiel", col=brewer.pal(n = 9, name = "Greys"), cex.names=1, cex.main=1, col.main="black") #données pas fiables car pas assez d'obs par modalité (rappel : les numéros correspondent au COG du dep de destination des flux résidentiels)
-table(departements$flux_migration_res)
-
-barplot(t4, horiz=TRUE, xlim=c(0,55), main="Nombre de jeux ouverts moyen selon l'appartenance politique du chef de l'exécutif", col=brewer.pal(n = 3, name = "Purples"), cex.names=1, cex.main=1, col.main="#756BB1")
-table(departements$partis_po_chef)
-
-barplot(t5, horiz=TRUE, xlim=c(0,80), legend.text = TRUE, args.legend = list(x = "bottomright", inset = c(.02, .05), legend=c("Artisans, commerçants et chefs d'entreprise","Employés","Agriculteurs exploitants","Retraités","Autres personnes sans activité professionnelle","Cadres et professions intellectuelles supérieures","Professions Intermédiaires")), main="Nombre de jeux ouverts moyen selon la CSP du chef de l'exécutif", col=brewer.pal(n = 7, name = "Purples"), cex.names=1, cex.main=1, col.main="#756BB1") #Cat 2 sous représentées donc att aux conclus
-table(departements$CSP_chef)
-
-
-
-# Pour les flux migratoires on sélectionne les modalités avec plus de 3 obs pour que ce soit à peu près représentatif
-dep_tri <- departements[departements$flux_migration_res %in%  names(table(departements$flux_migration_res))[table(departements$flux_migration_res) > 3] , ]
-t3_bis=tapply(dep_tri$nb_publi, dep_tri$flux_migration_res, mean) %>% sort()
-
-table(dep_tri$flux_migration_res)
-barplot(t3_bis, horiz=TRUE, xlim=c(0,60), legend.text = TRUE, args.legend = list(x = "bottomright", inset = c(.02, .05), legend = c("Bouches du Rhône","Haute Garonne","Marne")), main="Top 9 des départements avec le plus grand nombre de jeux ouverts moyen, 
-        selon le principal flux de migration résidentiel", col=brewer.pal(n = 5, name = "Greys"), cex.names=1, cex.main=1, col.main="black")
-
-
-
-
-#----------------------- Treemap
-
-
-# On récupère les noms des régions
-infos_reg <- read_csv("Data/raw/infos_regions.csv") %>% rename(region = nom)
-departements <- left_join(departements, infos_reg[,c(1,3)], by = c("code_region" = "COG"))
-
-# Data pour savoir les départements de quelles régions ouvrent le plus de données
-t6=tapply(departements$nb_publi, departements$region, mean) 
-t6 <- t6 %>% as.data.frame() %>% mutate(nom = rownames(t6))
-t6$label <- paste(t6$nom, "-", round(t6$.,0), "publications", sep=" ")
-
-# Plot
-library(treemap)
-treemap(t6, 
-        index="label", 
-        vSize=".", 
-        type="index",                            
-        palette = "Pastel2",                      
-        title = "Nombre de jeux ouverts moyen selon la région",
-        fontsize.title=17,
-        fontcolor.labels = "black", 
-        fontface.labels="plain",
-        fontsize.labels=14,
-        lowerbound.cex.labels = 0.4,
-      )
-
-table(departements$code_region)
-
-
-
-
-#----------------------- Boxplots croisés
-
-
-ggplot(departements, aes(x=niveau_rural, y=nb_publi, fill=niveau_rural)) + 
-  geom_boxplot()+
-  geom_point() +
-  labs(title="Box du nombre de publications par niveau de ruralité", y = "Nombre de jeux ouverts", x = "") + 
-  scale_fill_brewer(name="Niveau de ruralité", palette="Blues") +
-  guides(fill = FALSE) +
-  theme_classic() #plus il y a d'obs plus la moyenne peut être tirée vers le bas
-ggplot(departements, aes(x=niveau_densite, y=nb_publi, fill=niveau_densite)) + 
-  geom_boxplot()+
-  geom_point() +
-  labs(title="Box du nombre de publications par niveau de densité", y = "Nombre de jeux ouverts", x = "") + 
-  scale_fill_brewer(name="Niveau de densité", palette="Blues")  +
-  guides(fill = FALSE) +
-  theme_classic() # cat 2 et 3 vraiment comparables
-ggplot(departements, aes(x=partis_po_chef, y=nb_publi, fill=partis_po_chef)) + 
-  geom_boxplot()+
-  geom_point() +
-  labs(title="Box du nombre de publications par couleur politique", y = "Nombre de jeux ouverts", x = "") + 
-  scale_fill_brewer(name="Couleur politique", palette="Blues") +
-  guides(fill = FALSE) +
-  theme_classic()
-ggplot(departements, aes(x=CSP_chef, y=nb_publi, fill=CSP_chef)) + 
-  geom_boxplot()+
-  geom_point() +
-  labs(title="Box du nombre de publications par CSP du chef", y = "Nombre de jeux ouverts", x = "") + 
-  scale_fill_brewer(name="CSP du chef", palette="Blues") +
-  guides(fill = FALSE) +
-  theme_classic()  #3 et 7 vraiment comparables (cadres / retraités)
-
-
-
-#----------------------- Stacked barchart
-
-
-  # Répartition de la variable binaire : ouvre des données ou non 
-tY <- as.data.frame(table(departements$ouvre_data))
-ggplot(tY, aes(x=Var1, y=Freq)) + 
-  geom_bar(stat="identity", fill="steelblue")+
-  geom_text(aes(y=Freq/2, label=Freq), vjust=1.6, color="white", size=5)+
-  labs(title="Répartition des départements selon qu'ils ouvrent ou non des données", y = "Nombre de jeux ouverts", x = "") + 
-  theme_minimal()
-
-
-
-  # Niveau de ruralité et ouvre_data
-t7 <- departements %>% group_by(ouvre_data) %>% count(niveau_densite)
-  # plot
-library(viridis)
-library(hrbrthemes)
-library(plotly)
-ggp <- ggplot(t7, aes(fill=ouvre_data, y=n, x=niveau_densite,  
-                text = paste("Ouvre des données", ouvre_data, 
-                             "\nNiveau de ruralité", niveau_densite,
-                              "\n", n,"départements"), group=niveau_densite)) + 
-    geom_bar(position="stack", stat="identity") +
-    scale_fill_viridis(discrete = T, name="Ouvre des données?", option="E", direction=-1) +
-    theme_ipsum() +
-    xlab("") + ylab("Nombre de départements") + ggtitle("Ouverture de données selon le niveau de ruralité") +
-    theme(axis.title.y = element_text(size=12))
-ggplotly(ggp, tooltip=c("text"))
-
-
-  # partis_po_chef et ouvre_data
-t8 <- departements %>% group_by(ouvre_data) %>% count(partis_po_chef)
-  # plot
-ggp2 <- ggplot(t8, aes(fill=ouvre_data, y=n, x=partis_po_chef,  
-                text = paste("Ouvre des données", ouvre_data, 
-                             "\nCouleur politique :", partis_po_chef,
-                              "\n", n,"départements"), group=partis_po_chef)) + 
-    geom_bar(position="stack", stat="identity") +
-    scale_fill_viridis(discrete = T, name="Ouvre des données?", option="E", direction=-1) +
-    theme_ipsum() +
-    xlab("") + ylab("Nombre de départements") + ggtitle("Ouverture de données selon la couleur politique") +
-    theme(axis.title.y = element_text(size=12))
-ggplotly(ggp2, tooltip=c("text"))
-
-
-  # CSP_chef et ouvre_data
-t9 <- departements %>% group_by(ouvre_data) %>% count(CSP_chef)
-  # plot
-ggp3 <- ggplot(t9, aes(fill=ouvre_data, y=n, x=CSP_chef,  
-                text = paste("Ouvre des données", ouvre_data, 
-                             "\nCSP du chef :", CSP_chef,
-                              "\n", n,"départements"), group=ouvre_data)) + 
-    geom_bar(position="stack", stat="identity") +
-    scale_fill_viridis(discrete = T, name="Ouvre des données?", option="E", direction=-1) +
-    theme_ipsum() +
-    xlab("") + ylab("Nombre de départements") + ggtitle("Ouverture de données selon la CSP du chef") +
-    theme(axis.title.y = element_text(size=12))
-ggplotly(ggp3, tooltip=c("text"))
-
-
-
-
-
-    ## 3. VARIABLES QUANTI
-
-
-
-
-# On créé des variables catégorielles à partir de l'analyse exploratoire
-     #depuis ACP
-departements_sans_outliers$dynamisme <- res.pca_Y$ind$coord[,1]
-departements_sans_outliers$pauvrete <- res.pca_Y$ind$coord[,2]
-     #depuis CART
-departements_sans_outliers <- departements_sans_outliers %>% mutate(is_5.7_part_diplomes = case_when(part_diplomes >= 5.65 ~ 1,
-                                                                  part_diplomes < 5.65 ~ 0))
-
 
 
 
@@ -817,10 +587,202 @@ g6 <- ggplot(data = departements_sans_outliers, mapping=aes(nb_nuitees_hotels, n
 grid.arrange(g1, g2, g3, g4, g5, g6, ncol = 2, nrow = 3)
      
 
-# Export des bases
+
+#----------------------- Création de variables
+
+
+     #depuis ACP
+departements_sans_outliers$dynamisme <- res.pca_Y$ind$coord[,1]
+departements_sans_outliers$pauvrete <- res.pca_Y$ind$coord[,2]
+     #depuis CART
+departements_sans_outliers <- departements_sans_outliers %>% mutate(is_5.65_part_diplomes = case_when(part_diplomes >= 5.65 ~ 1,
+                                                                                                     part_diplomes < 5.65 ~ 0))
+
+
+
+
+    ## 2. VARIABLES QUALI
+
+
+
+
+#----------------------- ACM
+
+
+  # plot
+res.mca <- MCA(departements_sans_outliers[,c("ouvre_data","niveau_rural","niveau_densite","partis_po_chef","CSP_chef")], quali.sup=1)
+fviz_pca_var(res.mca, col.var = "cos2",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE)
+  # projection des variables
+fviz_mca_var(res.mca, axe=c(1,2), invisible="ind",cex=0.8,autoLab="yes", jitter = list(what = "label", width = NULL, height = NULL))
+  # projection des modalités
+fviz_eig(res.mca,main="Pourcentage expliqué par chaque facteur")
+  # contributions des variables aux axes
+round(res.mca$var$coord,2)
+fviz_contrib(res.mca, choice = "var", axes = 1, col="black")  #axe 1 = département urbain/dense
+fviz_contrib(res.mca, choice = "var", axes = 2, col="black")  #axe 2 = faible dynamisme 
+  # corrélations des Xt aux dimensions : voir relation po/neg entre vble et axe
+corrplot(res.mca$var$coord, is.corr=FALSE, method="circle", tl.srt=45, tl.col="#004400", col=brewer.pal(n=9, name="RdYlBu"), addCoef.col="black") 
+  # projections des départements sur le plan à 2 dimensions
+fviz_pca_ind(res.mca, col.ind = "cos2",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = T)
+
+
+
+#----------------------- Diagrammes croisés
+
+
+departements_sans_outliers$pol2 <- str_replace_all(departements_sans_outliers$partis_po_chef, c("Gauche"="1", "Droite"="2", "sans étiquette" = "3"))
+
+# Croisements Y (nb_publi) avec variables qualis
+t1=tapply(departements_sans_outliers$nb_publi, departements_sans_outliers$niveau_rural, median) %>% sort
+t2=tapply(departements_sans_outliers$nb_publi, departements_sans_outliers$niveau_densite, median) %>% sort()
+t4=tapply(departements_sans_outliers$nb_publi, departements_sans_outliers$pol2, median) %>% sort()
+t5=tapply(departements_sans_outliers$nb_publi, departements_sans_outliers$CSP_chef, median) %>% sort()
+
+par(mfrow=c(2,2))
+library(RColorBrewer)
+barplot(t1[-1], horiz=TRUE, xlim=c(0,50), main="Nombre de jeux ouverts médian selon le 
+        niveau de ruralité", col=brewer.pal(n = 5, name = "Blues"), cex.names=1, cex.main=1.1, col.main="#0033CC")
+
+barplot(t2, horiz=TRUE, xlim=c(0,50), main="Nombre de jeux ouverts médian selon le 
+        niveau de densité", col = brewer.pal(n = 3, name = "Reds"), cex.names=1, cex.main=1.1, col.main="#FF6600")
+
+barplot(t4, horiz=TRUE, xlim=c(0,50), main="Nombre de jeux ouverts médian selon la 
+        couleur politique", col=brewer.pal(n = 3, name = "Purples"), cex.names=1, cex.main=1.1, col.main="#756BB1")
+
+barplot(t5, horiz=TRUE, xlim=c(0,50), main="Nombre de jeux ouverts médian selon la 
+        CSP du chef de l'exécutif", col=brewer.pal(n = 7, name = "Greens"), cex.names=1, cex.main=1.1, col.main="#006600") #Cat 2 sous représentées donc att aux conclus
+
+table(departements_sans_outliers$niveau_rural)
+table(departements_sans_outliers$niveau_densite)
+table(departements_sans_outliers$pol2)
+table(departements_sans_outliers$CSP_chef)
+
+
+
+
+#----------------------- Treemap
+
+
+# On récupère les noms des régions
+infos_reg <- read_csv("Data/raw/infos_regions.csv") %>% rename(region = nom)
+departements_sans_outliers <- left_join(departements_sans_outliers, infos_reg[,c(1,3)], by = c("code_region" = "COG"))
+
+# Data pour savoir les départements de quelles régions ouvrent le plus de données
+t6=tapply(departements_sans_outliers$nb_publi, departements_sans_outliers$region, mean) 
+t6 <- t6 %>% as.data.frame() %>% mutate(nom = rownames(t6))
+t6$label <- paste(t6$nom, "-", round(t6$.,0), "publications", sep=" ")
+
+# Plot
+library(treemap)
+treemap(t6, 
+        index="label", 
+        vSize=".", 
+        type="index",                            
+        palette = "Pastel2",                      
+        title = "Nombre de jeux ouverts moyen selon la région",
+        fontsize.title=17,
+        fontcolor.labels = "black", 
+        fontface.labels="plain",
+        fontsize.labels=14,
+        lowerbound.cex.labels = 0.4,
+      )
+
+table(departements_sans_outliers$code_region) #Nb d'obs trop différent d'une région à l'autre
+
+
+
+
+#----------------------- Boxplots croisés
+
+
+ggplot(departements_sans_outliers, aes(x=niveau_rural, y=nb_publi, fill=niveau_rural)) + 
+  geom_boxplot()+
+  geom_point() +
+  labs(title="Box du nombre de publications par niveau de ruralité", y = "Nombre de jeux ouverts", x = "") + 
+  scale_fill_brewer(name="Niveau de ruralité", palette="Blues") +
+  guides(fill = FALSE) +
+  theme_classic() #plus il y a d'obs plus la moyenne peut être tirée vers le bas
+ggplot(departements_sans_outliers, aes(x=niveau_densite, y=nb_publi, fill=niveau_densite)) + 
+  geom_boxplot()+
+  geom_point() +
+  labs(title="Box du nombre de publications par niveau de densité", y = "Nombre de jeux ouverts", x = "") + 
+  scale_fill_brewer(name="Niveau de densité", palette="Blues")  +
+  guides(fill = FALSE) +
+  theme_classic() # cat 2 et 3 vraiment comparables
+ggplot(departements_sans_outliers, aes(x=partis_po_chef, y=nb_publi, fill=partis_po_chef)) + 
+  geom_boxplot()+
+  geom_point() +
+  labs(title="Box du nombre de publications par couleur politique", y = "Nombre de jeux ouverts", x = "") + 
+  scale_fill_brewer(name="Couleur politique", palette="Blues") +
+  guides(fill = FALSE) +
+  theme_classic()
+ggplot(departements_sans_outliers, aes(x=CSP_chef, y=nb_publi, fill=CSP_chef)) + 
+  geom_boxplot()+
+  geom_point() +
+  labs(title="Box du nombre de publications par CSP du chef", y = "Nombre de jeux ouverts", x = "") + 
+  scale_fill_brewer(name="CSP du chef", palette="Blues") +
+  guides(fill = FALSE) +
+  theme_classic()  #3 et 7 vraiment comparables (cadres / retraités)
+
+
+
+#----------------------- Stacked barchart
+
+
+
+  # Niveau de ruralité et ouvre_data
+departements_sans_outliers$ouvre_data <- str_replace_all(departements_sans_outliers$ouvre_data, "1", "oui")
+departements_sans_outliers$ouvre_data <- str_replace_all(departements_sans_outliers$ouvre_data, "0", "non")
+t7 <- departements_sans_outliers %>% group_by(ouvre_data) %>% count(niveau_densite)
+  # plot
+library(viridis)
+library(hrbrthemes)
+library(plotly)
+g1 <- ggplot(t7, aes(fill=ouvre_data, y=n, x=niveau_densite)) + 
+    geom_bar(position="stack", stat="identity") +
+    scale_fill_viridis(discrete = T, name="Ouvre ?", option="E", direction=1) +
+    theme_ipsum() +
+    xlab("") + ylab("Nombre de départements") + ggtitle("Ouverture de données selon 
+le niveau de densité") +
+    theme(axis.title.y = element_text(size=12))
+
+
+  # partis_po_chef et ouvre_data
+t8 <- departements_sans_outliers %>% group_by(ouvre_data) %>% count(pol2)
+  # plot
+g2 <- ggplot(t8, aes(fill=ouvre_data, y=n, x=pol2)) + 
+    geom_bar(position="stack", stat="identity") +
+    scale_fill_viridis(discrete = T, name="Ouvre ?", option="E", direction=1) +
+    theme_ipsum() +
+    xlab("") + ylab("Nombre de départements") + ggtitle("Ouverture de données selon 
+la couleur politique") +
+    theme(axis.title.y = element_text(size=12))
+
+
+  # CSP_chef et ouvre_data
+t9 <- departements_sans_outliers %>% group_by(ouvre_data) %>% count(CSP_chef)
+  # plot
+g3 <- ggplot(t9, aes(fill=ouvre_data, y=n, x=CSP_chef)) + 
+    geom_bar(position="stack", stat="identity") +
+    scale_fill_viridis(discrete = T, name="Ouvre ?", option="E", direction=1) +
+    theme_ipsum() +
+    xlab("") + ylab("Nombre de départements") + ggtitle("Ouverture de données selon 
+la CSP du chef") +
+    theme(axis.title.y = element_text(size=12))
+
+grid.arrange(g1,g2,g3, ncol=3, nrow=1)
+
+
+
+
+
+
+#-------------------- Export des bases
 
 rio::export(departements, "./Data/process/dep_analyse_explo.csv")
-rio::export(departements_sans_outliers, "./Data/process/dep_analyse_explo_sans_outliers.csv")
-
-
+rio::export(departements_sans_outliers[,1:27], "./Data/process/dep_analyse_explo_sans_outliers.csv")
 
