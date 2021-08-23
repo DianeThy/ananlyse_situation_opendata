@@ -289,15 +289,12 @@ View(outliers)
 
 # Variable à expliquer
 par(mfrow=c(1,2))
-hist(departements$nb_publi, prob=T, ylim=c(0, 0.025), col = "#CCCCCC", main = "",
+departements$nb_publi <- as.integer(departements$nb_publi)
+plot(departements$nb_publi, prob=T, col = "#CCCCCC", main = "",
      xlab="nombre de publications open data", ylab="densité")
 lines(density(departements$nb_publi), col="red", lwd=2)
 curve(dnorm(x, mean=mean(departements$nb_publi), sd=sd(departements$nb_publi)),col="#0033CC", lwd=2, add=TRUE, yaxt="n")
-hist(departements_sans_outliers$nb_publi, prob=T, ylim=c(0, 0.07), 
-     xlab="Sans outliers", ylab="Densité", main="Nombre de publications open data")
-lines(density(departements_sans_outliers$nb_publi), col="red", lwd=2)
-curve(dnorm(x, mean=mean(departements_sans_outliers$nb_publi), sd=sd(departements_sans_outliers$nb_publi)), 
-      col="#0033CC", lwd=2, add=TRUE, yaxt="n")
+plot(table(departements$nb_publi),xlab="nombre de publications open data", ylab="densité", main="", col="#666666")
 
 
 # Variables explicatives
@@ -595,7 +592,7 @@ grid.arrange(g1, g2, g3, g4, g5, g6, ncol = 2, nrow = 3)
 departements_sans_outliers$dynamisme <- res.pca_Y$ind$coord[,1]
 departements_sans_outliers$pauvrete <- res.pca_Y$ind$coord[,2]
      #depuis CART
-departements_sans_outliers <- departements_sans_outliers %>% mutate(is_5.65_part_diplomes = case_when(part_diplomes >= 5.65 ~ 1,
+departements_sans_outliers <- departements_sans_outliers %>% mutate(is_sup_5.65_part_diplomes = case_when(part_diplomes >= 5.65 ~ 1,
                                                                                                      part_diplomes < 5.65 ~ 0))
 
 
@@ -748,7 +745,7 @@ g1 <- ggplot(t7, aes(fill=ouvre_data, y=n, x=niveau_densite)) +
     theme_ipsum() +
     xlab("") + ylab("Nombre de départements") + ggtitle("Ouverture de données selon 
 le niveau de densité") +
-    theme(axis.title.y = element_text(size=12))
+    theme(axis.title.y = element_text(size=12)) + ylim(0, 50)
 
 
   # partis_po_chef et ouvre_data
@@ -760,7 +757,7 @@ g2 <- ggplot(t8, aes(fill=ouvre_data, y=n, x=pol2)) +
     theme_ipsum() +
     xlab("") + ylab("Nombre de départements") + ggtitle("Ouverture de données selon 
 la couleur politique") +
-    theme(axis.title.y = element_text(size=12))
+    theme(axis.title.y = element_text(size=12))+ ylim(0, 50)
 
 
   # CSP_chef et ouvre_data
@@ -772,12 +769,33 @@ g3 <- ggplot(t9, aes(fill=ouvre_data, y=n, x=CSP_chef)) +
     theme_ipsum() +
     xlab("") + ylab("Nombre de départements") + ggtitle("Ouverture de données selon 
 la CSP du chef") +
-    theme(axis.title.y = element_text(size=12))
+    theme(axis.title.y = element_text(size=12))+ ylim(0, 50)
 
 grid.arrange(g1,g2,g3, ncol=3, nrow=1)
 
 
+# Comparaison des niveaux de ruralité avec et sans outliers
+g1 <- ggplot(t7, aes(fill=ouvre_data, y=n, x=niveau_densite)) + 
+    geom_bar(position="stack", stat="identity") +
+    scale_fill_viridis(discrete = T, name="Ouvre ?", option="E", direction=1) +
+    theme_ipsum() +
+    xlab("") + ylab("Nombre de départements") + ggtitle("Ouverture de données selon 
+le niveau de densité sans outliers") +
+    theme(axis.title.y = element_text(size=12)) + ylim(0, 47)
 
+departements$ouvre_data <- str_replace_all(departements$ouvre_data, "1", "oui")
+departements$ouvre_data <- str_replace_all(departements$ouvre_data, "0", "non")
+t7bis <- departements %>% group_by(ouvre_data) %>% count(niveau_densite)
+  # plot
+g4 <- ggplot(t7bis, aes(fill=ouvre_data, y=n, x=niveau_densite)) + 
+    geom_bar(position="stack", stat="identity") +
+    scale_fill_viridis(discrete = T, name="Ouvre ?", option="E", direction=1) +
+    theme_ipsum() +
+    xlab("") + ylab("Nombre de départements") + ggtitle("Ouverture de données selon 
+le niveau de densité avec outliers") +
+    theme(axis.title.y = element_text(size=12)) + ylim(0, 47)
+
+grid.arrange(g1,g4, ncol = 2, nrow = 1)
 
 
 
