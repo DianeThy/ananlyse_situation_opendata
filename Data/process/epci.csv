@@ -70,7 +70,7 @@
 "CA de Laval Agglomération","CA",0,0,52,53,0,0,117515,NA,NA,NA,19.8,1294,243500139,21680,7.5,805.312264987448
 "CA de Lens - Liévin","CA",0,0,32,62,0,0,244709,"Fonctionnaires de catégorie A",49,NA,17.6,1623,200072460,17580,3.3,662.704783150599
 "CA de Longwy","CA",0,0,44,54,0,0,62399,"Cadres (entreprises publiques)",64,NA,18.4,340,200043693,21220,5.1,524.861037356368
-"CA de Nevers","CA",9,1,27,58,9,1,68680,"Avocats",54,NA,25.3,451,200068088,20470,5.6,825.754145894001
+"CA de Nevers","CA",9,1,27,58,9,1,68680,"Avocats",55,NA,25.3,451,200068088,20470,5.6,825.754145894001
 "CA de Nîmes Métropole","CA",34,1,76,30,34,0,262891,"Professions rattachées à enseignt.",67,"Union pour la démocratie française",20.7,3339,243400017,19550,8.4,1228.22721664112
 "CA de Saint-Dié-des-Vosges","CA",0,0,44,NA,0,0,77932,"Professeurs de faculté",39,NA,23.5,591,245400676,19600,4.2,453.407880074937
 "CA de Saint-Dizier Der et Blaise","CA",0,0,44,NA,0,0,60511,"Cadres supérieurs (secteur privé)",56,NA,22.9,312,NA,19270,3.4,865.206937416338
@@ -83,7 +83,7 @@
 "CA de Vesoul","CA",1,1,27,70,1,1,33926,"Fonctionnaires de catégorie A",46,"Union pour un mouvement populaire",22.5,288,NA,20870,6.4,795.84432293816
 "CA des Deux Baies en Montreuillois","CA",0,0,32,62,0,0,68207,"Autres professions libérales",67,NA,25.2,528,200044030,20550,5.7,805.925255765537
 "CA Dinan Agglomération","CA",9,1,53,22,9,0,99639,"Permanents politiques",35,"Parti socialiste",25.7,735,243500139,21460,5.8,670.38053703871
-"CA Dracénie Provence Verdon Agglomération","CA",2,1,93,83,2,2,110019,"Agents généraux d'assurances",60,NA,23.8,1549,200035319,20700,6.4,670.888376280461
+"CA Dracénie Provence Verdon Agglomération","CA",2,1,93,83,2,2,110019,"Agents généraux d'assurances",61,NA,23.8,1549,200035319,20700,6.4,670.888376280461
 "CA du Bassin d'Arcachon Nord","CA",0,0,75,33,0,0,66632,"Agriculteurs propriétaires exploit.",65,NA,26.3,1058,243300316,23770,7.8,453.477769840317
 "CA du Bassin d'Aurillac","CA",0,0,84,15,0,0,56066,"Fonctionnaires de catégorie A",67,NA,24.3,362,200066678,21500,5.8,911.938345164627
 "CA du Bassin de Bourg-en-Bresse","CA",0,0,84,1,0,0,136014,"Grands corps de l'état",55,"Parti socialiste",21.1,1353,200046977,22220,6,930.523095931301
@@ -140,7 +140,7 @@
 "CA Étampois Sud-Essonne (CCESE)","CA",0,0,11,91,0,0,54511,"Autres professions",34,NA,15.5,606,200054781,22280,6.6,529.195027792556
 "CA Evreux Portes de Normandie","CA",1,1,28,27,1,0,116242,"Médecins",58,"Union pour un mouvement populaire",17.6,1052,200023414,21340,6.9,1293.10237693777
 "CA Fécamp Caux Littoral Agglomération","CA",6,1,28,76,6,0,40125,"Autres professions",54,NA,22.7,275,200084952,20480,4.3,559.179282242991
-"CA Flers Agglo","CA",0,0,28,61,0,0,56064,"Fonctionnaires de catégorie A",61,"Parti socialiste",25.1,285,200065597,20040,3.8,783.001295305365
+"CA Flers Agglo","CA",0,0,28,61,0,0,56064,"Fonctionnaires de catégorie A",62,"Parti socialiste",25.1,285,200065597,20040,3.8,783.001295305365
 "CA Fougères Agglomération","CA",0,0,53,35,0,0,57021,"Professions rattachées à enseignt.",69,NA,22.6,352,243500139,20510,4.9,397.602052752495
 "CA Gaillac-Graulhet","CA",8,1,76,81,0,8,74891,"Agriculteurs propriétaires exploit.",70,NA,23.4,898,248100737,20330,7.2,885.879630796758
 "CA Golfe du Morbihan - Vannes Agglomération","CA",0,0,53,56,0,0,171960,"Ingénieurs",74,NA,24.4,1723,200043123,23010,10.1,499.477425680391
@@ -186,16 +186,16 @@
 "CA Pau Béarn Pyrénées","CA",37,1,75,64,37,0,166399,"Retraités de l'enseignement",70,"Union pour la démocratie française",22.4,1960,200067296,22010,13.2,975.135127554853
 "CA Pays d'Issoire","CA",0,0,84,63,0,0,57403,"Retraités des professions libérales",72,"Parti socialiste",22.1,468,246300701,21220,5.3,688.711211086529
 "CA Pays de Montbéliard Agglomération","CA",0,0,27,25,0,0,142947,NA,NA,NA,22.1,1105,200069052,20730,5.6,998.236827145725
-"CA Pays Foix-Varilhes","CA",1,1,76,9,0,1,32990,"Retr.artis.commerc.chefs d'entrep.",72,NA,23.5,329,200066231,21280,7.3,749.940743255532
+"CA Pays Foix-Varilhes","CA",1,1,76,9,0,1,32990,"Retr.artis.commerc.chefs d'entrep.",73,NA,23.5,329,200066231,21280,7.3,749.940743255532
 "CA Plaine Vallée","CA",0,0,11,95,0,0,184322,"Retraités salariés privés",66,NA,16.3,2979,200054781,24730,15.2,310.05681372815
 "CA Pornic Agglo Pays de Retz","CA",0,0,52,44,0,0,57449,"Industriels-Chefs entreprise",53,NA,24.2,701,244400404,22580,6.2,765.50980939616
-"CA Porte de l'Isère (C.A.P.I)","CA",2,1,84,38,0,2,107535,"Vétérinaires",61,NA,14.3,1460,200046977,21630,8.1,1159.73575384758
+"CA Porte de l'Isère (C.A.P.I)","CA",2,1,84,38,0,2,107535,"Vétérinaires",62,NA,14.3,1460,200046977,21630,8.1,1159.73575384758
 "CA Portes de France-Thionville","CA",0,0,44,57,0,0,80823,"Médecins",64,NA,19.1,645,245701222,23480,11.1,587.366798930997
 "CA Privas Centre Ardèche","CA",2,1,84,7,0,2,44955,"Sans profession déclarée",47,NA,23.8,369,200071405,20820,6,700.506668891113
 "CA Provence-Alpes-Agglomération","CA",3,1,93,4,3,0,48951,"Médecins",61,"divers gauche",25.4,431,200054807,20480,6.2,705.708595738596
 "CA Quimper Bretagne Occidentale","CA",7,1,53,29,0,7,104795,"Autres professions libérales",56,NA,20.1,938,242900314,21570,8.6,960.615622691922
 "CA Quimperlé Communauté","CA",0,0,53,29,0,0,57117,"Permanents politiques",38,"Parti socialiste",24.4,375,200042174,21450,5.3,790.885900519985
-"CA Rambouillet Territoires","CA",1,1,11,78,0,1,80359,"Autres professions libérales",61,NA,19.2,903,200054781,28240,17,245.600463669284
+"CA Rambouillet Territoires","CA",1,1,11,78,0,1,80359,"Autres professions libérales",62,NA,19.2,903,200054781,28240,17,245.600463669284
 "CA Redon Agglomération","CA",8,1,NA,NA,0,8,68537,"Professeurs du secondaire et techn.",60,NA,22.6,500,243500139,20250,4.2,584.874158775552
 "CA Riom Limagne et Volcans","CA",0,0,84,63,0,0,68500,"Industriels-Chefs entreprise",59,NA,19.5,559,246300701,23850,9.5,659.070527445255
 "CA Roannais Agglomération","CA",2,1,84,42,0,2,103824,NA,NA,NA,26,1043,200046977,20570,5.2,823.388644147789
@@ -272,7 +272,7 @@
 "CC Aunis Atlantique","CC",0,0,75,17,0,0,29981,"Professeurs de faculté",55,NA,17.5,307,241700434,21410,4.6,481.852057302959
 "CC Aunis Sud","CC",0,0,75,17,0,0,32182,"Agriculteurs propriétaires exploit.",64,NA,20.9,308,241700434,20870,4.3,418.94444689578
 "CC Auray Quiberon Terre Atlantique","CC",0,0,53,56,0,0,88628,NA,NA,NA,25.9,880,200067932,22100,7.2,634.049260955906
-"CC Aure-Louron","CC",1,1,76,65,1,0,7113,"Employés (autres entrep. publiques)",61,NA,25.1,85,NA,20520,7.1,743.257231829046
+"CC Aure-Louron","CC",1,1,76,65,1,0,7113,"Employés (autres entrep. publiques)",62,NA,25.1,85,NA,20520,7.1,743.257231829046
 "CC Auxonne Pontailler Val de Saône","CC",0,0,27,21,0,0,23768,"Professions rattachées à enseignt.",51,NA,19.5,153,242100410,21220,3.7,417.750531386738
 "CC Auzon Communauté","CC",0,0,84,43,0,0,9485,"Autres cadres (secteur privé)",65,NA,25.9,68,NA,20230,2.7,365.464201370585
 "CC Avallon,Vézelay,Morvan","CC",0,0,27,89,0,0,19823,"Industriels-Chefs entreprise",68,NA,27.4,132,NA,20300,5.1,563.129169651415
@@ -357,7 +357,7 @@
 "CC Cœur de Loire","CC",0,0,27,58,0,0,26522,"Agriculteurs propriétaires exploit.",65,NA,31.2,173,NA,20470,4,578.228124198778
 "CC Cœur de Lozère","CC",0,0,76,48,0,0,16108,"Autres cadres (secteur privé)",56,NA,19,100,NA,21900,7.5,713.579995033524
 "CC Cœur de Maurienne Arvan","CC",0,0,84,73,0,0,15341,"Retraités des entreprises publiques",68,NA,25.2,148,NA,22590,5.3,1057.32675314517
-"CC Cœur de Nacre","CC",0,0,28,14,0,0,24442,"Professeurs du secondaire et techn.",52,NA,27.5,225,200065597,24230,10.1,644.606640209475
+"CC Cœur de Nacre","CC",0,0,28,14,0,0,24442,"Professeurs du secondaire et techn.",53,NA,27.5,225,200065597,24230,10.1,644.606640209475
 "CC Cœur de Saintonge","CC",0,0,75,17,0,0,17727,"Cadres supérieurs (secteur privé)",66,NA,21,155,200036473,20790,4.3,288.462905737011
 "CC Cœur de Savoie","CC",0,0,84,73,0,0,37381,"Retraités fonct.publique (sf enseig.)",56,"Parti socialiste",18.8,385,200069110,23640,7.7,526.503027741366
 "CC Cœur de Sologne","CC",0,0,24,41,0,0,10809,"Industriels-Chefs entreprise",55,NA,25.8,52,NA,21380,5.1,153.202504394486
@@ -420,7 +420,7 @@
 "CC de Gevrey-Chambertin et de Nuits-Saint-Georges","CC",0,0,27,21,0,0,30545,"Professeurs de faculté",52,NA,19.8,261,242100410,24330,7.8,890.788249467998
 "CC de Grand Lieu","CC",0,0,52,44,0,0,39210,"Autres professions libérales",47,"Les Républicains",14.4,342,244400404,22780,6.1,465.077928079572
 "CC de Granville,Terre et Mer","CC",0,0,28,50,0,0,46211,"Fonctionnaires de catégorie B",74,NA,32,376,200069425,21650,5.6,547.646094219991
-"CC de Hanau-La Petite Pierre","CC",0,0,44,67,0,0,27459,"Retraités fonct.publique (sf enseig.)",71,NA,21.5,171,NA,22320,4.5,561.738151425762
+"CC de Hanau-La Petite Pierre","CC",0,0,44,67,0,0,27459,"Retraités fonct.publique (sf enseig.)",72,NA,21.5,171,NA,22320,4.5,561.738151425762
 "CC de Haute-Cornouaille","CC",0,0,53,29,0,0,15288,"Agriculteurs propriétaires exploit.",67,"Parti socialiste",26,91,NA,19560,3.3,399.705520015699
 "CC de Haute-Tarentaise","CC",0,0,84,73,0,0,16541,"Sans profession déclarée",67,NA,15.3,362,NA,23070,7.7,1099.11283658787
 "CC de l'Agglomération Migennoise","CC",0,0,27,89,0,0,15311,"Commercants",63,NA,22.1,70,200067114,19030,2.3,637.973966429365
@@ -529,11 +529,11 @@
 "CC de Marana-Golo","CC",0,0,94,NA,0,0,24052,"Retr.artis.commerc.chefs d'entrep.",85,NA,15.6,399,242000354,20760,6.7,556.676890487278
 "CC de Marcigny","CC",0,0,27,71,0,0,6453,"Fonctionnaires de catégorie A",57,NA,29.8,34,NA,20040,4.8,325.961558964823
 "CC de Millau Grands Causses","CC",0,0,76,NA,0,0,30790,"Retraités salariés privés",80,NA,26,280,NA,20030,6.2,531.379175056837
-"CC de Mimizan","CC",0,0,75,40,0,0,12322,"Fonctionnaires de catégorie A",58,"Parti socialiste",31.5,179,NA,20890,4.8,733.117323486447
+"CC de Mimizan","CC",0,0,75,40,0,0,12322,"Fonctionnaires de catégorie A",59,"Parti socialiste",31.5,179,NA,20890,4.8,733.117323486447
 "CC de Mirecourt Dompaire","CC",0,0,44,88,0,0,20152,"Autres cadres (secteur privé)",64,NA,21.8,113,200068757,20980,4.9,620.153686482731
 "CC de Miribel et du Plateau","CC",0,0,84,1,0,0,23888,"Cadres (entreprises publiques)",58,NA,17.1,339,200046977,26030,13.9,560.59277587073
 "CC de Montaigne Montravel et Gurson","CC",0,0,75,24,0,0,12273,"Industriels-Chefs entreprise",60,NA,25.9,133,NA,19380,4.3,653.258776990141
-"CC de Montbenoît","CC",0,0,27,25,0,0,7749,"Contremaitres",61,NA,13.6,63,NA,26620,4.1,294.421429861918
+"CC de Montbenoît","CC",0,0,27,25,0,0,7749,"Contremaitres",62,NA,13.6,63,NA,26620,4.1,294.421429861918
 "CC de Montesquieu","CC",0,0,75,33,0,0,43893,"Fonctionnaires de catégorie C",65,NA,16.3,574,243300316,24980,11.4,529.047024810334
 "CC de Noblat","CC",0,0,75,87,0,0,12254,"Professeurs du secondaire et techn.",51,NA,25.7,98,NA,20720,5.4,501.361059245961
 "CC de Nozay","CC",0,0,52,44,0,0,15978,"Sans profession déclarée",52,NA,15,94,NA,20630,5,541.78177181124
@@ -546,7 +546,7 @@
 "CC de Sablé-sur-Sarthe","CC",0,0,52,NA,0,0,29858,"Permanents politiques",53,"Union pour un mouvement populaire",20,139,247200132,20490,3.9,791.641708754773
 "CC de Saint-Méen Montauban","CC",0,0,53,35,0,0,27007,NA,NA,NA,18.2,159,243500139,21240,4.6,487.224004517347
 "CC de Saulieu","CC",0,0,27,21,0,0,5582,"Retraités de l'enseignement",65,NA,30.5,40,NA,19910,4,380.00687388033
-"CC de Seille et Grand Couronné","CC",0,0,44,54,0,0,18890,"Professeurs du secondaire et techn.",60,NA,17.3,150,245400676,24080,7.8,746.106166754897
+"CC de Seille et Grand Couronné","CC",0,0,44,54,0,0,18890,"Professeurs du secondaire et techn.",61,NA,17.3,150,245400676,24080,7.8,746.106166754897
 "CC de Sélestat","CC",0,0,44,67,0,0,37059,"Retraités de l'enseignement",72,NA,18.5,330,246700488,22710,8.6,561.079854016568
 "CC de Sézanne-Sud Ouest Marnais","CC",0,0,44,51,0,0,22175,"Retraités agricoles",72,NA,24.1,155,NA,21760,3.8,840.027554453213
 "CC de Thann-Cernay","CC",0,0,44,68,0,0,38558,"Retraités salariés privés",69,NA,20.4,265,200066009,22670,6.3,932.695408475543
@@ -626,7 +626,7 @@
 "CC des Portes du Luxembourg","CC",0,0,44,8,0,0,20778,"Professions rattachées à enseignt.",50,NA,21,133,200041630,19550,2.4,552.865593897391
 "CC des Portes Euréliennes d'Île-de-France","CC",0,0,24,28,0,0,49427,"Autres cadres (secteur privé)",53,NA,17.3,403,200033181,24330,7.5,395.189497036033
 "CC des Quatre Rivières","CC",0,0,28,NA,0,0,30613,"Industriels-Chefs entreprise",57,NA,23.5,200,200023414,20330,3.3,251.770604318427
-"CC des Quatre Rivières","CC",0,0,27,70,0,0,9905,"Retraités fonct.publique (sf enseig.)",72,NA,28.2,76,NA,20430,2.9,413.788982332156
+"CC des Quatre Rivières","CC",0,0,27,70,0,0,9905,"Retraités fonct.publique (sf enseig.)",73,NA,28.2,76,NA,20430,2.9,413.788982332156
 "CC des Quatre Rivières","CC",0,0,84,74,0,0,19414,"Industriels-Chefs entreprise",58,NA,14.2,195,NA,30200,8.4,364.171489131555
 "CC des Quatre Vallées","CC",0,0,24,45,0,0,17763,NA,NA,NA,22.2,118,NA,21740,3.7,367.747172211901
 "CC des Rives du Haut-Allier","CC",0,0,84,43,0,0,17656,"Professeurs du secondaire et techn.",58,NA,29.9,93,NA,19130,3.7,584.605981536022
@@ -666,7 +666,7 @@
 "CC du Barséquanais en Champagne","CC",0,0,44,10,0,0,19581,"Sans profession déclarée",47,NA,23.9,97,200069250,21950,3.4,228.4771257852
 "CC du Bas Armagnac","CC",0,0,76,32,0,0,8930,"Autres professions",72,NA,29.7,75,NA,20140,4.6,505.051913773796
 "CC du Bassin d'Aubenas","CC",0,0,84,7,0,0,41173,NA,NA,NA,26.7,479,NA,20080,5.9,532.529059092123
-"CC du Bassin de Joinville en Champagne","CC",0,0,44,52,0,0,13159,"Commercants",67,NA,25.6,60,NA,18840,2.9,614.109338855536
+"CC du Bassin de Joinville en Champagne","CC",0,0,44,52,0,0,13159,"Commercants",68,NA,25.6,60,NA,18840,2.9,614.109338855536
 "CC du Bassin de Marennes","CC",0,0,75,17,0,0,15775,"Grands corps de l'état",42,NA,28.8,131,NA,20020,3.1,390.563239936609
 "CC du Bassin de Pompey","CC",2,1,44,54,2,0,41075,"Autres professions libérales",59,NA,22.1,317,245400676,22100,6.5,773.996138283627
 "CC du Bassin de Pont-à-Mousson","CC",1,1,44,54,0,1,40960,"Cadres sup. (entreprises publiques)",64,NA,18.6,314,245400676,21410,5.6,496.905391357422
@@ -679,7 +679,7 @@
 "CC du Briançonnais","CC",1,1,93,5,1,0,21210,"Retraités des professions libérales",77,NA,21.6,301,NA,20820,8.8,833.850326261198
 "CC du Canton d'Erstein","CC",0,0,44,67,0,0,48482,"Fonctionnaires de catégorie A",54,NA,18.5,347,246700488,23940,6.4,629.538160554433
 "CC du Canton d'Oulchy-le-Château","CC",0,0,32,2,0,0,5842,"Agriculteurs propriétaires exploit.",69,NA,16.9,38,NA,21240,4.3,190.164394043136
-"CC du Canton de Charly-sur-Marne","CC",0,0,32,2,0,0,16035,"Retraités des professions libérales",74,NA,19.1,118,200072031,21690,4,468.530490177736
+"CC du Canton de Charly-sur-Marne","CC",0,0,32,2,0,0,16035,"Retraités des professions libérales",75,NA,19.1,118,200072031,21690,4,468.530490177736
 "CC du Canton de la Chambre","CC",0,0,84,73,0,0,7546,NA,NA,NA,22.5,49,NA,23110,4.3,554.675898489266
 "CC du Canton de Semur-en-Brionnais","CC",0,0,27,71,0,0,5335,"Retr.artis.commerc.chefs d'entrep.",75,NA,27.3,24,NA,21120,5.5,381.261996251172
 "CC du Cap Corse","CC",0,0,94,NA,0,0,6923,NA,NA,NA,32.3,94,NA,20080,7.5,405.35511772353
@@ -728,7 +728,7 @@
 "CC du Haut-Lignon","CC",0,0,84,43,0,0,8348,"Autres cadres (secteur privé)",44,NA,28.8,67,NA,20010,5.3,781.711146382367
 "CC du Haut-Poitou","CC",0,0,75,86,0,0,42323,"Retraités de l'enseignement",66,NA,18.8,316,200069854,21590,6.3,407.040452000095
 "CC du Haut Pays Bigouden","CC",0,0,53,29,0,0,18465,"Agents technique et techniciens",61,"Parti socialiste",23.7,116,200068120,21270,5,600.528223666396
-"CC du Haut Pays du Montreuillois","CC",0,0,32,62,0,0,16483,"Agriculteurs propriétaires exploit.",46,NA,19.4,84,NA,18840,3.2,824.283507249894
+"CC du Haut Pays du Montreuillois","CC",0,0,32,62,0,0,16483,"Agriculteurs propriétaires exploit.",47,NA,19.4,84,NA,18840,3.2,824.283507249894
 "CC du Haut Val d'Oise","CC",0,0,11,95,0,0,38498,NA,NA,NA,12.3,506,200067973,21470,5.5,252.079142812614
 "CC du Haut Vallespir","CC",0,0,76,66,0,0,9872,"Retraités fonct.publique (sf enseig.)",67,NA,36.7,104,NA,18070,5.2,1193.23785149919
 "CC du Jovinien","CC",0,0,27,89,0,0,22401,"Cadres supérieurs (secteur privé)",40,NA,23.6,180,NA,19860,4.7,417.090407571091
@@ -969,7 +969,7 @@
 "CC Faucigny-Glières","CC",0,0,84,74,0,0,28076,"Professeurs du secondaire et techn.",51,NA,14.8,280,200033116,25420,7.7,1141.58172033053
 "CC Fercher Pays Florentais","CC",0,0,24,18,0,0,11987,"Retraités salariés privés",82,NA,24.1,84,241800507,20860,3.2,534.364669224994
 "CC Fier et Usses","CC",0,0,84,74,0,0,15508,"Retr.artis.commerc.chefs d'entrep.",66,NA,13.4,195,200066793,27880,9.1,583.614786561775
-"CC Flandre Lys","CC",0,0,32,NA,0,0,40140,"Cadres supérieurs (secteur privé)",58,NA,18.1,268,200072460,21700,5.6,569.564883158944
+"CC Flandre Lys","CC",0,0,32,NA,0,0,40140,"Cadres supérieurs (secteur privé)",59,NA,18.1,268,200072460,21700,5.6,569.564883158944
 "CC Forêts,Lacs,Terres en Champagne","CC",0,0,44,10,0,0,7004,"Fonctionnaires de catégorie A",60,NA,18.9,54,NA,22190,4.6,555.600356938892
 "CC Forêts,Seine et Suzon","CC",0,0,27,21,0,0,7015,"Sans profession déclarée",66,NA,24.4,65,NA,25500,11.2,386.586192444761
 "CC Fumel Vallée du Lot","CC",0,0,75,47,0,0,25014,"Autres retraités",71,NA,31,199,200023307,18980,3.9,533.814757335892
@@ -994,6 +994,7 @@
 "CC Hautes Terres Communauté","CC",6,1,84,15,6,0,11970,NA,NA,NA,31.5,59,NA,19740,3.7,744.192872180451
 "CC Houve-Pays Boulageois","CC",0,0,44,57,0,0,23588,"Retraités salariés privés",73,NA,17.8,119,NA,22380,4.5,571.202926488045
 "CC Inter-Caux-Vexin","CC",0,0,28,76,0,0,55265,"Fonctionnaires de catégorie A",61,"Union des démocrates et indépendants",18.4,426,200023414,24260,7.6,268.840229439971
+"CC Inter-Caux-Vexin","CC",0,0,28,76,0,0,55265,"Fonctionnaires de catégorie A",61,"Mouvement radical",18.4,426,200023414,24260,7.6,268.840229439971
 "CC Interco Normandie Sud Eure","CC",0,0,NA,NA,0,0,40465,"Retraités salariés privés",72,NA,22.4,300,200071454,20580,4.5,633.170911899172
 "CC Intercom Bernay Terres de Normandie","CC",0,0,28,27,0,0,57513,"Retraités salariés privés",75,NA,23.7,366,200023414,21050,4.3,556.475442943335
 "CC Intercom de la Vire au Noireau","CC",0,0,28,14,0,0,49410,"Permanents politiques",62,NA,24.1,269,200065597,19970,3.3,240.674855697227
@@ -1035,8 +1036,8 @@
 "CC Les Trois Provinces","CC",0,0,24,18,0,0,5325,"Retraités salariés privés",78,NA,33.3,34,NA,18510,2.5,422.235891079812
 "CC Les Vals du Dauphiné","CC",0,0,84,38,0,0,63724,"Autres cadres (secteur privé)",47,NA,18,666,243800604,22000,6.1,618.837867208587
 "CC Les Versants d'Aime","CC",0,0,84,73,0,0,9820,"Retraités des entreprises publiques",66,NA,17.4,182,NA,23330,6,997.963135437882
-"CC Lieuvin Pays d'Auge","CC",0,0,28,27,0,0,20873,"Permanents politiques",59,"Union pour la démocratie française",20.9,173,200066413,20940,3.8,754.59721745796
-"CC Lieuvin Pays d'Auge","CC",0,0,28,27,0,0,20873,"Permanents politiques",59,"Parti républicain",20.9,173,200066413,20940,3.8,754.59721745796
+"CC Lieuvin Pays d'Auge","CC",0,0,28,27,0,0,20873,"Permanents politiques",60,"Union pour la démocratie française",20.9,173,200066413,20940,3.8,754.59721745796
+"CC Lieuvin Pays d'Auge","CC",0,0,28,27,0,0,20873,"Permanents politiques",60,"Parti républicain",20.9,173,200066413,20940,3.8,754.59721745796
 "CC Liffré-Cormier Communauté","CC",0,0,53,35,0,0,26181,"Autres cadres (secteur privé)",44,"Parti socialiste",14.5,169,243500139,23240,10.8,373.172823039609
 "CC Loches Sud Touraine","CC",0,0,24,37,0,0,53945,"Retraités de l'enseignement",64,NA,27.5,395,243700754,20520,4.4,683.340115117249
 "CC Lodévois et Larzac","CC",0,0,76,34,0,0,14989,"Retraités salariés privés",71,NA,24.8,175,NA,17930,6.5,930.695662152245
@@ -1114,7 +1115,7 @@
 "CC Pays Rhin - Brisach","CC",0,0,44,68,0,0,33580,"Sans profession déclarée",65,NA,17.2,215,246800726,24520,4.4,778.868948481239
 "CC Pays Ségali Communauté","CC",0,0,76,12,0,0,18544,"Retraités salariés privés",68,NA,25.8,143,241200187,21090,4.9,728.211596742882
 "CC Périgord-Limousin","CC",0,0,75,24,0,0,14694,"Ingénieurs",66,NA,32.6,150,NA,19450,4.7,619.640722743977
-"CC Perthois-Bocage et Der","CC",0,0,44,51,0,0,5771,"Professeurs du secondaire et techn.",61,NA,23.5,40,NA,21500,2.9,491.706272743025
+"CC Perthois-Bocage et Der","CC",0,0,44,51,0,0,5771,"Professeurs du secondaire et techn.",62,NA,23.5,40,NA,21500,2.9,491.706272743025
 "CC Pévèle-Carembault","CC",0,0,32,59,0,0,96703,"Conseillers juridiques",68,NA,17.3,904,200093201,25050,12.5,390.223408374094
 "CC Picardie des Châteaux","CC",0,0,32,2,0,0,17759,"Autres cadres (secteur privé)",55,NA,19.4,102,NA,20390,3.3,316.260030970212
 "CC Piège Lauragais Malepère","CC",0,0,76,11,0,0,16267,"Professeurs de faculté",50,"Parti socialiste",24.3,135,NA,19700,6.2,585.154652978423
@@ -1179,7 +1180,7 @@
 "CC Senlis Sud Oise","CC",0,0,32,60,0,0,25107,NA,NA,NA,19,277,NA,27580,15.7,391.97295853746
 "CC Serein et Armance","CC",0,0,27,89,0,0,24882,"Industriels-Chefs entreprise",73,NA,22.4,158,200067114,20510,2.8,316.095697291214
 "CC Serre-Ponçon","CC",0,0,93,NA,0,0,16799,"Autres professions",64,NA,26.7,218,200067825,21070,7.9,1077.5910298232
-"CC Serre-Ponçon Val d'Avance","CC",0,0,93,NA,0,0,7710,"Autres retraités",67,NA,19.7,86,NA,20800,6,645.103513618677
+"CC Serre-Ponçon Val d'Avance","CC",0,0,93,NA,0,0,7710,"Autres retraités",68,NA,19.7,86,NA,20800,6,645.103513618677
 "CC Seulles Terre et Mer","CC",0,0,28,14,0,0,17273,"Industriels-Chefs entreprise",74,NA,18.8,153,200065597,23030,7.5,678.576180165576
 "CC Sèvre et Loire","CC",0,0,52,44,0,0,47932,"Retraités salariés privés",71,NA,14.7,444,244400404,22740,6.3,511.864068263373
 "CC Sidobre Vals et Plateaux","CC",0,0,76,81,0,0,13094,"Autres retraités",67,NA,27.8,87,NA,19920,4,703.109056819918
@@ -1215,7 +1216,7 @@
 "CC Thelloise","CC",0,0,32,60,0,0,61207,"Grands corps de l'état",73,"Union pour un mouvement populaire",15.6,520,200067999,23830,5.5,432.030356985312
 "CC Thelloise","CC",0,0,32,60,0,0,61207,"Grands corps de l'état",73,"Rassemblement pour la République",15.6,520,200067999,23830,5.5,432.030356985312
 "CC Thelloise","CC",0,0,32,60,0,0,61207,"Grands corps de l'état",73,"Union des démocrates pour la République",15.6,520,200067999,23830,5.5,432.030356985312
-"CC Thiérache Sambre et Oise","CC",0,0,32,2,0,0,17475,"Sans profession déclarée",61,NA,21.7,50,NA,18120,1.9,490.363776824034
+"CC Thiérache Sambre et Oise","CC",0,0,32,2,0,0,17475,"Sans profession déclarée",62,NA,21.7,50,NA,18120,1.9,490.363776824034
 "CC Thiers Dore et Montagne","CC",0,0,84,63,0,0,38428,"Autres professions",47,NA,25.3,290,246300701,19460,4.3,466.413445144166
 "CC Thoré Montagne Noire","CC",0,0,76,81,0,0,5172,"Agriculteurs propriétaires exploit.",51,NA,32.1,36,NA,19240,2.8,241.481573859242
 "CC Tille et Venelle","CC",0,0,27,21,0,0,5079,"Cadres supérieurs (secteur privé)",74,NA,21.4,35,NA,22420,4.2,604.983963378618
@@ -1240,7 +1241,7 @@
 "CC Val Eyrieux","CC",1,1,84,7,1,0,13198,"Médecins",69,NA,29.3,98,NA,19810,4.3,775.833217911805
 "CC Val Guiers","CC",0,0,84,73,0,0,12443,"Fonctionnaires de catégorie A",71,NA,20.8,125,NA,22070,5.5,574.621599292775
 "CC Val Vanoise","CC",0,0,84,73,0,0,9454,"Agents technique et techniciens",65,NA,18.3,264,NA,23880,7.3,2006.26016183626
-"CC Vallée de l'Hérault","CC",0,0,76,34,0,0,38635,"Retraités de l'enseignement",81,NA,18.4,500,243400017,20840,9.6,803.52803105992
+"CC Vallée de l'Hérault","CC",0,0,76,34,0,0,38635,"Retraités de l'enseignement",82,NA,18.4,500,243400017,20840,9.6,803.52803105992
 "CC Vallée de l'Ubaye - Serre-Ponçon","CC",0,0,93,4,0,0,8189,"Cadres supérieurs (secteur privé)",51,NA,25.5,115,NA,20260,7.9,2290.22674929784
 "CC Vallée de la Dordogne et Forêt Bessède","CC",0,0,75,24,0,0,9358,"Retraités fonct.publique (sf enseig.)",74,NA,31.8,109,NA,19250,5.3,755.814005129301
 "CC Vallée des Baux-Alpilles (CC VBA)","CC",4,1,93,13,0,4,28222,"Permanents politiques",60,NA,27.9,456,200054807,22630,9.2,762.980574374601

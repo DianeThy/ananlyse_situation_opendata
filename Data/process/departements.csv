@@ -1,118 +1,118 @@
 "nom","nb_publi","ouvre_data","code_region","nb_ptf","nb_datagouv","population","CSP_chef","age_chef","partis_po_chef","part_plus65","niveau_vie","part_diplomes","taux_chomage","nb_crea_entps","nb_nuitees_hotels","flux_migration_res","depenses_hab","nb_etudiants","part_etudiants","niveau_rural","niveau_densite","percent_pop_rurale"
-"Ain",39,1,84,39,12,655171,"Représentants de commerce",57,"Les Républicains",17.6,23420,8.9,6,6546,1311,69,979.300259611613,3229,0.5,4,3,50.1712908991995
-"Aisne",1,1,32,0,1,549587,"Professeurs du secondaire et techn.",59,"Union des démocrates et indépendants",20.2,19690,4.1,11.1,3225,523,51,1104.02238055121,5714,1,3,3,57.6979522854274
-"Allier",0,0,84,0,0,349336,"Professions rattachées à enseignt.",46,"Union des démocrates et indépendants",27.3,20360,4.9,8.6,2326,860,63,1321.5922763185,4152,1.2,6,3,55.00269585453
-"Alpes-de-Haute-Provence",34,1,93,34,0,167331,"Fonctionnaires de catégorie A",70,"Parti socialiste",26,20580,7.5,9.4,1847,764,13,1367.55652682408,912,0.5,6,3,53.6449307075128
-"Hautes-Alpes",61,1,93,61,55,146148,"Retraités fonct.publique (sf enseig.)",72,"Les Républicains",24.3,20880,7.7,7.5,1740,976,13,1512.96815946848,1120,0.8,6,3,56.3130973689237
-"Alpes-Maritimes",24,1,93,24,24,1098539,"Industriels-Chefs entreprise",65,"Union pour un mouvement populaire",24.4,22140,12,8.9,21957,9062,83,1139.86256353211,46080,4.2,3,1,4.48331260594205
-"Ardèche",17,1,84,17,0,334591,"Autres cadres (secteur privé)",53,"Parti socialiste",24.7,20780,5.9,8.7,3237,612,26,1220.61477813211,1422,0.4,5,3,59.0985707498494
-"Ardennes",0,0,44,0,0,283004,"Fonctionnaires de catégorie A",63,"Les Républicains",21.2,19650,4,9.6,1843,285,51,1281.05143740018,2114,0.7,6,3,54.1136407648153
-"Ariège",1,1,76,0,1,158205,"Journalistes et autres médias",76,"Parti socialiste",26,19820,5.9,9.9,1670,258,31,1408.14581290098,978,0.6,6,3,60.7332365407278
-"Aube",1,1,44,0,1,316639,"Ingénieurs",69,"divers droite",21.4,20430,5.4,9.9,2637,763,51,1157.46973885087,9587,3,6,1,34.9614864101553
-"Aude",23,1,76,23,0,377580,"Professeurs de faculté",50,"Parti socialiste",25.8,19240,6.1,10.5,4001,1111,31,1495.75159280153,3342,0.9,6,2,48.254751287106
-"Aveyron",0,0,76,0,0,289481,"Retraités fonct.publique (sf enseig.)",73,"Union des démocrates et indépendants",27.1,20640,5.5,6,2423,722,31,1293.75573944404,3305,1.1,6,3,64.0146563675975
-"Bouches-du-Rhône",0,0,93,0,0,2047433,"Cadres supérieurs (secteur privé)",59,"Union pour un mouvement populaire",20.3,21360,12.3,9.3,33069,6724,83,1300.07683241405,98938,4.8,2,1,2.21194424978588
-"Bouches-du-Rhône",0,0,93,0,0,2047433,"Cadres supérieurs (secteur privé)",59,"Les Républicains",20.3,21360,12.3,9.3,33069,6724,83,1300.07683241405,98938,4.8,2,1,2.21194424978588
-"Calvados",23,1,28,0,23,709715,"Sans profession déclarée",66,"Union pour la démocratie française",21.3,21490,8,7.4,7243,3556,50,1019.53689444354,37048,5.2,3,2,43.2491979713477
-"Cantal",5,1,84,0,5,151615,"Cadres supérieurs (secteur privé)",54,"Les Républicains",27.7,20510,4.4,4.7,860,445,63,1500.87776367774,1390,0.9,6,3,67.9159618419977
-"Charente",57,1,75,57,0,365697,"Pharmaciens",63,"Parti socialiste",24.9,20640,5.7,7.8,3129,468,17,1213.18990544084,4107,1.1,6,3,64.3417152014678
-"Charente-Maritime",1,1,75,0,1,660458,"Autres professions",69,"Union pour un mouvement populaire",27.3,21280,6.5,8.3,7558,2321,33,1200.7110722105,16196,2.5,5,3,55.130941876079
-"Charente-Maritime",1,1,75,0,1,660458,"Autres professions",69,"Démocratie libérale",27.3,21280,6.5,8.3,7558,2321,33,1200.7110722105,16196,2.5,5,3,55.130941876079
-"Charente-Maritime",1,1,75,0,1,660458,"Autres professions",69,"Union pour la démocratie française",27.3,21280,6.5,8.3,7558,2321,33,1200.7110722105,16196,2.5,5,3,55.130941876079
-"Charente-Maritime",1,1,75,0,1,660458,"Autres professions",69,"Parti républicain",27.3,21280,6.5,8.3,7558,2321,33,1200.7110722105,16196,2.5,5,3,55.130941876079
-"Charente-Maritime",1,1,75,0,1,660458,"Autres professions",69,"Libres",27.3,21280,6.5,8.3,7558,2321,33,1200.7110722105,16196,2.5,5,3,55.130941876079
-"Cher",0,0,24,0,0,315100,"Retraités des professions libérales",73,"Les Républicains",25.5,20880,5.4,8,2168,678,45,1207.03448724215,4199,1.3,6,3,59.6530347289841
-"Corrèze",0,0,75,0,0,249707,"Agriculteurs propriétaires exploit.",54,"Les Républicains",27.2,20960,5.4,6.5,1920,538,87,1252.05556259937,3526,1.4,6,3,64.7156511943809
-"Côte-d'Or",3,1,27,3,0,546466,"Permanents politiques",68,"Démocratie libérale",20.8,22400,9.4,6.1,5709,2544,71,1024.57105076986,37649,6.9,6,2,33.041849014944
-"Côte-d'Or",3,1,27,3,0,546466,"Permanents politiques",68,"Union pour la démocratie française",20.8,22400,9.4,6.1,5709,2544,71,1024.57105076986,37649,6.9,6,2,33.041849014944
-"Côte-d'Or",3,1,27,3,0,546466,"Permanents politiques",68,"Parti républicain",20.8,22400,9.4,6.1,5709,2544,71,1024.57105076986,37649,6.9,6,2,33.041849014944
-"Côtes-d'Armor",133,1,53,133,128,618478,"Agents généraux d'assurances",68,"Union pour un mouvement populaire",25.7,21230,6.2,7,4164,1168,35,1024.9582570439,8176,1.3,5,3,66.6692954872659
-"Creuse",0,0,75,0,0,123500,"Autres professions libérales",54,"Union pour un mouvement populaire",30.1,19380,4.4,7.2,754,123,87,1559.50350445344,947,0.8,6,3,80.1121252417795
-"Dordogne",3,1,75,3,0,426667,"Enseignants 1er deg.-directeurs école",67,"Parti socialiste",28.6,20140,5.3,8.1,4291,1008,33,1274.39994278911,3252,0.8,5,3,70.966473015356
-"Doubs",28,1,27,28,0,552619,"Employés (secteur privé)",59,"Union pour un mouvement populaire",19.4,22590,7.6,7.4,4920,1082,70,975.293708395839,26472,4.8,6,2,44.3601630224072
-"Doubs",28,1,27,28,0,552619,"Employés (secteur privé)",59,"divers droite",19.4,22590,7.6,7.4,4920,1082,70,975.293708395839,26472,4.8,6,2,44.3601630224072
-"Drôme",0,0,84,0,0,522276,"Sans profession déclarée",56,"Les Républicains",21.6,21100,7.6,8.6,6163,1292,7,1170.91143680736,7928,1.5,6,2,40.2126605629954
-"Eure",32,1,28,32,0,620046,"Permanents politiques",62,"Les Républicains",19.1,21700,5.8,8.1,4852,620,76,878.218953206698,3295,0.5,4,3,62.2634025738362
-"Eure-et-Loir",29,1,24,29,29,445281,"Retraités salariés privés",84,"Les Républicains",20.3,22070,6,7.4,3604,719,78,1106.26270804279,2598,0.6,3,2,42.9525693585504
-"Finistère",45,1,53,45,46,936432,"Sans profession déclarée",50,"Parti socialiste",22.9,21690,8.1,6.9,6930,1946,56,937.278806181335,32762,3.5,5,3,50.9171316141052
-"Gard",31,1,76,0,31,757564,"Retraités agricoles",68,"Parti socialiste",22.9,20020,7.5,10.8,8941,1451,34,1199.0251869545,15425,2,5,2,27.5805430055314
-"Haute-Garonne",82,1,76,82,113,1373626,"Médecins",73,"Parti socialiste",16.5,23140,17.4,7.9,22414,3129,81,1188.17988025853,118499,8.6,3,1,23.6414925968979
-"Gers",19,1,76,19,19,197851,"Grands corps de l'état",67,"Parti socialiste",27.4,20820,6.6,5.9,1886,221,31,1336.27550439472,1394,0.7,6,3,84.4587363447287
-"Gironde",80,1,75,80,84,1595903,"Fonctionnaires de catégorie A",59,"Parti socialiste",19.1,22400,11.9,7.6,26039,4665,24,1069.93572816769,105699,6.6,5,2,28.6306276457993
-"Hérault",34,1,76,34,0,1152125,"Retraités fonct.publique (sf enseig.)",76,"Parti socialiste",21.4,20330,11.9,11.2,19335,3308,30,1222.10464901812,83254,7.2,2,2,21.7843738778696
-"Ille-et-Vilaine",45,1,53,45,25,1079333,"Fonctionnaires de catégorie A",61,"Parti socialiste",17.9,22230,11.3,6.4,10675,3053,22,946.480854166416,73073,6.8,4,2,44.5832823240923
-"Indre",8,1,24,0,8,229772,"Retraités salariés privés",71,"Les Républicains",27.7,20200,4.1,7.8,1458,419,37,1030.88799871177,1843,0.8,6,3,65.2817034105898
-"Indre-et-Loire",1,1,24,1,1,620671,"Fonctionnaires de catégorie A",69,"Les Républicains",21.4,21750,9.1,7.2,6155,1885,41,939.969561957946,32866,5.3,5,1,32.0733659415829
-"Isère",33,1,84,33,48,1279514,"Pharmaciens",60,"Union pour un mouvement populaire",18.2,22950,12.2,6.6,15998,2467,69,1208.84193810306,65369,5.1,4,2,34.9963844441691
-"Jura",2,1,27,2,0,270142,"Permanents politiques",59,"Union pour la démocratie française",23.3,21700,5.2,5.7,2097,508,25,1126.79701627292,1986,0.7,6,3,61.7600385746106
-"Landes",0,0,75,0,0,418200,"Fonctionnaires de catégorie A",58,"Parti socialiste",25,21360,5.8,7.8,4715,1129,64,1188.68119375897,2624,0.6,5,3,61.9301230912024
-"Loir-et-Cher",80,1,24,80,69,343026,"Industriels-Chefs entreprise",55,"Union pour un mouvement populaire",24.7,21380,5.7,6.5,2596,981,37,1099.75330158647,3419,1,5,3,66.0831839476974
-"Loir-et-Cher",80,1,24,80,69,343026,"Industriels-Chefs entreprise",55,"Union pour la démocratie française",24.7,21380,5.7,6.5,2596,981,37,1099.75330158647,3419,1,5,3,66.0831839476974
-"Loire",1,1,84,0,1,778211,"Autres retraités",71,"Les Républicains",22.2,20770,6.3,7.9,8343,709,69,992.43372729247,29857,3.8,5,2,26.0030763934007
-"Haute-Loire",0,0,84,0,0,234613,"Retraités salariés privés",72,"Union pour un mouvement populaire",24,20800,4.8,6.3,1760,324,42,1135.56861789415,1635,0.7,6,3,71.3889968074864
-"Loire-Atlantique",260,1,52,260,257,1415805,"Sans profession déclarée",63,"Parti socialiste",18.1,22600,11.5,6.8,16395,3307,49,901.664953521142,65857,4.7,4,2,31.7251937887443
-"Loiret",41,1,24,41,183,691942,"Agriculteurs propriétaires exploit.",57,"Union des démocrates et indépendants",19.9,21960,8.2,7.6,6177,1408,37,961.95802941576,20784,3,5,2,37.0513865330117
-"Lot",4,1,76,0,4,179390,"Agents technique et techniciens",64,"Parti socialiste",29.4,20740,6.5,7.9,1714,546,31,1297.77479998885,1459,0.8,5,3,80.9591394636588
-"Lot-et-Garonne",0,0,75,0,0,342358,"Fonctionnaires de catégorie A",69,"Parti socialiste",26.1,19930,5.3,7.9,3060,394,33,1169.0974605822,3963,1.2,5,3,59.2447691122274
-"Lozère",0,0,76,0,0,80141,"Fonctionnaires de catégorie A",50,"Parti socialiste",25.2,20420,5.6,5,521,378,34,1770.41348460838,1379,1.7,6,3,85.9293102648546
-"Maine-et-Loire",88,1,52,88,88,833602,"Médecins",75,"divers droite",19.6,21110,7.3,7.4,6733,1348,44,848.025654748909,46014,5.5,3,3,55.9194745485963
-"Manche",50,1,28,50,35,516010,"Retraités des professions libérales",71,"divers droite",24.5,20980,5.1,6,3292,1277,14,1048.9671840662,4013,0.8,5,3,67.5420571844881
-"Marne",0,0,44,0,0,584108,"Enseignants 1er deg.-directeurs école",62,"Les Républicains",19.3,21650,7.7,7.5,5259,1666,8,852.911378409472,31297,5.4,6,2,38.6541947241512
-"Haute-Marne",0,0,44,0,0,183720,"Autres professions",45,"Les Républicains",24.5,20190,3.8,6.9,1003,301,51,1188.076287285,1095,0.6,6,3,67.2804032909635
-"Mayenne",292,1,52,0,292,317742,"Avocats",62,"Union des démocrates et indépendants",21.9,20830,4.9,5.6,2411,296,35,1075.04596757747,4624,1.5,5,3,55.8934086785502
-"Meurthe-et-Moselle",16,1,44,16,1,747614,"Autres cadres (secteur privé)",45,"Parti socialiste",19.2,21480,8.3,7.6,6520,1037,57,990.209472388158,53730,7.2,4,2,25.7222716003181
-"Meuse",0,0,44,0,0,195047,"Retraités des professions libérales",73,"Union pour un mouvement populaire",22.4,20590,3.9,7.3,978,240,54,1253.51579106574,1068,0.5,6,3,74.2219421136683
-"Morbihan",17,1,53,0,17,769772,"Autres professions",67,"Union pour un mouvement populaire",24.1,21600,6.7,6.9,6445,1876,35,889.427039097291,16900,2.2,5,3,58.2295305535098
-"Morbihan",17,1,53,0,17,769772,"Autres professions",67,"Démocratie libérale",24.1,21600,6.7,6.9,6445,1876,35,889.427039097291,16900,2.2,5,3,58.2295305535098
-"Morbihan",17,1,53,0,17,769772,"Autres professions",67,"Objectif France",24.1,21600,6.7,6.9,6445,1876,35,889.427039097291,16900,2.2,5,3,58.2295305535098
-"Moselle",20,1,44,20,0,1064905,"Ingénieurs",67,"Union des démocrates et indépendants",19.4,21650,7.1,7.7,8136,1795,54,819.251328512872,27390,2.6,4,2,33.1074972301339
-"Nièvre",38,1,27,38,2,216182,"Retraités des professions libérales",71,"Parti socialiste",29,20320,4.5,6.5,1321,391,18,1436.22346624603,2314,1.1,6,3,63.97401394797
-"Nord",7,1,32,7,0,2639070,"Permanents politiques",70,"Union pour un mouvement populaire",16.8,20040,9.2,10,27024,3868,62,1112.03305819474,152012,5.8,2,2,14.749417095776
-"Nord",7,1,32,7,0,2639070,"Permanents politiques",70,"Rassemblement pour la République",16.8,20040,9.2,10,27024,3868,62,1112.03305819474,152012,5.8,2,2,14.749417095776
-"Oise",125,1,32,125,54,842804,"Fonctionnaires de catégorie B",60,"Union pour un mouvement populaire",16.8,22150,7,8.1,6975,1285,80,1017.01828628008,12324,1.5,4,2,39.121726256131
-"Oise",125,1,32,125,54,842804,"Fonctionnaires de catégorie B",60,"Les Républicains",16.8,22150,7,8.1,6975,1285,80,1017.01828628008,12324,1.5,4,2,39.121726256131
-"Orne",0,0,28,0,0,294421,"Professions rattachées à enseignt.",63,"Les Républicains",25.7,20140,4.3,7.4,1828,328,14,1179.77169488589,2943,1,6,3,72.8649972474345
-"Pas-de-Calais",0,0,32,0,0,1494330,"Permanents politiques",69,"Parti socialiste",18.5,19200,4.5,9.4,9924,2555,59,1147.33646788862,30283,2,4,2,23.8750545555905
-"Puy-de-Dôme",24,1,84,24,0,667365,"Retraités de l'enseignement",71,"Parti socialiste",21.5,21890,9.4,6.9,6315,1910,3,1070.58138667746,41486,6.2,6,2,41.9303054510418
-"Pyrénées-Atlantiques",7,1,75,7,0,694279,"Retraités agricoles",77,"Union pour la démocratie française",23.8,21850,9.7,6.7,8236,2683,40,1029.93620854152,19869,2.9,5,2,33.492772441413
-"Hautes-Pyrénées",39,1,76,39,39,235131,"Retraités des entreprises publiques",75,"Parti radical de gauche",26.6,20420,6.2,9.2,2463,2789,31,1536.07363206043,5525,2.3,6,2,44.9990372082
-"Pyrénées-Orientales",12,1,76,0,12,482567,"Cadres supérieurs (secteur privé)",52,"Parti socialiste",25.9,19350,6.8,12.5,5870,1660,34,1340.62349965911,10746,2.2,6,2,34.5687191347115
-"Bas-Rhin",100,1,44,0,100,1139258,"Autres professions",55,"Union pour un mouvement populaire",18.1,22620,10.7,6.9,11647,4437,68,944.430005187587,68344,6,4,1,23.6026163391572
-"Haut-Rhin",0,0,44,0,0,777734,"Fonctionnaires de catégorie A",65,"Union pour la démocratie française",19.5,23130,7.5,8,6821,2975,67,901.499978861667,14343,1.8,4,2,25.5903520485943
-"Haut-Rhin",0,0,44,0,0,777734,"Fonctionnaires de catégorie A",65,"Centre des démocrates sociaux",19.5,23130,7.5,8,6821,2975,67,901.499978861667,14343,1.8,4,2,25.5903520485943
-"Haut-Rhin",0,0,44,0,0,777734,"Fonctionnaires de catégorie A",65,"Les Républicains",19.5,23130,7.5,8,6821,2975,67,901.499978861667,14343,1.8,4,2,25.5903520485943
-"Rhône",0,0,84,0,0,464828,"Sans profession déclarée",63,"Union pour un mouvement populaire",16.9,22990,16.7,7.3,34631,5831,38,974.876703619403,171080,36.8,2,1,10.1148624122658
-"Haute-Saône",0,0,27,0,0,244305,"Retraités de l'enseignement",72,"Parti socialiste",22.7,20680,4.5,7.1,1624,142,25,1136.41220282025,1052,0.4,4,3,71.4165378573143
-"Saône-et-Loire",14,1,27,14,63,572527,"Industriels-Chefs entreprise",55,"sans étiquette",25.5,20850,5.4,7,4434,1453,21,1078.90691942913,5056,0.9,5,3,56.6662574535251
-"Sarthe",1,1,52,1,0,582211,"Avocats",62,"Union pour un mouvement populaire",21.7,21040,5.6,8.1,3761,894,49,1014.90942357668,14531,2.5,5,3,56.4431161278087
-"Savoie",7,1,84,7,5,442775,"Grands corps de l'état",61,"Union pour un mouvement populaire",20.4,23160,8.8,6.4,6076,3499,38,1216.77561709672,13219,3,5,2,38.5519891546984
-"Savoie",7,1,84,7,5,442775,"Grands corps de l'état",61,"Rassemblement pour la République",20.4,23160,8.8,6.4,6076,3499,38,1216.77561709672,13219,3,5,2,38.5519891546984
-"Savoie",7,1,84,7,5,442775,"Grands corps de l'état",61,"Union des démocrates pour la République",20.4,23160,8.8,6.4,6076,3499,38,1216.77561709672,13219,3,5,2,38.5519891546984
-"Haute-Savoie",0,0,84,0,0,823928,"Retraités salariés privés",74,"divers droite",16.8,26600,10.6,6.4,11273,4887,73,982.751897811459,9338,1.1,4,2,24.6466126806517
-"Paris",315,1,11,315,0,2210875,"Autres professions",62,"Parti socialiste",16.9,28270,39.3,6.4,76851,38022,92,3789.94999065076,365531,16.5,1,1,0
-"Seine-Maritime",131,1,28,131,0,1280803,"Fonctionnaires de catégorie A",61,"Union des démocrates et indépendants",19.7,21140,7.3,9,11316,2499,27,1190.6386379248,59321,4.6,5,1,26.6783577496462
-"Seine-et-Marne",1,1,11,0,1,1419206,"Professeurs du secondaire et techn.",66,"Union des démocrates et indépendants",14.4,23470,8.8,7,18953,9653,94,976.914128928429,28961,2,3,2,21.2607043365278
-"Yvelines",0,0,11,0,0,1458275,"Industriels-Chefs entreprise",63,"Union pour un mouvement populaire",16.3,26810,20.6,6.4,21901,2516,92,936.440865358043,38312,2.6,3,1,7.71998238460064
-"Yvelines",0,0,11,0,0,1458275,"Industriels-Chefs entreprise",63,"Rassemblement pour la République",16.3,26810,20.6,6.4,21901,2516,92,936.440865358043,38312,2.6,3,1,7.71998238460064
-"Deux-Sèvres",1,1,75,0,1,385495,"Avocats",72,"Les Républicains",23.2,20840,5.5,5.9,2481,455,86,966.230763771255,2764,0.7,5,3,67.9080231908684
-"Somme",1,1,32,0,1,584797,"Vétérinaires",63,"Les Républicains",19.7,20320,6.3,9.3,4290,933,60,1080.16218132104,31333,5.4,3,2,44.1268855305602
-"Tarn",0,0,76,0,0,397929,"Autres cadres (secteur privé)",47,"Parti socialiste",25,20400,6.5,8.1,4103,492,31,1203.96776030397,7513,1.9,4,2,43.7294085199208
-"Tarn-et-Garonne",0,0,76,0,0,263125,"Retraités agricoles",71,"sans étiquette",22.1,20140,5.7,9,2704,327,31,1283.45355462233,1695,0.6,6,3,51.449904279685
-"Var",9,1,93,9,0,1073201,"Retraités fonct.publique (sf enseig.)",70,"Les Républicains",25.8,21590,8,8.5,16786,3676,13,1109.38483907488,16369,1.5,5,1,13.9811245069418
-"Vaucluse",21,1,93,21,0,570921,"Retraités de l'enseignement",77,"Union pour un mouvement populaire",22,19880,7.7,10.2,7875,2223,13,1144.48424291627,10967,1.9,5,2,25.6373724440306
-"Vaucluse",21,1,93,21,0,570921,"Retraités de l'enseignement",77,"Les Républicains",22,19880,7.7,10.2,7875,2223,13,1144.48424291627,10967,1.9,5,2,25.6373724440306
-"Vendée",0,0,52,0,0,689496,"Retr.artis.commerc.chefs d'entrep.",67,"divers droite",24.1,21320,4.5,6.5,5526,1546,44,960.811725144163,6631,1,5,3,63.6554452364625
-"Vienne",1,1,75,0,1,447026,"Pharmaciens",59,"Les Républicains",21.8,20900,7.9,6.5,3822,1685,79,1002.88024745764,29232,6.5,6,3,60.1404059733197
-"Haute-Vienne",0,0,75,0,0,383215,"Professeurs du secondaire et techn.",68,"Parti socialiste",24.5,20860,7.3,7.3,3263,706,19,1105.94799786021,19901,5.2,3,3,50.1201150758418
-"Vosges",0,0,44,0,0,382328,"Autres professions",58,"Union pour un mouvement populaire",23.7,20240,4.4,8.4,2750,940,54,1182.27554107991,3693,1,6,3,67.5679932651703
-"Vosges",0,0,44,0,0,382328,"Autres professions",58,"Rassemblement pour la République",23.7,20240,4.4,8.4,2750,940,54,1182.27554107991,3693,1,6,3,67.5679932651703
-"Yonne",0,0,27,0,0,350970,"Retr.artis.commerc.chefs d'entrep.",69,"Les Républicains",24.1,20800,5,7.2,2749,725,21,1089.8823032168,2057,0.6,6,3,67.2130469465536
-"Territoire de Belfort",0,0,27,0,0,147347,"Permanents politiques",44,"Les Républicains",19.6,21860,9.1,8.9,1354,310,25,1057.26233998656,5617,3.8,3,1,22.7541598411386
-"Essonne",0,0,11,0,0,1305061,"Autres professions libérales",50,"Les Républicains",15,23920,13.5,6.7,19626,2049,77,1107.93713630244,46606,3.6,3,1,5.37627111718212
-"Hauts-de-Seine",138,1,11,138,149,1622143,"Autres professions",76,"Union pour un mouvement populaire",15.1,28040,30.7,6.4,32480,6020,75,1160.25193383074,86830,5.4,1,1,0
-"Hauts-de-Seine",138,1,11,138,149,1622143,"Autres professions",76,"Rassemblement pour la République",15.1,28040,30.7,6.4,32480,6020,75,1160.25193383074,86830,5.4,1,1,0
-"Hauts-de-Seine",138,1,11,138,149,1622143,"Autres professions",76,"Union des démocrates pour la République",15.1,28040,30.7,6.4,32480,6020,75,1160.25193383074,86830,5.4,1,1,0
-"Hauts-de-Seine",138,1,11,138,149,1622143,"Autres professions",76,"Occident",15.1,28040,30.7,6.4,32480,6020,75,1160.25193383074,86830,5.4,1,1,0
-"Seine-Saint-Denis",356,1,11,356,173,1616311,"Fonctionnaires de catégorie A",51,"Parti socialiste",11.9,17740,10.1,10.7,35012,5032,77,1425.54906030461,60491,3.7,1,1,0
-"Val-de-Marne",0,0,11,0,0,1389336,"Permanents politiques",70,"Parti communiste français",14.7,22880,17.9,7.4,26168,3365,75,1294.75983533861,63069,4.5,1,1,0
-"Val-d'Oise",0,0,11,0,0,1237218,"Retraités de l'enseignement",75,"Les Républicains",13.5,21970,10.8,8.5,20790,4080,60,990.39290963274,33417,2.7,3,1,3.5526184831054
+"Ain",39,1,84,39,12,655171,"Représentants de commerce",57,"Les Républicains",17.6,23420,8.9,6,6546,1311,69,979.300259611613,3288,0.5,4,3,50.1767973886485
+"Aisne",0,0,32,0,0,549587,"Professeurs du secondaire et techn.",59,"Union des démocrates et indépendants",20.2,19690,4.1,11.1,3225,523,51,1104.02238055121,5767,1,3,3,57.6233204861807
+"Allier",0,0,84,0,0,349336,"Professions rattachées à enseignt.",46,"Union des démocrates et indépendants",27.3,20360,4.9,8.6,2326,860,63,1321.5922763185,4016,1.1,6,3,54.9774953296157
+"Alpes-de-Haute-Provence",34,1,93,34,0,167331,"Fonctionnaires de catégorie A",70,"Parti socialiste",26,20580,7.5,9.4,1847,764,13,1367.55652682408,911,0.5,6,3,53.4841855668902
+"Hautes-Alpes",61,1,93,61,55,146148,"Retraités fonct.publique (sf enseig.)",72,"Les Républicains",24.3,20880,7.7,7.5,1740,976,13,1512.96815946848,1121,0.8,6,3,56.7247723365867
+"Alpes-Maritimes",24,1,93,24,24,1098539,"Industriels-Chefs entreprise",65,"Union pour un mouvement populaire",24.4,22140,12,8.9,21957,9062,83,1139.86256353211,46272,4.2,3,1,4.46393720329377
+"Ardèche",17,1,84,17,0,334591,"Autres cadres (secteur privé)",53,"Parti socialiste",24.7,20780,5.9,8.7,3237,612,26,1220.61477813211,1449,0.4,5,3,59.1079211387316
+"Ardennes",0,0,44,0,0,283004,"Fonctionnaires de catégorie A",63,"Les Républicains",21.2,19650,4,9.6,1843,285,51,1281.05143740018,2138,0.8,6,3,54.1729637106412
+"Ariège",1,1,76,0,1,158205,"Journalistes et autres médias",76,"Parti socialiste",26,19820,5.9,9.9,1670,258,31,1408.14581290098,986,0.6,6,3,60.885116030594
+"Aube",1,1,44,0,1,316639,"Ingénieurs",69,"divers droite",21.4,20430,5.4,9.9,2637,763,51,1157.46973885087,9588,3,6,1,34.8031655563893
+"Aude",23,1,76,23,0,377580,"Professeurs de faculté",50,"Parti socialiste",25.8,19240,6.1,10.5,4001,1111,31,1495.75159280153,3518,0.9,6,2,48.0962118998929
+"Aveyron",0,0,76,0,0,289481,"Retraités fonct.publique (sf enseig.)",73,"Union des démocrates et indépendants",27.1,20640,5.5,6,2423,722,31,1293.75573944404,3302,1.1,6,3,64.1264578847957
+"Bouches-du-Rhône",0,0,93,0,0,2047433,"Cadres supérieurs (secteur privé)",59,"Union pour un mouvement populaire",20.3,21360,12.3,9.3,33069,6724,83,1300.07683241405,99243,4.8,2,1,2.20087426427563
+"Bouches-du-Rhône",0,0,93,0,0,2047433,"Cadres supérieurs (secteur privé)",59,"Les Républicains",20.3,21360,12.3,9.3,33069,6724,83,1300.07683241405,99243,4.8,2,1,2.20087426427563
+"Calvados",23,1,28,0,23,709715,"Sans profession déclarée",66,"Union pour la démocratie française",21.3,21490,8,7.4,7243,3556,50,1019.53689444354,37000,5.2,3,2,43.2454049374257
+"Cantal",5,1,84,0,5,151615,"Cadres supérieurs (secteur privé)",54,"Les Républicains",27.7,20510,4.4,4.7,860,445,63,1500.87776367774,1404,0.9,6,3,67.9053393311168
+"Charente",57,1,75,57,0,365697,"Pharmaciens",63,"Parti socialiste",24.9,20640,5.7,7.8,3129,468,17,1213.18990544084,4098,1.1,6,3,64.3849192343854
+"Charente-Maritime",1,1,75,0,1,660458,"Autres professions",69,"Union pour un mouvement populaire",27.3,21280,6.5,8.3,7558,2321,33,1200.7110722105,16191,2.5,5,3,55.146314846685
+"Charente-Maritime",1,1,75,0,1,660458,"Autres professions",69,"Démocratie libérale",27.3,21280,6.5,8.3,7558,2321,33,1200.7110722105,16191,2.5,5,3,55.146314846685
+"Charente-Maritime",1,1,75,0,1,660458,"Autres professions",69,"Union pour la démocratie française",27.3,21280,6.5,8.3,7558,2321,33,1200.7110722105,16191,2.5,5,3,55.146314846685
+"Charente-Maritime",1,1,75,0,1,660458,"Autres professions",69,"Parti républicain",27.3,21280,6.5,8.3,7558,2321,33,1200.7110722105,16191,2.5,5,3,55.146314846685
+"Charente-Maritime",1,1,75,0,1,660458,"Autres professions",69,"Libres",27.3,21280,6.5,8.3,7558,2321,33,1200.7110722105,16191,2.5,5,3,55.146314846685
+"Cher",0,0,24,0,0,315100,"Retraités des professions libérales",73,"Les Républicains",25.5,20880,5.4,8,2168,678,45,1207.03448724215,4191,1.3,6,3,59.5288402999118
+"Corrèze",0,0,75,0,0,249707,"Agriculteurs propriétaires exploit.",54,"Les Républicains",27.2,20960,5.4,6.5,1920,538,87,1252.05556259937,3513,1.4,6,3,64.8329266822677
+"Côte-d'Or",3,1,27,3,0,546466,"Permanents politiques",68,"Démocratie libérale",20.8,22400,9.4,6.1,5709,2544,71,1024.57105076986,37631,6.9,6,2,33.0882192110415
+"Côte-d'Or",3,1,27,3,0,546466,"Permanents politiques",68,"Union pour la démocratie française",20.8,22400,9.4,6.1,5709,2544,71,1024.57105076986,37631,6.9,6,2,33.0882192110415
+"Côte-d'Or",3,1,27,3,0,546466,"Permanents politiques",68,"Parti républicain",20.8,22400,9.4,6.1,5709,2544,71,1024.57105076986,37631,6.9,6,2,33.0882192110415
+"Côtes-d'Armor",133,1,53,133,128,618478,"Agents généraux d'assurances",68,"Union pour un mouvement populaire",25.7,21230,6.2,7,4164,1168,35,1024.9582570439,8162,1.3,5,3,66.6392953620721
+"Creuse",0,0,75,0,0,123500,"Autres professions libérales",54,"Union pour un mouvement populaire",30.1,19380,4.4,7.2,754,123,87,1559.50350445344,946,0.8,6,3,80.3120680042465
+"Dordogne",0,0,75,0,0,426667,"Enseignants 1er deg.-directeurs école",67,"Parti socialiste",28.6,20140,5.3,8.1,4291,1008,33,1274.39994278911,3243,0.8,5,3,71.0013900849073
+"Doubs",28,1,27,28,0,552619,"Employés (secteur privé)",59,"Union pour un mouvement populaire",19.4,22590,7.6,7.4,4920,1082,70,975.293708395839,26942,4.9,6,2,44.2761527295024
+"Doubs",28,1,27,28,0,552619,"Employés (secteur privé)",59,"divers droite",19.4,22590,7.6,7.4,4920,1082,70,975.293708395839,26942,4.9,6,2,44.2761527295024
+"Drôme",0,0,84,0,0,522276,"Sans profession déclarée",56,"Les Républicains",21.6,21100,7.6,8.6,6163,1292,7,1170.91143680736,7927,1.5,6,2,40.2317709437964
+"Eure",32,1,28,32,0,620046,"Permanents politiques",62,"Les Républicains",19.1,21700,5.8,8.1,4852,620,76,878.218953206698,3350,0.5,4,3,62.8679711488991
+"Eure-et-Loir",29,1,24,29,29,445281,"Retraités salariés privés",84,"Les Républicains",20.3,22070,6,7.4,3604,719,78,1106.26270804279,2580,0.6,3,2,43.0015785566798
+"Finistère",45,1,53,45,46,936432,"Sans profession déclarée",50,"Parti socialiste",22.9,21690,8.1,6.9,6930,1946,56,937.278806181335,32739,3.5,5,3,50.8296606434553
+"Gard",0,0,76,0,0,757564,"Retraités agricoles",68,"Parti socialiste",22.9,20020,7.5,10.8,8941,1451,34,1199.0251869545,15736,2.1,5,2,27.6039996962897
+"Haute-Garonne",82,1,76,82,113,1373626,"Médecins",73,"Parti socialiste",16.5,23140,17.4,7.9,22414,3129,81,1188.17988025853,119782,8.7,3,1,23.571927293376
+"Gers",19,1,76,19,19,197851,"Grands corps de l'état",67,"Parti socialiste",27.4,20820,6.6,5.9,1886,221,31,1336.27550439472,1380,0.7,6,3,84.2835527311242
+"Gironde",80,1,75,80,84,1595903,"Fonctionnaires de catégorie A",59,"Parti socialiste",19.1,22400,11.9,7.6,26039,4665,24,1069.93572816769,105988,6.6,5,2,28.5158851544361
+"Hérault",34,1,76,34,0,1152125,"Retraités fonct.publique (sf enseig.)",76,"Parti socialiste",21.4,20330,11.9,11.2,19335,3308,30,1222.10464901812,83352,7.2,2,2,21.7196724896135
+"Ille-et-Vilaine",45,1,53,45,25,1079333,"Fonctionnaires de catégorie A",61,"Parti socialiste",17.9,22230,11.3,6.4,10675,3053,22,946.480854166416,73256,6.8,4,2,44.5327104952207
+"Indre",8,1,24,0,8,229772,"Retraités salariés privés",71,"Les Républicains",27.7,20200,4.1,7.8,1458,419,37,1030.88799871177,1845,0.8,6,3,65.291419015119
+"Indre-et-Loire",1,1,24,1,1,620671,"Fonctionnaires de catégorie A",69,"Les Républicains",21.4,21750,9.1,7.2,6155,1885,41,939.969561957946,32859,5.3,5,1,31.9339612779125
+"Isère",33,1,84,33,48,1279514,"Pharmaciens",60,"Union pour un mouvement populaire",18.2,22950,12.2,6.6,15998,2467,69,1208.84193810306,65446,5.1,4,2,35.0609941888718
+"Jura",2,1,27,2,0,270142,"Permanents politiques",59,"Union pour la démocratie française",23.3,21700,5.2,5.7,2097,508,25,1126.79701627292,1976,0.7,6,3,61.7225759721517
+"Landes",0,0,75,0,0,418200,"Fonctionnaires de catégorie A",59,"Parti socialiste",25,21360,5.8,7.8,4715,1129,64,1188.68119375897,2676,0.6,5,3,61.9109379647282
+"Loir-et-Cher",69,1,24,0,69,343026,"Industriels-Chefs entreprise",55,"Union pour un mouvement populaire",24.7,21380,5.7,6.5,2596,981,37,1099.75330158647,3412,1,5,3,66.0873040866258
+"Loir-et-Cher",69,1,24,0,69,343026,"Industriels-Chefs entreprise",55,"Union pour la démocratie française",24.7,21380,5.7,6.5,2596,981,37,1099.75330158647,3412,1,5,3,66.0873040866258
+"Loire",0,0,84,0,0,778211,"Autres retraités",71,"Les Républicains",22.2,20770,6.3,7.9,8343,709,69,992.43372729247,29966,3.9,5,2,26.0730640819961
+"Haute-Loire",0,0,84,0,0,234613,"Retraités salariés privés",72,"Union pour un mouvement populaire",24,20800,4.8,6.3,1760,324,42,1135.56861789415,1634,0.7,6,3,71.3367522521003
+"Loire-Atlantique",260,1,52,260,257,1415805,"Sans profession déclarée",63,"Parti socialiste",18.1,22600,11.5,6.8,16395,3307,49,901.664953521142,66038,4.7,4,2,31.6855510088895
+"Loiret",41,1,24,41,183,691942,"Agriculteurs propriétaires exploit.",57,"Union des démocrates et indépendants",19.9,21960,8.2,7.6,6177,1408,37,961.95802941576,20772,3,5,2,36.9777328948414
+"Lot",4,1,76,0,4,179390,"Agents technique et techniciens",64,"Parti socialiste",29.4,20740,6.5,7.9,1714,546,31,1297.77479998885,1465,0.8,5,3,80.9334566149994
+"Lot-et-Garonne",0,0,75,0,0,342358,"Fonctionnaires de catégorie A",69,"Parti socialiste",26.1,19930,5.3,7.9,3060,394,33,1169.0974605822,3951,1.2,5,3,59.3846006431869
+"Lozère",0,0,76,0,0,80141,"Fonctionnaires de catégorie A",50,"Parti socialiste",25.2,20420,5.6,5,521,378,34,1770.41348460838,1373,1.7,6,3,85.7956063615981
+"Maine-et-Loire",88,1,52,88,88,833602,"Médecins",75,"divers droite",19.6,21110,7.3,7.4,6733,1348,44,848.025654748909,45989,5.5,3,3,55.6510385503541
+"Manche",50,1,28,50,35,516010,"Retraités des professions libérales",71,"divers droite",24.5,20980,5.1,6,3292,1277,14,1048.9671840662,4082,0.8,5,3,67.505136264751
+"Marne",0,0,44,0,0,584108,"Enseignants 1er deg.-directeurs école",62,"Les Républicains",19.3,21650,7.7,7.5,5259,1666,8,852.911378409472,31350,5.4,6,2,38.6938287980625
+"Haute-Marne",0,0,44,0,0,183720,"Autres professions",45,"Les Républicains",24.5,20190,3.8,6.9,1003,301,51,1188.076287285,1091,0.6,6,3,67.2941784361006
+"Mayenne",292,1,52,0,292,317742,"Avocats",62,"Union des démocrates et indépendants",21.9,20830,4.9,5.6,2411,296,35,1075.04596757747,4687,1.5,5,3,56.0760220043369
+"Meurthe-et-Moselle",16,1,44,16,1,747614,"Autres cadres (secteur privé)",45,"Parti socialiste",19.2,21480,8.3,7.6,6520,1037,57,990.209472388158,53727,7.2,4,2,25.6531086299069
+"Meuse",0,0,44,0,0,195047,"Retraités des professions libérales",73,"Union pour un mouvement populaire",22.4,20590,3.9,7.3,978,240,54,1253.51579106574,1066,0.5,6,3,74.3474954288272
+"Morbihan",17,1,53,0,17,769772,"Autres professions",67,"Union pour un mouvement populaire",24.1,21600,6.7,6.9,6445,1876,35,889.427039097291,16896,2.2,5,3,58.2219119394542
+"Morbihan",17,1,53,0,17,769772,"Autres professions",67,"Démocratie libérale",24.1,21600,6.7,6.9,6445,1876,35,889.427039097291,16896,2.2,5,3,58.2219119394542
+"Morbihan",17,1,53,0,17,769772,"Autres professions",67,"Objectif France",24.1,21600,6.7,6.9,6445,1876,35,889.427039097291,16896,2.2,5,3,58.2219119394542
+"Moselle",20,1,44,20,0,1064905,"Ingénieurs",67,"Union des démocrates et indépendants",19.4,21650,7.1,7.7,8136,1795,54,819.251328512872,27388,2.6,4,2,33.1196178026672
+"Nièvre",38,1,27,38,2,216182,"Retraités des professions libérales",71,"Parti socialiste",29,20320,4.5,6.5,1321,391,18,1436.22346624603,2339,1.1,6,3,63.7724710782719
+"Nord",7,1,32,7,0,2639070,"Permanents politiques",70,"Union pour un mouvement populaire",16.8,20040,9.2,10,27024,3868,62,1112.03305819474,152088,5.8,2,2,14.7325766004618
+"Nord",7,1,32,7,0,2639070,"Permanents politiques",70,"Rassemblement pour la République",16.8,20040,9.2,10,27024,3868,62,1112.03305819474,152088,5.8,2,2,14.7325766004618
+"Oise",125,1,32,125,54,842804,"Fonctionnaires de catégorie B",60,"Union pour un mouvement populaire",16.8,22150,7,8.1,6975,1285,80,1017.01828628008,12435,1.5,4,2,38.9816830670885
+"Oise",125,1,32,125,54,842804,"Fonctionnaires de catégorie B",60,"Les Républicains",16.8,22150,7,8.1,6975,1285,80,1017.01828628008,12435,1.5,4,2,38.9816830670885
+"Orne",0,0,28,0,0,294421,"Professions rattachées à enseignt.",63,"Les Républicains",25.7,20140,4.3,7.4,1828,328,14,1179.77169488589,3138,1.1,6,3,72.8199919742323
+"Pas-de-Calais",0,0,32,0,0,1494330,"Permanents politiques",69,"Parti socialiste",18.5,19200,4.5,9.4,9924,2555,59,1147.33646788862,30226,2,4,2,23.8833915755619
+"Puy-de-Dôme",24,1,84,24,0,667365,"Retraités de l'enseignement",72,"Parti socialiste",21.5,21890,9.4,6.9,6315,1910,3,1070.58138667746,41369,6.2,6,2,41.6875111531866
+"Pyrénées-Atlantiques",7,1,75,7,0,694279,"Retraités agricoles",77,"Union pour la démocratie française",23.8,21850,9.7,6.7,8236,2683,40,1029.93620854152,19869,2.9,5,2,33.4806457483037
+"Hautes-Pyrénées",39,1,76,39,39,235131,"Retraités des entreprises publiques",75,"Parti radical de gauche",26.6,20420,6.2,9.2,2463,2789,31,1536.07363206043,5467,2.3,6,2,44.6901335336154
+"Pyrénées-Orientales",12,1,76,0,12,482567,"Cadres supérieurs (secteur privé)",52,"Parti socialiste",25.9,19350,6.8,12.5,5870,1660,34,1340.62349965911,10744,2.2,6,2,34.5503492901523
+"Bas-Rhin",100,1,44,0,100,1139258,"Autres professions",55,"Union pour un mouvement populaire",18.1,22620,10.7,6.9,11647,4437,68,944.430005187587,68458,6,4,1,23.4401148747361
+"Haut-Rhin",0,0,44,0,0,777734,"Fonctionnaires de catégorie A",65,"Union pour la démocratie française",19.5,23130,7.5,8,6821,2975,67,901.499978861667,14389,1.9,4,2,25.60891952427
+"Haut-Rhin",0,0,44,0,0,777734,"Fonctionnaires de catégorie A",65,"Centre des démocrates sociaux",19.5,23130,7.5,8,6821,2975,67,901.499978861667,14389,1.9,4,2,25.60891952427
+"Haut-Rhin",0,0,44,0,0,777734,"Fonctionnaires de catégorie A",65,"Les Républicains",19.5,23130,7.5,8,6821,2975,67,901.499978861667,14389,1.9,4,2,25.60891952427
+"Rhône",0,0,84,0,0,464828,"Sans profession déclarée",63,"Union pour un mouvement populaire",16.9,22990,16.7,7.3,34631,5831,38,974.876703619403,171459,36.9,2,1,10.0776382700864
+"Haute-Saône",0,0,27,0,0,244305,"Retraités de l'enseignement",72,"Parti socialiste",22.7,20680,4.5,7.1,1624,142,25,1136.41220282025,1043,0.4,4,3,71.3382574653812
+"Saône-et-Loire",14,1,27,14,63,572527,"Industriels-Chefs entreprise",55,"sans étiquette",25.5,20850,5.4,7,4434,1453,21,1078.90691942913,5042,0.9,5,3,56.7038330221486
+"Sarthe",1,1,52,1,0,582211,"Avocats",62,"Union pour un mouvement populaire",21.7,21040,5.6,8.1,3761,894,49,1014.90942357668,14504,2.5,5,3,56.3053941266845
+"Savoie",5,1,84,0,5,442775,"Grands corps de l'état",61,"Union pour un mouvement populaire",20.4,23160,8.8,6.4,6076,3499,38,1216.77561709672,13214,3,5,2,38.5471370124483
+"Savoie",5,1,84,0,5,442775,"Grands corps de l'état",61,"Rassemblement pour la République",20.4,23160,8.8,6.4,6076,3499,38,1216.77561709672,13214,3,5,2,38.5471370124483
+"Savoie",5,1,84,0,5,442775,"Grands corps de l'état",61,"Union des démocrates pour la République",20.4,23160,8.8,6.4,6076,3499,38,1216.77561709672,13214,3,5,2,38.5471370124483
+"Haute-Savoie",0,0,84,0,0,823928,"Retraités salariés privés",74,"divers droite",16.8,26600,10.6,6.4,11273,4887,73,982.751897811459,9319,1.1,4,2,24.6557738398695
+"Paris",276,1,11,276,451,2210875,"Autres professions",62,"Parti socialiste",16.9,28270,39.3,6.4,76851,38022,92,3789.94999065076,365816,16.5,1,1,0
+"Seine-Maritime",131,1,28,131,0,1280803,"Fonctionnaires de catégorie A",61,"Union des démocrates et indépendants",19.7,21140,7.3,9,11316,2499,27,1190.6386379248,58715,4.6,5,1,26.6531010896525
+"Seine-Maritime",131,1,28,131,0,1280803,"Fonctionnaires de catégorie A",61,"Mouvement radical",19.7,21140,7.3,9,11316,2499,27,1190.6386379248,58715,4.6,5,1,26.6531010896525
+"Seine-et-Marne",1,1,11,0,1,1419206,"Professeurs du secondaire et techn.",66,"Union des démocrates et indépendants",14.4,23470,8.8,7,18953,9653,94,976.914128928429,29036,2,3,2,21.1701344507904
+"Yvelines",0,0,11,0,0,1458275,"Industriels-Chefs entreprise",63,"Union pour un mouvement populaire",16.3,26810,20.6,6.4,21901,2516,92,936.440865358043,38302,2.6,3,1,7.73072835881775
+"Yvelines",0,0,11,0,0,1458275,"Industriels-Chefs entreprise",63,"Les Républicains",16.3,26810,20.6,6.4,21901,2516,92,936.440865358043,38302,2.6,3,1,7.73072835881775
+"Deux-Sèvres",1,1,75,0,1,385495,"Avocats",72,"Les Républicains",23.2,20840,5.5,5.9,2481,455,86,966.230763771255,2752,0.7,5,3,67.8084972095861
+"Somme",1,1,32,0,1,584797,"Vétérinaires",63,NA,19.7,20320,6.3,9.3,4290,933,60,1080.16218132104,31347,5.4,3,2,44.1167602154571
+"Tarn",0,0,76,0,0,397929,"Autres cadres (secteur privé)",47,"Parti socialiste",25,20400,6.5,8.1,4103,492,31,1203.96776030397,7562,1.9,4,2,43.7137892528255
+"Tarn-et-Garonne",0,0,76,0,0,263125,"Retraités agricoles",71,"sans étiquette",22.1,20140,5.7,9,2704,327,31,1283.45355462233,1699,0.6,6,3,51.4368462490159
+"Var",9,1,93,9,0,1073201,"Retraités fonct.publique (sf enseig.)",70,"Les Républicains",25.8,21590,8,8.5,16786,3676,13,1109.38483907488,16132,1.5,5,1,13.8610784657886
+"Vaucluse",21,1,93,21,0,570921,"Retraités de l'enseignement",77,"Union pour un mouvement populaire",22,19880,7.7,10.2,7875,2223,13,1144.48424291627,10980,1.9,5,2,25.6425529934616
+"Vaucluse",21,1,93,21,0,570921,"Retraités de l'enseignement",77,"Les Républicains",22,19880,7.7,10.2,7875,2223,13,1144.48424291627,10980,1.9,5,2,25.6425529934616
+"Vendée",0,0,52,0,0,689496,"Retr.artis.commerc.chefs d'entrep.",67,"Les Républicains",24.1,21320,4.5,6.5,5526,1546,44,960.811725144163,6646,1,5,3,63.6069227237162
+"Vienne",1,1,75,0,1,447026,"Pharmaciens",59,NA,21.8,20900,7.9,6.5,3822,1685,79,1002.88024745764,29266,6.5,6,3,60.0967581229747
+"Haute-Vienne",0,0,75,0,0,383215,"Professeurs du secondaire et techn.",68,"Parti socialiste",24.5,20860,7.3,7.3,3263,706,19,1105.94799786021,20038,5.2,3,3,50.0791778344862
+"Vosges",0,0,44,0,0,382328,"Autres professions",58,"Union pour un mouvement populaire",23.7,20240,4.4,8.4,2750,940,54,1182.27554107991,3695,1,6,3,67.382648441676
+"Vosges",0,0,44,0,0,382328,"Autres professions",58,"Les Républicains",23.7,20240,4.4,8.4,2750,940,54,1182.27554107991,3695,1,6,3,67.382648441676
+"Yonne",0,0,27,0,0,350970,"Retr.artis.commerc.chefs d'entrep.",69,"Les Républicains",24.1,20800,5,7.2,2749,725,21,1089.8823032168,2071,0.6,6,3,67.0015014259104
+"Territoire de Belfort",0,0,27,0,0,147347,"Permanents politiques",44,NA,19.6,21860,9.1,8.9,1354,310,25,1057.26233998656,5473,3.7,3,1,22.9134924216282
+"Essonne",0,0,11,0,0,1305061,"Autres professions libérales",50,"Les Républicains",15,23920,13.5,6.7,19626,2049,77,1107.93713630244,46536,3.6,3,1,5.35607962173837
+"Hauts-de-Seine",138,1,11,138,149,1622143,"Autres professions",76,"Union pour un mouvement populaire",15.1,28040,30.7,6.4,32480,6020,75,1160.25193383074,86344,5.3,1,1,0
+"Hauts-de-Seine",138,1,11,138,149,1622143,"Autres professions",76,"Rassemblement pour la République",15.1,28040,30.7,6.4,32480,6020,75,1160.25193383074,86344,5.3,1,1,0
+"Hauts-de-Seine",138,1,11,138,149,1622143,"Autres professions",76,"Union des démocrates pour la République",15.1,28040,30.7,6.4,32480,6020,75,1160.25193383074,86344,5.3,1,1,0
+"Hauts-de-Seine",138,1,11,138,149,1622143,"Autres professions",76,"Occident",15.1,28040,30.7,6.4,32480,6020,75,1160.25193383074,86344,5.3,1,1,0
+"Seine-Saint-Denis",356,1,11,356,173,1616311,"Fonctionnaires de catégorie A",51,"Parti socialiste",11.9,17740,10.1,10.7,35012,5032,77,1425.54906030461,60591,3.7,1,1,0
+"Val-de-Marne",0,0,11,0,0,1389336,"Permanents politiques",70,"Les Républicains",14.7,22880,17.9,7.4,26168,3365,75,1294.75983533861,63211,4.5,1,1,0

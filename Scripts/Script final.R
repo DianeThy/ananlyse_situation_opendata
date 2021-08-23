@@ -59,8 +59,8 @@ observatoire_opendata_territoire$SIREN <- as.numeric(observatoire_opendata_terri
 # On sépare la base selon le type d'organisation
 observatoire_reg <- observatoire_opendata_territoire %>% filter(type == "REG") #15
 observatoire_dep <- observatoire_opendata_territoire %>% filter(type == "DEP") #61
-observatoire_com <- observatoire_opendata_territoire %>% filter(type == "COM")  #351 obs
-observatoire_epci <- observatoire_opendata_territoire %>% filter(type == "MET" | type == "CU" | type == "CC" | type == "CA")  # 17+5+43+99 = 164
+observatoire_com <- observatoire_opendata_territoire %>% filter(type == "COM")  #353 obs
+observatoire_epci <- observatoire_opendata_territoire %>% filter(type == "MET" | type == "CU" | type == "CC" | type == "CA")  # 17+5+43+99 = 168
 
 # On match par les numéros de SIREN 
 regions <- left_join(regions, observatoire_reg[,-c(2:3)], by="SIREN", na_matches="never")
@@ -68,6 +68,9 @@ departements <- left_join(departements[,-6], observatoire_dep[,-c(2:3)], by="SIR
 communes <- left_join(communes[,-7], observatoire_com[,-c(2:3)], by="SIREN", na_matches="never") #de meme 
 epci <- left_join(epci, observatoire_epci[,-c(2:3)], by="SIREN", na_matches="never")
 
+# Pour Paris qui est à la fois une ville et un département mais n'est recensé qu'en commune sur les données OODT, on affecte les données nous meme
+departements[77,8] <- c(276)
+departements[77,10] <- c(451)
 
 
 
@@ -435,10 +438,10 @@ epci <- epci %>% rename(depenses_hab = `Montant en € par habitant`)
 
 
 # Import de la base du nombre d'étudiants
-Nb_etudiants_pop <- read_delim("https://data.enseignementsup-recherche.gouv.fr/explore/dataset/fr-esr-atlas_regional-effectifs-d-etudiants-inscrits/download/?format=csv&disjunctive.rgp_formations_ou_etablissements=true&refine.rgp_formations_ou_etablissements=Total+des+formations+d%27enseignement+sup%C3%A9rieur&refine.rentree_universitaire=2018-19&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";", escape_double = FALSE, trim_ws = TRUE)
+Nb_etudiants_pop <- read_delim("https://data.enseignementsup-recherche.gouv.fr/explore/dataset/fr-esr-atlas_regional-effectifs-d-etudiants-inscrits/download/?format=csv&disjunctive.rgp_formations_ou_etablissements=true&refine.rgp_formations_ou_etablissements=Total+des+formations+d%27enseignement+sup%C3%A9rieur&refine.annee_universitaire=2018-19&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";", escape_double = FALSE, trim_ws = TRUE)
 
     # on garde le COG, le type de niveau géo et le nb d'étudiants
-Nb_etudiants_pop <- Nb_etudiants_pop[, c(3,22,11)]
+Nb_etudiants_pop <- Nb_etudiants_pop[, c(2,10,23)]
     # on renomme les colonnes
 Nb_etudiants_pop <- Nb_etudiants_pop %>% rename(COG = `Identifiant de l’unité géographique`,
                                                 nb_etudiants = `Nombre total d’étudiants inscrits`,
@@ -517,7 +520,7 @@ communes$niveau_rural <- str_replace_all(communes$niveau_rural, c("urbain dense"
 # Import de la base à matcher 
 download.file("https://www.insee.fr/fr/statistiques/fichier/2114627/grille_densite_2021.zip", "grille_densite.zip")
 unzip("grille_densite.zip")
-densite <- read_excel("grille_densite_2020_agrege.xlsx")
+densite <- read_excel("grille_densite_2021_agrege.xlsx")
 
 # On a :
   #- 1 : très dense
@@ -527,9 +530,9 @@ densite <- read_excel("grille_densite_2020_agrege.xlsx")
 
 # On renomme et garde les colonnes intéressantes
 densite <- densite[,-2] %>% rename(COG = `\nCode \nCommune\n`,
-                                                         densite = `Degré de \nDensité de la commune\n`, 
-                                                         code_region = `Région\n`,
-                                                         pop = `Population \nmunicipale \n2017`)
+                                   densite = `Degré de \nDensité de la commune\n`, 
+                                   code_region = `Région\n`,
+                                   pop = `Population \nmunicipale \n2018`)
 
 # Comme il s'agit d'un autre indicateur de densité (4 classes et pas 6) on l'ajoute aux données des communes, puis on choisira l'agrégation adaptée avec l'analyse exploratoire
 densite$COG <- as.numeric(densite$COG)
@@ -818,7 +821,8 @@ epci <- epci[,c(1,2,17,18,3:16)]
 
 # On concentre l'analyse sur la France métropolitaine donc on supprime les territoires d'outre mer
 regions <- regions[-c(1:5,27:29),]
-departements <- departements[-c(37,38,86,121:123),] #on supprime aussi la MET de Lyon où bcp de NA car nouveau département pas tjs recensé
+departements <- departements[-c(37,38,86,121:124),] #on supprime aussi la MET de Lyon où bcp de NA car nouveau département pas tjs recensé
+departements <- departements[-118,]
 communes <- communes %>% filter(code_departement < 96)
 epci <- epci %>% filter(code_departement < 96)
 
@@ -831,7 +835,7 @@ NA_dep <- as.data.frame(apply(is.na(departements), 2, sum)) %>%
                         mutate(percent_NA = round(percent_NA, 2)) #manque toutes infos sur 2 chefs + 22 partis po
 View(NA_dep)
   # ajout infos sur les chefs qd valeur manquante
-departements[91,c(8:10)] <- communes %>% filter(nom == "Paris") %>% select(CSP_chef, age_chef, partis_po_chef)
+departements[91,c(8:10)] <- communes[29457,c(9:11)]
 departements[c(3,4,7,8,10,16,23,34,35,40,43,54,57,58,73,85,96,97,104,108,109,117),]$partis_po_chef <- c("Union des démocrates et indépendants","Parti socialiste","Parti socialiste","Les Républicains","divers droite", "Les Républicains","Les Républicains","Les Républicains","Les Républicains","Parti socialiste","Les Républicains","Parti socialiste","divers droite","divers droite","Les Républicains","sans étiquette","Les Républicains","Les Républicains","Les Républicains","Les Républicains","Les Républicains","Les Républicains")
 
 
@@ -965,37 +969,38 @@ departements <- departements %>% mutate(CSP_chef = case_when(CSP_chef == "Foncti
 
 
 # Description niveau_rural
-niveau_rural <- as.data.frame(table(departements$niveau_rural)) %>% rename(num = Var1) %>% select(-Freq)
+niveau_rural <- as.data.frame(table(departements$niveau_rural)) %>% rename(num = Var1) 
 niveau_rural <- niveau_rural %>% mutate(description = c("urbain dense","urbain densité intermédiaire", "rural sous forte influence d'un pôle", "rural sous faible influence d'un pôle", "rural autonome peu dense", "rural autonome très peu dense"),
-                                                  variable = "niveau_rural") %>% select(variable,num,description)
+                                        variable = "niveau_rural")
 # Description niveau_densite
-niveau_densite <- as.data.frame(table(departements$niveau_densite)) %>% rename(num = Var1) %>% select(-Freq)
+niveau_densite <- as.data.frame(table(departements$niveau_densite)) %>% rename(num = Var1)
 niveau_densite <- niveau_densite %>% mutate(description = c("très dense", "dense", "peu dense"),
-                                                    variable = "niveau_densite") %>% select(variable,num,description)
+                                            variable = "niveau_densite")
 # Description CSP_chef
-CSP_chef <- as.data.frame(table(departements$CSP_chef)) %>% rename(num = Var1) %>% select(-Freq)
+CSP_chef <- as.data.frame(table(departements$CSP_chef)) %>% rename(num = Var1) 
 CSP_chef <- CSP_chef %>% mutate(description = c("Agriculteurs exploitants","Artisans, commerçants et chefs d'entreprise","Cadres et professions intellectuelles supérieures","Professions Intermédiaires", "Employés","Retraités","Autres personnes sans activité professionnelle"),
-                                variable = "CSP_chef") %>% select(variable,num,description)
+                                variable = "CSP_chef") 
 # Description flux_migration_res
-flux_migration_res <- as.data.frame(table(departements$flux_migration_res)) %>% rename(num = Var1) %>% select(-Freq) 
+flux_migration_res <- as.data.frame(table(departements$flux_migration_res)) %>% rename(num = Var1)
   # on va recouper avec le nom du département (import base)
-infos_dep <- read_csv("Data/raw/infos_departements.csv")
+infos_dep <- read_csv("https://www.data.gouv.fr/fr/datasets/r/4d8c420b-c412-4deb-a469-b722b195f9c7")
 infos_dep$COG <- as.character(infos_dep$COG)
 flux_migration_res <- left_join(flux_migration_res, infos_dep[,c(1,3)], by = c("num" = "COG")) %>% rename(description = nom)
-flux_migration_res <- flux_migration_res %>% mutate(variable = "flux_migration_res") %>% select(variable,num,description)
+flux_migration_res <- flux_migration_res %>% mutate(variable = "flux_migration_res") 
 flux_migration_res[20,]$description <- "Corse"  # pour la Corse on met à la main car pas dans infos_dep
 
 # Description code_region
-code_region <- as.data.frame(table(departements$code_region)) %>% rename(num = Var1) %>% select(-Freq) 
+code_region <- as.data.frame(table(departements$code_region)) %>% rename(num = Var1)
   # on va recouper avec le nom de la région (import base)
-infos_reg <- read_csv("Data/raw/infos_regions.csv")
+infos_reg <- read_csv("https://www.data.gouv.fr/fr/datasets/r/cfd36469-30db-4ee9-a7e9-b98fbc71805c")
 infos_reg$COG <- as.character(infos_reg$COG)
 code_region <- left_join(code_region, infos_reg[,c(1,3)], by = c("num" = "COG")) %>% rename(description = nom)
-code_region <- code_region %>% mutate(variable = "code_region") %>% select(variable,num,description)
+code_region <- code_region %>% mutate(variable = "code_region")
 
 
 # On met tout ça ensemble pour avoir un dictionnaire des variables
 dico_variables <- rbind(niveau_rural, niveau_densite, CSP_chef, flux_migration_res, code_region)
+dico_variables <- dico_variables[,c(4,1,3,2)]
 View(dico_variables)
 
 
@@ -1501,8 +1506,9 @@ table(departements_sans_outliers$CSP_chef)
 
 
 # On récupère les noms des régions
-infos_reg <- read_csv("Data/raw/infos_regions.csv") %>% rename(region = nom)
+departements_sans_outliers$code_region <- as.character(departements_sans_outliers$code_region)
 departements_sans_outliers <- left_join(departements_sans_outliers, infos_reg[,c(1,3)], by = c("code_region" = "COG"))
+departements_sans_outliers <- departements_sans_outliers %>% rename(region = nom.y)
 
 # Data pour savoir les départements de quelles régions ouvrent le plus de données
 t6=tapply(departements_sans_outliers$nb_publi, departements_sans_outliers$region, mean) 
@@ -1656,7 +1662,6 @@ rio::export(departements_sans_outliers[,1:27], "./Data/process/dep_analyse_explo
 
 
 # On importe la base des départements
-departements <- read_csv("Data/process/dep_analyse_explo.csv")
 departements_sans_outliers <- read_csv("Data/process/dep_analyse_explo_sans_outliers.csv")
 
 # On met au bon format les variables catégorielles
@@ -1723,7 +1728,7 @@ var(departements_sans_outliers$nb_publi)
 mean(departements_sans_outliers$nb_publi)
 
 # On caclule le ratio de dispersion
-disp<-modele_poiss$deviance/modele_poiss$df.residual
+disp <- modele$deviance/modele$df.residual
 disp  #sur dispersion car disp >1
 
 
