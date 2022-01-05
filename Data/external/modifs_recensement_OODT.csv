@@ -1,0 +1,3 @@
+siren,nom,type,regcode,url-ptf,nb-ptf,url-datagouv,nb-datagouv,id-datagouv,id-ods,pop-insee,lat,long,merge,depcode
+246300701,CLERMONT AUVERGNE,MET,,,,https://www.data.gouv.fr/fr/organizations/clermont-auvergne-metropole/,1,5f60b2cb86bb3584d0f09f08,,,,,,
+200023414,ROUEN,MET,,,,https://www.data.gouv.fr/fr/organizations/metropole-rouen-normandie/,2,5a0467d188ee38711f65672c ,,,,,,

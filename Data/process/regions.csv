@@ -1,0 +1,22 @@
+"nom","nb_publi","ouvre_data","nb_ptf","nb_datagouv","population","CSP_chef","age_chef","partis_po_chef","flux_migration_res","taux_chomage","PIB_habitant","primaire_VA","secondaire_VA","tertiaire_marchand_VA","tertiaire_non_mar_VA","part_plus65","niveau_vie","part_diplomes","nb_crea_entps","nb_nuitees_hotels","depenses_hab","nb_etudiants","part_etudiants","niveau_rural","niveau_densite","percent_pop_rurale"
+"Île-de-France",303,1,303,861,12258425,"Magistrats",54,"Union pour un mouvement populaire",75,7.3,59387,0.1,8.4,71.9,15.4,14.8,23860,20.7,251781,70736,388.50250003569,723073,5.9,3,1,4.10613412901531
+"Île-de-France",303,1,303,861,12258425,"Magistrats",54,"Rassemblement pour la République",75,7.3,59387,0.1,8.4,71.9,15.4,14.8,23860,20.7,251781,70736,388.50250003569,723073,5.9,3,1,4.10613412901531
+"Île-de-France",303,1,303,861,12258425,"Magistrats",54,"Les Républicains",75,7.3,59387,0.1,8.4,71.9,15.4,14.8,23860,20.7,251781,70736,388.50250003569,723073,5.9,3,1,4.10613412901531
+"Île-de-France",303,1,303,861,12258425,"Magistrats",54,"Libres",75,7.3,59387,0.1,8.4,71.9,15.4,14.8,23860,20.7,251781,70736,388.50250003569,723073,5.9,3,1,4.10613412901531
+"Centre-Val de Loire",24,1,24,0,2645792,"Retraités de l'enseignement",67,"Parti socialiste",11,7.4,28927,3.7,18.2,47.8,24.1,22.3,21560,7,22158,6090,521.946767278002,65659,2.5,5,2,44.8134414970332
+"Bourgogne-Franche-Comté",24,1,24,24,2900558,"Retraités fonct.publique (sf enseig.)",72,"Parti socialiste",84,6.9,28009,4.5,17.7,46.2,25.9,22.8,21480,6.5,24208,7154,512.83326507865,82517,2.8,6,3,50.0618889998776
+"Normandie",0,0,0,0,3420995,"Permanents politiques",60,"Union pour la démocratie française",11,7.9,28651,2.8,20.4,44.7,25.8,21.1,21200,6.5,28531,8279,581.751557549777,106285,3.1,NA,2,44.8347651783265
+"Normandie",0,0,0,0,3420995,"Permanents politiques",60,"Parti républicain",11,7.9,28651,2.8,20.4,44.7,25.8,21.1,21200,6.5,28531,8279,581.751557549777,106285,3.1,NA,2,44.8347651783265
+"Hauts-de-France",167,1,167,167,6110588,"Agents généraux d'assurances",56,"Union pour un mouvement populaire",11,9.6,27823,2.4,16.4,47.7,27.8,17.8,20110,7,51438,9164,539.100692830215,231863,3.8,4,2,27.2851121257566
+"Hauts-de-France",167,1,167,167,6110588,"Agents généraux d'assurances",56,"Rassemblement pour la République",11,9.6,27823,2.4,16.4,47.7,27.8,17.8,20110,7,51438,9164,539.100692830215,231863,3.8,4,2,27.2851121257566
+"Hauts-de-France",167,1,167,167,6110588,"Agents généraux d'assurances",56,"Les Républicains",11,9.6,27823,2.4,16.4,47.7,27.8,17.8,20110,7,51438,9164,539.100692830215,231863,3.8,4,2,27.2851121257566
+"Grand Est",39,1,39,27,5674357,"Médecins",54,"Union pour un mouvement populaire",11,7.7,29091,3.8,18.9,46,25.2,19.9,21610,7.4,47594,14439,523.226156084293,212890,3.8,6,2,34.6879450536681
+"Grand Est",39,1,39,27,5674357,"Médecins",54,"Union pour la démocratie française",11,7.7,29091,3.8,18.9,46,25.2,19.9,21610,7.4,47594,14439,523.226156084293,212890,3.8,6,2,34.6879450536681
+"Pays de la Loire",52,1,52,319,3838856,"Industriels-Chefs entreprise",46,"Union pour un mouvement populaire",53,7,31106,2.6,17.7,51.1,21.8,20.4,21620,7.9,34826,7391,462.17083591049,137864,3.6,5,2,48.4872248547864
+"Pays de la Loire",52,1,52,319,3838856,"Industriels-Chefs entreprise",46,"Les Républicains",53,7,31106,2.6,17.7,51.1,21.8,20.4,21620,7.9,34826,7391,462.17083591049,137864,3.6,5,2,48.4872248547864
+"Bretagne",127,1,127,171,3404015,"Autres cadres (secteur privé)",44,"Parti socialiste",52,6.7,29694,3.5,14.8,50.7,24.5,22.1,21750,8.4,28214,8043,454.417207985276,131053,3.8,5,3,53.4544771639534
+"Nouvelle-Aquitaine",2,1,0,2,6092505,"Autres professions",70,"Parti socialiste",76,7.4,29569,4.2,13.8,49.5,26.3,23.7,21290,8,69268,16175,496.097332169608,212531,3.5,5,2,49.5938498626405
+"Occitanie",125,1,125,0,5944715,"Fonctionnaires de catégorie A",50,"Parti socialiste",75,9.3,29487,2.2,14,51.3,26.4,22.4,20740,9.9,78045,16390,529.070784947638,256366,4.3,6,2,36.9427526375905
+"Auvergne-Rhône-Alpes",71,1,71,0,8104357,"Autres professions",46,"Union pour un mouvement populaire",11,7,34117,1,18.2,52.7,21.5,19.7,22480,10.5,103528,24149,483.363252551683,350491,4.3,5,2,32.8614345975769
+"Provence-Alpes-Côte d'Azur",69,1,69,68,5103573,"Médecins",62,"Union pour un mouvement populaire",76,9.1,32997,1.7,11,56.1,25.3,22.8,21350,10.5,83274,23425,429.531657662191,174659,3.4,5,1,7.56663576777231
+"Provence-Alpes-Côte d'Azur",69,1,69,68,5103573,"Médecins",62,"Rassemblement pour la République",76,9.1,32997,1.7,11,56.1,25.3,22.8,21350,10.5,83274,23425,429.531657662191,174659,3.4,5,1,7.56663576777231
