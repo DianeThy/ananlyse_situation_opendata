@@ -1,6 +1,5 @@
-# Script analyse de la situation open data des territoires de France - Diane Thierry
-# Aout 2021
-
+## Run de l'analyse pour contacter les collectivités du Challenge Data #5
+# 18 octobre 2022
 
 # Packages nécessaires à l'analyse
 packages = c("tidyverse","googlesheets4","tools","lubridate","WikidataQueryServiceR","curl","readxl","DescTools","stringr","summarytools","inspectdf","gridExtra","outliers","EnvStats","RColorBrewer","corrplot","rpart","caret","rpart.plot","randomForest","FactoMineR","factoextra","treemap","viridis","hrbrthemes","plotly","stats","MASS","pscl") # charger 'googlesheets4' à part si ne fonctionne pas
@@ -46,22 +45,23 @@ epci <- read_csv("https://www.data.gouv.fr/fr/datasets/r/e381a63d-09f5-44f5-9e72
 
 # Import de la base complète : taper "1"
 #observatoire_opendata_territoire <- read_sheet("https://docs.google.com/spreadsheets/d/1yhcCDLrDsZzNxlPaIl25p_qN8WVPGCTstdIUxezDxtQ/edit#gid=614893302")
-observatoire_opendata_territoire <- read_csv("Data/external/Indicateurs ODATER v2 (up-to-date).csv")
-
-
-# Après vérification les données ne sont pas fiables : on importe une base avec des corrections pour Y et on les applique
-modifs_OODT <- read_csv("Data/external/modifs_recensement_OODT.csv")
-observatoire_opendata_territoire <- rbind(observatoire_opendata_territoire, modifs_OODT)
+observatoire_opendata_territoire <- read_csv("Data/2022_CD5/Indicateurs ODATER v2 (up-to-date).csv")
 
 # On renomme la colonne de jointure et on la passe au format numérique
 observatoire_opendata_territoire <- observatoire_opendata_territoire %>% rename(SIREN = siren)
-observatoire_opendata_territoire$SIREN <- as.numeric(observatoire_opendata_territoire$SIREN)
+observatoire_opendata_territoire$SIREN <- as.character(observatoire_opendata_territoire$SIREN)
 
 # On sépare la base selon le type d'organisation
 observatoire_reg <- observatoire_opendata_territoire %>% filter(type == "REG") #15
 observatoire_dep <- observatoire_opendata_territoire %>% filter(type == "DEP") #61
 observatoire_com <- observatoire_opendata_territoire %>% filter(type == "COM")  #353 obs
 observatoire_epci <- observatoire_opendata_territoire %>% filter(type == "MET" | type == "CU" | type == "CC" | type == "CA")  # 17+5+43+99 = 168
+
+# Format de la colonne de jointure en caractères
+regions <- regions %>% mutate(SIREN = as.character(SIREN))
+departements <- departements %>% mutate(SIREN = as.character(SIREN))
+communes <- communes %>% mutate(SIREN = as.character(SIREN))
+epci <- epci %>% mutate(SIREN = as.character(SIREN))
 
 # On match par les numéros de SIREN 
 regions <- left_join(regions, observatoire_reg[,-c(2:3)], by="SIREN", na_matches="never")
@@ -82,27 +82,23 @@ departements[77,10] <- c(451)
 
 # La population des territoires est incomplète dans le jeu OODT donc on récupère celle des données OFGL
     # on récupère les données d'OFGL dans lesquelles il y a la population
-comptes_reg <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-regions-consolidee/download/?format=csv&disjunctive.reg_name=true&disjunctive.agregat=true&refine.agregat=D%C3%A9penses+totales&refine.exer=2019&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
-comptes_dep <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-departements-consolidee/download/?format=csv&disjunctive.reg_name=true&disjunctive.dep_tranche_population=true&disjunctive.dep_name=true&disjunctive.agregat=true&refine.exer=2019&refine.agregat=D%C3%A9penses+totales&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
-comptes_com <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-communes-consolidee/download/?format=csv&disjunctive.reg_name=true&disjunctive.dep_name=true&disjunctive.epci_name=true&disjunctive.tranche_population=true&disjunctive.tranche_revenu_imposable_par_habitant=true&disjunctive.com_name=true&disjunctive.agregat=true&refine.exer=2019&refine.agregat=D%C3%A9penses+totales&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
-comptes_epci <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-gfp-consolidee/download/?format=csv&disjunctive.dep_name=true&disjunctive.gfp_tranche_population=true&disjunctive.nat_juridique=true&disjunctive.mode_financement=true&disjunctive.gfp_tranche_revenu_imposable_par_habitant=true&disjunctive.epci_name=true&disjunctive.agregat=true&refine.exer=2019&refine.agregat=D%C3%A9penses+totales&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
+comptes_reg <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-regions-consolidee/download/?format=csv&disjunctive.reg_name=true&disjunctive.agregat=true&refine.agregat=D%C3%A9penses+totales&refine.exer=2021&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
+comptes_dep <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-departements-consolidee/download/?format=csv&disjunctive.reg_name=true&disjunctive.dep_tranche_population=true&disjunctive.dep_name=true&disjunctive.agregat=true&refine.exer=2021&refine.agregat=D%C3%A9penses+totales&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
+comptes_com <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-communes-consolidee/download/?format=csv&disjunctive.reg_name=true&disjunctive.dep_name=true&disjunctive.epci_name=true&disjunctive.tranche_population=true&disjunctive.tranche_revenu_imposable_par_habitant=true&disjunctive.com_name=true&disjunctive.agregat=true&refine.exer=2021&refine.agregat=D%C3%A9penses+totales&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
+comptes_epci <- read_delim("https://data.ofgl.fr/explore/dataset/ofgl-base-gfp-consolidee/download/?format=csv&disjunctive.dep_name=true&disjunctive.gfp_tranche_population=true&disjunctive.nat_juridique=true&disjunctive.mode_financement=true&disjunctive.gfp_tranche_revenu_imposable_par_habitant=true&disjunctive.epci_name=true&disjunctive.agregat=true&refine.exer=2021&refine.agregat=D%C3%A9penses+totales&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";")
 
 
 # On sélectionne les variables de la population et du SIREN
-comptes_reg_pop <- comptes_reg[,c(7,12)]
-comptes_dep_pop <- comptes_dep[,c(10,15)]
-comptes_com_pop <- comptes_com[,c(18,24)]
-comptes_epci_pop <- comptes_epci[,c(12,20)]
+comptes_reg_pop <- comptes_reg %>% dplyr::select(c("Code Siren Collectivité", "Population totale"))
+comptes_dep_pop <- comptes_dep %>% dplyr::select(c("Code Siren Collectivité", "Population totale"))
+comptes_com_pop <- comptes_com %>% dplyr::select(c("Code Siren Collectivité", "Population totale"))
+comptes_epci_pop <- comptes_epci %>% dplyr::select(c("Code Siren 2021 EPCI", "Population totale"))
 
 # On renomme les colonnes
-comptes_reg_pop <- comptes_reg_pop %>% rename(SIREN = `Code Siren Collectivité`,
-                                      population = `Population totale`)
-comptes_dep_pop <- comptes_dep_pop %>% rename(SIREN = `Code Siren Collectivité`,
-                                      population = `Population totale`)
-comptes_com_pop <- comptes_com_pop %>% rename(SIREN = `Code Siren Collectivité`,
-                                      population = `Population totale`)
-comptes_epci_pop <- comptes_epci_pop %>% rename(SIREN = `Code Siren 2021 EPCI`,
-                                      population = `Population totale`)
+comptes_reg_pop <- comptes_reg_pop %>% rename(SIREN = `Code Siren Collectivité`, population = `Population totale`) %>% mutate(SIREN = as.character(SIREN))
+comptes_dep_pop <- comptes_dep_pop %>% rename(SIREN = `Code Siren Collectivité`, population = `Population totale`) %>% mutate(SIREN = as.character(SIREN))
+comptes_com_pop <- comptes_com_pop %>% rename(SIREN = `Code Siren Collectivité`, population = `Population totale`) %>% mutate(SIREN = as.character(SIREN))
+comptes_epci_pop <- comptes_epci_pop %>% rename(SIREN = `Code Siren 2021 EPCI`, population = `Population totale`) %>% mutate(SIREN = as.character(SIREN))
 
 # On supprime les doublons pour les EPCI
 comptes_epci_pop <- comptes_epci_pop %>% group_by(SIREN) %>% distinct(SIREN, .keep_all=TRUE)
@@ -114,16 +110,10 @@ communes <- left_join(communes, comptes_com_pop, by = "SIREN", na_matches="never
 epci <- left_join(epci, comptes_epci_pop, by = "SIREN", na_matches="never")
 
 # On supprime l'ancienne colonne de la pop incomplète et on renomme
-regions <- regions[,-12] 
-departements <- departements[,-13]
-communes <- communes[,-14]
-epci <- epci[,-13]
-
-# On réordonne
-regions <- regions[,c(1:11,16,12:15)]
-departements <- departements[,c(1:12,17,13:16)]
-communes <- communes[,c(1:13,18,14:17)]
-epci <- epci[,c(1:12,17,13:16)]
+regions <- regions %>% dplyr::select(-`pop-insee`)
+departements <- departements %>% dplyr::select(-`pop-insee`)
+communes <- communes %>% dplyr::select(-`pop-insee`)
+epci <- epci %>% dplyr::select(-`pop-insee`)
 
 
 
@@ -133,46 +123,50 @@ epci <- epci[,c(1:12,17,13:16)]
 
 
 # On importe les bases RNE (archives du 5 juillet 2019) de datagouv pour chaque type d'orga
-RNE_reg <- read_delim("http://data.cquest.org/repertoire-national-des-elus/archives/20190705_4-rne-cr.txt.gz", "\t", escape_double = FALSE, locale = locale(encoding = "ISO-8859-1"), trim_ws = TRUE, skip = 1)
-RNE_corse <- read_delim("http://data.cquest.org/repertoire-national-des-elus/archives/20190705_5-rne-cac.txt.gz", "\t", escape_double = FALSE, locale = locale(encoding = "ISO-8859-1"), trim_ws = TRUE, skip = 1)  #corse
-RNE_dep <- read_delim("http://data.cquest.org/repertoire-national-des-elus/archives/20190705_3-rne-cd.txt.gz", "\t", escape_double = FALSE, locale = locale(encoding = "ISO-8859-1"), trim_ws = TRUE, skip = 1)
-RNE_com <- read_delim("http://data.cquest.org/repertoire-national-des-elus/archives/20190705_9-rne-maires.txt.gz", "\t", escape_double = FALSE, locale = locale(encoding = "ISO-8859-1"), trim_ws = TRUE, skip = 1)
-RNE_epci <- read_delim("http://data.cquest.org/repertoire-national-des-elus/archives/20190705_2-rne-epci.txt.gz", "\t", escape_double = FALSE, locale = locale(encoding = "ISO-8859-1"), trim_ws = TRUE, skip = 1)
+RNE_reg <- read_delim("http://data.cquest.org/repertoire-national-des-elus/archives/20210422_rne-cr.csv.gz", "\t", escape_double = FALSE, locale = locale(encoding = "UTF-8"), trim_ws = TRUE)
+RNE_corse <- read_delim("http://data.cquest.org/repertoire-national-des-elus/archives/20201202_5-rne-cac.txt.gz", "\t", escape_double = FALSE, locale = locale(encoding = "ISO-8859-1"), trim_ws = TRUE, skip = 1)  #corse
+RNE_dep <- read_delim("http://data.cquest.org/repertoire-national-des-elus/archives/20210422_rne-cd.csv.gz", "\t", escape_double = FALSE, locale = locale(encoding = "UTF-8"), trim_ws = TRUE)
+RNE_com <- read_delim("http://data.cquest.org/repertoire-national-des-elus/archives/20210422_rne-maires.csv.gz", "\t", escape_double = FALSE, locale = locale(encoding = "UTF-8"), trim_ws = TRUE)
+RNE_epci <- read_delim("http://data.cquest.org/repertoire-national-des-elus/archives/20210422_rne-epci.csv.gz", "\t", escape_double = FALSE, locale = locale(encoding = "UTF-8"), trim_ws = TRUE)
 
 
 # On filtre pour ne garder que les chefs (et pas tous les élus)
-RNE_reg <- RNE_reg %>% filter(`Libellé de fonction` == "Président du conseil régional")
+RNE_reg <- RNE_reg %>% filter(`Libellé de la fonction` == "Président du conseil régional")
 RNE_corse <- RNE_corse %>% filter(`Libellé de fonction` == "Président Conseil exécutif de Corse")
-RNE_dep <- RNE_dep %>% filter(`Libellé de fonction` == "Président du conseil départemental")
-RNE_epci <- RNE_epci %>% filter(`Libellé de fonction` == "Président")
-
-# Le COG des communes est en 2 parties (COG dep et COG com) donc on rassemble pour avoir le code INSEE
-RNE_com$COG <- paste(RNE_com$`Code du département (Maire)`, RNE_com$`Code Insee de la commune`, sep='')
+RNE_dep <- RNE_dep %>% filter(`Libellé de la fonction` == "Président du conseil départemental")
+RNE_epci <- RNE_epci %>% filter(`Libellé de la fonction` == "Président du conseil communautaire")
 
 # On renomme la colonne pivot (pour la jointure) pour les autres orgas
-RNE_reg <- RNE_reg %>% rename(COG = `Code région`)
-RNE_corse <- RNE_corse %>% rename(COG = `Code région`)
+RNE_reg <- RNE_reg %>% rename(COG = `Code de la région`)
+RNE_corse <- RNE_corse %>% mutate(COG = "94") #création de la colonne COG pour la Corse
 RNE_dep <- RNE_dep %>% rename(COG = `Code du département`)
+RNE_com <- RNE_com %>% rename(COG = `Code de la commune`)
 RNE_epci <- RNE_epci %>% rename(SIREN = `N° SIREN`)
 
-# Le SIREN de la métropole de Lyon entré dans le RNE est faux donc on le change pour le match (SIREN de la CU de Lyon 3è)
-RNE_epci[921,]$SIREN <- 200046977
-
 # On met au format numérique les colonnes pivot 
-regions$COG <- as.numeric(regions$COG)
-RNE_reg$COG <- as.numeric(RNE_reg$COG)
-departements$COG <- as.numeric(departements$COG)
-RNE_dep$COG <- as.numeric(RNE_dep$COG)
-communes$COG <- as.numeric(communes$COG)
-RNE_com$COG <- as.numeric(RNE_com$COG)
-epci$SIREN <- as.numeric(epci$SIREN)
-RNE_epci$SIREN <- as.numeric(RNE_epci$SIREN)
+regions$COG <- as.character(regions$COG)
+RNE_reg$COG <- as.character(RNE_reg$COG)
+departements$COG <- as.character(departements$COG)
+RNE_dep$COG <- as.character(RNE_dep$COG)
+communes$COG <- as.character(communes$COG)
+RNE_com$COG <- as.character(RNE_com$COG)
+epci$SIREN <- as.character(epci$SIREN)
+RNE_epci$SIREN <- as.character(RNE_epci$SIREN)
 
 # On joint les données par le numéro (COG ou SIREN) en ne gardant que qq infos du chef (nom, prénom, CSP et date de naissance)
-regions <- left_join(regions, rbind(unique(RNE_reg[,c(1,5,6,8,10)]),RNE_corse[,c(1,3,4,6,8)]), by="COG", na_matches="never")  #on ajoute les élus des régions où on rbind la corse
-departements <- left_join(departements, RNE_dep[,c(1,3,4,10,11)], by="COG", na_matches="never")
-communes <- left_join(communes, RNE_com[,c(5,6,8,10,13)], by="COG", na_matches="never")  #on retire une obs pour la martinique où 2 chefs (on garde le plus récent)
-epci <- left_join(epci, RNE_epci[,c(2,7,8,10,12)], by="SIREN", na_matches="never")
+regions <- left_join(regions, 
+                     rbind(unique(RNE_reg %>% dplyr::select(c(COG, "Nom de l'élu", "Prénom de l'élu", "Date de naissance", "Libellé de la catégorie socio-professionnelle"))),
+                           RNE_corse %>% dplyr::select(c(COG, "Nom de l'élu", "Prénom de l'élu", "Date de naissance", "Libellé de la profession")) %>% rename("Libellé de la catégorie socio-professionnelle" = "Libellé de la profession")), 
+                     by="COG", na_matches="never")  #on ajoute les élus des régions où on rbind la corse
+departements <- left_join(departements, 
+                          RNE_dep %>% dplyr::select(c(COG, "Nom de l'élu", "Prénom de l'élu", "Date de naissance", "Libellé de la catégorie socio-professionnelle")), 
+                          by="COG", na_matches="never")
+communes <- left_join(communes, 
+                      RNE_com %>% dplyr::select(c(COG, "Nom de l'élu", "Prénom de l'élu", "Date de naissance", "Libellé de la catégorie socio-professionnelle")) %>% group_by(COG) %>% slice(1) %>% ungroup(), 
+                      by="COG", na_matches="never")  #on retire une obs pour la martinique où 2 chefs (on garde le plus récent)
+epci <- left_join(epci, 
+                  RNE_epci %>% dplyr::select(c(SIREN, "Nom de l'élu", "Prénom de l'élu", "Date de naissance", "Libellé de la catégorie socio-professionnelle")), 
+                  by="SIREN", na_matches="never")
 
 
 # On met les noms et prénoms au format tel que sous wikidata pour match (ex : Michel Dupont)
@@ -184,7 +178,7 @@ regions$chef_executif <- tolower(regions$chef_executif)
     # puis 1ère lettre en maj
 regions$chef_executif <- toTitleCase(regions$chef_executif)
   # on retire les noms et prenoms séparés
-regions <- regions[,-c(17:18)]
+regions <- regions %>% dplyr::select(-c("Nom de l'élu", "Prénom de l'élu"))
 
 
 #  Mêmes manips pour les autres organisations :
@@ -193,19 +187,19 @@ departements$chef_executif <- paste(departements$`Prénom de l'élu`, departemen
 departements[departements == "NA NA"] <- NA     #on remet des NA où il faut
 departements$chef_executif <- tolower(departements$chef_executif)
 departements$chef_executif <- toTitleCase(departements$chef_executif)
-departements <- departements[,-c(18:19)]
+departements <- departements %>% dplyr::select(-c("Nom de l'élu", "Prénom de l'élu"))
     ## Communes
 communes$chef_executif <- paste(communes$`Prénom de l'élu`, communes$`Nom de l'élu`) 
 communes[communes == "NA NA"] <- NA     #on remet des NA où il faut
 communes$chef_executif <- tolower(communes$chef_executif)
 communes$chef_executif <- toTitleCase(communes$chef_executif)
-communes <- communes[,-c(19:20)]
+communes <- communes %>% dplyr::select(-c("Nom de l'élu", "Prénom de l'élu"))
     ## EPCI
 epci$chef_executif <- paste(epci$`Prénom de l'élu`, epci$`Nom de l'élu`) 
 epci[epci == "NA NA"] <- NA     #on remet des NA où il faut
 epci$chef_executif <- tolower(epci$chef_executif)
 epci$chef_executif <- toTitleCase(epci$chef_executif)
-epci <- epci[,-c(18:19)]
+epci <- epci %>% dplyr::select(-c("Nom de l'élu", "Prénom de l'élu"))
 
 
 # A partir de la date de naissance on récupère l'age de chaque chef
@@ -219,29 +213,29 @@ age <- function(dob, age.day = today(), units = "years", floor = TRUE) {
 regions$`Date de naissance` <- format(as.Date(regions$`Date de naissance`, format="%d/%m/%Y"),"%Y/%m/%d")
 regions$age_chef <- age(regions$`Date de naissance`, units = "years")
     # on supprime la colonne de la date de naissance
-regions <- regions[,-17]
+regions <- regions %>% dplyr::select(-"Date de naissance")
 
 
 ## Mêmes manips pour les autres orgas :
     ## Départements
 departements$`Date de naissance` <- format(as.Date(departements$`Date de naissance`, format="%d/%m/%Y"),"%Y/%m/%d")
 departements$age_chef <- age(departements$`Date de naissance`, units = "years")
-departements <- departements[,-19]
+departements <- departements %>% dplyr::select(-"Date de naissance")
     ## Communes
 communes$`Date de naissance` <- format(as.Date(communes$`Date de naissance`, format="%d/%m/%Y"),"%Y/%m/%d")
 communes$age_chef <- age(communes$`Date de naissance`, units = "years")
-communes <- communes[,-19]
+communes <- communes %>% dplyr::select(-"Date de naissance")
     ## EPCI
 epci$`Date de naissance` <- format(as.Date(epci$`Date de naissance`, format="%d/%m/%Y"),"%Y/%m/%d")
 epci$age_chef <- age(epci$`Date de naissance`, units = "years")
-epci <- epci[,-18]
+epci <- epci %>% dplyr::select(-"Date de naissance")
 
 
 # On renomme la colonne CSP
-regions <- regions %>% rename(CSP_chef = `Libellé de la profession`)
-departements <- departements %>% rename(CSP_chef = `Libellé de la profession`)
-communes <- communes %>% rename(CSP_chef = `Libellé de la profession`)
-epci <- epci %>% rename(CSP_chef = `Libellé de la profession`)
+regions <- regions %>% rename(CSP_chef = `Libellé de la catégorie socio-professionnelle`)
+departements <- departements %>% rename(CSP_chef = `Libellé de la catégorie socio-professionnelle`)
+communes <- communes %>% rename(CSP_chef = `Libellé de la catégorie socio-professionnelle`)
+epci <- epci %>% rename(CSP_chef = `Libellé de la catégorie socio-professionnelle`)
 
 
 
@@ -295,16 +289,16 @@ epci[, chef_upper := stringi::stri_trans_general (str = chef_upper, id = "Latin-
 # On procède au match maintenant
     ## REGIONS
 regions <- left_join(regions, wikidata_partis_po[,2:3], by="chef_upper", na_matches="never") 
-regions <- regions[,-20]  #on retire la colonne des noms en majuscules
+regions <- regions %>% dplyr::select(-chef_upper)  #on retire la colonne des noms en majuscules
     ## DEPARTEMENTS
 departements <- left_join(departements, wikidata_partis_po[,2:3], by="chef_upper", na_matches="never") 
-departements <- departements[,-21]
+departements <- departements %>% dplyr::select(-chef_upper)
     ## COMMUNES
 communes <- left_join(communes, wikidata_partis_po[,2:3], by="chef_upper", na_matches="never") 
-communes <- communes[,-22]
+communes <- communes %>% dplyr::select(-chef_upper)
     ## EPCI
 epci <- left_join(epci, wikidata_partis_po[,2:3], by="chef_upper", na_matches="never") 
-epci <- epci[,-21]
+epci <- epci %>% dplyr::select(-chef_upper)
 
 
 # On renomme la colonne de la couleur politique
@@ -316,9 +310,9 @@ epci <- epci %>% rename(partis_po_chef = partiLabel)
 
 ## Nombre de partis politiques manquants pour les orgas
 regions %>% count(is.na(partis_po_chef))  # 2/17
-departements %>% count(is.na(partis_po_chef))  #29/100
-communes %>% count(is.na(partis_po_chef))  # 34239/34931
-epci %>% count(is.na(partis_po_chef))  # 1079/1261
+departements %>% count(is.na(partis_po_chef))  #34/100
+communes %>% count(is.na(partis_po_chef))  # 34367/34968
+epci %>% count(is.na(partis_po_chef))  # 1102/1267
 
 
 
@@ -328,10 +322,10 @@ epci %>% count(is.na(partis_po_chef))  # 1079/1261
 
 
 # Import des bases depuis les fichiers téléchargés d'internet
-stats_locales_reg <- read_excel("Data/external/stats_locales_regions.xlsx")
-stats_locales_dep <- read_excel("Data/external/stats_locales_departements.xlsx")
-stats_locales_com <- read_excel("Data/external/stats_locales_communes.xlsx")
-stats_locales_epci <- read_excel("Data/external/stats_locales_epci.xlsx")
+stats_locales_reg <- read_excel("Data/2022_CD5/stats_locales_regions.xlsx", skip = 3)
+stats_locales_dep <- read_excel("Data/2022_CD5/stats_locales_departements.xlsx", skip = 3)
+stats_locales_com <- read_excel("Data/2022_CD5/stats_locales_communes.xlsx", skip = 3)
+stats_locales_epci <- read_excel("Data/2022_CD5/stats_locales_epci.xlsx", skip = 3)
 
 # On renomme les colonnes
     ## REGIONS
@@ -339,90 +333,82 @@ names(stats_locales_reg)
 stats_locales_reg <- stats_locales_reg %>% 
     rename(COG = Code,
            nom = Libellé,
-           part_plus65 = `Part des pers. âgées de 65 ans ou + 2018`,
-           niveau_vie = `Médiane du niveau de vie 2018`,
-           part_diplomes = `Part des diplômés d'un BAC+5 ou plus dans la pop. non scolarisée de 15 ans ou + 2018`,
-           taux_chomage = `Taux de chômage annuel moyen 2020`,
-           nb_crea_entps = `Nb créations d'entreprises 2020`,
-           nb_nuitees_hotels = `Nb de nuitées dans les hôtels de tourisme 2019`,
-           flux_migration_res = `Flux principal de migration résidentielle 2018`,
-           PIB_habitant = `Produit intérieur brut par habitant 2018`,
-           primaire_VA = `Part de l'agriculture dans la VA 2018`,
-           secondaire_VA = `Part de l'industrie dans la VA 2018`,
-           tertiaire_marchand_VA = `Part du tertiaire marchand dans la VA 2018`,
-           tertiaire_non_mar_VA = `Part du tertiaire non marchand dans la VA 2018`)
+           part_plus65 = `Part des pers. âgées de 65 ans ou + 2019`,
+           niveau_vie = `Médiane du niveau de vie 2019`,
+           part_diplomes = `Part des diplômés d'un BAC+5 ou plus dans la pop. non scolarisée de 15 ans ou + 2019`,
+           taux_chomage = `Taux de chômage annuel moyen 2021`,
+           nb_crea_entps = `Créations d'entreprises (en nombre) 2021`,
+           nb_nuitees_hotels = `Nombre de nuitées dans les hôtels de tourisme 2021`,
+           flux_migration_res = `Flux principal de migration résidentielle 2019`,
+           PIB_habitant = `Produit intérieur brut par habitant 2020`,
+           primaire_VA = `Part de l'agriculture dans la VA 2020`,
+           secondaire_VA = `Part de l'industrie dans la VA 2020`,
+           construction_VA = `Part de la construction dans la VA 2020`,
+           tertiaire_marchand_VA = `Part du tertiaire marchand dans la VA 2020`,
+           tertiaire_non_mar_VA = `Part du tertiaire non marchand dans la VA 2020`)
     ## DEPARTEMENTS
 names(stats_locales_dep)
 stats_locales_dep <- stats_locales_dep %>% 
     rename(COG = Code,
            nom = Libellé,
-           part_plus65 = `Part des pers. âgées de 65 ans ou + 2018`,
-           niveau_vie = `Médiane du niveau de vie 2018`,
-           part_diplomes = `Part des diplômés d'un BAC+5 ou plus dans la pop. non scolarisée de 15 ans ou + 2018`,
-           taux_chomage = `Taux de chômage annuel moyen 2020`,
-           nb_crea_entps = `Nb créations d'entreprises 2020`,
-           nb_nuitees_hotels = `Nb de nuitées dans les hôtels de tourisme 2019`,
-           flux_migration_res = `Flux principal de migration résidentielle 2018`)
+           part_plus65 = `Part des pers. âgées de 65 ans ou + 2019`,
+           niveau_vie = `Médiane du niveau de vie 2019`,
+           part_diplomes = `Part des diplômés d'un BAC+5 ou plus dans la pop. non scolarisée de 15 ans ou + 2019`,
+           taux_chomage = `Taux de chômage annuel moyen 2021`,
+           nb_crea_entps = `Créations d'entreprises (en nombre) 2021`,
+           nb_nuitees_hotels = `Nombre de nuitées dans les hôtels de tourisme 2021`,
+           flux_migration_res = `Flux principal de migration résidentielle 2019`)
     ## COMMUNES
 names(stats_locales_com)
 stats_locales_com <- stats_locales_com %>% 
     rename(COG = Code,
            nom = Libellé,
-           part_plus65 = `Part des pers. âgées de 65 ans ou + 2018`,
-           part_diplomes = `Part des diplômés d'un BAC+5 ou plus dans la pop. non scolarisée de 15 ans ou + 2018`,
-           nb_crea_entps = `Nb créations d'entreprises 2020`,
-           flux_migration_res = `Flux principal de migration résidentielle 2018`)
+           part_plus65 = `Part des pers. âgées de 65 ans ou + 2019`,
+           part_diplomes = `Part des diplômés d'un BAC+5 ou plus dans la pop. non scolarisée de 15 ans ou + 2019`,
+           nb_crea_entps = `Créations d'entreprises (en nombre) 2021`,
+           flux_migration_res = `Flux principal de migration résidentielle 2019`)
     ## EPCI
 names(stats_locales_epci)
 stats_locales_epci <- stats_locales_epci %>% 
     rename(SIREN = Code,
            nom = Libellé,
-           part_plus65 = `Part des pers. âgées de 65 ans ou + 2018`,
-           niveau_vie = `Médiane du niveau de vie 2018`,
-           part_diplomes = `Part des diplômés d'un BAC+5 ou plus dans la pop. non scolarisée de 15 ans ou + 2018`,
-           nb_crea_entps = `Nb créations d'entreprises 2020`,
-           flux_migration_res = `Flux principal de migration résidentielle 2018`)
+           part_plus65 = `Part des pers. âgées de 65 ans ou + 2019`,
+           niveau_vie = `Médiane du niveau de vie 2019`,
+           part_diplomes = `Part des diplômés d'un BAC+5 ou plus dans la pop. non scolarisée de 15 ans ou + 2019`,
+           nb_crea_entps = `Créations d'entreprises (en nombre) 2021`,
+           flux_migration_res = `Flux principal de migration résidentielle 2019`)
 
 # On met au bon format les colonnes de jointure
-stats_locales_reg$COG <- as.numeric(stats_locales_reg$COG)
-stats_locales_dep$COG <- as.numeric(stats_locales_dep$COG)
-stats_locales_com$COG <- as.numeric(stats_locales_com$COG)
-stats_locales_epci$SIREN <- as.numeric(stats_locales_epci$SIREN)
+stats_locales_reg$COG <- as.character(stats_locales_reg$COG)
+stats_locales_dep$COG <- as.character(stats_locales_dep$COG)
+stats_locales_com$COG <- as.character(stats_locales_com$COG)
+stats_locales_epci$SIREN <- as.character(stats_locales_epci$SIREN)
 
 ## On match par les COG pour les collectivités et SIREN pour les interco
-regions <- left_join(regions, stats_locales_reg[,-2], by="COG", na_matches="never")
-departements <- left_join(departements, stats_locales_dep[,-2], by="COG", na_matches="never")
-communes <- left_join(communes, stats_locales_com[,-2], by="COG", na_matches="never")
-epci <- left_join(epci, stats_locales_epci[,-2], by="SIREN", na_matches="never")
+regions <- left_join(regions, stats_locales_reg %>% dplyr::select(-nom), by="COG", na_matches="never")
+departements <- left_join(departements, stats_locales_dep %>% dplyr::select(-nom), by="COG", na_matches="never")
+communes <- left_join(communes, stats_locales_com %>% dplyr::select(-nom), by="COG", na_matches="never")
+epci <- left_join(epci, stats_locales_epci %>% dplyr::select(-nom), by="SIREN", na_matches="never")
 
 
 
 
-#-------------------------------  AJOUT BUDGET : DEPENSES TOTALES 2019  -------------------------------#
+#-------------------------------  AJOUT BUDGET : DEPENSES TOTALES 2021  -------------------------------#
 
 
 
 # On repart des bases OFGL importées précédemment pour récupérer la population des orgas
-    # On filtre pour ne garder que les dépenses totales de l'année 2019 (UTD)
-comptes_reg_tot19 <- comptes_reg %>% filter(Exercice == 2019)
-comptes_dep_tot19 <- comptes_dep %>% filter(Exercice == 2019)
-comptes_com_tot19 <- comptes_com %>% filter(Exercice == 2019)
-comptes_epci_tot19 <- comptes_epci %>% filter(Exercice == 2019)
-
-
-# On renomme la colonne du SIREN dans le jeu du budget (colonne pivot)
-comptes_reg_tot19 <- comptes_reg_tot19 %>% rename(SIREN = `Code Siren Collectivité`)
-comptes_dep_tot19 <- comptes_dep_tot19 %>% rename(SIREN = `Code Siren Collectivité`)
-comptes_com_tot19 <- comptes_com_tot19 %>% rename(SIREN = `Code Siren Collectivité`)
-comptes_epci_tot19 <- comptes_epci_tot19 %>% rename(SIREN = `Code Siren Collectivité`)
-
+    # On filtre pour ne garder que les dépenses totales de l'année 2021 (UTD) et on renomme
+comptes_reg_tot21 <- comptes_reg %>% filter(Exercice == 2021) %>% mutate(SIREN = as.character(`Code Siren Collectivité`))
+comptes_dep_tot21 <- comptes_dep %>% filter(Exercice == 2021) %>% mutate(SIREN = as.character(`Code Siren Collectivité`))
+comptes_com_tot21 <- comptes_com %>% filter(Exercice == 2021) %>% mutate(SIREN = as.character(`Code Siren Collectivité`))
+comptes_epci_tot21 <- comptes_epci %>% filter(Exercice == 2021) %>% mutate(SIREN = as.character(`Code Siren Collectivité`))
 
 # Matchs
-regions <- left_join(regions, comptes_reg_tot19[,c(7,13)], by="SIREN", na_matches="never")
-departements <- left_join(departements, comptes_dep_tot19[,c(10,16)], by="SIREN", na_matches="never")  #du jeu des comptes on ne prend que le SIREN et le budget
-communes <- left_join(communes, unique(comptes_com_tot19[,c(18,25)]), by="SIREN", na_matches="never")
-epci <- left_join(epci, comptes_epci_tot19[,c(15,21)], by="SIREN", na_matches="never")
-
+regions <- left_join(regions, comptes_reg_tot21 %>% dplyr::select(SIREN, `Montant en € par habitant`), by="SIREN", na_matches="never")
+departements <- left_join(departements, comptes_dep_tot21 %>% dplyr::select(SIREN, `Montant en € par habitant`), by="SIREN", na_matches="never")
+communes <- left_join(communes, unique(comptes_com_tot21 %>% dplyr::select(SIREN, `Montant en € par habitant`)), by="SIREN", na_matches="never")
+epci <- left_join(epci, comptes_epci_tot21 %>% dplyr::select(SIREN, `Montant en € par habitant`), by="SIREN", na_matches="never")
 
 # On renomme la colonne du budget par un nom exploitable
 regions <- regions %>% rename(depenses_hab = `Montant en € par habitant`)
@@ -439,10 +425,10 @@ epci <- epci %>% rename(depenses_hab = `Montant en € par habitant`)
 
 
 # Import de la base du nombre d'étudiants
-Nb_etudiants_pop <- read_delim("https://data.enseignementsup-recherche.gouv.fr/explore/dataset/fr-esr-atlas_regional-effectifs-d-etudiants-inscrits/download/?format=csv&disjunctive.rgp_formations_ou_etablissements=true&refine.rgp_formations_ou_etablissements=Total+des+formations+d%27enseignement+sup%C3%A9rieur&refine.annee_universitaire=2018-19&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";", escape_double = FALSE, trim_ws = TRUE)
+Nb_etudiants_pop <- read_delim("https://data.enseignementsup-recherche.gouv.fr/explore/dataset/fr-esr-atlas_regional-effectifs-d-etudiants-inscrits/download/?format=csv&disjunctive.rgp_formations_ou_etablissements=true&refine.rgp_formations_ou_etablissements=Total+des+formations+d%27enseignement+sup%C3%A9rieur&refine.annee_universitaire=2020-21&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B", ";", escape_double = FALSE, trim_ws = TRUE)
 
     # on garde le COG, le type de niveau géo et le nb d'étudiants
-Nb_etudiants_pop <- Nb_etudiants_pop[, c(2,10,23)]
+Nb_etudiants_pop <- Nb_etudiants_pop %>% dplyr::select(`Niveau géographique`, `Nombre total d’étudiants inscrits`, `Identifiant de l’unité géographique`)
     # on renomme les colonnes
 Nb_etudiants_pop <- Nb_etudiants_pop %>% rename(COG = `Identifiant de l’unité géographique`,
                                                 nb_etudiants = `Nombre total d’étudiants inscrits`,
@@ -464,9 +450,9 @@ Nb_etudiants_dep$COG <- str_sub(Nb_etudiants_dep$COG,-3)  #on garde 3 chiffres p
 Nb_etudiants_dep$COG <- gsub("^0", "", Nb_etudiants_dep$COG)  #puis on retire le 1er chiffre si c'est un 0
 
 # On met au bon format les colonnes de jointure 
-Nb_etudiants_reg$COG <- as.numeric(Nb_etudiants_reg$COG)
-Nb_etudiants_dep$COG <- as.numeric(Nb_etudiants_dep$COG)
-Nb_etudiants_com$COG <- as.numeric(Nb_etudiants_com$COG)
+Nb_etudiants_reg$COG <- as.character(Nb_etudiants_reg$COG)
+Nb_etudiants_dep$COG <- as.character(Nb_etudiants_dep$COG)
+Nb_etudiants_com$COG <- as.character(Nb_etudiants_com$COG)
 
 # Matchs pour les niveaux géographiques disponibles (càd regions, départements et communes)
 regions <- left_join(regions, Nb_etudiants_reg, by="COG", na_matches="never")
@@ -500,7 +486,7 @@ ruralite <- ruralite %>% rename(COG = `Code géographique communal`,
                                 niveau_rural = `Typologie urbain/rural`)
 
 # Match avec le jeu de l'analyse
-ruralite$COG <- as.numeric(ruralite$COG)
+ruralite$COG <- as.character(ruralite$COG)
 communes <- left_join(communes, ruralite, by="COG", na_matches="never")
 
 # Pour plus de simplicité on remplace les catégories par un digit de 1 à 6 tel que :
@@ -519,9 +505,9 @@ communes$niveau_rural <- str_replace_all(communes$niveau_rural, c("urbain dense"
 
 
 # Import de la base à matcher 
-download.file("https://www.insee.fr/fr/statistiques/fichier/2114627/grille_densite_2021.zip", "grille_densite.zip")
-unzip("grille_densite.zip")
-densite <- read_excel("grille_densite_2021_agrege.xlsx")
+destfile <- "grille_densite_niveau_detaille_2022.xlsx"
+curl::curl_download("https://www.insee.fr/fr/statistiques/fichier/2114627/grille_densite_niveau_detaille_2022.xlsx", destfile)
+densite <- read_excel(destfile)
 
 # On a :
   #- 1 : très dense
@@ -530,15 +516,14 @@ densite <- read_excel("grille_densite_2021_agrege.xlsx")
   #- 4 : très peu dense
 
 # On renomme et garde les colonnes intéressantes
-densite <- densite[,-2] %>% rename(COG = `\nCode \nCommune\n`,
-                                   densite = `Degré de \nDensité de la commune\n`, 
-                                   code_region = `Région\n`,
-                                   pop = `Population \nmunicipale \n2018`)
+densite <- densite %>% rename(COG = `\nCode \nCommune\n`,
+                              niveau_densite = `Typo degré de \nDensité\n`, 
+                              code_region = `Région\n`,
+                              pop = `Population \nmunicipale \n2018`)
 
 # Comme il s'agit d'un autre indicateur de densité (4 classes et pas 6) on l'ajoute aux données des communes, puis on choisira l'agrégation adaptée avec l'analyse exploratoire
-densite$COG <- as.numeric(densite$COG)
-communes <- left_join(communes, unique(densite[,c(1,2)]), by = "COG", na_matches="never")  #on enlève les doublons
-communes <- communes %>% rename(niveau_densite = densite)
+densite$COG <- as.character(densite$COG)
+communes <- left_join(communes, unique(densite %>% dplyr::select(COG, niveau_densite)), by = "COG", na_matches="never")  #on enlève les doublons
 
 
         ### On élève aux niveaux régions et départements avec 3 méthodes :
@@ -554,9 +539,9 @@ communes <- communes %>% rename(niveau_densite = densite)
     ### niveau départemental
 
 # On récupère les colonnes du COG département et niveau rural / urbain
-ruralite_dep <- communes[,c(6,30)] %>% arrange(code_departement)
-ruralite_dep$code_departement <- as.numeric(ruralite_dep$code_departement)
-ruralite_dep$niveau_rural <- as.numeric(ruralite_dep$niveau_rural)
+ruralite_dep <- communes %>% dplyr::select(code_departement, niveau_rural) %>% arrange(code_departement)
+ruralite_dep$code_departement <- as.character(ruralite_dep$code_departement)
+ruralite_dep$niveau_rural <- as.character(ruralite_dep$niveau_rural)
 
 # On récupère le mode pour chaque département grâce au group_by()
 ruralite_dep <- ruralite_dep %>% group_by(code_departement) %>% na.omit()
@@ -571,26 +556,19 @@ ruralite_dep <- ruralite_dep %>% rename(COG = code_departement,
 departements <- left_join(departements, ruralite_dep, by="COG", na_matches="never")
 
 
-    ### niveau régionnal
+    ### niveau régional
 
 # On récupère les colonnes du COG région et niveau rural / urbain
-ruralite_reg <- communes[,c(5,30)] %>% arrange(code_region)
-ruralite_reg$code_region <- as.numeric(ruralite_reg$code_region)
-ruralite_reg$niveau_rural <- as.numeric(ruralite_reg$niveau_rural)
+ruralite_reg <- communes %>% dplyr::select(code_region, niveau_rural) %>% arrange(code_region) %>% na.omit() %>% 
+  mutate(code_region = as.character(code_region),
+         niveau_rural = as.character(niveau_rural))
 
 # On trouve le mode de chaque région 
-ruralite_reg <- ruralite_reg %>% group_by(code_region) 
-ruralite_reg <- ruralite_reg %>% summarise(Mode = Mode(niveau_rural))
+ruralite_reg <- ruralite_reg %>% group_by(code_region) %>% summarise(Mode = Mode(niveau_rural))
 
 # On renomme les colonnes
 ruralite_reg <- ruralite_reg %>% rename(COG = code_region,
-                                                niveau_rural = Mode)
-
-# On ajoute un "0" avant les COG à un seul chiffre pour correspondre aux GOC du jeu 'regions'
-ruralite_reg$COG <- sprintf("%02d", ruralite_reg$COG)
-
-# On met au même format les numéros COG des 2 dfs
-ruralite_reg$COG <- as.numeric(ruralite_reg$COG)
+                                        niveau_rural = Mode)
 
 # On affecte ces données au jeu des régions par un match via le COG
 regions <- left_join(regions, ruralite_reg, by="COG", copy=F)
@@ -605,38 +583,36 @@ regions <- left_join(regions, ruralite_reg, by="COG", copy=F)
     ### niveau départemental
 
 # On récupère le numéro de département en matchant aux données communales où l'on a cette info
-densite <- left_join(densite, communes[,c(3,6)], by = "COG", na_matches="never")
+densite <- left_join(densite, communes %>% dplyr::select(code_departement, COG), by = "COG", na_matches="never")
 
 # On somme la population par départements et par type de densité (entre 1 et 4)
-densite_dep <- densite %>% group_by(code_departement,densite) %>% summarise(somme_pop = sum(pop))
+densite_dep <- densite %>% group_by(code_departement, niveau_densite) %>% summarise(somme_pop = sum(as.numeric(pop)))
 
 # On calcule le pourcentage
 densite_dep <- densite_dep %>% group_by(code_departement) %>% mutate(percent_pop = (somme_pop/sum(somme_pop) * 100))
 
-# Création d'une variable booléenne pour pouvoir appliquer la rgèle de décision
-densite_dep <- densite_dep %>% ungroup() %>% mutate(dens_is_1_2 = case_when((densite == 1 | densite == 2) ~ TRUE,
-                                                                              TRUE ~ FALSE))
+# Création d'une variable booléenne pour pouvoir appliquer la règle de décision
+densite_dep <- densite_dep %>% ungroup() %>% mutate(dens_is_1_2 = case_when((niveau_densite == 1 | niveau_densite == 2) ~ TRUE,
+                                                                            TRUE ~ FALSE))
 
 # Calcul somme et percent pour 1|2
-df_is_1_2 <- densite_dep[,-c(2,4)]
+df_is_1_2 <- densite_dep %>% dplyr::select(-c(niveau_densite, percent_pop))
 df_is_1_2 <- df_is_1_2 %>% group_by(code_departement, dens_is_1_2) %>% mutate(somme_pop_is_1_2 = sum(somme_pop))
-df_is_1_2 <- df_is_1_2[,-2] %>% distinct()
+df_is_1_2 <- df_is_1_2 %>% dplyr::select(-somme_pop) %>% distinct()
 df_is_1_2 <- df_is_1_2 %>% group_by(code_departement) %>% mutate(percent_pop_is_1_2 = (somme_pop_is_1_2/sum(somme_pop_is_1_2) * 100))
 densite_dep <- left_join(densite_dep, df_is_1_2, by = c("code_departement", "dens_is_1_2"), na_matches="never")
 
 # On applique la RDD de l'INSEE en matière de densité
-densite_dep <- densite_dep %>% group_by(code_departement) %>% mutate(niveau_densite = case_when(densite == 1 & percent_pop > 50 ~ 1,
+densite_dep <- densite_dep %>% group_by(code_departement) %>% mutate(niveau_densite = case_when(niveau_densite == 1 & percent_pop > 50 ~ 1,
                                                                                                  dens_is_1_2 == TRUE & percent_pop_is_1_2 > 50 ~ 2,
-                                                                                                 densite == 4 & percent_pop > 50 ~ 4,
+                                                                                                 niveau_densite == 4 & percent_pop > 50 ~ 4,
                                                                                                  TRUE ~ 3))   #la première valeur par département est la bonne
 
 # On garde la bonne valeur càd la première par département
 densite_dep <- densite_dep %>%  group_by(code_departement) %>% slice(1)
 
 # On match au jeu des départements
-departements$COG <- as.numeric(departements$COG)
-densite_dep$code_departement <- as.numeric(densite_dep$code_departement)
-departements <- left_join(departements, densite_dep[,c(1,8)], by = c("COG" = "code_departement"), na_matches="never")
+departements <- left_join(departements, densite_dep %>% dplyr::select(code_departement, niveau_densite), by = c("COG" = "code_departement"), na_matches="never")
 
 
 
@@ -644,33 +620,33 @@ departements <- left_join(departements, densite_dep[,c(1,8)], by = c("COG" = "co
 
 
 # On somme la population par département et par type de densité (entre 1 et 4)
-densite_reg <- densite %>% group_by(code_region,densite) %>% summarise(somme_pop = sum(pop))
+densite_reg <- densite %>% group_by(code_region,niveau_densite) %>% summarise(somme_pop = sum(as.numeric(pop)))
 
 # On calcule le pourcentage
 densite_reg <- densite_reg %>% group_by(code_region) %>% mutate(percent_pop = (somme_pop/sum(somme_pop) * 100))
 
 # Création de la variable booléenne
-densite_reg <- densite_reg %>% ungroup() %>% mutate(dens_is_1_2 = case_when((densite == 1 | densite == 2) ~ TRUE,
+densite_reg <- densite_reg %>% ungroup() %>% mutate(dens_is_1_2 = case_when((niveau_densite == 1 | niveau_densite == 2) ~ TRUE,
                                                                               TRUE ~ FALSE))
 
 # Calcul somme et percent pour 1|2
-df_is_1_2 <- densite_reg[,-c(2,4)]
+df_is_1_2 <- densite_reg %>% dplyr::select(-c(niveau_densite, percent_pop))
 df_is_1_2 <- df_is_1_2 %>% group_by(code_region, dens_is_1_2) %>% mutate(somme_pop_is_1_2 = sum(somme_pop))
-df_is_1_2 <- df_is_1_2[,-2] %>% distinct()
+df_is_1_2 <- df_is_1_2 %>% dplyr::select(-somme_pop) %>% distinct()
 df_is_1_2 <- df_is_1_2 %>% group_by(code_region) %>% mutate(percent_pop_is_1_2 = (somme_pop_is_1_2/sum(somme_pop_is_1_2) * 100))
 densite_reg <- left_join(densite_reg, df_is_1_2, by = c("code_region", "dens_is_1_2"), na_matches="never")
 
 # On applique la RDD de l'INSEE en matière de densité
-densite_reg <- densite_reg %>% group_by(code_region) %>% mutate(niveau_densite = case_when(densite == 1 & percent_pop > 50 ~ 1,
+densite_reg <- densite_reg %>% group_by(code_region) %>% mutate(niveau_densite = case_when(niveau_densite == 1 & percent_pop > 50 ~ 1,
                                                                                            dens_is_1_2 == TRUE & percent_pop_is_1_2 > 50 ~ 2,
-                                                                                           densite == 4 & percent_pop > 50 ~ 4,
+                                                                                           niveau_densite == 4 & percent_pop > 50 ~ 4,
                                                                                            TRUE ~ 3))   #la première valeur par departement est la bonne
 
 # On garde la bonne valeur càd la première par régions
 densite_reg <- densite_reg %>%  group_by(code_region) %>% slice(1)
 
 # On match au jeu des régions
-regions <- left_join(regions, densite_reg[,c(1,8)], by = c("COG" = "code_region"), na_matches="never")
+regions <- left_join(regions, densite_reg %>% dplyr::select(code_region, niveau_densite), by = c("COG" = "code_region"), na_matches="never")
 
 
 
@@ -682,15 +658,15 @@ regions <- left_join(regions, densite_reg[,c(1,8)], by = c("COG" = "code_region"
 # En repartant de la grille de densité de l'INSEE on regroupe les 4 modalités de densité en 2 classes (rural vs. urbain)
       # très dense et dense (càd 1 et 2) = urbain (càd 1) 
       # peu dense et très peu dense (càd 3 et 4) = rural (càd 2)
-densite <- densite %>% mutate(densite_binaire = case_when(densite == 1 ~ 1,
-                                                          densite == 2 ~ 1, 
-                                                          densite == 3 ~ 2, 
-                                                          densite == 4 ~ 2))
+densite <- densite %>% mutate(densite_binaire = case_when(niveau_densite == 1 ~ 1,
+                                                          niveau_densite == 2 ~ 1, 
+                                                          niveau_densite == 3 ~ 2, 
+                                                          niveau_densite == 4 ~ 2))
 
     ### niveau départemental
 
 # On somme la population par départements et par type de densité (urbain / rural)
-pop_rurale_dep <- densite %>% group_by(code_departement,densite_binaire) %>% summarise(somme_pop = sum(pop))
+pop_rurale_dep <- densite %>% group_by(code_departement,densite_binaire) %>% summarise(somme_pop = sum(as.numeric(pop)))
 
 # On calcule le pourcentage
 pop_rurale_dep <- pop_rurale_dep %>% group_by(code_departement) %>% mutate(percent_pop = (somme_pop/sum(somme_pop) * 100))
@@ -699,8 +675,8 @@ pop_rurale_dep <- pop_rurale_dep %>% group_by(code_departement) %>% mutate(perce
 pop_rurale_dep <- pop_rurale_dep %>% filter(densite_binaire == 2) %>% rename(percent_pop_rurale = percent_pop)
 
 # Puis on ajoute cette nouvelle variable aux données des départements
-pop_rurale_dep$code_departement <- as.numeric(pop_rurale_dep$code_departement) #bon format
-departements <- left_join(departements, pop_rurale_dep[,c(1,4)], by = c("COG" = "code_departement"), na_matches="never")
+pop_rurale_dep$code_departement <- as.character(pop_rurale_dep$code_departement) #bon format
+departements <- left_join(departements, pop_rurale_dep %>% dplyr::select(code_departement, percent_pop_rurale), by = c("COG" = "code_departement"), na_matches="never")
 
 # DEP 75,92,93,94 ; NA quand 0% rurale avec filtre dep rural, donc on affecte le taux 
 departements <- departements %>% mutate(percent_pop_rurale = case_when(is.na(percent_pop_rurale) ~ 0,
@@ -708,10 +684,10 @@ departements <- departements %>% mutate(percent_pop_rurale = case_when(is.na(per
 
 
 
-    ### niveau régionnal
+    ### niveau régional
 
 # On somme la population par régions et par type de densité (urbain / rural)
-pop_rurale_reg <- densite %>% group_by(code_region,densite_binaire) %>% summarise(somme_pop = sum(pop))
+pop_rurale_reg <- densite %>% group_by(code_region,densite_binaire) %>% summarise(somme_pop = sum(as.numeric(pop)))
 
 # On calcule le pourcentage
 pop_rurale_reg <- pop_rurale_reg %>% group_by(code_region) %>% mutate(percent_pop = (somme_pop/sum(somme_pop) * 100))
@@ -720,7 +696,7 @@ pop_rurale_reg <- pop_rurale_reg %>% group_by(code_region) %>% mutate(percent_po
 pop_rurale_reg <- pop_rurale_reg %>% filter(densite_binaire == 2) %>% rename(percent_pop_rurale = percent_pop)
 
 # Puis on ajoute cette nouvelle variable aux données des régions
-regions <- left_join(regions, pop_rurale_reg[,c(1,4)], by = c("COG" = "code_region"), na_matches="never") 
+regions <- left_join(regions, pop_rurale_reg %>% dplyr::select(code_region, percent_pop_rurale), by = c("COG" = "code_region"), na_matches="never") 
 
 
 
@@ -734,10 +710,10 @@ regions <- left_join(regions, pop_rurale_reg[,c(1,4)], by = c("COG" = "code_regi
           # les numéros COG et SIREN qui servaient en étape intermédiaire pour ajouter les données à notre base initiale
           # chef de l'exécutif qui servait en étape intermédiaire pour récuperer le parti politique
           # les variables du jeu de l'observatoire des territoires avec les liens vers les portails open data etc.
-regions <- regions[,-c(2:6,8,10,11,13:16,18)]
-departements <- departements[,-c(2:4,6,7,9,11,12,14:17,19)]
-communes <- communes[,-c(2:4,7,8,10,12,13,15:18,20)]
-epci <- epci[,-c(2,6,7,9,11,12,14:17,19)]
+regions <- regions %>% dplyr::select(-c(regcode, `id-datagouv`, `id-ods`, long, lat, depcode, chef_executif))
+departements <- departements %>% dplyr::select(-c(regcode, `id-datagouv`, `id-ods`, long, lat, depcode, chef_executif))
+communes <- communes %>% dplyr::select(-c(test, regcode, `id-datagouv`, `id-ods`, long, lat, depcode, chef_executif))
+epci <- epci %>% dplyr::select(-c(regcode, `id-datagouv`, `id-ods`, long, lat, depcode, chef_executif))
 
 
 # On renomme les variables de nos bases de données finales
